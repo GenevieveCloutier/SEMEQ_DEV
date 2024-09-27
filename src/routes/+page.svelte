@@ -4,6 +4,4 @@
 </script>
 
 <h1>Accueil</h1>
-<!-- {#each users as user}
-    {user.prenom}
-{/each} -->
+

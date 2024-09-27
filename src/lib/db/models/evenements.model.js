@@ -1,14 +1,19 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
 import { Utilisateurs } from './utilisateurs.model.js';
+import { Villes } from './villes.model.js';
 
 export const Evenements = sequelize.define("evenements", {
     nom: {
-        type: DataTypes.string,
+        type: DataTypes.STRING,
         allowNull: true
     },
     utilisateur_id: {
         type: DataTypes.INTEGER,
+        references: {
+            model: Utilisateurs,
+            key: "id"
+        },
         allowNull: true
     },
     contact: {
@@ -57,6 +62,10 @@ export const Evenements = sequelize.define("evenements", {
     },
     ville_id: {
         type: DataTypes.INTEGER,
+        references: {
+            model: Villes,
+            key: "id"
+        },
         allowNull: true
     },
     adresse: {
@@ -102,10 +111,13 @@ export const Evenements = sequelize.define("evenements", {
 });
 
 Evenements.belongsTo(Utilisateurs, { foreignKey: 'utilisateur_id', as: 'utilisateur' });
-//Roles.hasMany(Users, { foreignKey: 'role_id', as: 'users' });
+Utilisateurs.hasMany(Evenements, { foreignKey: 'utilisateur_id', as: 'evenement' });
+
+Evenements.belongsTo(Villes, { foreignKey: 'ville_id', as: 'ville' });
+Villes.hasMany(Evenements, { foreignKey: 'ville_id', as: 'evenement' });
 
 sequelize.sync().then(() => {
-    console.log('Roles table created successfully!');
+    console.log('Evenements table created successfully!');
 }).catch((error) => {
-    console.error('Unable to create table : ', error);
+    console.error('Unable to create table evenement : ', error);
 });

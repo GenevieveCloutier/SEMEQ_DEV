@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
 
-export const Regions = sequelize.define("region", {
+export const Regions = sequelize.define("regions", {
     nom: {
         type: DataTypes.INTEGER,
         allowNull: true
@@ -9,7 +9,7 @@ export const Regions = sequelize.define("region", {
 });
 
 sequelize.sync().then(() => {
-    console.log('Roles table created successfully!');
+    console.log('Region table created successfully!');
 }).catch((error) => {
-    console.error('Unable to create table : ', error);
+    console.error('Unable to create table region : ', error);
 });

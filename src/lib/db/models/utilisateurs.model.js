@@ -55,7 +55,7 @@ export const Utilisateurs = sequelize.define('utilisateurs', {
     ville_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Roles,
+            model: Villes,
             key: "id"
         },
         allowNull: true
@@ -121,13 +121,13 @@ Utilisateurs.addHook('beforeUpdate',(async(user, option)=> {
 }));
 
 Utilisateurs.belongsTo(Roles, { foreignKey: 'role_id', as: 'role' });
-Roles.hasMany(Utilisateurs, { foreignKey: 'role_id', as: 'users' });
+Roles.hasMany(Utilisateurs, { foreignKey: 'role_id', as: 'utilisateur' });
 
 Utilisateurs.belongsTo(Villes, { foreignKey: 'ville_id', as: 'ville' });
-Villes.hasMany(Utilisateurs, { foreignKey: 'villes_id', as: 'users' });
+Villes.hasMany(Utilisateurs, { foreignKey: 'villes_id', as: 'utilisateur' });
 
 sequelize.sync().then(() => {
-    console.log('Users table created successfully!');
+    console.log('Utilisateurs table created successfully!');
 }).catch((error) => {
-    console.error('Unable to create table : ', error);
+    console.error('Unable to create table utilisateurs: ', error);
 });
