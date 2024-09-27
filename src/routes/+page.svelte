@@ -1,2 +1,9 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+      export let data;
+      const users = data.users; 
+</script>
+
+<h1>Accueil</h1>
+<!-- {#each users as user}
+    {user.prenom}
+{/each} -->
