@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
-import { Types } from './types.model.js';
+import { Type } from './type.model.js';
 
-export const Produits = sequelize.define("produits", {
+export const Produit = sequelize.define("produit", {
     nom: {
         type: DataTypes.STRING,
         allowNull: true
@@ -14,7 +14,7 @@ export const Produits = sequelize.define("produits", {
     type_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Types,
+            model: Type,
             key: "id"
         },
         allowNull: true
@@ -37,8 +37,8 @@ export const Produits = sequelize.define("produits", {
     },
 });
 
-Produits.belongsTo(Types, { foreignKey: 'type_id', as: 'type' });
-Types.hasMany(Produits, { foreignKey: 'type_id', as: 'produit' });
+Produit.belongsTo(Type, { foreignKey: 'type_id', as: 'type' });
+Type.hasMany(Produit, { foreignKey: 'type_id', as: 'produits' });
 
 sequelize.sync().then(() => {
     console.log('Produits table created successfully!');

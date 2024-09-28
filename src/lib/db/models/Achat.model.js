@@ -1,13 +1,13 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
-import { Utilisateurs } from './utilisateurs.model.js';
-import { Produits } from './produits.model.js'
+import { Utilisateur } from './Utilisateur.model.js';
+import { Produit } from './Produit.model.js'
 
-export const Achats = sequelize.define("achats", {
+export const Achat = sequelize.define("achat", {
     utilisateur_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Utilisateurs,
+            model: Utilisateur,
             key: "id"
         },
         allowNull: true
@@ -15,7 +15,7 @@ export const Achats = sequelize.define("achats", {
     produit_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Produits,
+            model: Produit,
             key: "id"
         },
         allowNull: true
@@ -30,11 +30,11 @@ export const Achats = sequelize.define("achats", {
     }
 });
 
-Achats.belongsTo(Utilisateurs, { foreignKey: 'utilisateur_id', as: 'utilisateur' });
-Utilisateurs.hasMany(Achats, { foreignKey: 'utilisateur_id', as: 'achat' });
+Achat.belongsTo(Utilisateur, { foreignKey: 'utilisateur_id', as: 'utilisateur' });
+Utilisateur.hasMany(Achat, { foreignKey: 'utilisateur_id', as: 'achats' });
 
 Achats.belongsTo(Produits, { foreignKey: 'produit_id', as: 'produit' });
-Produits.hasMany(Achats, { foreignKey: 'produit_id', as: 'achat' });
+Produits.hasMany(Achat, { foreignKey: 'produit_id', as: 'achats' });
 
 sequelize.sync().then(() => {
     console.log('Achats table created successfully!');

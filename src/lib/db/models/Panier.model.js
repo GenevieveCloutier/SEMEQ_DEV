@@ -1,13 +1,13 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
-import { Utilisateurs } from './utilisateurs.model.js';
-import { Produits } from './produits.model.js';
+import { Utilisateur } from './Utilisateur.model.js';
+import { Produit } from './Produit.model.js';
 
-export const Paniers = sequelize.define("paniers", {
+export const Panier = sequelize.define("panier", {
     utilisateur_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Utilisateurs,
+            model: Utilisateur,
             key: "id"
         },
         allowNull: true
@@ -15,18 +15,18 @@ export const Paniers = sequelize.define("paniers", {
     produit_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Produits,
+            model: Produit,
             key: "id"
         },
         allowNull: true
     }, 
 });
 
-Paniers.belongsTo(Utilisateurs, { foreignKey: 'utilisateur_id', as: 'utilisateur' });
-Utilisateurs.hasMany(Paniers, { foreignKey: 'utilisateur_id', as: 'panier' });
+Panier.belongsTo(Utilisateur, { foreignKey: 'utilisateur_id', as: 'utilisateur' });
+Utilisateur.hasMany(Panier, { foreignKey: 'utilisateur_id', as: 'paniers' });
 
-Paniers.belongsTo(Produits, { foreignKey: 'produit_id', as: 'produit' });
-Produits.hasMany(Paniers, { foreignKey: 'produit_id', as: 'panier' });
+Panier.belongsTo(Produit, { foreignKey: 'produit_id', as: 'produit' });
+Produit.hasMany(Panier, { foreignKey: 'produit_id', as: 'paniers' });
 
 sequelize.sync().then(() => {
     console.log('Paniers table created successfully!');

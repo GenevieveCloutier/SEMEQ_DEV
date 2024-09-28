@@ -1,12 +1,12 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
-import { Users } from './Users.model.js';
+import { Utilisateur } from './Utilisateur.model.js';
 
-export const Sessions = sequelize.define("sessions", {
+export const Session = sequelize.define("session", {
     user_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Users,
+            model: Utilisateur,
             key: "id"
         },
         allowNull: false
@@ -18,8 +18,8 @@ export const Sessions = sequelize.define("sessions", {
 });
 
 
-Sessions.belongsTo(Users, { foreignKey: 'user_id', as: 'users' });
-Users.hasMany(Sessions, { foreignKey: 'user_id', as: 'users' });
+Session.belongsTo(Utilisateur, { foreignKey: 'user_id', as: 'utilisateur' });
+Utilisateur.hasMany(Session, { foreignKey: 'user_id', as: 'sessions' }); //Ca me fait bizarre ici, un utilisateur ne peux pas avoir plusieurs session
 
 sequelize.sync().then(() => {
     console.log('Sessions table created successfully!');

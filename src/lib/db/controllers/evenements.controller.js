@@ -1,6 +1,6 @@
-import { Evenements } from "../models/evenements.model";
-import { Utilisateurs } from "../models/utilisateurs.model";
-import { Villes } from "../models/villes.model";
+import { Evenement } from "../models/Evenement.model";
+import { Utilisateur } from "../models/Utilisateur.model";
+import { Ville } from "../models/Ville.model";
 
 /**
  * 
@@ -10,10 +10,10 @@ import { Villes } from "../models/villes.model";
  * @returns {Object}
  */
 export async function findAll(){
-    return await Evenements.findAll({
+    return await Evenement.findAll({
         include: [
-            { model: Utilisateurs, as: "utilisateur" },
-            { model: Villes, as: "ville" }
+            { model: Utilisateur, as: "utilisateur" },
+            { model: Ville, as: "ville" }
         ],
     }).then(resultat => {
         if(resultat.length === 0){

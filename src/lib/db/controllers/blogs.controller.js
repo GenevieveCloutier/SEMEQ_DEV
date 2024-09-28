@@ -1,4 +1,4 @@
-import { Blogs } from "../models/blogs.model.js";
+import { Blog } from "../models/Blog.model.js";
 
 /**
  * Va chercher tous les blogs
@@ -8,8 +8,8 @@ import { Blogs } from "../models/blogs.model.js";
  * @returns {Object}
  */
 export async function findAll(){
-    return await Blogs.findAll().then(resultat => {
-        return resultat.map(blog => blog.dataValues);
+    return await Blog.findAll().then(resultat => {
+        return resultat.map(blogs => blogs.dataValues);
     })
     .catch((error)=>{
         throw error;

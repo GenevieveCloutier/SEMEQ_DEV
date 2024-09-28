@@ -1,6 +1,6 @@
-import { Utilisateurs } from "../models/utilisateurs.model";
-import { Roles } from "../models/roles.model";
-import { Villes } from "../models/villes.model";
+import { Utilisateur } from "../models/Utilisateur.model";
+import { Role } from "../models/Role.model";
+import { Ville } from "../models/Ville.model";
 /**
  * 
  *
@@ -9,10 +9,10 @@ import { Villes } from "../models/villes.model";
  * @returns {Object}
  */
 export async function findAll(){
-    return await Utilisateurs.findAll({
+    return await Utilisateur.findAll({
         include: [
-            { model: Roles, as: "role" },
-            { model: Villes, as: "ville" }
+            { model: Role, as: "role" },
+            { model: Ville, as: "ville" }
         ],
     }).then(resultat => {
         if(resultat.length === 0){

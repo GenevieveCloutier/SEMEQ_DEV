@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
-import { Regions } from './regions.model.js';
+import { Region } from './Region.model.js';
 
-export const Villes = sequelize.define("villes", {
+export const Ville = sequelize.define("ville", {
     nom: {
         type: DataTypes.STRING,
         allowNull: true
@@ -13,8 +13,8 @@ export const Villes = sequelize.define("villes", {
     }
 });
 
-Villes.belongsTo(Regions, { foreignKey: 'region_id', as: 'region' });
-Regions.hasMany(Villes, { foreignKey: 'region_id', as: 'region' });
+Ville.belongsTo(Region, { foreignKey: 'region_id', as: 'region' });
+Region.hasMany(Ville, { foreignKey: 'region_id', as: 'villes' });
 
 sequelize.sync().then(() => {
     console.log('Villes table created successfully!');

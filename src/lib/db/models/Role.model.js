@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
 
-export const Roles = sequelize.define("roles", {
+export const Role = sequelize.define("role", {
     nom: {
         type: DataTypes.STRING,
         allowNull: true

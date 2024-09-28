@@ -1,9 +1,9 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
-import { Utilisateurs } from './utilisateurs.model.js';
-import { Villes } from './villes.model.js';
+import { Utilisateur } from './Utilisateur.model.js';
+import { Ville } from './Ville.model.js';
 
-export const Evenements = sequelize.define("evenements", {
+export const Evenement = sequelize.define("evenement", {
     nom: {
         type: DataTypes.STRING,
         allowNull: true
@@ -11,7 +11,7 @@ export const Evenements = sequelize.define("evenements", {
     utilisateur_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Utilisateurs,
+            model: Utilisateur,
             key: "id"
         },
         allowNull: true
@@ -63,7 +63,7 @@ export const Evenements = sequelize.define("evenements", {
     ville_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Villes,
+            model: Ville,
             key: "id"
         },
         allowNull: true
@@ -110,11 +110,11 @@ export const Evenements = sequelize.define("evenements", {
     },
 });
 
-Evenements.belongsTo(Utilisateurs, { foreignKey: 'utilisateur_id', as: 'utilisateur' });
-Utilisateurs.hasMany(Evenements, { foreignKey: 'utilisateur_id', as: 'evenement' });
+Evenement.belongsTo(Utilisateur, { foreignKey: 'utilisateur_id', as: 'utilisateur' });
+Utilisateur.hasMany(Evenement, { foreignKey: 'utilisateur_id', as: 'evenements' });
 
-Evenements.belongsTo(Villes, { foreignKey: 'ville_id', as: 'ville' });
-Villes.hasMany(Evenements, { foreignKey: 'ville_id', as: 'evenement' });
+Evenement.belongsTo(Ville, { foreignKey: 'ville_id', as: 'ville' });
+Ville.hasMany(Evenement, { foreignKey: 'ville_id', as: 'evenements' });
 
 sequelize.sync().then(() => {
     console.log('Evenements table created successfully!');

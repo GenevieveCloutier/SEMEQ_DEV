@@ -1,4 +1,4 @@
-import { Partenaires } from "../models/partenaires.model";
+import { Partenaire } from "../models/Partenaire.model";
 
 /**
  * Va chercher tous les partenaires
@@ -8,7 +8,7 @@ import { Partenaires } from "../models/partenaires.model";
  * @returns {Object}
  */
 export async function findAll(){
-    return await Partenaires.findAll().then(resultat => {
+    return await Partenaire.findAll().then(resultat => {
         return resultat.map(partenaire => partenaire.dataValues);
     })
     .catch((error)=>{

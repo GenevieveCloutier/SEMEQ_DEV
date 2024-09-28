@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
 
-export const Regions = sequelize.define("regions", {
+export const Region = sequelize.define("region", {
     nom: {
         type: DataTypes.INTEGER,
         allowNull: true

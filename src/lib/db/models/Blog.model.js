@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
 
-export const Blogs = sequelize.define("blogs", {
+export const Blog = sequelize.define("blog", {
     titre: {
         type: DataTypes.STRING,
         allowNull: true

@@ -1,11 +1,10 @@
 import { DataTypes } from 'sequelize';
 import bcrypt from 'bcrypt';
 import { sequelize } from '../db.js';
-import { Roles } from './roles.model.js';
-import { Villes } from './villes.model.js';
-import { v4 as uuidv4 } from 'uuid';
+import { Role } from './Role.model.js';
+import { Ville } from './Ville.model.js';
 
-export const Utilisateurs = sequelize.define('utilisateurs', {
+export const Utilisateur = sequelize.define('utilisateur', {
     nom: {
         type: DataTypes.STRING,
         allowNull: true
@@ -17,7 +16,7 @@ export const Utilisateurs = sequelize.define('utilisateurs', {
     role_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Roles,
+            model: Role,
             key: "id"
         },
         allowNull: true
@@ -49,7 +48,7 @@ export const Utilisateurs = sequelize.define('utilisateurs', {
     ville_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Villes,
+            model: Ville,
             key: "id"
         },
         allowNull: true
@@ -105,20 +104,20 @@ export const Utilisateurs = sequelize.define('utilisateurs', {
 });
 
 //encrypter le MDP à la première utilisation
-Utilisateurs.addHook('beforeCreate',(async (user, option) => {
+Utilisateur.addHook('beforeCreate',(async (user, option) => {
     user.password = await bcrypt.hash(user.password, 10);
 }));
 
 //encrypter le MPD après modification
-Utilisateurs.addHook('beforeUpdate',(async(user, option)=> {
+Utilisateur.addHook('beforeUpdate',(async(user, option)=> {
     user.password = bcrypt.hashSync(user.password,10);
 }));
 
-Utilisateurs.belongsTo(Roles, { foreignKey: 'role_id', as: 'role' });
-Roles.hasMany(Utilisateurs, { foreignKey: 'role_id', as: 'utilisateurRole' });
+Utilisateur.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
+Role.hasMany(Utilisateur, { foreignKey: 'role_id', as: 'utilisateurs' });
 
-Utilisateurs.belongsTo(Villes, { foreignKey: 'ville_id', as: 'ville' });
-Villes.hasMany(Utilisateurs, { foreignKey: 'villes_id', as: 'utilisateurVille' });
+Utilisateur.belongsTo(Ville, { foreignKey: 'ville_id', as: 'ville' });
+Ville.hasMany(Utilisateur, { foreignKey: 'villes_id', as: 'utilisateurs' });
 
 sequelize.sync().then(() => {
     console.log('Utilisateurs table created successfully!');

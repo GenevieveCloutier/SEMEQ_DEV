@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
 
-export const Partenaires = sequelize.define("partenaires", {
+export const Partenaire = sequelize.define("partenaires", {
     nom: {
         type: DataTypes.STRING,
         allowNull: true

@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
-import { Users } from "../models/Users.model";
-import { Roles } from "../models/roles.model";
-import { Sessions } from "../models/sessions.model";
+import { Utilisateur } from '../models/Utilisateur.model';
+import { Session } from "../models/Session.model";
 
 
 /**
@@ -20,7 +19,7 @@ export async function createCookie(p_user_id, p_cookies)
             maxAge: 60 * 60 * 24
         }
     );
-    Sessions.create({
+    Session.create({
         user_id: p_user_id,
         uuid: uuid
     })
@@ -42,7 +41,7 @@ export async function deleteCookie(p_cookie)
 {
     let uuid = p_cookie.get('session');
     p_cookie.delete('session', {path: '/'});
-    Sessions.destroy({
+    Session.destroy({
         where:{uuid: uuid}
     }).then(resultat => {
         return resultat.dataValues;
@@ -57,9 +56,9 @@ export async function deleteCookie(p_cookie)
  * @returns {Object|null} - Les données de la session trouvée ou null.
  */
 export async function findOne(p_where){
-    return await Sessions.findOne({ where: p_where, include: [{
-        model: Users,
-        as: 'users'
+    return await Session.findOne({ where: p_where, include: [{
+        model: Utilisateur,
+        as: 'utilisateur'
     }]})
     .then(res => {
         return {
