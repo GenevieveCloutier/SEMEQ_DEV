@@ -6,12 +6,6 @@ import { Villes } from './villes.model.js';
 import { v4 as uuidv4 } from 'uuid';
 
 export const Utilisateurs = sequelize.define('utilisateurs', {
-    id: {
-        type: DataTypes.UUID,
-        primaryKey: true,
-        allowNull: false,
-        defaultValue: () => uuidv4(),
-      },
     nom: {
         type: DataTypes.STRING,
         allowNull: true
@@ -121,10 +115,10 @@ Utilisateurs.addHook('beforeUpdate',(async(user, option)=> {
 }));
 
 Utilisateurs.belongsTo(Roles, { foreignKey: 'role_id', as: 'role' });
-Roles.hasMany(Utilisateurs, { foreignKey: 'role_id', as: 'utilisateur' });
+Roles.hasMany(Utilisateurs, { foreignKey: 'role_id', as: 'utilisateurRole' });
 
 Utilisateurs.belongsTo(Villes, { foreignKey: 'ville_id', as: 'ville' });
-Villes.hasMany(Utilisateurs, { foreignKey: 'villes_id', as: 'utilisateur' });
+Villes.hasMany(Utilisateurs, { foreignKey: 'villes_id', as: 'utilisateurVille' });
 
 sequelize.sync().then(() => {
     console.log('Utilisateurs table created successfully!');
