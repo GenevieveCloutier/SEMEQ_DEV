@@ -21,6 +21,6 @@
     <form on:submit|preventDefault={handleSubmit}>
         <input type="text" name="courriel" id="courriel"><br>
         <input type="text" name="password" id="password"><br>
-        <button type="button" class="button">Valider</button>
+        <button type="submit" class="button">Valider</button>
     </form>
 </div>

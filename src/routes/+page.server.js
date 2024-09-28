@@ -1,3 +1,4 @@
+//Appel de tout les models pour génération des tables
 import { sequelize } from '../lib/db/db.js';
 import { Achat } from '../lib/db/models/Achat.model.js';
 import { Blog } from '../lib/db/models/Blog.model.js';
@@ -12,16 +13,32 @@ import { Type } from '../lib/db/models/Type.model.js';
 import { Utilisateur } from '../lib/db/models/Utilisateur.model.js';
 import { Ville } from '../lib/db/models/Ville.model.js';
 
+//Appel des fonctions des controllers
 import { findAll } from '$lib/db/controllers/Utilisateurs.controller.js'
+import { newRole } from '../lib/db/controllers/Roles.controller.js';
 
+async function initializeDatabase() {
+    
+    await sequelize.sync();
+
+    const role_admin = await Role.findOne({ where: { id: 1 } });
+    const role_client = await Role.findOne({ where: { id: 2 } });
+    
+    if (!role_admin) {
+        await newRole('admin');
+    }
+    if (!role_client) {
+        await newRole('client');
+    }
+}
+
+await initializeDatabase();
 
 export async function load({ params }) {
 
-    await sequelize.sync();
+
     // aller chercher tous les utilisateurs de la BD
     const users = await findAll(); 
-
-
     return { 
         users: users,  //tous les utilisateurs
 

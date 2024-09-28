@@ -10,7 +10,7 @@ export const actions = {
             let res = await newUser(data.get("courriel"), "2", data.get("password"));
             createCookie(res.id, cookies);
         }catch(error){
-            return fail(401, error);
+            return (error);
         }
     }
 }
