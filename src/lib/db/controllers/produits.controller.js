@@ -1,5 +1,5 @@
-import { Produits } from "../models/produits.model.js";
-import { Types } from "../models/types.model.js";
+import { Produit } from "../models/Produit.model.js";
+import { Type } from "../models/Type.model.js";
 /**
  * 
  *
@@ -8,9 +8,9 @@ import { Types } from "../models/types.model.js";
  * @returns {Object}
  */
 export async function findAll(){
-    return await Produits.findAll({
+    return await Produit.findAll({
         include: [
-            { model: Types, as: "type" },
+            { model: Type, as: "type" },
         ],
     }).then(resultat => {
         if(resultat.length === 0){
@@ -24,4 +24,4 @@ export async function findAll(){
     .catch((error)=>{
         throw error;
     });
-};
+}; 

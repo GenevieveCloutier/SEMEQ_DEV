@@ -1,6 +1,6 @@
-import { Paniers } from "../models/paniers.model";
-import { Utilisateurs } from "../models/utilisateurs.model";
-import { Produits } from "../models/produits.model";
+import { Panier } from "../models/Panier.model";
+import { Utilisateur } from "../models/Utilisateur.model";
+import { Produit } from "../models/Produit.model";
 
 /**
  * 
@@ -10,10 +10,10 @@ import { Produits } from "../models/produits.model";
  * @returns {Object}
  */
 export async function findAll(){
-    return await Paniers.findAll({
+    return await Panier.findAll({
         include: [
-            { model: Utilisateurs, as: "utilisateur" },
-            { model: Produits, as: "produit" }
+            { model: Utilisateur, as: "utilisateur" },
+            { model: Produit, as: "produit" }
         ],
     }).then(resultat => {
         if(resultat.length === 0){
@@ -28,4 +28,4 @@ export async function findAll(){
     .catch((error)=>{
         throw error;
     });
-};
+}; 

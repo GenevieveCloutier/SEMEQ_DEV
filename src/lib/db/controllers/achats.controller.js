@@ -1,6 +1,6 @@
-import { Achats } from "../models/achats.model.js";
-import { Utilisateurs } from "../models/utilisateurs.model.js";
-import { Produits } from "../models/produits.model.js";
+import { Achat } from "../models/Achat.model.js";
+import { Utilisateur } from "../models/Utilisateur.model.js";
+import { Produit } from "../models/Produit.model.js";
 /**
  * 
  *
@@ -9,22 +9,22 @@ import { Produits } from "../models/produits.model.js";
  * @returns {Object}
  */
 export async function findAll(){
-    return await Achats.findAll({
+    return await Achat.findAll({
         include: [
-            { model: Utilisateurs, as: "utilisateur" },
-            { model: Produits, as: "produit" }
+            { model: Utilisateur, as: "utilisateur" },
+            { model: Produit, as: "produit" }
         ],
     }).then(resultat => {
         if(resultat.length === 0){
             console.log("Pas de résultat à afficher")
         }
-        return resultat.map(achat => ({
-            ...achat.dataValues,
-            utilisateur: achat.utilisateur ? achat.utilisateur.dataValues : null,
-            produit: achat.produit ? achat.produit.dataValues : null,
+        return resultat.map(achats => ({
+            ...achats.dataValues,
+            utilisateur: achats.utilisateur ? achats.utilisateur.dataValues : null,
+            produit: achats.produit ? achats.produit.dataValues : null,
         }));
     })
     .catch((error)=>{
         throw error;
     });
-};
+}; 

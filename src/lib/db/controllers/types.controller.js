@@ -1,4 +1,4 @@
-import { Types } from "../models/types.model";
+import { Type } from "../models/Type.model";
 
 /**
  * Va chercher tous les types
@@ -8,10 +8,10 @@ import { Types } from "../models/types.model";
  * @returns {Object}
  */
 export async function findAll(){
-    return await Types.findAll().then(resultat => {
-        return resultat.map(Type => Type.dataValues);
+    return await Type.findAll().then(resultat => {
+        return resultat.map(type => type.dataValues);
     })
     .catch((error)=>{
         throw error;
     });
-};
+}; 
