@@ -1,24 +1,10 @@
 <script>
-    let erreur = null;
-    async function handleSubmit(event)
-    {
-        const formData = new FormData(event.target);
-
-        const response = await fetch('?/new', {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-        if (result.type == 'failure')
-            erreur = JSON.parse(result.data)[0];
-        else
-            alert('nouvel utilisateur enregistré');
-    }
+import { nouveauCompte } from '../../lib/outils/formHandlers';
 </script>
 
 <h1 class="title">Creer un compte</h1>
 <div class="section">
-    <form on:submit|preventDefault={handleSubmit}>
+    <form on:submit|preventDefault={nouveauCompte}>
         <input type="text" name="courriel" id="courriel"><br>
         <input type="text" name="password" id="password"><br>
         <button type="submit" class="button">Valider</button>

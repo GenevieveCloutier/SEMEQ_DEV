@@ -28,3 +28,19 @@ export async function findAll(){
         throw error;
     });
 };
+
+export async function newUser(p_courriel, p_role_id, p_pwd) {
+    try{
+        const mail = await Utilisateur.findOne({where: {courriel: p_courriel}});
+        if(mail)
+            throw "Un Compte avec ce courriel existe déjà."
+         const resultat = await Utilisateur.create({
+            courriel: p_courriel,
+            role_id: p_role_id,
+            pwd: p_pwd
+        });
+        return resultat.dataValues;
+        }catch(error){
+            throw error;
+        }
+}

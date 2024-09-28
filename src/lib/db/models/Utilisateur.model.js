@@ -105,12 +105,12 @@ export const Utilisateur = sequelize.define('utilisateur', {
 
 //encrypter le MDP à la première utilisation
 Utilisateur.addHook('beforeCreate',(async (user, option) => {
-    user.password = await bcrypt.hash(user.password, 10);
+    user.pwd = await bcrypt.hash(user.pwd, 10);
 }));
 
 //encrypter le MPD après modification
 Utilisateur.addHook('beforeUpdate',(async(user, option)=> {
-    user.password = bcrypt.hashSync(user.password,10);
+    user.pwd = bcrypt.hashSync(user.pwd,10);
 }));
 
 Utilisateur.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
