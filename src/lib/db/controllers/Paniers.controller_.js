@@ -1,7 +1,7 @@
-import { Evenement } from "../models/Evenement.model";
+import { Panier } from "../models/Panier.model";
 import { Utilisateur } from "../models/Utilisateur.model";
-import { Ville } from "../models/Ville.model";
- 
+import { Produit } from "../models/Produit.model";
+
 /**
  * 
  *
@@ -10,19 +10,19 @@ import { Ville } from "../models/Ville.model";
  * @returns {Object}
  */
 export async function findAll(){
-    return await Evenement.findAll({
+    return await Panier.findAll({
         include: [
             { model: Utilisateur, as: "utilisateur" },
-            { model: Ville, as: "ville" }
+            { model: Produit, as: "produit" }
         ],
     }).then(resultat => {
         if(resultat.length === 0){
             console.log("Pas de résultat à afficher")
         }
-        return resultat.map(evenement => ({
-            ...evenement.dataValues,
-            utilisateur: evenement.utilisateur ? evenement.utilisateur.dataValues : null,
-            ville: evenement.ville ? evenement.ville.dataValues : null
+        return resultat.map(panier => ({
+            ...panier.dataValues,
+            utilisateur: panier.utilisateur ? panier.utilisateur.dataValues : null,
+            produit: panier.produit ? panier.produit.dataValues : null
         }));
     })
     .catch((error)=>{

@@ -68,4 +68,4 @@ export async function findOne(p_where){
     }).catch((error) => {
         throw error;
     });
-} 
+}
