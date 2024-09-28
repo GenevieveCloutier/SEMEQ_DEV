@@ -24,4 +24,4 @@ export async function findAll(){
     .catch((error)=>{
         throw error;
     });
-};
+}; 
