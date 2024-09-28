@@ -9,14 +9,14 @@ import { Ville } from "../models/Ville.model";
  * @returns {Object}
  */
 export async function findAll(){
-    return await Utilisateur.findAll({
+    return  Utilisateur.findAll({
         include: [
             { model: Role, as: "role" },
             { model: Ville, as: "ville" }
         ],
     }).then(resultat => {
         if(resultat.length === 0){
-            console.log("Pas de résultat à afficher")
+            console.log("Aucun utilisateur à afficher")
         }
         return resultat.map(utilisateur => ({
             ...utilisateur.dataValues,

@@ -114,13 +114,13 @@ Utilisateur.addHook('beforeUpdate',(async(user, option)=> {
 }));
 
 Utilisateur.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
-Role.hasMany(Utilisateur, { foreignKey: 'role_id', as: 'utilisateurs' });
+Role.hasMany(Utilisateur, { foreignKey: 'role_id', as: 'utilisateurs_role' });
 
 Utilisateur.belongsTo(Ville, { foreignKey: 'ville_id', as: 'ville' });
-Ville.hasMany(Utilisateur, { foreignKey: 'villes_id', as: 'utilisateurs' });
+Ville.hasMany(Utilisateur, { foreignKey: 'villes_id', as: 'utilisateurs_ville' });
 
-sequelize.sync().then(() => {
-    console.log('Utilisateurs table created successfully!');
-}).catch((error) => {
-    console.error('Unable to create table utilisateurs: ', error);
-});
+// sequelize.sync().then(() => {
+//     console.log('Utilisateurs table created successfully!');
+// }).catch((error) => {
+//     console.error('Unable to create table utilisateurs: ', error);
+// });

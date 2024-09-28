@@ -25,8 +25,8 @@ export const Blog = sequelize.define("blog", {
     },
 });
 
-sequelize.sync().then(() => {
-    console.log('Blogs table created successfully!');
-}).catch((error) => {
-    console.error('Unable to create table : blogs ', error);
-});
+// sequelize.sync().then(() => {
+//     console.log('Blogs table created successfully!');
+// }).catch((error) => {
+//     console.error('Unable to create table : blogs ', error);
+// });

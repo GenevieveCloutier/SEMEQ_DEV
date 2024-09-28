@@ -33,11 +33,11 @@ export const Achat = sequelize.define("achat", {
 Achat.belongsTo(Utilisateur, { foreignKey: 'utilisateur_id', as: 'utilisateur' });
 Utilisateur.hasMany(Achat, { foreignKey: 'utilisateur_id', as: 'achats' });
 
-Achats.belongsTo(Produits, { foreignKey: 'produit_id', as: 'produit' });
-Produits.hasMany(Achat, { foreignKey: 'produit_id', as: 'achats' });
+Achat.belongsTo(Produit, { foreignKey: 'produit_id', as: 'produit' });
+Produit.hasMany(Achat, { foreignKey: 'produit_id', as: 'achats' });
 
-sequelize.sync().then(() => {
-    console.log('Achats table created successfully!');
-}).catch((error) => {
-    console.error('Unable to create table : achats', error);
-});
+// sequelize.sync().then(() => {
+//     console.log('Achats table created successfully!');
+// }).catch((error) => {
+//     console.error('Unable to create table : achats', error);
+// });

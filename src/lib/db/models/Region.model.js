@@ -8,8 +8,8 @@ export const Region = sequelize.define("region", {
     },
 });
 
-sequelize.sync().then(() => {
-    console.log('Region table created successfully!');
-}).catch((error) => {
-    console.error('Unable to create table region : ', error);
-});
+// sequelize.sync().then(() => {
+//     console.log('Region table created successfully!');
+// }).catch((error) => {
+//     console.error('Unable to create table region : ', error);
+// });

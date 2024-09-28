@@ -17,7 +17,7 @@ export async function findAll(){
         ],
     }).then(resultat => {
         if(resultat.length === 0){
-            console.log("Pas de résultat à afficher")
+            console.log("Aucun panier à afficher")
         }
         return resultat.map(panier => ({
             ...panier.dataValues,

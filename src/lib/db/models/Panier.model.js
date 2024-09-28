@@ -28,8 +28,8 @@ Utilisateur.hasMany(Panier, { foreignKey: 'utilisateur_id', as: 'paniers' });
 Panier.belongsTo(Produit, { foreignKey: 'produit_id', as: 'produit' });
 Produit.hasMany(Panier, { foreignKey: 'produit_id', as: 'paniers' });
 
-sequelize.sync().then(() => {
-    console.log('Paniers table created successfully!');
-}).catch((error) => {
-    console.error('Unable to create table : paniers', error);
-});
+// sequelize.sync().then(() => {
+//     console.log('Paniers table created successfully!');
+// }).catch((error) => {
+//     console.error('Unable to create table : paniers', error);
+// });

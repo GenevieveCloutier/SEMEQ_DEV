@@ -1,5 +1,4 @@
 import { fail } from '@sveltejs/kit';
-import { Sessions } from "../../lib/db/models/sessions.model.js";
 import { createCookie } from "../../lib/db/controllers/sessions.controller.js";
 
 export const actions = {

@@ -16,7 +16,7 @@ export async function findAll(){
         ],
     }).then(resultat => {
         if(resultat.length === 0){
-            console.log("Pas de résultat à afficher")
+            console.log("Aucun achat à afficher")
         }
         return resultat.map(achats => ({
             ...achats.dataValues,
