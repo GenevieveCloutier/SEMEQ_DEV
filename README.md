@@ -1,38 +1,31 @@
-# create-svelte
+# Répertoire SÉMEQ
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+## Table des matières
+1. [Description](#description)
+2. [Les membres de l'équipe](#les-membres-de-léquipe)
+3. [Instructions d'installation](#instructions-dinstallation)
+4. [Accès compte admin](#accès-compte-admin)
 
-## Creating a project
+## Description
+Projet créé dans le cadre du cours «  Projet intégrateur ». Ce projet consiste en la refonte des pages du site Web et de ses fonctionnalités existantes, ainsi que l’ajout de fonctionnalités telles qu’une boutique avec des formations.
+https://www.repertoiresemeq.com/
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Les membres de l'équipe
+L'équipe est composée de
+1. Geneviève Cloutier (199848753)
+2. Mickaël François (202345000)
+3. Aurore Langlet (202346982)
 
+## Instructions d'installation
 ```bash
-# create a new project in the current directory
 npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
+npm install
+npm install --save sequelize
+npm install --save sqlite3
+npm i bcrypt
 npm run dev -- --open
 ```
 
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+## Accès compte admin
+- Courriel : À venir
+- Mot de passe : À venir
