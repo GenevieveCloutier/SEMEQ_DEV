@@ -1,6 +1,7 @@
 import { Utilisateur } from "../models/Utilisateur.model";
 import { Role } from "../models/Role.model";
 import { Ville } from "../models/Ville.model";
+import { error } from "@sveltejs/kit";
 /**
  * 
  *
@@ -33,7 +34,7 @@ export async function newUser(p_courriel, p_role_id, p_pwd) {
     try{
         const mail = await Utilisateur.findOne({where: {courriel: p_courriel}});
         if(mail)
-            throw "Un Compte avec ce courriel existe déjà."
+            throw "Un Compte avec ce courriel existe déjà.";
          const resultat = await Utilisateur.create({
             courriel: p_courriel,
             role_id: p_role_id,
