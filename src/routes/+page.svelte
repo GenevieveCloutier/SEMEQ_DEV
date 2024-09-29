@@ -2,13 +2,17 @@
       export let data;
       const users = data.users;
       
+      import { handleUserDelete } from "../lib/outils/formHandlers";
+
 </script>
 
 <h1 class="title">Accueil</h1>
 {#each users as user}
 <div class="box">
-      <form on:submit|preventDefault={handleDeleteUser(user.id)}>
+      <form on:submit|preventDefault={handleUserDelete}>
             <p>Courriel: {user.courriel}</p>
+            <p>id: {user.id}</p>
+            <input type="text" name="id" value="{user.id}" hidden>
             <button type="submit" class="button">Supprimer</button>
       </form>
       

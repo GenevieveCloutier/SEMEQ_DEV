@@ -44,3 +44,12 @@ export async function load({ params }) {
 
     };
 }
+
+export const actions = {
+    del: async({ cookies, request })=>{
+        const data = await request.formData();
+        await deleteUser(data.id);
+        console.log('Succès :User supprimé');
+        //redirect(302, '/logout');
+    }
+}

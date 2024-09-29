@@ -45,3 +45,37 @@ export async function newUser(p_courriel, p_role_id, p_pwd) {
             throw error;
         }
 }
+
+export async function deleteUser(p_id) {
+    try {
+        const user = await Utilisateur.findByPk(p_id);
+        if (!user) {
+            throw new Error('Utilisateur non trouvé');
+        }
+
+        await Utilisateur.destroy();
+        
+        return { message: 'Succès :Utilisateur supprimé' };
+
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function authenticate(p_courriel, p_pwd){
+    try{
+
+        const user = await findOne({ courriel: p_courriel});
+
+        if(!user) throw "Utilisateur non trouvé";
+
+        const goodPassword = await bcrypt.compare(p_pwd, Utilisateur.pwd);
+
+        if(!goodPassword) throw "Mot de passe invalide";
+
+        return user;
+
+    }catch(error){
+        throw error;
+    }
+}
