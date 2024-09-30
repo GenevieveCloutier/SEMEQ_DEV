@@ -53,6 +53,7 @@
             </div>
         </a>
     </li>
+
     <li class="steps-segment">
         <a href="#" class="has-text-dark"> <!-- AJOUTER LIEN -->
             <span class="steps-marker">
@@ -65,6 +66,20 @@
             </div>
         </a>
     </li>
+
+    <li class="steps-segment">
+      <a href="#" class="has-text-dark"> <!-- AJOUTER LIEN -->
+          <span class="steps-marker">
+            <span class="icon">
+              <i class="fa fa-calendar-days"></i>
+            </span>
+          </span>
+          <div class="steps-content">
+            <p class="heading">ÉVÉNEMENT</p>
+          </div>
+      </a>
+    </li>
+    
     <li class="steps-segment">
         <a href="#" class="has-text-dark"> <!-- AJOUTER LIEN -->
             <span class="steps-marker">
