@@ -47,7 +47,6 @@ export async function connexion(event){
         body: formData
     });
     console.log('apres le fetch');
-    console.log(response);
     
     const result = await response.json();
     console.log('result du form handler ', result);

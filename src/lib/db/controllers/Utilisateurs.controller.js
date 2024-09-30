@@ -31,6 +31,24 @@ export async function findAll(){
     });
 };
 
+export async function findOne(p_where){
+    return await Utilisateur.findOne({ where: p_where, include: [{
+        model: Role,
+        as: 'role'
+    }]})
+    .then(res => {
+        if(res)
+        return {
+            ...res.dataValues,
+            role: res.role ? res.role.dataValues : null
+        };
+        else
+            return null;
+    }).catch((error) => {;
+        throw error;
+    });
+}
+
 export async function newUser(p_courriel, p_role_id, p_pwd) {
     try{
         const mail = await Utilisateur.findOne({where: {courriel: p_courriel}});
@@ -60,19 +78,26 @@ export async function deleteUser(p_id) {
 }
 
 export async function authenticate(p_courriel, p_pwd){
+    // console.log('dans auth ', p_courriel, p_pwd);
+    
     try{
 
         const user = await findOne({ courriel: p_courriel});
 
+        // console.log('apres le findone ', user);
+        
+
         if(!user)
             throw "Utilisateur non trouvé";
 
-        const goodPassword = await bcrypt.compare(p_pwd, Utilisateur.pwd);
+        const goodPassword = await bcrypt.compare(p_pwd, user.pwd);
+        // console.log('check pwd ', goodPassword);
+        
 
         if(!goodPassword)
             throw "Mot de passe invalide";
 
-        console.log('controller = ', user);
+       // console.log('controller = ', user);
         
         return user;
 

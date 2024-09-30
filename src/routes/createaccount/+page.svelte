@@ -10,3 +10,4 @@ import { nouveauCompte } from '../../lib/outils/formHandlers';
         <button type="submit" class="button">Valider</button>
     </form>
 </div>
+<a href="createaccount/exposant" class="button"> compte exposant</a>

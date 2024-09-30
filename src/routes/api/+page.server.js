@@ -27,14 +27,14 @@ export const actions = {
 
     connexionUtilisateur: async({ cookies, request })=>{
         const data = await request.formData();
-        console.log(data);
         try {
             let res = await authenticate(data.get("courriel"), data.get("password"));
-            console.log('res = ', res);
-            
+            createCookie(res.id, cookies)
+            // console.log('res = ', res);
+            return { success: true, session: cookies.get("session"), res: res.id}
         }catch(error){
+            console.log("Erreur lors de la connexion : ", error);
             return fail(401, error);
         }
-        
     }
 }
