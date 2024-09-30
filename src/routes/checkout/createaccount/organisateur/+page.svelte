@@ -150,7 +150,13 @@
           </div>
 
           <div class="field">
-            <label class="label" for="neq">Numéro d'entreprise du Québec (NEQ) <span class="rouge">*</span></label>
+            <label class="label" for="neq">
+              Numéro d'entreprise du Québec (NEQ) <span class="rouge">*</span>
+              <!-- Tooltip, source : https://wikiki.github.io/elements/tooltip/ -->
+              <span class="icon is-small has-tooltip-top has-tooltip-bottom-desktop has-tooltip-left-tablet-only" data-tooltip="Vous devez avoir un statut légal conforme au Québec et posséder un numéro d'entreprise du Québec (NEQ) si vous voulez apparaître dans notre registre. Si votre prénom et nom de famille font partie de votre nom professionnel, merci de cocher la case 'Je n'ai pas de NEQ.'. Si vous n'avez pas de NEQ ou de statut conforme, vous pouvez être membre quand même mais votre nom n'apparaîtra pas dans notre répertoire. Merci de votre compréhension.">
+                <i class="fas fa-info-circle"></i>
+              </span>
+            </label>
             <div class="control">
               <input class="input" type="text" name="neq" id="neq" placeholder="1012345678" pattern="^1\d{4}\d{5}$">
               <input class="checkbox" type="checkbox" id="no-neq"> Je n'ai pas de NEQ.
