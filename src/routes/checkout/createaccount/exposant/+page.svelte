@@ -8,28 +8,34 @@
    * @param {Event} event - L'événement de soumission du formulaire.
    * @returns {void}
    */
-  async function handleSubmit(event)
-  {
-      const formData = new FormData(event.target);
+   async function handleSubmit(event) {
+    const formData = new FormData(event.target);
 
-      // Choix obligatoire pour NEQ, l'utilisateur inscrit son NEQ ou coche la checkbox
-      const neqInput = document.getElementById('neq');
-      const noNeqCheckbox = document.getElementById('no-neq');
+    // Vérifier si le nombre de checkbox cochées est entre 1 et 3 pour Domaine(s) d'activit(é)s
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked:not(.exclus)');
+    if (checkboxes.length < 1 || checkboxes.length > 3) {
+      erreur = 'Merci de sélectionner entre 1 et 3 domaine(s) d\'activité(s) selon l\'abonnement choisi.';
+      return;
+    }
 
-      if (!neqInput.value && !noNeqCheckbox.checked) {
-        erreur = 'Merci de remplir le champ NEQ ou cocher la case "Je n\'ai pas de NEQ".';
-        return;
-      }
+    // Choix obligatoire pour NEQ, l'utilisateur inscrit son NEQ ou coche la checkbox
+    const neqInput = document.getElementById('neq');
+    const noNeqCheckbox = document.getElementById('no-neq');
 
-      const response = await fetch('?/newOrganisateur', {
-          method: 'POST',
-          body: formData
-      });
-      const result = await response.json();
-      if (result.type == 'failure')
-          erreur = JSON.parse(result.data)[0];
-      else
-          window.location.href = '/'; //AJOUTER LIEN
+    if (!neqInput.value && !noNeqCheckbox.checked) {
+      erreur = 'Merci de remplir le champ NEQ ou cocher la case "Je n\'ai pas de NEQ".';
+      return;
+    }
+
+    const response = await fetch('?/newExposant', {
+      method: 'POST',
+      body: formData
+    });
+    const result = await response.json();
+    if (result.type == 'failure')
+      erreur = JSON.parse(result.data)[0];
+    else
+      window.location.href = '/'; //AJOUTER LIEN
   }
 </script>
 
@@ -60,17 +66,6 @@
         </div>
     </li>
 
-    <li class="steps-segment">
-        <span class="steps-marker">
-          <span class="icon">
-            <i class="fa fa-calendar-days"></i>
-          </span>
-        </span>
-        <div class="steps-content">
-          <p class="heading">ÉVÉNEMENT</p>
-        </div>
-    </li>
-    
     <li class="steps-segment">
         <span class="steps-marker">
           <span class="icon">
@@ -164,7 +159,7 @@
             </label>
             <div class="control">
               <input class="input" type="text" name="neq" id="neq" placeholder="1012345678" pattern="^1\d{4}\d{5}$">
-              <input class="checkbox" type="checkbox" id="no-neq"> Je n'ai pas de NEQ.
+              <input class="checkbox exclus"  type="checkbox" id="no-neq"> Je n'ai pas de NEQ.
             </div>
           </div>
 
@@ -188,9 +183,90 @@
 
       <div class="field">
         <div class="control">
+          <label class="label" for="domaine">Domaine(s) d'activité(s) <span class="rouge">*</span>
+            <!-- Tooltip -->
+            <span class="icon is-small has-tooltip-top has-tooltip-bottom-desktop has-tooltip-left-tablet-only"
+              data-tooltip="Catégorie(s) dans laquelle ou lesquelles tu apparaitras sur notre site Web. La première catégorie est incluse, puis un ajout de 5$ par catégorie s'applique sur l'abonnement.">
+              <i class="fas fa-info-circle"></i>
+            </span>
+          </label>
+
+          <div class="columns">
+            <!-- Première colonne -->
+            <div class="column">
+              <input class="checkbox" type="checkbox" name="accessoires_sacs" id="accessoires_sacs">Accessoires et sacs
+              <input class="checkbox" type="checkbox" name="agro-alimentaire" id="agro-alimentaire">Agro-alimentaire
+              <input class="checkbox" type="checkbox" name="animaux" id="animaux">Animaux
+              <input class="checkbox" type="checkbox" name="arts_visuels" id="arts_visuels">Arts visuels
+              <input class="checkbox" type="checkbox" name="bijoux_joaillerie" id="bijoux_joaillerie">Bijoux et/ou joaillerie
+            </div>
+    
+            <!-- Deuxième colonne -->
+            <div class="column">
+              <input class="checkbox" type="checkbox" name="ceramique_poterie" id="ceramique_poterie">Céramique et poterie
+              <input class="checkbox" type="checkbox" name="decoration_interieure" id="decoration_interieure">Décoration intérieure
+              <input class="checkbox" type="checkbox" name="ebenisterie" id="ebenisterie">Ébénisterie et travail du bois
+              <input class="checkbox" type="checkbox" name="forgerie" id="forgerie">Forgerie et travail des métaux
+              <input class="checkbox" type="checkbox" name="jouets_loisirs" id="jouets_loisirs">Jouets, jeux et loisirs
+            </div>
+
+          <!-- Troisième colonne -->
+          <div class="column">
+            <input class="checkbox" type="checkbox" name="papeteries_livres" id="domaine">Papeteries et livres
+            <input class="checkbox" type="checkbox" name="photographies" id="photographies">Photographies
+            <input class="checkbox" type="checkbox" name="produits_corporels" id="produits_corporels">Produits corporels et/ou savons
+            <input class="checkbox" type="checkbox" name="sculpture" id="sculpture">Sculpture
+            <input class="checkbox" type="checkbox" name="tricots_crochets" id="tricots_crochets">Tricots et crochets
+          </div>
+
+          <!-- Quatrième colonne -->
+          <div class="column">
+            <input class="checkbox" type="checkbox" name="verre_vitrail" id="verre_vitrail">Verre et/ou vitrail
+            <input class="checkbox" type="checkbox" name="vetements_tous" id="vetements_tous">Vêtements pour tous
+            <input class="checkbox" type="checkbox" name="vetements_enfants" id="vetements_enfants">Vêtements pour enfants et bébés
+            <input class="checkbox" type="checkbox" name="zero_dechet" id="zero_dechet">Zéro déchet
+            <input class="checkbox" type="checkbox" name="autres" id="autres">Autres
+          </div>
+          
+          </div>
+
+        </div>
+      </div>
+
+      <div class="columns">
+        <!-- Première colonne -->
+        <div class="column">
           <label class="checkbox">
-            <input type="checkbox" required>
-            J'ai lu et j'accepte les <a href="#">conditions de vente de services</a>.<span class="rouge">*</span> <!-- AJOUTER LIEN -->
+            Être affiché sur le site de Répertoire SÉMEQ dans l’onglet Répertoire exposants (nom + lien cliquable)?<br>
+            <input type="checkbox" class="toggle exclus" required>
+          </label>
+        </div>
+
+        <!-- Deuxième colonne -->
+        <div class="column">
+          <label class="checkbox">
+            Partager mon adresse courriel aux organisateurs d'événements (membres) pour recevoir leurs appels de candidatures?<br>
+            <input type="checkbox" class="toggle exclus" required>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" class="exclus" required>
+            Je comprends que Répertoire SÉMEQ n'est pas responsable du service donné par ses partenaires,
+            je décharge donc de toute responsabilité le Répertoire SÉMEQ de tous mésententes et litiges pouvant éventuellement
+            survenir à la suite d'une collaboration avec un de ses partenaires. <span class="rouge">*</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" class="exclus" required>
+            J'ai lu et j'accepte les <a href="#">conditions de vente de services</a>. <span class="rouge">*</span> <!-- AJOUTER LIEN -->
           </label>
         </div>
       </div>
