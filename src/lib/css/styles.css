@@ -1,0 +1,27 @@
+/* Marges pour la class block */
+.block {
+    margin: 1.5rem;
+}
+
+.a {
+    color: #c2108a;
+}
+
+/* Astérisques en rouge dans les formulaires */
+.rouge {
+    color: red;
+}
+
+/* Pour griser les input des formulaire si readonly */
+.readonly {
+    background-color: lightgray;
+}
+
+/* Affichage si pas de résultat pour une recherche */
+.no-results{
+    width: 100%;
+    display: flex;
+    padding: 20px;
+    font-size: 1.5rem;
+    background-color: lightgray;
+}
