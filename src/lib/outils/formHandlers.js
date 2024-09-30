@@ -19,11 +19,10 @@ export async function nouveauCompte(event) {
 export async function handleUserDelete(event)
 {
     //mettre un premier niveau de securite ici pour verifier les droits
-    console.log('delete 1');
     
     const formData = new FormData(event.target);
     
-        const response = await fetch('?/del', {
+        const response = await fetch('api?/supprimeUtilisateur', {
             method: 'POST',
             body: formData
         });
@@ -32,7 +31,32 @@ export async function handleUserDelete(event)
 
     if (result.type === 'success') {
         alert('Utilisateur supprimé');
+        console.log(result);
+        
     } else {
         alert('Erreur : ' + JSON.parse(result.data)[0]);
+    }
+}
+
+export async function connexion(event){
+    console.log('dans le form handler');
+    
+    const formData = new FormData(event.target);
+    const response = await fetch('api?/connexionUtilisateur', {
+        method: 'POST',
+        body: formData
+    });
+    console.log('apres le fetch');
+    console.log(response);
+    
+    const result = await response.json();
+    console.log('result du form handler ', result);
+    
+    if (result.type === 'success') {
+        alert('Utilisateur connecté');
+        console.log(result);
+        
+    } else {
+        alert('Erreur : ');
     }
 }

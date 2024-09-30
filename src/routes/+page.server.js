@@ -14,7 +14,7 @@ import { Utilisateur } from '../lib/db/models/Utilisateur.model.js';
 import { Ville } from '../lib/db/models/Ville.model.js';
 
 //Appel des fonctions des controllers
-import { findAll } from '$lib/db/controllers/Utilisateurs.controller.js'
+import { findAll } from '$lib/db/controllers/Utilisateurs.controller.js';
 import { newRole } from '../lib/db/controllers/Roles.controller.js';
 
 async function initializeDatabase() {
@@ -39,17 +39,8 @@ export async function load({ params }) {
 
     // aller chercher tous les utilisateurs de la BD
     const users = await findAll(); 
-    return { 
-        users: users,  //tous les utilisateurs
-
-    };
+    
+    return {users: users}; //tous les utilisateurs
+        
 }
 
-export const actions = {
-    del: async({ cookies, request })=>{
-        const data = await request.formData();
-        await deleteUser(data.id);
-        console.log('Succès :User supprimé');
-        //redirect(302, '/logout');
-    }
-}

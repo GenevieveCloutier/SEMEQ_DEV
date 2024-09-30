@@ -2,6 +2,7 @@ import { Utilisateur } from "../models/Utilisateur.model";
 import { Role } from "../models/Role.model";
 import { Ville } from "../models/Ville.model";
 import { error } from "@sveltejs/kit";
+import bcrypt from 'bcrypt';
 /**
  * 
  *
@@ -49,14 +50,10 @@ export async function newUser(p_courriel, p_role_id, p_pwd) {
 export async function deleteUser(p_id) {
     try {
         const user = await Utilisateur.findByPk(p_id);
-        if (!user) {
+        if (!user)
             throw new Error('Utilisateur non trouvé');
-        }
-
-        await Utilisateur.destroy();
-        
+        await user.destroy();
         return { message: 'Succès :Utilisateur supprimé' };
-
     } catch (error) {
         throw error;
     }
@@ -67,12 +64,16 @@ export async function authenticate(p_courriel, p_pwd){
 
         const user = await findOne({ courriel: p_courriel});
 
-        if(!user) throw "Utilisateur non trouvé";
+        if(!user)
+            throw "Utilisateur non trouvé";
 
         const goodPassword = await bcrypt.compare(p_pwd, Utilisateur.pwd);
 
-        if(!goodPassword) throw "Mot de passe invalide";
+        if(!goodPassword)
+            throw "Mot de passe invalide";
 
+        console.log('controller = ', user);
+        
         return user;
 
     }catch(error){

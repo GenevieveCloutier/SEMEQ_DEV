@@ -34,7 +34,7 @@ export const Utilisateur = sequelize.define('utilisateur', {
         allowNull: true
     },
     pwd: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING,
         allowNull: true
     },
     site: {
@@ -101,7 +101,9 @@ export const Utilisateur = sequelize.define('utilisateur', {
         type: DataTypes.STRING,
         allowNull: true
     },
-});
+},
+    { paranoid: true }// Permet à sequelize de faire de la soft-deletion
+);
 
 //encrypter le MDP à la première utilisation
 Utilisateur.addHook('beforeCreate',(async (user, option) => {
