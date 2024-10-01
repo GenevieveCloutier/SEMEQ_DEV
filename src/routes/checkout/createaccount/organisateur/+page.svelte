@@ -1,10 +1,10 @@
 <script>
   import Retour from "$lib/components/retour.svelte";
-  import BarrePaiementEtape1 from "$lib/components/barrePaiementEtape1.svelte";
-  import Neq from "$lib/components/neq.svelte";
-  import CheckboxConditionsVente from "$lib/components/checkboxConditionsVente.svelte";
-  import SubmitButon from "$lib/components/submitButon.svelte";
-  import NotifDanger from "$lib/components/notifDanger.svelte";
+  import BarrePaiementEtape1 from "$lib/components/barre_progression_paiement/etape1.svelte";
+  import Neq from "$lib/components/formulaires/neq.svelte";
+  import CheckboxConditionsVente from "$lib/components/formulaires/checkboxConditionsVente.svelte";
+  import SubmitButon from "$lib/components/formulaires/submitButon.svelte";
+  import NotifDanger from "$lib/components/notifications/notifDanger.svelte";
 
   let erreur = null;
 
