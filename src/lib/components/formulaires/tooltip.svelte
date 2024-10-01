@@ -2,7 +2,7 @@
     export let data;
 </script>
 
-<span class="icon is-small has-tooltip-top has-tooltip-bottom-desktop has-tooltip-left-tablet-only"
+<span class="icon is-small has-tooltip-multiline has-tooltip-top has-tooltip-bottom-desktop has-tooltip-left-tablet-only"
 data-tooltip={data}>
 <i class="fas fa-info-circle"></i>
 </span>

@@ -2,7 +2,7 @@
     <div class="control">
       <label class="label" for="domaine">Domaine(s) d'activité(s) <span class="rouge">*</span>
         <!-- Tooltip -->
-        <span class="icon is-small has-tooltip-top has-tooltip-bottom-desktop has-tooltip-left-tablet-only"
+        <span class="icon is-small has-tooltip-multiline has-tooltip-top has-tooltip-bottom-desktop has-tooltip-left-tablet-only"
           data-tooltip="Catégorie(s) dans laquelle ou lesquelles tu apparaitras sur notre site Web. La première catégorie est incluse, puis un ajout de 5$ par catégorie s'applique sur l'abonnement.">
           <i class="fas fa-info-circle"></i>
         </span>
