@@ -119,7 +119,7 @@ Utilisateur.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
 Role.hasMany(Utilisateur, { foreignKey: 'role_id', as: 'utilisateurs_role' });
 
 Utilisateur.belongsTo(Ville, { foreignKey: 'ville_id', as: 'ville' });
-Ville.hasMany(Utilisateur, { foreignKey: 'villes_id', as: 'utilisateurs_ville' });
+Ville.hasMany(Utilisateur, { foreignKey: 'ville_id', as: 'utilisateurs_ville' });
 
 // sequelize.sync().then(() => {
 //     console.log('Utilisateurs table created successfully!');

@@ -49,15 +49,37 @@ export async function findOne(p_where){
     });
 }
 
-export async function newUser(p_courriel, p_role_id, p_pwd) {
+export async function newUser(p_nom,p_prenom, p_role_id, p_entreprise, p_neq, p_courriel, p_pwd, p_site, p_insta, p_tiktok, p_domaine,
+                                p_ville_id, p_partage, p_affichage, p_abonne, p_fin_abo, p_description, p_adresse, p_publique,
+                                p_photo_1, p_photo_2, p_photo_3, p_logo) {
     try{
         const mail = await Utilisateur.findOne({where: {courriel: p_courriel}});
         if(mail)
             throw "Un Compte avec ce courriel existe déjà.";
          const resultat = await Utilisateur.create({
-            courriel: p_courriel,
-            role_id: p_role_id,
-            pwd: p_pwd
+            nom:            p_nom,
+            prenom:         p_prenom,
+            role_id:        p_role_id,
+            entreprise:     p_entreprise,
+            neq:            p_neq,
+            courriel:       p_courriel,
+            pwd:            p_pwd,
+            site:           p_site,
+            insta:          p_insta,
+            tiktok:         p_tiktok,
+            domaine:        p_domaine,
+            ville_id:       p_ville_id,
+            partage:        p_partage,
+            affichage:      p_affichage,
+            abonne:         p_abonne,
+            fin_abo:        p_fin_abo,
+            description:    p_description,
+            adresse:        p_adresse,
+            publique:       p_publique,
+            photo_1:        p_photo_1,
+            photo_2:        p_photo_2,
+            photo_3:        p_photo_3,
+            logo:           p_logo
         });
         return resultat.dataValues;
         }catch(error){

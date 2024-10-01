@@ -1,6 +1,11 @@
+import { writable } from 'svelte/store';
+
+export const erreur = writable(null);
+erreur.set('');
 export async function nouveauCompte(event) {
     const formData = new FormData(event.target);
     
+
         const response = await fetch('api?/new', {
             method: 'POST',
             body: formData
@@ -58,4 +63,35 @@ export async function connexion(event){
     } else {
         alert('Erreur : ');
     }
+}
+
+export async function creationExposant(event){
+    const formData = new FormData(event.target);
+    console.log('handler');
+    // Vérifier si le nombre de checkbox cochées est entre 1 et 3 pour Domaine(s) d'activit(é)s
+    // const checkboxes = event.target.querySelectorAll('input[type="checkbox"]:checked:not(.exclus)');
+    // if (checkboxes.length < 1 || checkboxes.length > 3) {
+    //   erreur.set('Merci de sélectionner entre 1 et 3 domaine(s) d\'activité(s) selon l\'abonnement choisi.');
+    //   return;
+    // }
+
+    // Choix obligatoire pour NEQ, l'utilisateur inscrit son NEQ ou coche la checkbox
+    const neqInput = event.target.querySelector('#neq');
+    const noNeqCheckbox = event.target.querySelector('#no-neq');
+
+    if (!neqInput.value && !noNeqCheckbox.checked) {
+      erreur.set('Merci de remplir le champ NEQ ou cocher la case "Je n\'ai pas de NEQ".');
+      return;
+    }
+    
+
+    const response = await fetch('../api?/nouveauExposant', {
+        method: 'POST',
+        body: formData
+      });
+    //   const result = await response.json();
+    //   if (result.type == 'failure')
+    //     erreur = JSON.parse(result.data)[0];
+    //   else
+    //     window.location.href = '/'; //AJOUTER LIEN
 }

@@ -1,42 +1,5 @@
 <script>
-    import Retour from "$lib/components/retour.svelte";
-    
-    let erreur = null;
-  
-    /**
-     * Gère la soumission du formulaire pour créer un nouvel élément.
-     * @param {Event} event - L'événement de soumission du formulaire.
-     * @returns {void}
-     */
-     async function handleSubmit(event) {
-      const formData = new FormData(event.target);
-  
-      // Vérifier si le nombre de checkbox cochées est entre 1 et 3 pour Domaine(s) d'activit(é)s
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked:not(.exclus)');
-      if (checkboxes.length < 1 || checkboxes.length > 3) {
-        erreur = 'Merci de sélectionner entre 1 et 3 domaine(s) d\'activité(s) selon l\'abonnement choisi.';
-        return;
-      }
-  
-      // Choix obligatoire pour NEQ, l'utilisateur inscrit son NEQ ou coche la checkbox
-      const neqInput = document.getElementById('neq');
-      const noNeqCheckbox = document.getElementById('no-neq');
-  
-      if (!neqInput.value && !noNeqCheckbox.checked) {
-        erreur = 'Merci de remplir le champ NEQ ou cocher la case "Je n\'ai pas de NEQ".';
-        return;
-      }
-  
-      const response = await fetch('?/newExposant', {
-        method: 'POST',
-        body: formData
-      });
-      const result = await response.json();
-      if (result.type == 'failure')
-        erreur = JSON.parse(result.data)[0];
-      else
-        window.location.href = '/'; //AJOUTER LIEN
-    }
+    import { creationExposant, erreur } from '../../../lib/outils/formHandlers';
   </script>
   
   
@@ -79,14 +42,14 @@
   </ul>
   
   <div class="container has-text-centered">
-    {#if erreur}
+    {#if $erreur}
     <div class="notification is-danger">
-        <p>{erreur}</p>
+        <p>{$erreur}</p>
     </div>
     {/if}
   </div>
   
-    <form on:submit|preventDefault={handleSubmit}>
+    <form on:submit|preventDefault={creationExposant}>
       <div class="box">
         <a href="/login" class="has-text-centered">Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
   
@@ -97,28 +60,28 @@
             <div class="field">
               <label class="label" for="courriel">Courriel <span class="rouge">*</span></label>
               <div class="control">
-                <input class="input" type="email" name="courriel" id="courriel" placeholder="nom@mail.com" required>
+                <input class="input" type="email" name="courriel" id="courriel" placeholder="nom@mail.com" >
               </div>
             </div>
   
             <div class="field">
               <label class="label" for="nom">Nom <span class="rouge">*</span></label>
               <div class="control">
-                <input class="input" type="text" name="nom" id="nom" placeholder="Nom" required>
+                <input class="input" type="text" name="nom" id="nom" placeholder="Nom" >
               </div>
             </div>
   
             <div class="field">
               <label class="label" for="entreprise">Entreprise <span class="rouge">*</span></label>
               <div class="control">
-                <input class="input" type="text" name="entreprise" id="entreprise" placeholder="Nom de l'entreprise ou organisation" required>
+                <input class="input" type="text" name="entreprise" id="entreprise" placeholder="Nom de l'entreprise ou organisation" >
               </div>
             </div>
   
             <div class="field">
               <label class="label" for="ville">Ville <span class="rouge">*</span></label>
               <div class="control">
-                <input class="input" type="text" name="ville" id="ville" placeholder="Ville" required>
+                <input class="input" type="text" name="ville" id="ville" placeholder="Ville" >
               </div>
             </div>
   
@@ -137,14 +100,14 @@
             <div class="field">
               <label class="label" for="password">Mot de passe <span class="rouge">*</span></label>
               <div class="control">
-                <input class="input" type="password" name="password" id="password" required>
+                <input class="input" type="password" name="password" id="password" >
               </div>
             </div>
   
             <div class="field">
               <label class="label" for="prenom">Prénom <span class="rouge">*</span></label>
               <div class="control">
-                <input class="input" type="text" name="prenom" id="prenom" placeholder="Prénom" required>
+                <input class="input" type="text" name="prenom" id="prenom" placeholder="Prénom" >
               </div>
             </div>
   
@@ -238,7 +201,7 @@
           <div class="column">
             <label class="checkbox">
               Être affiché sur le site de Répertoire SÉMEQ dans l’onglet Répertoire exposants (nom + lien cliquable)?<br>
-              <input type="checkbox" class="toggle exclus" required>
+              <input type="checkbox" class="toggle exclus" >
             </label>
           </div>
   
@@ -246,7 +209,7 @@
           <div class="column">
             <label class="checkbox">
               Partager mon adresse courriel aux organisateurs d'événements (membres) pour recevoir leurs appels de candidatures?<br>
-              <input type="checkbox" class="toggle exclus" required>
+              <input type="checkbox" class="toggle exclus" >
             </label>
           </div>
         </div>
@@ -254,7 +217,7 @@
         <div class="field">
           <div class="control">
             <label class="checkbox">
-              <input type="checkbox" class="exclus" required>
+              <input type="checkbox" class="exclus" >
               Je comprends que Répertoire SÉMEQ n'est pas responsable du service donné par ses partenaires,
               je décharge donc de toute responsabilité le Répertoire SÉMEQ de tous mésententes et litiges pouvant éventuellement
               survenir à la suite d'une collaboration avec un de ses partenaires. <span class="rouge">*</span>
@@ -265,7 +228,7 @@
         <div class="field">
           <div class="control">
             <label class="checkbox">
-              <input type="checkbox" class="exclus" required>
+              <input type="checkbox" class="exclus" >
               J'ai lu et j'accepte les <a href="#">conditions de vente de services</a>. <span class="rouge">*</span> <!-- AJOUTER LIEN -->
             </label>
           </div>
@@ -276,7 +239,7 @@
       <!-- Boutons en bas de page -->
       <div class="block has-text-right">
         <input type="submit" class="button is-link" value="Passer au paiement">
-        <Retour />
+        
       </div>
     </form>
       
