@@ -1,6 +1,11 @@
 <script>
   import Retour from "$lib/components/retour.svelte";
-  
+  import BarrePaiementEtape1 from "$lib/components/barrePaiementEtape1.svelte";
+  import Neq from "$lib/components/neq.svelte";
+  import CheckboxConditionsVente from "$lib/components/checkboxConditionsVente.svelte";
+  import SubmitButon from "$lib/components/submitButon.svelte";
+  import NotifDanger from "$lib/components/notifDanger.svelte";
+
   let erreur = null;
 
   /**
@@ -36,60 +41,9 @@
 
 <div class="block">
 
-<!-- Barre de progression, source : https://aramvisser.github.io/bulma-steps/ -->
-<ul class="steps is-narrow is-medium is-centered has-content-centered">
-    <li class="steps-segment is-active">
-        <span class="steps-marker">
-          <span class="icon">
-            <i class="fa fa-user"></i>
-          </span>
-        </span>
-        <div class="steps-content">
-          <p class="heading">INFORMATIONS</p>
-        </div>
-    </li>
+<BarrePaiementEtape1 />
 
-    <li class="steps-segment">
-        <span class="steps-marker">
-          <span class="icon">
-            <i class="fa fa-usd"></i>
-          </span>
-        </span>
-        <div class="steps-content">
-          <p class="heading">PAIEMENT</p>
-        </div>
-    </li>
-
-    <li class="steps-segment">
-        <span class="steps-marker">
-          <span class="icon">
-            <i class="fa fa-calendar-days"></i>
-          </span>
-        </span>
-        <div class="steps-content">
-          <p class="heading">ÉVÉNEMENT</p>
-        </div>
-    </li>
-    
-    <li class="steps-segment">
-        <span class="steps-marker">
-          <span class="icon">
-            <i class="fa fa-check"></i>
-          </span>
-        </span>
-        <div class="steps-content">
-          <p class="heading">CONFIRMATION</p>
-        </div>
-    </li>
-</ul>
-
-<div class="container has-text-centered">
-  {#if erreur}
-  <div class="notification is-danger">
-      <p>{erreur}</p>
-  </div>
-  {/if}
-</div>
+<NotifDanger erreur={erreur}></NotifDanger>
 
   <form on:submit|preventDefault={handleSubmit}>
     <div class="box">
@@ -153,20 +107,7 @@
             </div>
           </div>
 
-          <div class="field">
-            <label class="label" for="neq">
-              Numéro d'entreprise du Québec (NEQ) <span class="rouge">*</span>
-              <!-- Tooltip, source : https://wikiki.github.io/elements/tooltip/ -->
-              <span class="icon is-small has-tooltip-top has-tooltip-bottom-desktop has-tooltip-left-tablet-only"
-                data-tooltip="Tu dois avoir un statut légal conforme au Québec et posséder un numéro d'entreprise du Québec (NEQ) si tu veux apparaître dans notre registre. Si ton prénom et nom de famille font partie de ton nom professionnel, merci de cocher la case 'Je n'ai pas de NEQ.'. Si tu n'as pas de NEQ ou de statut conforme, tu peux être membre quand même mais ton nom n'apparaîtra pas dans notre répertoire. Merci de ta compréhension.">
-                <i class="fas fa-info-circle"></i>
-              </span>
-            </label>
-            <div class="control">
-              <input class="input" type="text" name="neq" id="neq" placeholder="1012345678" pattern="^1\d{4}\d{5}$">
-              <input class="checkbox" type="checkbox" id="no-neq"> Je n'ai pas de NEQ.
-            </div>
-          </div>
+          <Neq />
 
           <div class="field">
             <label class="label" for="site">Site internet ou lien de ta page Facebook</label>
@@ -186,20 +127,13 @@
 
       </div> <!-- Fin des colonnes -->
 
-      <div class="field">
-        <div class="control">
-          <label class="checkbox">
-            <input type="checkbox" required>
-            J'ai lu et j'accepte les <a href="#">conditions de vente de services</a>.<span class="rouge">*</span> <!-- AJOUTER LIEN -->
-          </label>
-        </div>
-      </div>
+      <CheckboxConditionsVente />
 
     </div> <!-- Fin box -->
 
     <!-- Boutons en bas de page -->
     <div class="block has-text-right">
-      <input type="submit" class="button is-link" value="Passer au paiement">
+      <SubmitButon texte={"Passer au paiement"}></SubmitButon>
       <Retour />
     </div>
   </form>
