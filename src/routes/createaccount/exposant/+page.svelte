@@ -209,7 +209,7 @@
           <div class="column">
             <label class="checkbox">
               Partager mon adresse courriel aux organisateurs d'événements (membres) pour recevoir leurs appels de candidatures?<br>
-              <input type="checkbox" class="toggle exclus" >
+              <input type="checkbox" class="toggle exclus" name="partage">
             </label>
           </div>
         </div>

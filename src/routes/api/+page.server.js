@@ -44,7 +44,8 @@ export const actions = {
     nouveauExposant: async({cookies, request})=>{
         const data = await request.formData();
         const domaines = envoieDomaine(data);
-        //Faudras ajouter les champs NULL quand les autre roles seront fait
+        console.log(data.get('partage'));
+        
         try {
             let res = await newUser(
                 data.get("nom"),
@@ -59,13 +60,13 @@ export const actions = {
                 data.get("tiktok"),
                 domaines,
                 data.get("ville_id"),
-                data.get("partage"),
-                data.get("affichage"),
-                data.get("abonne"),
+                data.get("partage") == 'on' ? 1 : 0,
+                data.get("affichage") == 'on' ? 1 : 0,
+                data.get("abonne") == 'on' ? 1 : 0,
                 data.get("fin_abo"),
                 data.get("description"),
                 data.get("adresse"),
-                data.get("publique"),
+                data.get("publique") == 'on' ? 1 : 0,
                 data.get("photo_1"),
                 data.get("photo_2"),
                 data.get("photo_3"),

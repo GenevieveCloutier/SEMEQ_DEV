@@ -48,7 +48,7 @@ export async function findOne(p_where){
         throw error;
     });
 }
-
+//Faudras mettre a jour avec les autres champs une fois connus
 export async function newUser(p_nom,p_prenom, p_role_id, p_entreprise, p_neq, p_courriel, p_pwd, p_site, p_insta, p_tiktok, p_domaine,
                                 p_ville_id, p_partage, p_affichage, p_abonne, p_fin_abo, p_description, p_adresse, p_publique,
                                 p_photo_1, p_photo_2, p_photo_3, p_logo) {
@@ -100,26 +100,17 @@ export async function deleteUser(p_id) {
 }
 
 export async function authenticate(p_courriel, p_pwd){
-    // console.log('dans auth ', p_courriel, p_pwd);
     
     try{
-
         const user = await findOne({ courriel: p_courriel});
-
-        // console.log('apres le findone ', user);
         
-
         if(!user)
             throw "Utilisateur non trouvé";
 
         const goodPassword = await bcrypt.compare(p_pwd, user.pwd);
-        // console.log('check pwd ', goodPassword);
         
-
         if(!goodPassword)
             throw "Mot de passe invalide";
-
-       // console.log('controller = ', user);
         
         return user;
 
