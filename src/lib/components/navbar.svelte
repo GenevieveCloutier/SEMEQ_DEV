@@ -42,7 +42,7 @@
 			class="navbar-burger"
 			aria-label="menu"
 			aria-expanded="false"
-			data-target="navbar-general"
+			data-target="navMenu"
 			use:toggleNavbarMenu
 		>
 			<span aria-hidden="true"></span>
@@ -51,7 +51,7 @@
 			<span aria-hidden="true"></span>
 		</a>
 	<hr />
-	<div id="navbar-general" class="navbar-menu">
+	<div id="navMenu" class="navbar-menu">
 		<div class="navbar-center">
 			<div class="navbar-item has-dropdown is-hoverable" use:toggleDropdownMenu>
 				<a href="/#" class="navbar-link"> Répertoires </a>
