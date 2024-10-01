@@ -55,7 +55,9 @@
 
   <form on:submit|preventDefault={handleSubmit}>
     <div class="box">
-      <a href="/login" class="has-text-centered">Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
+      <div class="block has-text-centered">
+      <a href="/login" >Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
+      </div>
 
       <div class="columns">
         <!-- Première colonne -->
