@@ -8,7 +8,7 @@
           </span>
         </span>
         <div class="steps-content">
-          <p class="heading">INFORMATIONS</p>
+          <p class="subtitle is-6">INFORMATIONS</p>
         </div>
     </li>
 
@@ -19,7 +19,7 @@
           </span>
         </span>
         <div class="steps-content">
-          <p class="heading">PAIEMENT</p>
+          <p class="subtitle is-6">PAIEMENT</p>
         </div>
     </li>
 
@@ -31,7 +31,7 @@
           </span>
         </span>
         <div class="steps-content">
-          <p class="heading">ÉVÉNEMENT</p>
+          <p class="subtitle is-6">ÉVÉNEMENT</p>
         </div>
     </li>
     
@@ -42,7 +42,7 @@
           </span>
         </span>
         <div class="steps-content">
-          <p class="heading">CONFIRMATION</p>
+          <p class="subtitle is-6">CONFIRMATION</p>
         </div>
     </li>
 </ul>
