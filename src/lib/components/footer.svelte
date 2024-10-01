@@ -9,14 +9,14 @@
 				<a class="is-size-7 p-6" href="/#">Politiques des cookies</a><br />
 			</div>
 
-			<div class="column is-full-mobile is-half-tablet is-one-quarter-desktop ">
+			<div class="column is-full-mobile is-half-tablet is-one-quarter-desktop">
 				<h3 class="is-size-5 has-text-centered mb-3">Contact</h3>
 				<a class="is-size-7 p-6" href="/#">À propos</a><br />
 				<a class="is-size-7 p-6" href="/#">Nous joindre</a><br />
 			</div>
 
-			<div class="column is-full-mobile is-full-tablet is-half-desktop">
-				<h3 class="is-size-5 has-text-centered mb-3">Partenaires</h3>
+			<div class="column is-full-mobile is-full-tablet is-one-quarter-desktop">
+				<h3 class="is-size-5 has-text-centered mb-3 ">Partenaires</h3>
 				<div class="columns is-centered is-vcentered">
 					<div class="column is-one-third">
 						<figure class="image is-96x96">
@@ -44,7 +44,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="column is-full-mobile is-full-tablet is-half-desktop">
+			<div class="column is-full-mobile is-full-tablet is-one-quarter-desktop">
 				<h3 class="is-size-5 has-text-centered mb-5">Suivez-nous!</h3>
 				<div class="columns is-centered is-vcentered">
 					<figure class="image is-48x48">

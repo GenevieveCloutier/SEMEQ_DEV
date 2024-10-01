@@ -1,121 +1,92 @@
-
 <script>
-    //pour faire afficher le menu avec un appareil mobile quand on appuie sur le hamburger
-    export function toggleNavbarMenu(node) {
-        function toggle() {
-            const target = node.getAttribute('data-target');
-            const targetElement = document.getElementById(target);
-            node.classList.toggle('is-active');
-            if (targetElement) {
-                targetElement.classList.toggle('is-active');
-            }
-        }
-
-        node.addEventListener('click', toggle);
-
-        return {
-            destroy() {
-                node.removeEventListener('click', toggle);
-            }
-        };
-    }
+	// Pour faire afficher le menu dropdown quand on clique sur l'icone ou la flèche
+	export function toggleNavbarMenu(node) {
+		function toggle() {
+			node.closest('.dropdown').classList.toggle('is-active');
+		}
+		node.addEventListener('click', toggle);
+		return {
+			destroy() {
+				node.removeEventListener('click', toggle);
+			}
+		};
+	};
 </script>
 
-<div class="mx-6 mt-3">
-	<nav class="navbar" role="navigation" aria-label="main navigation">
-		<div class="navbar-brand">
-		<figure class="media-left">
-			<a href="/">
-				<img src="src/lib/img/app/logo.png" alt="logo SEMEQ" width="150" height="73" />
-			</a>
-		</figure>
-		<div class="media-content is-align-self-flex-end is-hidden-mobile">
-			<p class="is-size-6 pl-5 is-uppercase has-text-weight-bold">
-				Le répertoire des salons, événements, marchés et expositions du Québec
-			</p>
-		</div>
-			<a
-				href="/#"
-				role="button"
-				class="navbar-burger"
-				aria-label="menu"
-				aria-expanded="false"
-				data-target="navbar-compte"
-				use:toggleNavbarMenu
-			>
-				<span aria-hidden="true"></span>
-				<span aria-hidden="true"></span>
-				<span aria-hidden="true"></span>
-				<span aria-hidden="true"></span>
+<div class="media mx-6 mt-5">
+	<figure class="media-left">
+		<a href="/">
+			<img src="src/lib/img/app/logo.png" alt="logo SEMEQ" width="150" height="73" />
+		</a>
+	</figure>
+	<div class="media-content is-align-self-flex-end is-hidden-mobile">
+		<p class="is-size-6 pl-5 is-uppercase has-text-weight-bold">
+			Le répertoire des salons, événements, marchés et expositions du Québec
+		</p>
+	</div>
+	<div class="dropdown is-right">
+		<div class="dropdown-trigger">
+			<!-- svelte-ignore a11y-missing-attribute -->
+			<a aria-haspopup="true" aria-controls="dropdown-compte" use:toggleNavbarMenu>
+				<img width="30px" src="src/lib/img/app/compte.svg" alt="Affichez votre pub ici" />
+				<span class="icon is-small">
+					<i class="fas fa-angle-down" aria-hidden="true"></i>
+				</span>
 			</a>
 		</div>
-
-		<hr class="is-hidden-mobile is-hidden-tablet-only">
-		<div id="navbar-compte" class="navbar-menu">
-			<div class="navbar-end">
-				<a href="/#" class="navbar-item">
-					<img src="/src/lib/img/app/panier.png" alt="icone panier utilisateur" />
-				</a>
-				<div class="navbar-item has-dropdown is-hoverable">
-					<a href="/#" class="navbar-link">
-						<img src="/src/lib/img/app/compte.svg" alt="icone compte utilisateur" />
-					</a>
-					<div class="navbar-dropdown is-right">
-						<a href="/#" class="navbar-item item-deroul"> Mon compte </a>
-						<hr class="navbar-divider" />
-						<a href="/#" class="navbar-item item-deroul"> Mes événements </a>
-						<hr class="navbar-divider" />
-						<a href="/#" class="navbar-item item-deroul"> Appels de candidature </a>
-						<hr class="navbar-divider" />
-						<a href="/#" class="navbar-item item-deroul"> Mes avantages </a>
-						<hr class="navbar-divider" />
-						<a href="/#" class="navbar-item item-deroul"> Mes formations et outils </a>
-						<hr class="navbar-divider" />
-						<a href="/#" class="navbar-item item-deroul"> Historique d'achat </a>
-						<hr class="navbar-divider" />
-						<a href="/#" class="navbar-item item-deroul bouton-deconnexion"> Déconnexion </a>
-					</div>
-				</div>
+		<div class="dropdown-menu" id="dropdown-compte" role="menu">
+			<div class="dropdown-content">
+				<a href="/#" class="dropdown-item"> Mon compte </a>
+                <hr class="dropdown-divider" />
+				<a href="/#" class="dropdown-item"> Mes événements </a>
+                <hr class="dropdown-divider" />
+				<a href="/#" class="dropdown-item"> Appels de candidature </a>
+                <hr class="dropdown-divider" />
+				<a href="/#" class="dropdown-item"> Mes avantages </a>
+                <hr class="dropdown-divider" />
+				<a href="/#" class="dropdown-item"> Mes formations et outils </a>
+                <hr class="dropdown-divider" />
+				<a href="/#" class="dropdown-item"> Histoirique d'achat </a>
+                <hr class="dropdown-divider" />
+				<a href="/#" class="dropdown-item bouton-deconnexion"> Déconnexion </a>
 			</div>
+
 		</div>
-	</nav>
+	</div>
+    <img class="ml-4" width="30px" src="src/lib/img/app/panier.png" alt="Affichez votre pub ici" />
 </div>
 
-<style>
-	a {
-		text-decoration: none;
-	}
 
-	p {
+<style>
+
+    p {
 		color: #184287;
 	}
 
-	.navbar-item.item-deroul:hover {
-		background-color: #184287;
-		color: white;
+    .fa-angle-down {
+		color: #184287;
 	}
 
-	.navbar-link::after {
-		border-color: #184287;
-	}
+    .dropdown-item:hover{
+        background-color: #184287;
+        color: white;
+    }
 
-	.navbar-item.bouton-deconnexion {
-		background-color: #d9d9d9;
-		color: black;
-	}
+    .bouton-deconnexion:hover{
+        background-color: rgba(255, 0, 0, 0.599);
+    }
 
-	.navbar-item.bouton-deconnexion:hover {
-		background-color: rgba(255, 0, 0, 0.599);
-	}
+        
+    /*pour afficher le drop down plein écran sur mobile - marche pas*/
+    /* @media screen and (min-width: 768px) {
+    .dropdown {
+        position: static !important;
+    }
 
-	.navbar-menu {
-		position: relative;
-		z-index: 10;
-	}
+    .dropdown-trigger, .dropdown-menu {
+        margin-top: 0px !important;
+        width: 100% !important;
+    }
+}  */
 
-	.navbar-dropdown {
-		position: absolute;
-		z-index: 20;
-		background-color: white;
-	}
 </style>
