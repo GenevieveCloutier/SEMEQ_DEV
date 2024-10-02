@@ -1,5 +1,5 @@
 <script>
-  import Retour from "$lib/components/retour.svelte";
+  import Retour from "$lib/components/generaux/retour.svelte";
   import BarrePaiementEtape1 from "$lib/components/barre_progression_paiement/etape1.svelte";
   import Neq from "$lib/components/formulaires/neq.svelte";
   import CheckboxResponsabilite from "$lib/components/formulaires/checkboxResponsabilite.svelte";
@@ -55,7 +55,9 @@
 
   <form on:submit|preventDefault={handleSubmit}>
     <div class="box">
-      <a href="/login" class="has-text-centered">Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
+      <div class="block has-text-centered">
+      <a href="/login" >Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
+      </div>
 
       <div class="columns">
         <!-- Première colonne -->
@@ -140,17 +142,17 @@
       <div class="columns">
         <!-- Première colonne -->
         <div class="column">
-          <label class="checkbox label">
+          <label class="checkbox label" name="affichage" id="affichage">
             Être affiché sur le site de Répertoire SÉMEQ dans l’onglet Répertoire exposants (nom + lien cliquable)?<br>
-            <input type="checkbox" class="toggle exclus" required>
+            <input type="checkbox" class="toggle exclus">
           </label>
         </div>
 
         <!-- Deuxième colonne -->
         <div class="column">
-          <label class="checkbox label">
+          <label class="checkbox label" name="partage" id="partage">
             Partager mon adresse courriel aux organisateurs d'événements (membres) pour recevoir leurs appels de candidatures?<br>
-            <input type="checkbox" class="toggle exclus" required>
+            <input type="checkbox" class="toggle exclus">
           </label>
         </div>
       </div>

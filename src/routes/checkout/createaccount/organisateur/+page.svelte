@@ -1,6 +1,6 @@
 <script>
-  import Retour from "$lib/components/retour.svelte";
-  import BarrePaiementEtape1 from "$lib/components/barre_progression_paiement/etape1.svelte";
+  import Retour from "$lib/components/generaux/retour.svelte";
+  import BarrePaiementEtape1 from "$lib/components/barre_progression_paiement/etape1Organisateur.svelte";
   import Neq from "$lib/components/formulaires/neq.svelte";
   import CheckboxConditionsVente from "$lib/components/formulaires/checkboxConditionsVente.svelte";
   import SubmitButon from "$lib/components/formulaires/submitButon.svelte";
@@ -47,7 +47,9 @@
 
   <form on:submit|preventDefault={handleSubmit}>
     <div class="box">
-      <a href="/login" class="has-text-centered">Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
+      <div class="block has-text-centered">
+        <a href="/login" >Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
+      </div>
 
       <div class="columns">
         <!-- Première colonne -->
