@@ -17,21 +17,53 @@ import { Ville } from '../lib/db/models/Ville.model.js';
 import { findAll } from '$lib/db/controllers/Utilisateurs.controller.js';
 import { newRole } from '../lib/db/controllers/Roles.controller.js';
 
+import csv from 'csvtojson';
+import { ajoutRegions } from '../lib/db/controllers/Regions.controller.js';
+import { ajoutVilles } from '../lib/db/controllers/Villes.controller.js';
+
 async function initializeDatabase() {
     
     await sequelize.sync();
-
+//Création des roles si la bd est vide.    
     const role_admin = await Role.findOne({ where: { id: 1 } });
-    
     if (!role_admin){
         await newRole('admin');
         await newRole('organisateur');
         await newRole('exposant');
         await newRole('visiteur');
     }
+//Création des regions si la bd est vide.
+    const region = await Region.findOne({ where: { id: 1 } });
+    if (!region){
+        ajoutRegions();
+    }
 }
 
+
+
+
 await initializeDatabase();
+await ajoutVilles([
+    "Bas-Saint-Laurent (01)",
+    "Saguenay--Lac-Saint-Jean (02)",
+    "Capitale-Nationale (03)",
+    "Mauricie (04)",
+    "Estrie (05)",
+    "Montréal (06)",
+    "Outaouais (07)",
+    "Abitibi-Témiscamingue (08)",
+    "Côte-Nord (09)",
+    "Nord-du-Québec (10)",
+    "Gaspésie--Îles-de-la-Madeleine (11)",
+    "Chaudière-Appalaches (12)",
+    "Laval (13)",
+    "Lanaudière (14)",
+    "Laurentides (15)",
+    "Montérégie (16)",
+    "Centre-du-Québec (17)"
+  ]);
+
+
 
 export async function load({ params, cookies }) {
 

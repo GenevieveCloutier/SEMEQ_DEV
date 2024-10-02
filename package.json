@@ -28,6 +28,7 @@
 	"type": "module",
 	"dependencies": {
 		"bcrypt": "^5.1.1",
+		"csvtojson": "^2.0.10",
 		"sequelize": "^6.37.3",
 		"sqlite3": "^5.1.7",
 		"uuid": "^10.0.0",
