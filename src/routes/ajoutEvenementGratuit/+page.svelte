@@ -1,6 +1,6 @@
 <script>
 	import H1Title from '../../lib/components/titres/h1Title.svelte';
-	import H2Title from '../../lib/components/titres/h2Title.svelte';
+	import H3Title from '../../lib/components/titres/h3Title.svelte';
 	import AbonnementEven from '../../lib/components/boites/abonnementEven.svelte';
 	import Retour from '../../lib/components/generaux/retour.svelte'
 	import CheckboxResponsabilite from '$lib/components/formulaires/checkboxResponsabilite.svelte';
@@ -108,7 +108,7 @@
 	<form on:submit|preventDefault={handleSubmit}>
 		<div class="box">
 			<!-- section pour les infos de l'événement -->
-			<H2Title title={"Détails de l'événement"} />
+			<H3Title title={"Détails de l'événement"} />
 			<div class="columns">
 				<!-- Première colonne -->
 				<div class="column">
@@ -191,7 +191,7 @@
 
 			<hr class="mt-6 mb-6 is-hidden-mobile is-hidden-tablet-only" />
 			<!-- section pour les infos d'appel de candidatures -->
-			<H2Title title={"Détails de l'appel de candidatures"} />
+			<H3Title title={"Détails de l'appel de candidatures"} />
 
 			<div class="columns">
 				<!-- Première colonne -->

@@ -102,7 +102,7 @@
 	.navbar-link::after {
 		border-color: #184287;
 	}
-
+/* pour que le menu compte s'affiche par dessus la navbar */
 	.navbar-bas {
 		position: relative;
 		z-index: 5;

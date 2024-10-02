@@ -49,7 +49,7 @@
 				<div class="columns is-centered is-vcentered">
 					<figure class="image is-48x48">
 						<a href="https://www.facebook.com/repertoireSEMEQ" target="blank"
-							><img src="src/lib/img/app/facebook.svg" alt="Affichez votre pub ici" /></a
+							><img src="/src/lib/img/app/facebook.svg" alt="Affichez votre pub ici" /></a
 						>
 					</figure>
 				</div>

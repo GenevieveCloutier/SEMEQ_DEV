@@ -3,7 +3,7 @@
 </script>
 
 <div class="block">
-	<h2 class="title is-size-5 has-text-weight-normal">{title}</h2>
+	<h2 class="title is-size-5 is-uppercase">{title}</h2>
 </div>
 
 <style>

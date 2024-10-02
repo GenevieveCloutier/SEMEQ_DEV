@@ -34,3 +34,11 @@
         </div>
     </li>
 </ul>
+
+<style>
+/* pour que les onglets de la navbar s'affichent par dessus la barre de progession */
+    ul {
+    position: relative;
+    z-index: 4;
+    }
+</style>
