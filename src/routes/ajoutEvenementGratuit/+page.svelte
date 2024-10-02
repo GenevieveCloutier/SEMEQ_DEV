@@ -2,7 +2,7 @@
 	import H1Title from '../../lib/components/titres/h1Title.svelte';
 	import H2Title from '../../lib/components/titres/h2Title.svelte';
 	import AbonnementEven from '../../lib/components/boites/abonnementEven.svelte';
-	import Retour from '$lib/components/retour.svelte';
+	import Retour from '../../lib/components/generaux/retour.svelte'
 	import CheckboxResponsabilite from '$lib/components/formulaires/checkboxResponsabilite.svelte';
 	import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
