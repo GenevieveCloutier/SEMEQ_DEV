@@ -1,4 +1,5 @@
 import { Region } from "../models/Region.model";
+import { ajoutVilles } from "./Villes.controller";
 
 export async function ajoutRegions(){
     const regions = [
@@ -24,5 +25,7 @@ export async function ajoutRegions(){
         await Region.create({nom: region});
       }
       console.log('Regions créées');
+
+      await ajoutVilles(regions)
       
 }
