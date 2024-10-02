@@ -22,6 +22,17 @@
           <p class="subtitle is-6">PAIEMENT</p>
         </div>
     </li>
+
+    <li class="steps-segment">
+        <span class="steps-marker">
+          <span class="icon">
+            <i class="fa fa-calendar-days"></i>
+          </span>
+        </span>
+        <div class="steps-content">
+          <p class="subtitle is-6">ÉVÉNEMENT</p>
+        </div>
+    </li>
     
     <li class="steps-segment">
         <span class="steps-marker">

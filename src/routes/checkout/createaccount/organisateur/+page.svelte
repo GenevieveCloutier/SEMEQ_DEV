@@ -1,6 +1,6 @@
 <script>
   import Retour from "$lib/components/generaux/retour.svelte";
-  import BarrePaiementEtape1 from "$lib/components/barre_progression_paiement/etape1.svelte";
+  import BarrePaiementEtape1 from "$lib/components/barre_progression_paiement/etape1Organisateur.svelte";
   import Neq from "$lib/components/formulaires/neq.svelte";
   import CheckboxConditionsVente from "$lib/components/formulaires/checkboxConditionsVente.svelte";
   import SubmitButon from "$lib/components/formulaires/submitButon.svelte";
