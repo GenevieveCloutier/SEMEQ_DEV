@@ -1,11 +1,15 @@
 <script>
     export let success
+
+  function supprimerNotification(event) {
+    event.target.parentNode.remove();
+  }
 </script>
 
-<div class="container has-text-centered">
+<div class="block">
     {#if success}
-    <div class="notification is-success">
-        <button class="delete"></button>
+    <div class="notification is-success has-text-centered">
+        <button class="delete" on:click={supprimerNotification}></button>
         <p>{success}</p>
     </div>
     {/if}
