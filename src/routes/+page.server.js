@@ -22,33 +22,26 @@ async function initializeDatabase() {
     await sequelize.sync();
 
     const role_admin = await Role.findOne({ where: { id: 1 } });
-    const role_orga = await Role.findOne({ where: { id: 2 } });
-    const role_expo = await Role.findOne({ where: { id: 3 } });
-    const role_visi = await Role.findOne({ where: { id: 4 } });
     
-    if (!role_admin) {
+    if (!role_admin){
         await newRole('admin');
-    }
-    if (!role_orga) {
         await newRole('organisateur');
-    }
-    if (!role_expo) {
         await newRole('exposant');
-    }
-    if (!role_visi) {
         await newRole('visiteur');
     }
 }
 
 await initializeDatabase();
 
-export async function load({ params }) {
+export async function load({ params, cookies }) {
 
 
     // aller chercher tous les utilisateurs de la BD
-    const users = await findAll(); 
+    const users = await findAll();
+    const session = cookies.get('session');
     
-    return {users: users}; //tous les utilisateurs
+    
+    return {users: users, session: session}; //tous les utilisateurs
         
 }
 

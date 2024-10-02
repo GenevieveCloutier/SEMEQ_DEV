@@ -6,7 +6,7 @@ export async function nouveauCompte(event) {
     const formData = new FormData(event.target);
     
 
-        const response = await fetch('api?/new', {
+        const response = await fetch('./api?/new', {
             method: 'POST',
             body: formData
         });
@@ -27,7 +27,7 @@ export async function handleUserDelete(event)
     
     const formData = new FormData(event.target);
     
-        const response = await fetch('api?/supprimeUtilisateur', {
+        const response = await fetch('./api?/supprimeUtilisateur', {
             method: 'POST',
             body: formData
         });
@@ -44,17 +44,14 @@ export async function handleUserDelete(event)
 }
 
 export async function connexion(event){
-    console.log('dans le form handler');
     
     const formData = new FormData(event.target);
-    const response = await fetch('api?/connexionUtilisateur', {
+    const response = await fetch('./api?/connexionUtilisateur', {
         method: 'POST',
         body: formData
     });
-    console.log('apres le fetch');
     
     const result = await response.json();
-    console.log('result du form handler ', result);
     
     if (result.type === 'success') {
         alert('Utilisateur connecté');
@@ -67,7 +64,6 @@ export async function connexion(event){
 
 export async function creationExposant(event){
     const formData = new FormData(event.target);
-    console.log('handler');
     // Vérifier si le nombre de checkbox cochées est entre 1 et 3 pour Domaine(s) d'activit(é)s
     // const checkboxes = event.target.querySelectorAll('input[type="checkbox"]:checked:not(.exclus)');
     // if (checkboxes.length < 1 || checkboxes.length > 3) {
@@ -89,9 +85,12 @@ export async function creationExposant(event){
         method: 'POST',
         body: formData
       });
-    //   const result = await response.json();
-    //   if (result.type == 'failure')
-    //     erreur = JSON.parse(result.data)[0];
-    //   else
-    //     window.location.href = '/'; //AJOUTER LIEN
+      
+      const result = await response.json();
+      if (result.type == 'failure')
+        erreur.set(JSON.parse(result.data)[0]);
+      else
+      console.log('fin du log');
+      
+        // window.location.href = '/'; //AJOUTER LIEN
 }

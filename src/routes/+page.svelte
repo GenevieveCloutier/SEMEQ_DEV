@@ -1,8 +1,9 @@
 <script>
-      export let data;
-      const users = data.users;
       
-      import { handleUserDelete } from "/src/lib/outils/formHandlers";
+  export let data;
+  const { users, session } = data;
+      
+      import { handleUserDelete } from "$lib/outils/formHandlers";
 
 </script>
 
@@ -19,6 +20,9 @@
       
 </div>
       
-{/each}
+{/each}{#if session}
+<h2>{session}</h2>
+<a href="deconnexion" class="button is-danger outlined">Deconnexion</a>
+{/if}
 <a href="./createaccount" class="button">Nouveau compte</a>
 <a href="./connexion" class="button">Connexion</a>
