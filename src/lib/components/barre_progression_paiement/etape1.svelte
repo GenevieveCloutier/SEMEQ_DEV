@@ -1,6 +1,6 @@
 <!-- Barre de progression, source : https://aramvisser.github.io/bulma-steps/ -->
  
-<ul class="steps is-narrow is-medium is-centered has-content-centered">
+<ul class="steps is-medium is-centered has-content-centered">
     <li class="steps-segment is-active">
         <span class="steps-marker">
           <span class="icon">
