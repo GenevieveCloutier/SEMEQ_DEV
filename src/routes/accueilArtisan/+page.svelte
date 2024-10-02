@@ -150,44 +150,44 @@
 
                     <tr>
                         <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
-                        <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
+                        <td class="has-text-centered"><span class="icon is-large"><i class="fa-solid fa-check fa-lg"></i></span></td>
                         <td>Infolettre mensuelle contenant les appels de candidatures en cours. Ne les manque plus! Ils seront aussi disponibles en tout temps dans ton espace membres</td>
                     </tr>
 
                     <tr>
                         <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
-                        <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
+                        <td class="has-text-centered"><span class="icon is-large"><i class="fa-solid fa-check fa-lg"></i></span></td>
                         <td>L’envoi de tes coordonnées aux organisateurs de marchés membres (si tu désires) pour qu’ils puisse t’inviter directement à leur marché</td>
                     </tr>
 
                     <tr>
                         <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
-                        <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
+                        <td class="has-text-centered"><span class="icon is-large"><i class="fa-solid fa-check fa-lg"></i></span></td>
                         <td>Ton entreprise listée sur le répertoire des exposants (disponible pour les clients et les organisateurs de marchés), incluant le lien vers ton site web ou le  réseau social de ton choix</td>
                     </tr>
 
                     <tr>
                         <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
-                        <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
+                        <td class="has-text-centered"><span class="icon is-large"><i class="fa-solid fa-check fa-lg"></i></span></td>
                         <td>Une fiche personalisée de ton entreprise, avec photos, coordonnées et description</td>
                     </tr>
 
                     <tr>
                         <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
-                        <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
+                        <td class="has-text-centered"><span class="icon is-large"><i class="fa-solid fa-check fa-lg"></i></span></td>
                         <td>L’accès à un groupe privé Facebook où tu trouveras ressources et réseau d’entraide pour discuter avec d’autres exposants et artisans</td>
                     </tr>
 
                     <tr>
                         <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
-                        <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
+                        <td class="has-text-centered"><span class="icon is-large"><i class="fa-solid fa-check fa-lg"></i></span></td>
                         <!-- mettre le lien!! -->
                         <td>Des rabais et promotions exclusifs de nos partenaires offrant des produits et services pour vous (voir la liste ici)</td>
                     </tr>
 
                     <tr>
                         <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
-                        <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
+                        <td class="has-text-centered"><span class="icon is-large"><i class="fa-solid fa-check fa-lg"></i></span></td>
                         <td>Ressources diverses, idées, videos, etc. Plusieurs petits plus te seront offert dans ton espace membre(à venir)</td>
                     </tr>
 
