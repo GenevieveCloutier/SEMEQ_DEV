@@ -17,6 +17,7 @@
     cursor: pointer;
     background-color: #707070;
     transition: background-color ease 0.3s;
+    margin-top: 7px;
 }
   
 .toggle:before {
