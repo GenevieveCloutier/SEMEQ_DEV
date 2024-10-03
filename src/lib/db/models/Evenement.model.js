@@ -24,11 +24,19 @@ export const Evenement = sequelize.define("evenement", {
         type: DataTypes.DATE,
         allowNull: true
     },
+    fin_even: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
     horaire_even: {
         type: DataTypes.STRING,
         allowNull: true
     },
     debut_cand: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
+    fin_cand: {
         type: DataTypes.DATE,
         allowNull: true
     },
