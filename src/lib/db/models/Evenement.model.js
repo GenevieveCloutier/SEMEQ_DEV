@@ -80,12 +80,12 @@ export const Evenement = sequelize.define("evenement", {
         type: DataTypes.INTEGER,
         allowNull: true
     },
-    criteres: {
+    verification: {
         type: DataTypes.INTEGER,
         allowNull: true
     },
-    domaine: {
-        type: DataTypes.INTEGER,
+    form_cand: {
+        type: DataTypes.STRING,
         allowNull: true
     },
     description: {
