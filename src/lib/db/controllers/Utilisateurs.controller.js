@@ -87,6 +87,25 @@ export async function newUser(p_nom,p_prenom, p_role_id, p_entreprise, p_neq, p_
         }
 }
 
+export async function adminCreation(){
+    try {
+        await Utilisateur.create(
+            {
+                nom: 'Boutin',
+                prenom: 'Nancy',
+                role_id: 1,
+                courriel: 'admin@admin',
+                pwd: 'admin'
+            }
+        );
+        console.log('Admin créé');
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
 export async function deleteUser(p_id) {
     try {
         const user = await Utilisateur.findByPk(p_id);

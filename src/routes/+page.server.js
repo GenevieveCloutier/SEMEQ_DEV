@@ -16,10 +16,11 @@ import { Ville } from '../lib/db/models/Ville.model.js';
 //Appel des fonctions des controllers
 import { findAll } from '$lib/db/controllers/Utilisateurs.controller.js';
 import { newRole } from '../lib/db/controllers/Roles.controller.js';
-
-import csv from 'csvtojson';
 import { ajoutRegions } from '../lib/db/controllers/Regions.controller.js';
 import { ajoutVilles } from '../lib/db/controllers/Villes.controller.js';
+import { adminCreation } from '../lib/db/controllers/Utilisateurs.controller.js';
+
+import csv from 'csvtojson';
 
 async function initializeDatabase() {
     
@@ -37,6 +38,10 @@ async function initializeDatabase() {
     if (!region){
         ajoutRegions();
     }
+//Création de l'admin si inexistant
+    const admin = await Utilisateur.findByPk(1);
+    if(!admin)
+        adminCreation();
 }
 
 
