@@ -6,9 +6,13 @@
     import Navbar from '../lib/components/navbar.svelte';
 	import Footer from '../lib/components/footer.svelte';
 	import Entete from '../lib/components/Entete.svelte';
+    export let data;
+  const { users, session, cookiesAll } = data;
+  console.log(session);
+  
 </script>
 
-<Entete />
+<Entete session={session}></Entete>
 <Navbar />
 <slot />
 <Footer />
