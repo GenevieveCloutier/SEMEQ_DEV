@@ -22,7 +22,5 @@
       
 {/each}{#if session}
 <h2>{session}</h2>
-<a href="deconnexion" class="button is-danger outlined">Deconnexion</a>
 {/if}
 <a href="./createaccount" class="button">Nouveau compte</a>
-<a href="./connexion" class="button">Connexion</a>
