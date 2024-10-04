@@ -8,7 +8,7 @@ export const Ville = sequelize.define("ville", {
         allowNull: true
     },
     region_id: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: true
     }
 });

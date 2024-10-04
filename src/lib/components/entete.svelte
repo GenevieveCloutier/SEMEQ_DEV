@@ -1,4 +1,5 @@
 <script>
+	import Layout from "../../routes/+layout.svelte";
 	// Pour faire afficher le menu dropdown quand on clique sur l'icone ou la flèche
 	export function toggleNavbarMenu(node) {
 		function toggle() {
@@ -11,6 +12,8 @@
 			}
 		};
 	}
+	export let session;
+
 </script>
 
 <div class="media mx-6 mt-5">
@@ -34,6 +37,7 @@
 				</span>
 			</a>
 		</div>
+		{#if session}
 		<div class="dropdown-menu" id="dropdown-compte" role="menu">
 			<div class="dropdown-content">
 				<a href="/#" class="dropdown-item"> Mon compte </a>
@@ -46,16 +50,24 @@
 				<hr class="dropdown-divider" />
 				<a href="/#" class="dropdown-item"> Mes formations et outils </a>
 				<hr class="dropdown-divider" />
-				<a href="/#" class="dropdown-item"> Histoirique d'achat </a>
+				<a href="/#" class="dropdown-item"> Historique d'achat </a>
 				<hr class="dropdown-divider" />
-				<a href="/#" class="dropdown-item bouton-deconnexion"> Déconnexion </a>
+				<a href="/deconnexion" class="dropdown-item bouton-deconnexion"> Déconnexion </a>
 			</div>
 		</div>
+		{:else}
+		<div class="dropdown-menu" id="dropdown-compte" role="menu">
+			<div class="dropdown-content">
+				<a href="/connexion" class="dropdown-item"> Connexion </a>
+			</div>
+		</div>
+		{/if}
 	</div>
 	<img class="ml-4" width="30px" src="/src/lib/img/app/panier.png" alt="Icone de panier" />
 </div>
 
 <style>
+
 	p {
 		color: #184287;
 	}
@@ -72,6 +84,7 @@
 	.bouton-deconnexion:hover {
 		background-color: rgba(255, 0, 0, 0.599);
 	}
+	
 
 	/*pour afficher le drop down plein écran sur mobile - marche pas*/
 	/* @media screen and (min-width: 768px) {
@@ -85,3 +98,4 @@
     }
 }  */
 </style>
+
