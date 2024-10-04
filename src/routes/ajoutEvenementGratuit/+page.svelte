@@ -58,7 +58,6 @@
     preciser(champs, input, requis)
 	};
 
-
   //fonction pour éviter que la date de début enregistrée soit après la date de fin
   function dateConforme(dateDebut, dateFin, message){
     message.hidden = true;
@@ -276,14 +275,14 @@
 								<label class="checkbox"><input class="mr-2" type="checkbox" />NEQ</label>
 								<label class="checkbox"><input class="mr-2" type="checkbox" />Permis</label>
 								<label class="checkbox"><input id="checkboxVerif" on:change={verification} class="mr-2" type="checkbox" />Autres</label>
-                <div id="divVerif">
-                  <input hidden type="text" id="inputVerif" placeholder = "Préciser">
-                  <span id="requisVerif" hidden class="rouge">*</span>
-                </div>
-                
-							</div>
+								<div id="divVerif">
+									<input hidden type="text" id="inputVerif" placeholder = "Préciser">
+									<span id="requisVerif" hidden class="rouge">*</span>
+								</div>
+                			</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 
