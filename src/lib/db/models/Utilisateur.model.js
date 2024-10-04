@@ -34,7 +34,7 @@ export const Utilisateur = sequelize.define('utilisateur', {
         allowNull: true
     },
     pwd: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING,
         allowNull: true
     },
     site: {
@@ -101,23 +101,25 @@ export const Utilisateur = sequelize.define('utilisateur', {
         type: DataTypes.STRING,
         allowNull: true
     },
-});
+},
+    { paranoid: true }// Permet à sequelize de faire de la soft-deletion
+);
 
 //encrypter le MDP à la première utilisation
 Utilisateur.addHook('beforeCreate',(async (user, option) => {
-    user.password = await bcrypt.hash(user.password, 10);
+    user.pwd = await bcrypt.hash(user.pwd, 10);
 }));
 
 //encrypter le MPD après modification
 Utilisateur.addHook('beforeUpdate',(async(user, option)=> {
-    user.password = bcrypt.hashSync(user.password,10);
+    user.pwd = bcrypt.hashSync(user.pwd,10);
 }));
 
 Utilisateur.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
 Role.hasMany(Utilisateur, { foreignKey: 'role_id', as: 'utilisateurs_role' });
 
 Utilisateur.belongsTo(Ville, { foreignKey: 'ville_id', as: 'ville' });
-Ville.hasMany(Utilisateur, { foreignKey: 'villes_id', as: 'utilisateurs_ville' });
+Ville.hasMany(Utilisateur, { foreignKey: 'ville_id', as: 'utilisateurs_ville' });
 
 // sequelize.sync().then(() => {
 //     console.log('Utilisateurs table created successfully!');
