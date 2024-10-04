@@ -9,10 +9,17 @@ import { Session } from "../models/Session.model";
  * @param {Object} p_cookies - Objet des cookies pour la requête.
  * @returns {Object} - Les données de la session créée.
  */
-export async function createCookie(p_user_id, p_cookies)
+export async function createCookie(p_user_id, p_cookies, p_role)
 {
     let uuid = crypto.randomUUID();
     p_cookies.set('session', uuid, 
+        {
+            path: '/',
+            httpOnly: true,
+            maxAge: 60 * 60 * 24
+        }
+    );
+    p_cookies.set('role', p_role,
         {
             path: '/',
             httpOnly: true,
@@ -41,6 +48,7 @@ export async function deleteCookie(p_cookie)
 {
     let uuid = p_cookie.get('session');
     p_cookie.delete('session', {path: '/'});
+    p_cookie.delete('role', {path: '/'});
     Session.destroy({
         where:{uuid: uuid}
     }).then(resultat => {

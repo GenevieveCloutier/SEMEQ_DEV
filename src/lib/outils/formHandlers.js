@@ -1,3 +1,4 @@
+import { redirect } from '@sveltejs/kit';
 import { writable } from 'svelte/store';
 
 export const erreur = writable(null);
@@ -54,9 +55,7 @@ export async function connexion(event){
     const result = await response.json();
     
     if (result.type === 'success') {
-        alert('Utilisateur connecté');
-        console.log(result);
-        
+        window.location.href = '/';
     } else {
         alert('Erreur : ');
     }

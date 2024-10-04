@@ -21,6 +21,7 @@ import { ajoutVilles } from '../lib/db/controllers/Villes.controller.js';
 import { adminCreation } from '../lib/db/controllers/Utilisateurs.controller.js';
 
 import csv from 'csvtojson';
+import { redirect } from '@sveltejs/kit';
 
 async function initializeDatabase() {
     
@@ -58,6 +59,23 @@ export async function load({ params, cookies }) {
     // aller chercher tous les utilisateurs de la BD
     const users = await findAll();
     const session = cookies.get('session');
+    const role = cookies.get('role');
+    console.log('dans le load, le role ',role);
+    
+    if (role == '1'){
+        redirect(302, '/accueilGestionnaire');
+    }
+    if (role == '2'){
+        redirect(302, '/accueilOrganisateur');
+    }
+    if (role == '3'){
+        redirect(302, '/accueilArtisant');
+    }
+    if (role == '4'){
+        redirect(302, '/accueilVisiteur');
+    }
+    
+    
     
     
     return {users: users, session: session}; //tous les utilisateurs

@@ -1,4 +1,4 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { createCookie } from "../../lib/db/controllers/sessions.controller.js";
 import { authenticate, newUser } from '../../lib/db/controllers/Utilisateurs.controller.js';
 import { deleteUser } from '../../lib/db/controllers/Utilisateurs.controller.js';
@@ -32,8 +32,7 @@ export const actions = {
         const data = await request.formData();
         try {
             let res = await authenticate(data.get("courriel"), data.get("password"));
-            createCookie(res.id, cookies)
-            // console.log('res = ', res);
+            createCookie(res.id, cookies, res.role_id)
             return { success: true, session: cookies.get("session"), res: res.id}
         }catch(error){
             console.log("Erreur lors de la connexion : ", error);
@@ -72,7 +71,7 @@ export const actions = {
                 data.get("photo_3"),
                 data.get("logo")
             );
-            createCookie(res.id, cookies);
+            createCookie(res.id, cookies, res.role);
         }catch(error){
             return fail(401, error);
         }
