@@ -6,7 +6,8 @@
 
 </script>
 
-<div class="block mx-6">
+<div class="container-fluid">
+    <div class="block">
     <H1Title title={"Qui sommes-nous?"} />
     <div class="columns is-centered mt-4">
         <div class="column is-half-desktop">
@@ -21,10 +22,16 @@
         <!-- ce texte est à améliorer! -->
         <p>Abonne-toi à notre liste d'exposants officiels et reçois par courriel chaque mois, la liste des appels
             de candidatures pour les événements en cours! Sauve un temps fou et surtout tu éviteras de rater les appels
-            de coandidatures des événements qui t’intéressent!</p>
+            de candidatures des événements qui t’intéressent!</p>
     </div>
+</div>
     
-    <div class="container ">
+    <div class="has-text-centered">
+        <!-- pour sauter les avis sur mobile et aller direct au tableau -->
+        <a class="is-hidden-desktop is-hidden-tablet-only mb-3" href="#tableaExposant">Voir nos forfaits</a>
+    </div>
+
+    <div class="container">
     <H2Title title={"Ces exposants nous ont fait confiance!"} />
     </div>
 
@@ -121,12 +128,13 @@
             </div>
         </div>
     </div>
-    <div class="container">
+    <div id="tableaExposant" class="container">
     <H3Title title={"Notre offre pour les exposants:"} />
 
+
 <div class="columns">
-    <div class="column is-three-quarters">
-        <div class="block">
+    <div class="column is-three-quarters-desktop">
+        <div class="container">
             <table class="table is-hoverable">
                 <thead>
                     <tr >
@@ -188,7 +196,7 @@
                     <tr>
                         <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
                         <td class="has-text-centered"><span class="icon is-large"><i class="fa-solid fa-check fa-lg"></i></span></td>
-                        <td>Ressources diverses, idées, videos, etc. Plusieurs petits plus te seront offert dans ton espace membre(à venir)</td>
+                        <td>Ressources diverses, idées, videos, etc. Plusieurs petits plus te seront offerts dans ton espace membre(à venir)</td>
                     </tr>
 
                     <tr>
@@ -214,15 +222,8 @@
             </figure>
         </div>
     </div>
+</div>   
 </div>
-    
-</div>
-
-
-
-        
-
-
 </div>
 
 

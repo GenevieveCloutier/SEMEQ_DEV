@@ -10,7 +10,10 @@
 				node.removeEventListener('click', toggle);
 			}
 		};
-	}
+	};
+
+
+
 </script>
 
 <div class="media mx-6 mt-5">
@@ -24,11 +27,13 @@
 			Le répertoire des salons, événements, marchés et expositions du Québec
 		</p>
 	</div>
-	<div class="dropdown is-right">
+	<div class="dropdown is-right is-hoverable">
 		<div class="dropdown-trigger">
 			<!-- svelte-ignore a11y-missing-attribute -->
 			<a aria-haspopup="true" aria-controls="dropdown-compte" use:toggleNavbarMenu>
-				<img width="30px" src="/src/lib/img/app/compte.svg" alt="Icone de compte" />
+				<span class="icon is-large">
+				<i class="fa-solid fa-user fas fa-2x has-text-dark"></i>
+				</span>
 				<span class="icon is-small">
 					<i class="fas fa-angle-down" aria-hidden="true"></i>
 				</span>
@@ -52,7 +57,9 @@
 			</div>
 		</div>
 	</div>
-	<img class="ml-4" width="30px" src="/src/lib/img/app/panier.png" alt="Icone de panier" />
+	<span class="icon is-large">
+		<i class="ml-5 fa-solid fa-cart-shopping fas fa-2x has-text-dark"></i>
+		</span>
 </div>
 
 <style>
@@ -62,6 +69,10 @@
 
 	.fa-angle-down {
 		color: #184287;
+	}
+
+	.large{
+		width: 100%;
 	}
 
 	.dropdown-item:hover {
