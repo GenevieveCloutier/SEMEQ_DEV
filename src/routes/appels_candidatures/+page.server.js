@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { findAll } from "$lib/db/controllers/Evenements.controller.js";
 
 /**
@@ -10,7 +11,17 @@ import { findAll } from "$lib/db/controllers/Evenements.controller.js";
  *                     (si utilisateur exposant abonné connecté).
  */
 export async function load({ params }){
-    const events = await findAll();
+    const aujourdhui = new Date().toISOString().split('T')[0];  // date du jour au format ISO (AAAA-MM-JJ) sans l'heure
+    const events = await findAll({
+        where: {
+            debut_cand: {
+                [Op.lte]: aujourdhui // debut_cand inférieur ou égal à date du jour
+            },
+            fin_cand: {
+                [Op.gte]: aujourdhui // fin_cand supérieur ou égal à date du jour
+            }
+        }
+    });
 
-    return { events:events }
+    return { events: events }
 }
