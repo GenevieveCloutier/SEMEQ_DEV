@@ -69,7 +69,7 @@ export async function load({ params, cookies }) {
         redirect(302, '/accueilOrganisateur');
     }
     if (role == '3'){
-        redirect(302, '/accueilArtisant');
+        redirect(302, '/accueilExposant');
     }
     if (role == '4'){
         redirect(302, '/accueilVisiteur');
