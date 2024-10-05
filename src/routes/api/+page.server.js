@@ -31,11 +31,10 @@ export const actions = {
     connexionUtilisateur: async({ cookies, request })=>{
         const data = await request.formData();
         try {
-            let res = await authenticate(data.get("courriel"), data.get("password"));
+            let res = await authenticate(data.get("courriel"), data.get("pwd"));
             createCookie(res.id, cookies, res.role_id)
             return { success: true, session: cookies.get("session"), res: res.id}
         }catch(error){
-            console.log("Erreur lors de la connexion : ", error);
             return fail(401, error);
         }
     },

@@ -1,5 +1,5 @@
 <script>
-    import { connexion } from '../../lib/outils/formHandlers';
+    import { connexion, erreur } from '../../lib/outils/formHandlers';
     import H1Title from '$lib/components/titres/h1Title.svelte';
     import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
     import Retour from '$lib/components/generaux/retour.svelte';
@@ -8,6 +8,11 @@
     <H1Title title={'Connexion'}></H1Title>
         <div class="columns is-centered">
             <div class="column is-4 ">
+                {#if $erreur}
+                <div class="notification is-danger has-text-centered">
+                    <p>{$erreur}</p>
+                </div>
+                {/if}
                 <div class="box is-3">
                     <form on:submit|preventDefault={connexion}>
                         <div class="field">

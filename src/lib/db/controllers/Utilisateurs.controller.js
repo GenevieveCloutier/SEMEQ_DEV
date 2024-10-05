@@ -124,12 +124,12 @@ export async function authenticate(p_courriel, p_pwd){
         const user = await findOne({ courriel: p_courriel});
         
         if(!user)
-            throw "Utilisateur non trouvé";
+            throw {message:"Utilisateur non trouvé"};
 
         const goodPassword = await bcrypt.compare(p_pwd, user.pwd);
         
         if(!goodPassword)
-            throw "Mot de passe invalide";
+            throw {message:"Mot de passe invalide"};
         
         return user;
 

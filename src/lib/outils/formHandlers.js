@@ -56,8 +56,8 @@ export async function connexion(event){
     
     if (result.type === 'success') {
         window.location.href = '/';
-    } else {
-        alert('Erreur : ');
+    } else if (result.type === 'failure'){
+        erreur.set(JSON.parse(result.data)[1]);
     }
 }
 
