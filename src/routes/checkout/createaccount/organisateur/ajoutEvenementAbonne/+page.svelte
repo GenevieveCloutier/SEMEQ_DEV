@@ -45,17 +45,17 @@
 
   //données du input type d'exposants pour preciser()
 	function typeExposant() {
-    let champs = document.querySelector("#checkboxType");
-    let input = document.querySelector("#inputType");
-    let requis = document.querySelector("#requisType");
+    let champs = document.querySelector("#typeAutrePayant");
+    let input = document.querySelector("#inputTypePayant");
+    let requis = document.querySelector("#requisTypePayant");
     preciser(champs, input, requis)
 	};
 
   //données du input Vérification pour preciser()
 	function verification() {
-    let champs = document.querySelector("#checkboxVerif");
-    let input = document.querySelector("#inputVerif");
-    let requis = document.querySelector("#requisVerif");
+    let champs = document.querySelector("#checkboxVerifPayant");
+    let input = document.querySelector("#inputVerifPayant");
+    let requis = document.querySelector("#requisVerifPayant");
     preciser(champs, input, requis)
 	};
 
@@ -281,19 +281,18 @@
 
 
                   <div class="field">
-                    <label class="label" for="artisanAppel"
-                        >Type d'exposants<span class="rouge">*</span></label>
+                    <label class="label" for="artisanAppel">Type d'exposants<span class="rouge">*</span></label>
                     <div class="control">
                         <div class="checkboxes">
-                            <label class="checkbox"><input class="mr-2" type="checkbox" />Artisan</label>
-                            <label class="checkbox"><input class="mr-2" type="checkbox" />Agro-alimentaire</label>
-                            <label class="checkbox"><input class="mr-2" type="checkbox" />MLM et revendeur</label>
-                            <label class="checkbox"><input class="mr-2" type="checkbox" />Auteur</label>
-                            <label class="checkbox"><input class="mr-2" type="checkbox" />Métiers d'art</label>
-                            <label class="checkbox"><input id="checkboxType" on:change={typeExposant} class="mr-2" type="checkbox" />Autres</label>
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="typeArtisanPayant" id="typeArtisanPayant"  />Artisan</label>
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="typeAgroPayant" id="typeAgroPayant" />Agro-alimentaire</label>
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="typeMLMPayant" id="typeMLMPayant" />MLM et revendeur</label>
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="typeAuteurPayant" id="typeAuteurPayant" />Auteur</label>
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="typeArtPayant" id="typeArtPayant" />Métiers d'art</label>
+                            <label class="checkbox"><input on:change={typeExposant} class="mr-2" type="checkbox" name="typeAutrePayant" id="typeAutrePayant" />Autres</label>
                             <div>
-                                <input hidden type="text" id="inputType" placeholder = "Préciser">
-                                <span id="requisType" hidden class="rouge">*</span>
+                                <input hidden type="text" name="inputTypePayant" id="inputTypePayant" placeholder = "Préciser">
+                                <span id="requisTypePayant" hidden class="rouge">*</span>
                             </div>
                         </div>
                     </div>
@@ -337,13 +336,13 @@
                 <label class="label" for="artisanAppel">Vérifications effectuées par l'organisateur<span class="rouge">*</span></label>
                 <div class="control">
                     <div class="checkboxes">
-                        <label class="checkbox"><input class="mr-2" type="checkbox" />Aucune</label>
-                        <label class="checkbox"><input class="mr-2" type="checkbox" />NEQ</label>
-                        <label class="checkbox"><input class="mr-2" type="checkbox" />Permis</label>
-                        <label class="checkbox"><input id="checkboxVerif" on:change={verification} class="mr-2" type="checkbox" />Autres</label>
+                        <label class="checkbox"><input class="mr-2" type="checkbox"/>Aucune</label>
+                        <label class="checkbox"><input class="mr-2" type="checkbox" name="verifNEQPayant" id="verifNEQPayant"/>NEQ</label>
+                        <label class="checkbox"><input class="mr-2" type="checkbox" name="verifPermisPayant" id="verifPermisPayant" />Permis</label>
+                        <label class="checkbox"><input on:change={verification} class="mr-2" type="checkbox" name="checkboxVerifPayant" id="checkboxVerifPayant"/>Autres</label>
                             <div id="divVerif">
-                                <input hidden type="text" id="inputVerif" placeholder = "Préciser">
-                                <span id="requisVerif" hidden class="rouge">*</span>
+                                <input hidden type="text" name="inputVerifPayant" id="inputVerifPayant" placeholder = "Préciser">
+                                <span id="requisVerifPayant" hidden class="rouge">*</span>
                             </div>
                         </div>
                     </div>
