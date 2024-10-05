@@ -11,6 +11,9 @@
 a {
     color: #c2108a;
 }
+a.is-active {
+    background-color: #184287;
+}
 
 /* Astérisques en rouge dans les formulaires */
 .rouge {

@@ -1,3 +1,13 @@
+<script>
+	import { onMount } from "svelte";
+
+    onMount(()=>{
+        const actives = document.querySelectorAll('a.is-active');
+        actives.forEach((x)=>x.classList.remove('is-active'));
+    document.getElementById('dashboard').classList.add('is-active')
+    });
+</script>
+
 <div class="fixed-grid has-3-cols has-1-cols-mobile">
     <div class="grid is-row-gap-0">
         <div class="cell box"><div class="skeleton-block">

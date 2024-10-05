@@ -22,8 +22,8 @@
       <aside class="menu">
         <p class="menu-label" id="general-label">Général</p>
         <ul class="menu-list is-hidden-mobile" id="general-menu">
-          <li><a href="/admin">Dashboard</a></li>
-          <li><a href="/admin/utilisateurs">Utilisateurs</a></li>
+          <li><a href="/admin" id="dashboard">Dashboard</a></li>
+          <li><a href="/admin/utilisateurs" id="utilisateurs">Utilisateurs</a></li>
           <li><a href="/admin/blogue">Blogue</a></li>
         </ul>
         <p class="menu-label" id="events-label">Evénements</p>
