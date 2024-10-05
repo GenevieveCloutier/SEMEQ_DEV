@@ -9,6 +9,8 @@
 	import Etape2Organisateur from '../../../../../lib/components/barre_progression_paiement/etape2Organisateur.svelte';
 
 	let erreur = null;
+    export let data;
+	const {villes} = data;
 
 	/**
 	 * Gère la soumission du formulaire pour créer un nouvel élément.
@@ -121,14 +123,22 @@ function dateConforme(dateDebut, dateFin){
                     </div>
                 </div>
             </div>
-            <div class="mt-5">
+            <div class="my-5">
                 <div class="field">
-                    <label class="label" for="villeEvenPayant">Ville <span class="rouge">*</span></label>
+                    <label class="label" for="villeEven">Ville <span class="rouge">*</span></label>
                     <div class="control">
-                        <input class="input" type="text"name="villeEvenPayant" id="villeEvenPayant" placeholder="Sherbrooke" required/>
+                        <!-- J'ai changer le champ pour un select et ajouter les villes -->
+                        <div class="select is-fullwidth">
+                                <select name="villeEven" id="villeEven" >
+                                    <option value="" disabled selected>Choisir une ville</option>
+                                    {#each villes as ville}
+                                    <option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
+                                    {/each}
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>   
+                </div>   
             <!-- fin de de la colonne en haut à droite   -->
         </div>
 
