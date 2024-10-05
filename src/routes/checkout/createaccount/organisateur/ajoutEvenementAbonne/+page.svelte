@@ -93,7 +93,7 @@ function dateConforme(dateDebut, dateFin){
         <div class="box">
             <div class="mt-5 container has-text-centered">
                 <!-- ajouter le lien -->
-                <BoutonGris lien={"#"} texte={"Je souhaite inscrire mon événement plus tard"} />
+                <a href="javascript:window.history.back();" class="py-3 px-3 button has-background-grey-lighter">Je souhaite inscrire mon événement plus tard</a>
                 <p class="mt-5 mb-5">Tu pourras modifier ton événement et en ajouter d'autres en tout temps depuis ton compte</p>
             </div>
 
@@ -196,21 +196,6 @@ function dateConforme(dateDebut, dateFin){
 					</div>
                 </div>
 
-                <div class="my-5">
-                    <div class="field has-addons">
-						<div class="control is-expanded">
-							<label class="label" for="emplacementEven">Emplacement<span class="rouge">*</span></label>
-							<div class="select is-fullwidth">
-								<select name="menuEmplacement" id="menuEmplacement" required>
-									<option value="">Choisir</option>
-									<option value="interieur">Intérieur</option>
-									<option value="extérieur">Extérieur</option>
-									<option value="interieur_extérieur">Intérieur et Extérieur</option>
-								</select>
-							</div>
-						</div>
-					</div> 
-                </div>
             </div>
                 <!-- fin de la colonne au centre à gauche -->
 
@@ -229,10 +214,22 @@ function dateConforme(dateDebut, dateFin){
             </div>
         <!-- </div> -->
                 <!-- fin des colonnes du centre -->
-                
 
         <!-- debut de la section pour les photos -->
-         <div class="block">
+        
+                <div class="field my-5">
+                    <label class="label" for="emplacementEvenPayant">Emplacement<span class="rouge">*</span></label>
+                    <div class="control">
+                        <div class="checkboxes">
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementInterieurPayant" id="emplacementInterieurPayant" />Intérieur</label>
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementExterieurPayant" id="emplacementExterieurPayant" />Extérieur</label>
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementChapiteauPayant" id="emplacementChapiteauPayant"/>Extérieur, sous un grand chapiteau</label>
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementAbriPayant" id="emplacementAbriPayant" />Extérieur, petits abris fournis</label>
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementSansAbriPayant" id="emplacementSansAbriPayant" />Extérieur, apportez votre abri</label>
+                        </div>
+                    </div>
+                </div>
+
             <div class="columns is-centered">
                 <div class="column is-one-third">
 
@@ -264,7 +261,6 @@ function dateConforme(dateDebut, dateFin){
                 </div>
                 
             </div>
-        </div>
         <!-- fin de la section pour les photos -->
 
     <hr class="my-6 is-hidden-mobile is-hidden-tablet-only" />

@@ -64,6 +64,7 @@
     dateConforme(dateDebut, dateFin)
   };
 
+
 </script>
 
 <div class="block">
@@ -156,22 +157,6 @@
 				<div class="column">
 
 					<div>
-						<div class="field has-addons">
-							<div class="control is-expanded">
-								<label class="label" for="emplacementEven">Emplacement des kiosques<span class="rouge">*</span></label>
-								<div class="select is-fullwidth">
-									<select name="menuEmplacement" id="menuEmplacement" required>
-										<option value="">Choisir</option>
-										<option value="interieur">Intérieur</option>
-										<option value="extérieur">Extérieur</option>
-										<option value="interieur_extérieur">Intérieur et Extérieur</option>
-									</select>
-								</div>
-							</div>
-						</div>
-					</div>
-	
-					<div class="my-5">
 						<div class="field">
 							<label class="label" for="siteWebEven">Site web ou page Facebook de l'événement</label>
 							<div class="control">
@@ -188,8 +173,22 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="field my-5">
+					<label class="label" for="emplacementEven">Emplacement<span class="rouge">*</span></label>
+					<div class="control">
+						<div class="checkboxes">
+							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementInterieur" id="emplacementInterieur" />Intérieur</label>
+							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementExterieur" id="emplacementExterieur" />Extérieur</label>
+							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementChapiteau" id="emplacementChapiteau"/>Extérieur, sous un grand chapiteau</label>
+							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementAbri" id="emplacementAbri" />Extérieur, petits abris fournis</label>
+							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementSansAbri" id="emplacementSansAbri" />Extérieur, apportez votre abri</label>
+						</div>
+					</div>
+				</div>
+
 			</div>
-			</div>
+		</div>
 			<!-- Fin des colonnes -->
 
 			<hr class=" is-hidden-mobile is-hidden-tablet-only" />
@@ -256,7 +255,7 @@
 								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeAuteur" id="typeAuteur" />Auteur</label>
 								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeArt" id="typeArt" />Métiers d'art</label>
                 				<label class="checkbox"><input on:change={typeExposant} class="mr-2" type="checkbox" name="checkboxType" id="checkboxType" />Autres</label>
-								<div>
+							<div>
 								<input hidden type="text" name="inputType" id="inputType" placeholder = "Préciser">
 								<span id="requisType" hidden class="rouge">*</span>
 								</div>

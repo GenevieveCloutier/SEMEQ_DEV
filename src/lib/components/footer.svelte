@@ -1,56 +1,45 @@
 <div class="mx-6 mt-6">
 	<hr />
 	<footer class="footer">
-		<div class="columns is-multiline is-mobile">
+		<div class="columns has-text-centered is-multiline is-mobile">
 			<div class="column is-full-mobile is-half-tablet is-one-quarter-desktop">
-				<h3 class="is-size-5 has-text-centered mb-3">Infos légales</h3>
+				<h3 class="is-size-5 mb-3">Infos légales</h3>
 				<a class="is-size-7 p-6 has-text-link" href="/#">Politiques de confidentialité</a><br />
 				<a class="is-size-7 p-6 has-text-link" href="/#">Conditions d'utilisation</a><br />
 				<a class="is-size-7 p-6 has-text-link" href="/#">Politiques des cookies</a><br />
 			</div>
 
-			<div class="column is-full-mobile is-half-tablet is-one-quarter-desktop">
-				<h3 class="is-size-5 has-text-centered mb-3">Contact</h3>
+			<div class="column is-full-mobile is-half-tablet is-one-quarter-desktop has-text-centered">
+				<h3 class="is-size-5 mb-3">Contact</h3>
 				<a class="is-size-7 p-6 has-text-link" href="/#">À propos</a><br />
 				<a class="is-size-7 p-6 has-text-link" href="/#">Nous joindre</a><br />
 			</div>
 
-			<div class="column is-full-mobile is-full-tablet is-one-quarter-desktop">
-				<h3 class="is-size-5 has-text-centered mb-3 ">Partenaires</h3>
-				<div class="columns is-centered is-vcentered">
-					<div class="column is-one-third">
-						<figure class="image is-96x96">
-							<a href="/#"
-								><img
-									src="/src/lib/img/app/vague_de_concours.png"
-									alt="Logo de la Vague de COncours"
-								/></a
-							>
+			<div class="column has-text-centered is-full-mobile is-full-tablet is-one-quarter-desktop">
+				<h3 class="is-size-5 mb-3 ">Partenaires</h3>
+
+				<div class="columns media">
+					<div class="column is-one-third media-left">
+						<figure class="image is-96x96 ">
+							<a href="/#"><img src="/src/lib/img/app/vague_de_concours.png"alt="Logo de la Vague de Concours"/></a>
 						</figure>
 					</div>
-					<div class="column is-one-third">
+					<div class="column is-one-third media-content">
 						<figure class="image is-96x96">
-							<a href="/#"
-								><img src="/src/lib/img/app/cyberimpact.png" alt="Logo de Cyberimpact" /></a
-							>
+							<a href="/#"><img src="/src/lib/img/app/cyberimpact.png" alt="Logo de Cyberimpact" /></a>
 						</figure>
 					</div>
-					<div class="column is-one-third">
-						<figure class="image is-96x96">
-							<a href="/#"
-								><img src="/src/lib/img/app/votre_pub.svg" alt="Affichez votre pub ici" /></a
-							>
+					<div class="column is-one-third is-hidden-mobile">
+						<figure class="image is-96x96"><a href="/#"><img src="/src/lib/img/app/votre_pub.svg" alt="Affichez votre pub ici" /></a>
 						</figure>
 					</div>
 				</div>
 			</div>
-			<div class="column is-full-mobile is-full-tablet is-one-quarter-desktop">
-				<h3 class="is-size-5 has-text-centered mb-5">Suivez-nous!</h3>
-				<div class="columns is-centered is-vcentered">
+			<div class="column has-text-centered is-full-mobile is-full-tablet is-one-quarter-desktop">
+				<h3 class="is-size-5 mb-5">Suivez-nous!</h3>
+				<div class="columns is-centered">
 					<figure class="image is-48x48">
-						<a href="https://www.facebook.com/repertoireSEMEQ" target="blank"
-							><img src="/src/lib/img/app/facebook.svg" alt="Affichez votre pub ici" /></a
-						>
+						<a href="https://www.facebook.com/repertoireSEMEQ" target="blank"><img src="/src/lib/img/app/facebook.svg" alt="Affichez votre pub ici" /></a>
 					</figure>
 				</div>
 			</div>
