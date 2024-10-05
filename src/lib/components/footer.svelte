@@ -4,19 +4,19 @@
 		<div class="columns is-multiline is-mobile">
 			<div class="column is-full-mobile is-half-tablet is-one-quarter-desktop">
 				<h3 class="is-size-5 has-text-centered mb-3">Infos légales</h3>
-				<a class="is-size-7 p-6" href="/#">Politiques de confidentialité</a><br />
-				<a class="is-size-7 p-6" href="/#">Conditions d'utilisation</a><br />
-				<a class="is-size-7 p-6" href="/#">Politiques des cookies</a><br />
+				<a class="is-size-7 p-6 has-text-link" href="/#">Politiques de confidentialité</a><br />
+				<a class="is-size-7 p-6 has-text-link" href="/#">Conditions d'utilisation</a><br />
+				<a class="is-size-7 p-6 has-text-link" href="/#">Politiques des cookies</a><br />
 			</div>
 
 			<div class="column is-full-mobile is-half-tablet is-one-quarter-desktop">
 				<h3 class="is-size-5 has-text-centered mb-3">Contact</h3>
-				<a class="is-size-7 p-6" href="/#">À propos</a><br />
-				<a class="is-size-7 p-6" href="/#">Nous joindre</a><br />
+				<a class="is-size-7 p-6 has-text-link" href="/#">À propos</a><br />
+				<a class="is-size-7 p-6 has-text-link" href="/#">Nous joindre</a><br />
 			</div>
 
 			<div class="column is-full-mobile is-full-tablet is-one-quarter-desktop">
-				<h3 class="is-size-5 has-text-centered mb-3">Partenaires</h3>
+				<h3 class="is-size-5 has-text-centered mb-3 ">Partenaires</h3>
 				<div class="columns is-centered is-vcentered">
 					<div class="column is-one-third">
 						<figure class="image is-96x96">
@@ -59,10 +59,6 @@
 </div>
 
 <style>
-	h3 {
-		color: black;
-	}
-
 	a {
 		color: #184287;
 		text-decoration: underline;

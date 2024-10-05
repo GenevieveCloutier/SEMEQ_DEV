@@ -217,14 +217,14 @@
 							>Type d'exposants<span class="rouge">*</span></label>
 						<div class="control">
 							<div class="checkboxes">
-								<label class="checkbox"><input class="mr-2" type="checkbox" />Artisan</label>
-								<label class="checkbox"><input class="mr-2" type="checkbox" />Agro-alimentaire</label>
-								<label class="checkbox"><input class="mr-2" type="checkbox" />MLM et revendeur</label>
-								<label class="checkbox"><input class="mr-2" type="checkbox" />Auteur</label>
-								<label class="checkbox"><input class="mr-2" type="checkbox" />Métiers d'art</label>
-                <label class="checkbox"><input id="checkboxType" on:change={typeExposant} class="mr-2" type="checkbox" />Autres</label>
+								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeArtisan" id="typeArtisan" />Artisan</label>
+								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeAgro" id="typeAgro" />Agro-alimentaire</label>
+								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeMLM" id="typeMLM"/>MLM et revendeur</label>
+								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeAuteur" id="typeAuteur" />Auteur</label>
+								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeArt" id="typeArt" />Métiers d'art</label>
+                <label class="checkbox"><input on:change={typeExposant} class="mr-2" type="checkbox" name="checkboxType" id="checkboxType" />Autres</label>
                 <div>
-                  <input hidden type="text" id="inputType" placeholder = "Préciser">
+                  <input hidden type="text" name="inputType" id="inputType" placeholder = "Préciser">
                   <span id="requisType" hidden class="rouge">*</span>
                 </div>
 							</div>

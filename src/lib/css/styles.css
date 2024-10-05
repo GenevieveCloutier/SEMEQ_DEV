@@ -33,3 +33,27 @@ a.is-active {
     font-size: 1.5rem;
     background-color: lightgray;
 }
+
+/* 
+essais pour théme sombre et clair BG fonctionne mais pas .theme-light
+@media (prefers-color-scheme: light) {
+    :root {
+      background-color: beige;
+    }
+  }
+  
+  [data-theme=light],
+  .theme-light {
+    color:green;
+  }
+
+@media (prefers-color-scheme: dark) {
+    :root {
+      background-color: grey;
+    }
+  }
+  
+  [data-theme=dark],
+  .theme-dark {
+    color:red;
+  } */
