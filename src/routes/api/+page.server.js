@@ -43,7 +43,6 @@ export const actions = {
     nouveauExposant: async({cookies, request})=>{
         const data = await request.formData();
         const domaines = envoieDomaine(data);
-        console.log(data.get('partage'));
         
         try {
             let res = await newUser(
@@ -75,6 +74,12 @@ export const actions = {
         }catch(error){
             return fail(401, error);
         }
+        
+    },
+
+    nouvelEvenement: async({cookies, request})=>{
+        const data = await request.formData();
+        console.log(data);
         
     }
 }

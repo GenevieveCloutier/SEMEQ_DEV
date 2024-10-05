@@ -6,25 +6,11 @@
 	import CheckboxResponsabilite from '$lib/components/formulaires/checkboxResponsabilite.svelte';
 	import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
+	import { creationEvenement } from '$lib/outils/formHandlers';
 
 	let erreur = null;
-
-	/**
-	 * Gère la soumission du formulaire pour créer un nouvel élément.
-	 * @param {Event} event - L'événement de soumission du formulaire.
-	 * @returns {void}
-	 */
-	async function handleSubmit(event) {
-		const formData = new FormData(event.target);
-
-		const response = await fetch('?/newExposant', {
-			method: 'POST',
-			body: formData
-		});
-		const result = await response.json();
-		if (result.type == 'failure') erreur = JSON.parse(result.data)[0];
-		else window.location.href = '/'; //AJOUTER LIEN
-	}
+	export let data;
+	const {villes} = data;
 
 	//pour afficher une boite de texte si "autres" est sélectionné
 	function preciser(champs, input, requis) {
@@ -57,7 +43,6 @@
     let requis = document.querySelector("#requisVerif");
     preciser(champs, input, requis)
 	};
-
 
   //fonction pour éviter que la date de début enregistrée soit après la date de fin
   function dateConforme(dateDebut, dateFin, message){
@@ -105,7 +90,7 @@
 
 	<AbonnementEven />
 
-	<form on:submit|preventDefault={handleSubmit}>
+	<form on:submit|preventDefault={creationEvenement}>
 		<div class="box">
 			<!-- section pour les infos de l'événement -->
 			<H3Title title={"Détails de l'événement"} />
@@ -115,7 +100,7 @@
 					<div class="field">
 						<label class="label" for="nomEven">Nom de l'événement <span class="rouge">*</span></label>
 						<div class="control">
-							<input class="input" type="text"name="nomEven" id="nomEven" placeholder="Marché de Noël" required/>
+							<input class="input" type="text"name="nomEven" id="nomEven" placeholder="Marché de Noël" />
 						</div>
 					</div>
 
@@ -124,9 +109,9 @@
 					  <div class="field is-grouped">
 							<div class="container ml-6 mb-3">
 								<span> Du:</span>
-								<input class="input" type="date" name="dateEvenDebut" id="dateEvenDebut" on:change={dateEven} required/>
+								<input class="input" type="date" name="dateEvenDebut" id="dateEvenDebut" on:change={dateEven} />
 								<span>au:</span>
-								<input class="input" type="date" name="dateEvenFin" id="dateEvenFin" on:change={dateEven} required />
+								<input class="input" type="date" name="dateEvenFin" id="dateEvenFin" on:change={dateEven}  />
                 <div hidden id="messageEven" class="notification is-danger is-light">
                 <p>La date de début ne peut pas être antérieure à la date de fin.</p>
                 </div>
@@ -137,8 +122,16 @@
 					<div class="field">
 						<label class="label" for="villeEven">Ville <span class="rouge">*</span></label>
 						<div class="control">
-							<input class="input" type="text" name="villeEven" id="villeEven" placeholder="Sherbrooke" required/>
-						</div>
+							<!-- J'ai changer le champ pour un select et ajouter les villes -->
+								<div class="select is-fullwidth">
+									<select name="villeEven" id="villeEven" >
+										<option value="" disabled selected>Choisir une ville</option>
+										{#each villes as ville}
+										<option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
+										{/each}
+									</select>
+								</div>
+							</div>
 					</div>
 
 					<div class="field">
@@ -152,7 +145,7 @@
 						<div class="control is-expanded">
 							<label class="label" for="emplacementEven">Emplacement<span class="rouge">*</span></label>
 							<div class="select is-fullwidth">
-								<select name="menuEmplacement" id="menuEmplacement" required>
+								<select name="menuEmplacement" id="menuEmplacement" >
 									<option value="">Choisir</option>
 									<option value="interieur">Intérieur</option>
 									<option value="extérieur">Extérieur</option>
@@ -168,7 +161,7 @@
 					<div class="field">
 						<label class="label" for="entrepriseEven">Entreprise<span class="rouge">*</span></label>
 						<div class="control">
-							<input class="input" type="text" name="entrepriseEven" id="entrepriseEven" placeholder="Nom de l'entreprise ou organisation" required/>
+							<input class="input" type="text" name="entrepriseEven" id="entrepriseEven" placeholder="Nom de l'entreprise ou organisation" />
 						</div>
 					</div>
 
@@ -200,7 +193,7 @@
 						<label class="label" for="contactEven"
 							>Personne contact pour l'appel de candidatures <span class="rouge">*</span></label>
 						<div class="control">
-							<input class="input" type="text" name="contactEven" id="contactEven" placeholder="Prenom Nom" required />
+							<input class="input" type="text" name="contactEven" id="contactEven" placeholder="Prenom Nom"  />
 						</div>
 					</div>
 
@@ -209,9 +202,9 @@
               <div class="field is-grouped">
                 <div class="container ml-6 mb-3">
                   <span> Du:</span>
-                  <input class="input" type="date" name="dateAppelDebut" id="dateAppelDebut" on:change={dateAppel} required/>
+                  <input class="input" type="date" name="dateAppelDebut" id="dateAppelDebut" on:change={dateAppel} />
                   <span>au:</span>
-                  <input class="input" type="date" name="dateAppelFin" id="dateAppelFin" on:change={dateAppel} required />
+                  <input class="input" type="date" name="dateAppelFin" id="dateAppelFin" on:change={dateAppel}  />
                   <div hidden id="messageAppel" class="notification is-danger is-light">
                   <p>La date de début ne peut pas être antérieure à la date de fin.</p>
                   </div>
@@ -257,7 +250,7 @@
 					<div class="field">
 						<label class="label" for="courrielAppel">Courriel pour information ou inscription <span class="rouge">*</span></label>
 						<div class="control">
-							<input class="input" type="email" name="courrielAppel" id="courrielAppel" placeholder="inscription@evenement.com" required/>
+							<input class="input" type="email" name="courrielAppel" id="courrielAppel" placeholder="inscription@evenement.com" />
 						</div>
 					</div>
 
@@ -276,14 +269,14 @@
 								<label class="checkbox"><input class="mr-2" type="checkbox" />NEQ</label>
 								<label class="checkbox"><input class="mr-2" type="checkbox" />Permis</label>
 								<label class="checkbox"><input id="checkboxVerif" on:change={verification} class="mr-2" type="checkbox" />Autres</label>
-                <div id="divVerif">
-                  <input hidden type="text" id="inputVerif" placeholder = "Préciser">
-                  <span id="requisVerif" hidden class="rouge">*</span>
-                </div>
-                
-							</div>
+								<div id="divVerif">
+									<input hidden type="text" id="inputVerif" placeholder = "Préciser">
+									<span id="requisVerif" hidden class="rouge">*</span>
+								</div>
+                			</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 

@@ -60,10 +60,9 @@ export async function load({ params, cookies }) {
     const users = await findAll();
     const session = cookies.get('session');
     const role = cookies.get('role');
-    console.log('dans le load, le role ',role);
     
     if (role == '1'){
-        redirect(302, '/accueilGestionnaire');
+        redirect(302, '/admin');
     }
     if (role == '2'){
         redirect(302, '/accueilOrganisateur');
