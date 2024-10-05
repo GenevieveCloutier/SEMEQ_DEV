@@ -1,7 +1,2 @@
-<script>
-    function retour() {
-    window.history.back();
-}
-</script>
 
-<button class="button is-light" on:click={retour}>Retour</button>
+<a href="javascript:window.history.back();" class="button is-light">Retour</a>
