@@ -21,3 +21,22 @@ export async function ajoutVilles(regions){
     console.log('Villes ajoutées');
 } 
 //est ce qu'on rajoute une verife au cas ou? ou un drop table ? a discuter
+
+export async function findAll(){
+    return  Ville.findAll({
+        include: [
+            { model: Region, as: "region" }
+        ],
+    }).then(resultat => {
+        if(resultat.length === 0){
+            console.log("Aucune ville à afficher")
+        }
+        return resultat.map(ville => ({
+            ...ville.dataValues,
+            region: ville.region ? ville.region.dataValues : null
+        }));
+    })
+    .catch((error)=>{
+        throw error;
+    });
+};

@@ -6,25 +6,11 @@
 	import CheckboxResponsabilite from '$lib/components/formulaires/checkboxResponsabilite.svelte';
 	import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
+	import { creationEvenement } from '$lib/outils/formHandlers';
 
 	let erreur = null;
-
-	/**
-	 * Gère la soumission du formulaire pour créer un nouvel élément.
-	 * @param {Event} event - L'événement de soumission du formulaire.
-	 * @returns {void}
-	 */
-	async function handleSubmit(event) {
-		const formData = new FormData(event.target);
-
-		const response = await fetch('?/newExposant', {
-			method: 'POST',
-			body: formData
-		});
-		const result = await response.json();
-		if (result.type == 'failure') erreur = JSON.parse(result.data)[0];
-		else window.location.href = '/'; //AJOUTER LIEN
-	}
+	export let data;
+	const {villes} = data;
 
 	//pour afficher une boite de texte si "autres" est sélectionné
 	function preciser(champs, input, requis) {
@@ -97,7 +83,7 @@
 
 	<AbonnementEven />
 
-	<form on:submit|preventDefault={handleSubmit}>
+	<form on:submit|preventDefault={creationEvenement}>
 		<div class="box">
 			<!-- section pour les infos de l'événement -->
 			<H3Title title={"Détails de l'événement"} />
@@ -131,10 +117,17 @@
 					<div class="field">
 						<label class="label" for="villeEven">Ville <span class="rouge">*</span></label>
 						<div class="control">
-							<input class="input" type="text" name="villeEven" id="villeEven" placeholder="Sherbrooke" required/>
-						</div>
+							<!-- J'ai changer le champ pour un select et ajouter les villes -->
+								<div class="select is-fullwidth">
+									<select name="villeEven" id="villeEven" >
+										<option value="" disabled selected>Choisir une ville</option>
+										{#each villes as ville}
+										<option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
+										{/each}
+									</select>
+								</div>
+							</div>
 					</div>
-				</div>
 
 				<div class="my-5">
 					<div class="field">
