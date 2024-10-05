@@ -145,7 +145,7 @@
                 <div class="field">
                     <label class="label" for="adresseEvenPayant">Adresse</label>
                     <div class="control">
-                        <input class="input" type="text" name="adresseEvenPayant" id="adresseEvenPayant" placeholder="Sherbrooke"/>
+                        <input class="input" type="text" name="adresseEvenPayant" id="adresseEvenPayant" placeholder="123 rue du Sous-Bois"/>
                     </div>
                 </div>
 

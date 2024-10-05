@@ -18,6 +18,6 @@ export async function ajoutVilles(regions){
             
         }
     }
-    console.log('Villes ajouté');
+    console.log('Villes ajoutées');
 } 
 //est ce qu'on rajoute une verife au cas ou? ou un drop table ? a discuter
