@@ -118,7 +118,7 @@
 						<label class="label" for="villeEven">Ville <span class="rouge">*</span></label>
 						<div class="control">
 							<!-- J'ai changer le champ pour un select et ajouter les villes -->
-								<div class="select is-fullwidth">
+							<div class="select is-fullwidth">
 									<select name="villeEven" id="villeEven" >
 										<option value="" disabled selected>Choisir une ville</option>
 										{#each villes as ville}
@@ -127,6 +127,7 @@
 									</select>
 								</div>
 							</div>
+						</div>
 					</div>
 
 				<div class="my-5">
