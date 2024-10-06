@@ -57,7 +57,9 @@ export const actions = {
                 data.get("photo_3"),
                 data.get("logo")
             );
-            createCookie(res.id, cookies, res.role);
+            console.log('dans lapi = ', res);
+            
+            createCookie(res.id, cookies, res.role_id);
         }catch(error){
             return fail(401, error);
         }

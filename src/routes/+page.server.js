@@ -60,6 +60,8 @@ export async function load({ params, cookies }) {
     const users = await findAll();
     const session = cookies.get('session');
     const role = cookies.get('role');
+    console.log(role);
+    
     
     if (role == '1'){
         redirect(302, '/admin');
