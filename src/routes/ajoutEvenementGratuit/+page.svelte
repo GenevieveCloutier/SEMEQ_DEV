@@ -6,9 +6,8 @@
 	import CheckboxResponsabilite from '$lib/components/formulaires/checkboxResponsabilite.svelte';
 	import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
-	import { creationEvenement } from '$lib/outils/formHandlers';
+	import { creationEvenement, erreur } from '$lib/outils/formHandlers';
 
-	let erreur = null;
 	export let data;
 	const {villes} = data;
 
@@ -63,11 +62,10 @@
     let dateFin = document.querySelector("#dateAppelFin");
     dateConforme(dateDebut, dateFin)
   };
-
 </script>
 
 <div class="block">
-	<NotifDanger {erreur}></NotifDanger>
+	<NotifDanger></NotifDanger>
 
 	<H1Title title={'Inscrire mon événement gratuitement'} />
 
@@ -94,7 +92,7 @@
 						<div class="field">
 							<label class="label" for="nomEven">Nom de l'événement <span class="rouge">*</span></label>
 							<div class="control">
-								<input class="input" type="text"name="nomEven" id="nomEven" placeholder="Marché de Noël" required/>
+								<input class="input" type="text"name="nomEven" id="nomEven" placeholder="Marché de Noël" />
 							</div>
 						</div>
 					</div>
@@ -105,7 +103,7 @@
 						<div class="field">
 							<label class="label" for="entrepriseEven">Entreprise<span class="rouge">*</span></label>
 							<div class="control">
-								<input class="input" type="text" name="entrepriseEven" id="entrepriseEven" placeholder="Nom de l'entreprise ou organisation" required/>
+								<input class="input" type="text" name="entrepriseEven" id="entrepriseEven" placeholder="Nom de l'entreprise ou organisation" />
 							</div>
 						</div>
 					</div>
@@ -144,9 +142,9 @@
 					  <div class="field is-grouped">
 							<div class="container ml-6 mb-3">
 								<span> Du:</span>
-								<input class="input" type="date" name="dateEvenDebut" id="dateEvenDebut" on:change={dateEven} required/>
+								<input class="input" type="date" name="dateEvenDebut" id="dateEvenDebut" on:change={dateEven} />
 								<span>au:</span>
-								<input class="input" type="date" name="dateEvenFin" id="dateEvenFin" required />
+								<input class="input" type="date" name="dateEvenFin" id="dateEvenFin"  />
               			</div>
 					</div>
         		</div>
@@ -156,22 +154,6 @@
 				<div class="column">
 
 					<div>
-						<div class="field has-addons">
-							<div class="control is-expanded">
-								<label class="label" for="emplacementEven">Emplacement des kiosques<span class="rouge">*</span></label>
-								<div class="select is-fullwidth">
-									<select name="menuEmplacement" id="menuEmplacement" required>
-										<option value="">Choisir</option>
-										<option value="interieur">Intérieur</option>
-										<option value="extérieur">Extérieur</option>
-										<option value="interieur_extérieur">Intérieur et Extérieur</option>
-									</select>
-								</div>
-							</div>
-						</div>
-					</div>
-	
-					<div class="my-5">
 						<div class="field">
 							<label class="label" for="siteWebEven">Site web ou page Facebook de l'événement</label>
 							<div class="control">
@@ -188,8 +170,22 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="field my-5">
+					<label class="label" for="emplacementEven">Emplacement<span class="rouge">*</span></label>
+					<div class="control">
+						<div class="checkboxes">
+							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementInterieur" id="emplacementInterieur" />Intérieur</label>
+							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementExterieur" id="emplacementExterieur" />Extérieur</label>
+							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementChapiteau" id="emplacementChapiteau"/>Extérieur, sous un grand chapiteau</label>
+							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementAbri" id="emplacementAbri" />Extérieur, petits abris fournis</label>
+							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementSansAbri" id="emplacementSansAbri" />Extérieur, apportez votre abri</label>
+						</div>
+					</div>
+				</div>
+
 			</div>
-			</div>
+		</div>
 			<!-- Fin des colonnes -->
 
 			<hr class=" is-hidden-mobile is-hidden-tablet-only" />
@@ -204,7 +200,7 @@
 							<label class="label" for="contactEven"
 								>Personne contact pour l'appel de candidatures <span class="rouge">*</span></label>
 							<div class="control">
-								<input class="input" type="text" name="contactEven" id="contactEven" placeholder="Prenom Nom" required />
+								<input class="input" type="text" name="contactEven" id="contactEven" placeholder="Prenom Nom"  />
 							</div>
 						</div>
 					</div>
@@ -213,7 +209,7 @@
 					<div class="field">
 						<label class="label" for="courrielAppel">Courriel pour information ou inscription <span class="rouge">*</span></label>
 						<div class="control">
-							<input class="input" type="email" name="courrielAppel" id="courrielAppel" placeholder="inscription@evenement.com" required/>
+							<input class="input" type="email" name="courrielAppel" id="courrielAppel" placeholder="inscription@evenement.com" />
 						</div>
 					</div>
 				</div>
@@ -232,9 +228,9 @@
 						<div class="field is-grouped">
 						<div class="container ml-6 mb-3">
 							<span> Du:</span>
-							<input class="input" type="date" name="dateAppelDebut" id="dateAppelDebut" on:change={dateAppel} required/>
+							<input class="input" type="date" name="dateAppelDebut" id="dateAppelDebut" on:change={dateAppel} />
 							<span>au:</span>
-							<input class="input" type="date" name="dateAppelFin" id="dateAppelFin"  required />
+							<input class="input" type="date" name="dateAppelFin" id="dateAppelFin"   />
 						</div>
 						</div>
 					</div>
@@ -256,7 +252,7 @@
 								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeAuteur" id="typeAuteur" />Auteur</label>
 								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeArt" id="typeArt" />Métiers d'art</label>
                 				<label class="checkbox"><input on:change={typeExposant} class="mr-2" type="checkbox" name="checkboxType" id="checkboxType" />Autres</label>
-								<div>
+							<div>
 								<input hidden type="text" name="inputType" id="inputType" placeholder = "Préciser">
 								<span id="requisType" hidden class="rouge">*</span>
 								</div>

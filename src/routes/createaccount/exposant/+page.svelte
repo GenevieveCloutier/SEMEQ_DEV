@@ -84,7 +84,7 @@
               <label class="label" for="ville">Ville <span class="rouge">*</span></label>
               <div class="control">
                 <div class="select is-fullwidth">
-									<select name="villeEven" id="villeEven" >
+									<select name="ville_id" id="ville_id" >
 										<option value="" disabled selected>Choisir une ville</option>
 										{#each villes as ville}
 										<option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
@@ -210,7 +210,7 @@
           <div class="column">
             <label class="checkbox">
               Être affiché sur le site de Répertoire SÉMEQ dans l’onglet Répertoire exposants (nom + lien cliquable)?<br>
-              <input type="checkbox" class="toggle exclus" >
+              <input type="checkbox" class="toggle exclus" name="affichage" >
             </label>
           </div>
   

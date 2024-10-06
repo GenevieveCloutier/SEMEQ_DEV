@@ -89,7 +89,7 @@ export async function creationExposant(event){
       if (result.type == 'failure')
         erreur.set(JSON.parse(result.data)[0]);
       else
-      console.log('fin du log');
+        alert('exposant créé, mais pas encore de redirection');
       
         // window.location.href = '/'; //AJOUTER LIEN
 }
@@ -103,7 +103,14 @@ export async function creationEvenement(event) {
         method: 'POST',
         body: formData
     });
-    // const result = await response.json();
-    // if (result.type == 'failure') erreur = JSON.parse(result.data)[0];
-    // else window.location.href = '/'; //AJOUTER LIEN
+    
+    const result = await response.json();
+    console.log(result);
+     if (result.type == 'failure') 
+        erreur.set(JSON.parse(result.data)[0]);
+     else if (result.type == 'success')
+       alert('Evenement créé, mais pas encore de redirection');
+    else {
+        alert('aucune idee d\'ou c\'est partie');
+    }
 }
