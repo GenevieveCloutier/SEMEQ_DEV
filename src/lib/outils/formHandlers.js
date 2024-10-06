@@ -3,24 +3,24 @@ import { writable } from 'svelte/store';
 
 export const erreur = writable(null);
 erreur.set('');
-export async function nouveauCompte(event) {
-    const formData = new FormData(event.target);
-    
-
-        const response = await fetch('./api?/new', {
-            method: 'POST',
-            body: formData
-        });
-
-        const result = await response.json();
-        console.log(result);
+// export async function nouveauCompte(event) {
+//     const formData = new FormData(event.target);
+//         console.log('formdata = ',formData);
         
-        if (result.type === 'success') {
-            alert('Nouvel utilisateur enregistré');
-        } else {
-            alert('Erreur : ' + JSON.parse(result.data)[0]);
-        }
-}
+//         const response = await fetch('./api?/new', {
+//             method: 'POST',
+//             body: formData
+//         });
+
+//         const result = await response.json();
+//         console.log(result);
+        
+//         if (result.type === 'success') {
+//             alert('Nouvel utilisateur enregistré');
+//         } else {
+//             alert('Erreur : ' + JSON.parse(result.data)[0]);
+//         }
+// }
 
 export async function handleUserDelete(event)
 {
@@ -63,6 +63,7 @@ export async function connexion(event){
 
 export async function creationExposant(event){
     const formData = new FormData(event.target);
+    
     // Vérifier si le nombre de checkbox cochées est entre 1 et 3 pour Domaine(s) d'activit(é)s
     const checkboxes = event.target.querySelectorAll('input[type="checkbox"]:checked:not(.exclus)');
     if (checkboxes.length < 1 || checkboxes.length > 3) {

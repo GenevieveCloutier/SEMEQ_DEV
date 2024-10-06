@@ -29,6 +29,9 @@ export const actions = {
 
     nouveauExposant: async({cookies, request})=>{
         const data = await request.formData();
+        console.log('request = ',request);
+        console.log('data = ',data);
+        
         const domaine = envoieMappage(data, domaines);
         
         try {
@@ -57,7 +60,6 @@ export const actions = {
                 data.get("photo_3"),
                 data.get("logo")
             );
-            console.log('dans lapi = ', res);
             
             createCookie(res.id, cookies, res.role_id);
         }catch(error){

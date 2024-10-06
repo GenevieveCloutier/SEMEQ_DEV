@@ -45,9 +45,9 @@ export const emplacements = {
 
 export function recupMappage(p_nombre, p_constante) {
     const resultat = [];
-    for (const [domaine, bit] of Object.entries(p_constante)) {
+    for (const [cle, bit] of Object.entries(p_constante)) {
         if (p_nombre & bit) {
-            resultat.push(domaine);
+            resultat.push(cle);
         }
     }
     return resultat;
