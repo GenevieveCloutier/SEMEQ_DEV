@@ -6,9 +6,8 @@
 	import CheckboxResponsabilite from '$lib/components/formulaires/checkboxResponsabilite.svelte';
 	import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
-	import { creationEvenement } from '$lib/outils/formHandlers';
+	import { creationEvenement, erreur } from '$lib/outils/formHandlers';
 
-	let erreur = null;
 	export let data;
 	const {villes} = data;
 
@@ -63,12 +62,10 @@
     let dateFin = document.querySelector("#dateAppelFin");
     dateConforme(dateDebut, dateFin)
   };
-
-
 </script>
 
 <div class="block">
-	<NotifDanger {erreur}></NotifDanger>
+	<NotifDanger></NotifDanger>
 
 	<H1Title title={'Inscrire mon événement gratuitement'} />
 
@@ -95,7 +92,7 @@
 						<div class="field">
 							<label class="label" for="nomEven">Nom de l'événement <span class="rouge">*</span></label>
 							<div class="control">
-								<input class="input" type="text"name="nomEven" id="nomEven" placeholder="Marché de Noël" required/>
+								<input class="input" type="text"name="nomEven" id="nomEven" placeholder="Marché de Noël" />
 							</div>
 						</div>
 					</div>
@@ -106,7 +103,7 @@
 						<div class="field">
 							<label class="label" for="entrepriseEven">Entreprise<span class="rouge">*</span></label>
 							<div class="control">
-								<input class="input" type="text" name="entrepriseEven" id="entrepriseEven" placeholder="Nom de l'entreprise ou organisation" required/>
+								<input class="input" type="text" name="entrepriseEven" id="entrepriseEven" placeholder="Nom de l'entreprise ou organisation" />
 							</div>
 						</div>
 					</div>
@@ -145,9 +142,9 @@
 					  <div class="field is-grouped">
 							<div class="container ml-6 mb-3">
 								<span> Du:</span>
-								<input class="input" type="date" name="dateEvenDebut" id="dateEvenDebut" on:change={dateEven} required/>
+								<input class="input" type="date" name="dateEvenDebut" id="dateEvenDebut" on:change={dateEven} />
 								<span>au:</span>
-								<input class="input" type="date" name="dateEvenFin" id="dateEvenFin" required />
+								<input class="input" type="date" name="dateEvenFin" id="dateEvenFin"  />
               			</div>
 					</div>
         		</div>
@@ -203,7 +200,7 @@
 							<label class="label" for="contactEven"
 								>Personne contact pour l'appel de candidatures <span class="rouge">*</span></label>
 							<div class="control">
-								<input class="input" type="text" name="contactEven" id="contactEven" placeholder="Prenom Nom" required />
+								<input class="input" type="text" name="contactEven" id="contactEven" placeholder="Prenom Nom"  />
 							</div>
 						</div>
 					</div>
@@ -212,7 +209,7 @@
 					<div class="field">
 						<label class="label" for="courrielAppel">Courriel pour information ou inscription <span class="rouge">*</span></label>
 						<div class="control">
-							<input class="input" type="email" name="courrielAppel" id="courrielAppel" placeholder="inscription@evenement.com" required/>
+							<input class="input" type="email" name="courrielAppel" id="courrielAppel" placeholder="inscription@evenement.com" />
 						</div>
 					</div>
 				</div>
@@ -231,9 +228,9 @@
 						<div class="field is-grouped">
 						<div class="container ml-6 mb-3">
 							<span> Du:</span>
-							<input class="input" type="date" name="dateAppelDebut" id="dateAppelDebut" on:change={dateAppel} required/>
+							<input class="input" type="date" name="dateAppelDebut" id="dateAppelDebut" on:change={dateAppel} />
 							<span>au:</span>
-							<input class="input" type="date" name="dateAppelFin" id="dateAppelFin"  required />
+							<input class="input" type="date" name="dateAppelFin" id="dateAppelFin"   />
 						</div>
 						</div>
 					</div>
