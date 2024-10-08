@@ -17,7 +17,7 @@
         <ul class="menu-list">
             <li><a href="/#">Mon compte</a></li>
             <li><a href="/#">Mes événements</a></li>
-            <li><a href="/appels_candidatures" class:active={isActive('/appels_candidatures')}>Appels de candidatures</a></li>
+            <li><a href="/appels_candidatures" class:is-active={isActive('/appels_candidatures')}>Appels de candidatures</a></li>
             <li><a href="/#">Mes avantages</a></li>
             <li><a href="/#">Mes formations et outils</a></li>
             <li><a href="/#">Historique d'achat</a></li>
@@ -33,10 +33,6 @@
         border-right: 3px solid darkgray;
         padding-right: 15px;
         margin-right: 25px;
-    }
-
-    .active {
-        color: #c2108a;
     }
     
     a:hover {
