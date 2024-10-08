@@ -33,6 +33,10 @@ a.is-active {
     font-size: 1.5rem;
     background-color: lightgray;
 }
+canvas {
+  /* max-width: 100%;
+  height: 400px; */
+}
 
 /* 
 essais pour théme sombre et clair BG fonctionne mais pas .theme-light
