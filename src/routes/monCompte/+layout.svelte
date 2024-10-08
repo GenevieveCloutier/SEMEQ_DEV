@@ -40,6 +40,7 @@
 		background-color: #d9d9d9;
 		border-radius: 5px;
 		color: black;
+        text-align: center;
     }
 
     .bouton-deconnexion:hover {

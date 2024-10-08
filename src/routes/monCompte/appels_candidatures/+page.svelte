@@ -3,8 +3,9 @@
     import Recherche from '$lib/components/generaux/recherche.svelte';
     import RechercheNoResult from '$lib/components/generaux/rechercheNoResult.svelte';
 
-    export let data;
+    let searchQuery = '';
 
+    export let data;
     const events = data.events;
 
     import { onMount } from "svelte";
@@ -20,7 +21,12 @@
 
 <H1Title title="Appels de candidatures"></H1Title>
 
+<Recherche bind:searchQuery typeRecherche="un événement" />
+
 <div>
+    {#if events.filter(event => event.nom.toLowerCase().includes(searchQuery.toLowerCase())).length === 0}
+        <RechercheNoResult />
+    {:else}
     <table class="table is-striped is-fullwidth">
         <thead>
             <tr>
@@ -34,7 +40,7 @@
             </tr>
         </thead>
         <tbody>
-            {#each events as event}
+            {#each events.filter(event => event.nom.toLowerCase().includes(searchQuery.toLowerCase())) as event}
             <tr>
                 <td>{event.nom || "Inconnu"}</td>
                 <td>{event.ville.region.nom || "Inconnue"}</td>
@@ -58,12 +64,13 @@
             </tr>
             {:else}
                 <section class="section">
-                    <h1 class="title"> Désolé  <span class="icon is-large"><i class="fa-regular fa-face-sad-tear fa-xl"></i></span></h1>
-                    <h2 class="subtitle">Il n'y a aucun appel de candidature en cours.</h2>
+                    <p class="title"> Désolé  <span class="icon is-large"><i class="fa-regular fa-face-sad-tear fa-xl"></i></span></p>
+                    <p class="subtitle">Il n'y a aucun appel de candidature en cours.</p>
                 </section>
             {/each}
         </tbody>
     </table>
+    {/if}
 </div>
 
 </div>
