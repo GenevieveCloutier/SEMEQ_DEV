@@ -88,12 +88,28 @@ export const Evenement = sequelize.define("evenement", {
         type: DataTypes.INTEGER,
         allowNull: true
     },
+    type_autre: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     verification: {
         type: DataTypes.INTEGER,
         allowNull: true
     },
+    verification_autre: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     form_cand: {
         type: DataTypes.STRING,
+        allowNull: true
+    },
+    selection: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true
+    },
+    limite: {
+        type: DataTypes.BOOLEAN,
         allowNull: true
     },
     description: {

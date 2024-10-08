@@ -15,9 +15,7 @@
             <p>id: {user.id}</p>
             <input type="text" name="id" value="{user.id}">
             <button type="submit" class="button">Supprimer</button>
-      </form>
-      
-      
+      </form> 
 </div>
       
 {/each}{#if session}
