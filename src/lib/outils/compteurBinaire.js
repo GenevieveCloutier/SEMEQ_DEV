@@ -1,4 +1,4 @@
-const domaines = {
+export const domaines = {
     'accessoires_sacs': 1,
     'agro-alimentaire': 2,
     'animaux': 4,
@@ -21,24 +21,91 @@ const domaines = {
     'autres': 524288
 };
 
-export function recupDomaines(p_domaines) {
+export const types = {
+    'typeArtisan': 1,
+    'typeAgro': 2,
+    'typeMLM': 4,
+    'typeAuteur': 8,
+    'typeArt': 16,
+}
+
+export const verifs = {
+    'verifNEQ': 1,
+    'verifPermis': 2
+}
+
+export const emplacements = {
+    "emplacementInterieur"  : 1,
+    "emplacementExterieur"  : 2,
+    "emplacementChapiteau"  : 4,
+    "emplacementAbri"       : 8,
+    "emplacementSansAbri"   : 16
+};
+
+
+export function recupMappage(p_nombre, p_constante) {
     const resultat = [];
-    for (const [domaine, bit] of Object.entries(domaines)) {
-        if (p_domaines & bit) {
-            result.push(domaine);
+    for (const [cle, bit] of Object.entries(p_constante)) {
+        if (p_nombre & bit) {
+            resultat.push(cle);
         }
     }
     return resultat;
 }
 
-export function envoieDomaine(p_data){
+export function envoieMappage(p_data, p_constante){
     let resultat = 0;
 
-    for (const [cle, valeur] of Object.entries(domaines)) {
+    for (const [cle, valeur] of Object.entries(p_constante)) {
         if (p_data.get(cle)) {
             resultat += valeur;
         }
     }
     return resultat;
 }
+
+
+
+// export function recupTypes(p_types) {
+//     const resultat = [];
+//     for (const [type, bit] of Object.entries(types)) {
+//         if (p_types & bit) {
+//             result.push(type);
+//         }
+//     }
+//     return resultat;
+// }
+
+// export function envoieType(p_data){
+//     let resultat = 0;
+
+//     for (const [cle, valeur] of Object.entries(types)) {
+//         if (p_data.get(cle)) {
+//             resultat += valeur;
+//         }
+//     }
+//     return resultat;
+// }
+
+
+// export function recupVerifs(p_verifs) {
+//     const resultat = [];
+//     for (const [verif, bit] of Object.entries(verifs)) {
+//         if (p_verifs & bit) {
+//             result.push(verif);
+//         }
+//     }
+//     return resultat;
+// }
+
+// export function envoieVerif(p_data){
+//     let resultat = 0;
+
+//     for (const [cle, valeur] of Object.entries(types)) {
+//         if (p_data.get(cle)) {
+//             resultat += valeur;
+//         }
+//     }
+//     return resultat;
+// }
 

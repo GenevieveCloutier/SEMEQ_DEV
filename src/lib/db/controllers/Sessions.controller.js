@@ -11,6 +11,8 @@ import { Session } from "../models/Session.model";
  */
 export async function createCookie(p_user_id, p_cookies, p_role)
 {
+    console.log('dans create cookies = ', p_role);
+    
     let uuid = crypto.randomUUID();
     p_cookies.set('session', uuid, 
         {

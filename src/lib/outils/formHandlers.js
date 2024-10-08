@@ -3,24 +3,24 @@ import { writable } from 'svelte/store';
 
 export const erreur = writable(null);
 erreur.set('');
-export async function nouveauCompte(event) {
-    const formData = new FormData(event.target);
-    
-
-        const response = await fetch('./api?/new', {
-            method: 'POST',
-            body: formData
-        });
-
-        const result = await response.json();
-        console.log(result);
+// export async function nouveauCompte(event) {
+//     const formData = new FormData(event.target);
+//         console.log('formdata = ',formData);
         
-        if (result.type === 'success') {
-            alert('Nouvel utilisateur enregistré');
-        } else {
-            alert('Erreur : ' + JSON.parse(result.data)[0]);
-        }
-}
+//         const response = await fetch('./api?/new', {
+//             method: 'POST',
+//             body: formData
+//         });
+
+//         const result = await response.json();
+//         console.log(result);
+        
+//         if (result.type === 'success') {
+//             alert('Nouvel utilisateur enregistré');
+//         } else {
+//             alert('Erreur : ' + JSON.parse(result.data)[0]);
+//         }
+// }
 
 export async function handleUserDelete(event)
 {
@@ -56,13 +56,14 @@ export async function connexion(event){
     
     if (result.type === 'success') {
         window.location.href = '/';
-    } else {
-        alert('Erreur : ');
+    } else if (result.type === 'failure'){
+        erreur.set(JSON.parse(result.data)[1]);
     }
 }
 
 export async function creationExposant(event){
     const formData = new FormData(event.target);
+    
     // Vérifier si le nombre de checkbox cochées est entre 1 et 3 pour Domaine(s) d'activit(é)s
     const checkboxes = event.target.querySelectorAll('input[type="checkbox"]:checked:not(.exclus)');
     if (checkboxes.length < 1 || checkboxes.length > 3) {
@@ -89,7 +90,7 @@ export async function creationExposant(event){
       if (result.type == 'failure')
         erreur.set(JSON.parse(result.data)[0]);
       else
-      console.log('fin du log');
+        alert('exposant créé, mais pas encore de redirection');
       
         // window.location.href = '/'; //AJOUTER LIEN
 }
@@ -103,7 +104,14 @@ export async function creationEvenement(event) {
         method: 'POST',
         body: formData
     });
-    // const result = await response.json();
-    // if (result.type == 'failure') erreur = JSON.parse(result.data)[0];
-    // else window.location.href = '/'; //AJOUTER LIEN
+    
+    const result = await response.json();
+    console.log(result);
+     if (result.type == 'failure') 
+        erreur.set(JSON.parse(result.data)[0]);
+     else if (result.type == 'success')
+       alert('Evenement créé, mais pas encore de redirection');
+    else {
+        alert('aucune idee d\'ou c\'est partie');
+    }
 }

@@ -1,5 +1,7 @@
 <script>
     import { creationExposant, erreur } from '../../../lib/outils/formHandlers';
+    export let data;
+    const { villes } = data;
   </script>
   
   
@@ -81,7 +83,14 @@
             <div class="field">
               <label class="label" for="ville">Ville <span class="rouge">*</span></label>
               <div class="control">
-                <input class="input" type="text" name="ville" id="ville" placeholder="Ville" >
+                <div class="select is-fullwidth">
+									<select name="ville_id" id="ville_id" >
+										<option value="" disabled selected>Choisir une ville</option>
+										{#each villes as ville}
+										<option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
+										{/each}
+									</select>
+								</div>
               </div>
             </div>
   
@@ -201,7 +210,7 @@
           <div class="column">
             <label class="checkbox">
               Être affiché sur le site de Répertoire SÉMEQ dans l’onglet Répertoire exposants (nom + lien cliquable)?<br>
-              <input type="checkbox" class="toggle exclus" >
+              <input type="checkbox" class="toggle exclus" name="affichage" >
             </label>
           </div>
   

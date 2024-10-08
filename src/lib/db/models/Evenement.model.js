@@ -24,11 +24,19 @@ export const Evenement = sequelize.define("evenement", {
         type: DataTypes.DATE,
         allowNull: true
     },
+    fin_even: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
     horaire_even: {
         type: DataTypes.STRING,
         allowNull: true
     },
     debut_cand: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
+    fin_cand: {
         type: DataTypes.DATE,
         allowNull: true
     },
@@ -80,12 +88,28 @@ export const Evenement = sequelize.define("evenement", {
         type: DataTypes.INTEGER,
         allowNull: true
     },
+    type_autre: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     verification: {
         type: DataTypes.INTEGER,
         allowNull: true
     },
+    verification_autre: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     form_cand: {
         type: DataTypes.STRING,
+        allowNull: true
+    },
+    selection: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true
+    },
+    limite: {
+        type: DataTypes.BOOLEAN,
         allowNull: true
     },
     description: {
