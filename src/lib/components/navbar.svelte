@@ -15,9 +15,6 @@ import { onMount } from "svelte";
 
 	  console.log("ici")
 	  console.log(element.classList)
-	  
-
-	  //fermerDropdown()
     });
   });
 
