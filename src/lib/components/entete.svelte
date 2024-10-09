@@ -1,5 +1,7 @@
 <script>
-	import Layout from "../../routes/+layout.svelte";
+
+export let session;
+
 	// Pour faire afficher le menu dropdown quand on clique sur l'icone ou la flèche
 	export function toggleNavbarMenu(node) {
 		function toggle() {
@@ -13,9 +15,14 @@
 		};
 	};
 
+//pour que le menu connexion se referme quand on clique sur un des liens
+	function cacherMenu() {  
+		let element = document.querySelector("#dropdown-compte"); 
+		element.style.display = 'none'; 
+		setInterval(function () { element.style.display = ''; }, 50); 
+		};
 
 
-	export let session;
 
 </script>
 
@@ -31,39 +38,37 @@
 		</p>
 	</div>
 	<div class="dropdown is-right is-hoverable">
-		<div class="dropdown-trigger">
-			<!-- svelte-ignore a11y-missing-attribute -->
-			<a aria-haspopup="true" aria-controls="dropdown-compte" use:toggleNavbarMenu>
+		<div class="dropdown-trigger">		
 				<span class="icon is-large">
 				<i class="fa-solid fa-user fas fa-2x has-text-dark"></i>
 				</span>
 				<span class="icon is-small">
 					<i class="fas fa-angle-down" aria-hidden="true"></i>
-				</span>
-			</a>
+				</span>	
 		</div>
 		{#if session}
-		<div class="dropdown-menu" id="dropdown-compte" role="menu">
+		<div class="dropdown-menu" id="dropdown-compte" role="menu" >
 			<div class="dropdown-content">
-				<a href="/#" class="dropdown-item"> Mon compte </a>
+				<!-- ajouter les autorisations pour l'accès aux liens (remplacer /id/) -->
+				<a href="/connexion/id" class="dropdown-item"> Mon compte </a>
 				<hr class="dropdown-divider" />
-				<a href="/#" class="dropdown-item"> Mes événements </a>
+				<a href="/connexion/id/mes_evenements" class="dropdown-item" on:click={cacherMenu}> Mes événements </a>
 				<hr class="dropdown-divider" />
-				<a href="/#" class="dropdown-item"> Appels de candidature </a>
+				<a href="/connexion/id/appels_candidature" class="dropdown-item" on:click={cacherMenu}> Appels de candidature </a>
 				<hr class="dropdown-divider" />
-				<a href="/#" class="dropdown-item"> Mes avantages </a>
+				<a href="/connexion/id/mes_avantages" class="dropdown-item" on:click={cacherMenu}> Mes avantages </a>
 				<hr class="dropdown-divider" />
-				<a href="/#" class="dropdown-item"> Mes formations et outils </a>
+				<a href="/connexion/id/formations_outils" class="dropdown-item" on:click={cacherMenu}> Mes formations et outils </a>
 				<hr class="dropdown-divider" />
-				<a href="/#" class="dropdown-item"> Historique d'achat </a>
+				<a href="/connexion/id/achats" class="dropdown-item" on:click={cacherMenu}> Historique d'achat </a>
 				<hr class="dropdown-divider" />
-				<a href="/deconnexion" class="dropdown-item bouton-deconnexion"> Déconnexion </a>
+				<a href="/deconnexion" class="dropdown-item bouton-deconnexion" on:click={cacherMenu}> Déconnexion </a>
 			</div>
 		</div>
 		{:else}
 		<div class="dropdown-menu" id="dropdown-compte" role="menu">
 			<div class="dropdown-content">
-				<a href="/connexion" class="dropdown-item"> Connexion </a>
+				<a href="/connexion" class="dropdown-item" on:click={cacherMenu}> Connexion </a>
 			</div>
 		</div>
 		{/if}
@@ -83,10 +88,6 @@
 		color: #184287;
 	}
 
-	.large{
-		width: 100%;
-	}
-
 	.dropdown-item:hover {
 		background-color: #184287;
 		color: white;
@@ -95,6 +96,7 @@
 	.bouton-deconnexion:hover {
 		background-color: rgba(255, 0, 0, 0.599);
 	}
+
 	
 
 	/*pour afficher le drop down plein écran sur mobile - marche pas*/

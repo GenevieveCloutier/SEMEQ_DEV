@@ -1,8 +1,9 @@
 <script>
-	import H1Title from '../../lib/components/titres/h1Title.svelte';
-	import H3Title from '../../lib/components/titres/h3Title.svelte';
-	import AbonnementEven from '../../lib/components/boites/abonnementEven.svelte';
-	import Retour from '../../lib/components/generaux/retour.svelte'
+
+	import H1Title from '$lib/components/titres/h1Title.svelte';
+	import H3Title from '$lib/components/titres/h3Title.svelte';
+	import AbonnementEven from '$lib/components/boites/abonnementEven.svelte';
+	import Retour from '$lib/components/generaux/retour.svelte'
 	import CheckboxResponsabilite from '$lib/components/formulaires/checkboxResponsabilite.svelte';
 	import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
@@ -10,17 +11,19 @@
 
 	export let data;
 	const {villes} = data;
-
 	//pour afficher une boite de texte si "autres" est sélectionné
 	function preciser(champs, input, requis) {
     input.hidden = true;
+    input.required = false;
 
     if(champs.checked == true){
+      input.required = true;
       input.hidden = false;
       requis.hidden = false;
       input.required = true;
     }
     if(champs.checked == false){
+      input.required = true;
       input.hidden = true;
       requis.hidden = true;
       input.required = false;
@@ -92,7 +95,7 @@
 						<div class="field">
 							<label class="label" for="nomEven">Nom de l'événement <span class="rouge">*</span></label>
 							<div class="control">
-								<input class="input" type="text"name="nomEven" id="nomEven" placeholder="Marché de Noël" />
+								<input class="input" type="text"name="nomEven" id="nomEven" placeholder="Marché de Noël" required />
 							</div>
 						</div>
 					</div>
@@ -103,7 +106,7 @@
 						<div class="field">
 							<label class="label" for="entrepriseEven">Entreprise<span class="rouge">*</span></label>
 							<div class="control">
-								<input class="input" type="text" name="entrepriseEven" id="entrepriseEven" placeholder="Nom de l'entreprise ou organisation" />
+								<input class="input" type="text" name="entrepriseEven" id="entrepriseEven" placeholder="Nom de l'entreprise ou organisation" required />
 							</div>
 						</div>
 					</div>
@@ -117,7 +120,7 @@
 						<div class="control">
 							<!-- J'ai changer le champ pour un select et ajouter les villes -->
 							<div class="select is-fullwidth">
-									<select name="villeEven" id="villeEven" >
+									<select name="villeEven" id="villeEven" required >
 										<option value="" disabled selected>Choisir une ville</option>
 										{#each villes as ville}
 										<option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
@@ -142,9 +145,9 @@
 					  <div class="field is-grouped">
 							<div class="container ml-6 mb-3">
 								<span> Du:</span>
-								<input class="input" type="date" name="dateEvenDebut" id="dateEvenDebut" on:change={dateEven} />
+								<input class="input" type="date" name="dateEvenDebut" id="dateEvenDebut" on:change={dateEven} required />
 								<span>au:</span>
-								<input class="input" type="date" name="dateEvenFin" id="dateEvenFin"  />
+								<input class="input" type="date" name="dateEvenFin" id="dateEvenFin" required />
               			</div>
 					</div>
         		</div>
@@ -200,7 +203,7 @@
 							<label class="label" for="contactEven"
 								>Personne contact pour l'appel de candidatures <span class="rouge">*</span></label>
 							<div class="control">
-								<input class="input" type="text" name="contactEven" id="contactEven" placeholder="Prenom Nom"  />
+								<input class="input" type="text" name="contactEven" id="contactEven" placeholder="Prenom Nom" required />
 							</div>
 						</div>
 					</div>
@@ -209,7 +212,7 @@
 					<div class="field">
 						<label class="label" for="courrielAppel">Courriel pour information ou inscription <span class="rouge">*</span></label>
 						<div class="control">
-							<input class="input" type="email" name="courrielAppel" id="courrielAppel" placeholder="inscription@evenement.com" />
+							<input class="input" type="email" name="courrielAppel" id="courrielAppel" placeholder="inscription@evenement.com" required />
 						</div>
 					</div>
 				</div>
@@ -228,9 +231,9 @@
 						<div class="field is-grouped">
 						<div class="container ml-6 mb-3">
 							<span> Du:</span>
-							<input class="input" type="date" name="dateAppelDebut" id="dateAppelDebut" on:change={dateAppel} />
+							<input class="input" type="date" name="dateAppelDebut" id="dateAppelDebut" on:change={dateAppel} required />
 							<span>au:</span>
-							<input class="input" type="date" name="dateAppelFin" id="dateAppelFin"   />
+							<input class="input" type="date" name="dateAppelFin" id="dateAppelFin" required  />
 						</div>
 						</div>
 					</div>
@@ -253,7 +256,7 @@
 								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeArt" id="typeArt" />Métiers d'art</label>
                 				<label class="checkbox"><input on:change={typeExposant} class="mr-2" type="checkbox" name="checkboxType" id="checkboxType" />Autres</label>
 							<div>
-								<input hidden type="text" name="inputType" id="inputType" placeholder = "Préciser">
+								<input hidden type="text" name="inputType" id="inputType" placeholder = "Préciser" >
 								<span id="requisType" hidden class="rouge">*</span>
 								</div>
 							</div>
@@ -310,7 +313,6 @@
 
 		<!-- Boutons en bas de page -->
 		<div class="block has-text-right">
-			<!-- Valider si SubmitButon fait la bonne action! -->
 			<SubmitButon texte={'Enregistrer'}></SubmitButon>
 			<Retour />
 		</div>

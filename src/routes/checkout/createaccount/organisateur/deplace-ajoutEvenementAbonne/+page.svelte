@@ -1,12 +1,11 @@
 <script>
 	import H1Title from '$lib/components/titres/h1Title.svelte';
-	import H3Title from '../../../../../lib/components/titres/h3Title.svelte';
-	import Retour from '../../../../../lib/components/generaux/retour.svelte';
+	import H3Title from '$lib/components/titres/h3Title.svelte';
+	import Retour from '$liblib/components/generaux/retour.svelte';
 	import CheckboxResponsabilite from '$lib/components/formulaires/checkboxResponsabilite.svelte';
 	import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
-	import BoutonGris from '../../../../../lib/components/boutons/boutonGris.svelte';
-	import Etape2Organisateur from '../../../../../lib/components/barre_progression_paiement/etape2Organisateur.svelte';
+	import Etape2Organisateur from '$lib/components/barre_progression_paiement/etape2Organisateur.svelte';
 
 	let erreur = null;
     export let data;

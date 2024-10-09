@@ -18,7 +18,7 @@
 						<li>Accès aux ressources dans l’espace membre</li>
 					</ul>
 				</div>
-				<BoutonGris lien={'/#'} texte={'Voir les détails'} />
+				<BoutonGris lien={'/panier/creation_compte_organisateur'} texte={'Voir les détails'} />
 				<br />
 			</div>
 		</div>

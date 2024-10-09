@@ -1,8 +1,8 @@
 <script>
-    import H1Title from "../../lib/components/titres/h1Title.svelte";
-	import H2Title from "../../lib/components/titres/h2Title.svelte";
-    import BoutonGris from "../../lib/components/boutons/boutonGris.svelte";
-	import H3Title from "../../lib/components/titres/h3Title.svelte";
+    import H1Title from "$lib/components/titres/h1Title.svelte";
+	import H2Title from "$lib/components/titres/h2Title.svelte";
+    import BoutonGris from "$lib/components/boutons/boutonGris.svelte";
+	import H3Title from "$lib/components/titres/h3Title.svelte";
 
 </script>
 
@@ -189,8 +189,7 @@
                     <tr>
                         <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
                         <td class="has-text-centered"><span class="icon is-large"><i class="fa-solid fa-check fa-lg"></i></span></td>
-                        <!-- mettre le lien!! -->
-                        <td>Des rabais et promotions exclusifs de nos partenaires offrant des produits et services pour vous (voir la liste ici)</td>
+                        <td>Des rabais et promotions exclusifs de nos partenaires offrant des produits et services pour vous <a href="/partenaires" target="blanck">(voir la liste ici)</a></td>
                     </tr>
 
                     <tr>
@@ -200,9 +199,8 @@
                     </tr>
 
                     <tr>
-                        <td class="has-text-centered">gratuit</td>
-                        <!-- mettre le lien! -->
-                        <td class="has-text-centered"><a href="#"><BoutonGris texte={"Je m'inscris!"} /></a></td>
+                        <td class="has-text-centered">Gratuit</td>
+                        <td class="has-text-centered"><a href="/panier/creation_compte_organisateur"><BoutonGris texte={"Je m'inscris!"} /></a></td>
                         <td></td>
                     </tr>
                 </tbody>
@@ -212,9 +210,8 @@
     <div class="column is-one-quarter">
         <div class="block bordure has-text-centered px-6 pb-5 is-hidden-tablet-only">
             <H3Title title={"Des questions?"} />
-            <!-- ajouter les deux liens -->
-            <p class="pb-6">Visite notre F.A.Q. qui sait, peut-être y trouveras-tu la réponse!</p>
-            <p>Tu peux aussi nous contacter en remplissant ce formulaire.</p>
+            <p class="pb-6">Visite notre <a href="/faq">F.A.Q.</a> qui sait, peut-être y trouveras-tu la réponse!</p>
+            <p>Tu peux aussi nous contacter en remplissant <a href="/contact">ce formulaire</a>.</p>
         </div>
         <div class="block">
             <figure class=" image is-320x480 is-hidden-tablet-only">

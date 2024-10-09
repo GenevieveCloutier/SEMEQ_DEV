@@ -1,35 +1,50 @@
 <script>
-	//pour faire afficher le menu avec un appareil mobile quand on appuie sur le hamburger
-	export function toggleNavbarMenu(node) {
-		function toggle() {
-			const target = node.getAttribute('data-target');
-			const targetElement = document.getElementById(target);
-			node.classList.toggle('is-active');
-			if (targetElement) {
-				targetElement.classList.toggle('is-active');
-			}
-		}
-		node.addEventListener('click', toggle);
-		return {
-			destroy() {
-				node.removeEventListener('click', toggle);
-			}
+
+import { onMount } from "svelte";
+
+  onMount(() => {
+    const burger = document.querySelector('.navbar-burger');
+    const menu = document.getElementById('navMenu');
+	let element = document.getElementsByClassName("has-dropdown");
+
+
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('is-active');
+      menu.classList.toggle('is-active');
+	  element.classList.toggle('is-active');
+
+	  console.log("ici")
+	  console.log(element.classList)
+	  
+
+	  //fermerDropdown()
+    });
+  });
+
+	//pour que le dropdown se referme quand on clique sur un des liens
+	function cacherMenu() {
+
+		//pour que ça referme sur mobile
+		let element = document.getElementsByClassName("has-dropdown"); 
+		let burger = document.querySelector('#burger');
+		let menu = document.querySelector('#navMenu')
+		burger.classList.toggle('is-active');
+		menu.classList.toggle('is-active')
+
+		//pour que ça referme sur pc
+		for(let x=0; x<element.length; x++){
+			element[x].style.display = 'none'; 
+			setInterval(function () { element[x].style.display = ''; }, 50); 
 		};
 	};
 
-    // Pour faire afficher le menu dropdown quand on clique sur la flèche
-    // Ne fonctionne pas :(
-	export function toggleDropdownMenu(node) {
-		function toggle() {
-			node.closest('navbar').classList.toggle('is-active');
-		}
-		node.addEventListener('click', toggle);
-		return {
-			destroy() {
-				node.removeEventListener('click', toggle);
-			}
-		};
-	};
+	// //pour fermer les dropdown sur mobile
+	// function fermerDropdown(){
+	// 	let element = document.getElementsByClassName("has-dropdown");
+	// 	console.log(element.classList)
+
+	// }
+	
     
 </script>
 
@@ -38,13 +53,14 @@
 
         <!-- svelte-ignore a11y-missing-attribute -->
 		<a
+			id="burger"
 			role="button"
 			class="navbar-burger"
 			aria-label="menu"
 			aria-expanded="false"
-			data-target="navMenu"
-			use:toggleNavbarMenu
-		>
+			data-target="navMenu">
+			<!-- use:toggleNavbarMenu> -->
+		
 			<span aria-hidden="true"></span>
 			<span aria-hidden="true"></span>
 			<span aria-hidden="true"></span>
@@ -53,48 +69,50 @@
 	<hr />
 	<div id="navMenu" class="navbar-menu">
 		<div class="navbar-center">
-			<div class="navbar-item has-dropdown is-hoverable" use:toggleDropdownMenu>
-				<a href="/#" class="navbar-link"> Répertoires </a>
+			<div class="navbar-item has-dropdown is-hoverable"> <!-- use:toggleDropdownMenu -->
+				<span class="navbar-link"> Répertoires </span>
 				<div class="navbar-dropdown">
-					<a href="/#" class="navbar-item item-deroul"> Exposants </a>
+					<a href="/repertoire_exposants" class="navbar-item item-deroul" on:click={cacherMenu}> Exposants </a>
 					<hr class="navbar-divider" />
-					<a href="/#" class="navbar-item item-deroul"> Événements </a>
+					<a href="/repertoire_evenements" class="navbar-item item-deroul" on:click={cacherMenu}> Événements </a>
 				</div>
 			</div>
 
 			<div class="navbar-item has-dropdown is-hoverable">
-				<a href="/#" class="navbar-link"> Inscription </a>
+				<span class="navbar-link"> Inscription </span>
 				<div class="navbar-dropdown">
-					<a href="/#" class="navbar-item item-deroul"> Exposants </a>
+					<a href="/panier/creation_compte_exposant" class="navbar-item item-deroul" on:click={cacherMenu}> Exposants </a>
 					<hr class="navbar-divider" />
-					<a href="/#" class="navbar-item item-deroul"> Événements </a>
+					<a href="/panier/creation_compte_organisateur" class="navbar-item item-deroul" on:click={cacherMenu}> Événements </a>
 				</div>
 			</div>
 
-			<a href="/#" class="navbar-item"> Formations et outils </a>
+			<a href="/boutique" class="navbar-item hover-bleu" on:click={cacherMenu}> Formations et outils </a>
 
 			<div class="navbar-item has-dropdown is-hoverable">
-				<a href="/#" class="navbar-link"> Contact </a>
+				<span class="navbar-link"> Contact </span>
 				<hr class="navbar-divider" />
 				<div class="navbar-dropdown">
-					<a href="/#" class="navbar-item item-deroul"> Nous joindre </a>
+					<a href="/contact" class="navbar-item item-deroul" on:click={cacherMenu}> Nous joindre </a>
 					<hr class="navbar-divider" />
-					<a href="/#" class="navbar-item item-deroul"> À propos </a>
+					<a href="/a_propos" class="navbar-item item-deroul" on:click={cacherMenu}> À propos </a>
 				</div>
 			</div>
 
-			<a href="/#" class="navbar-item"> Blogue </a>
+			<a href="/blogue" class="navbar-item hover-bleu" on:click={cacherMenu}> Blogue </a>
 
 		</div>
 	</div>
 </nav>
 
 <style>
+
+
 	a {
 		text-decoration: none;
 	}
     
-	.item-deroul:hover/*, .navbar-item:hover, .navbar-link:hover*/ {
+	.item-deroul:hover, .hover-bleu:hover {
 		background-color: #184287;
 		color: white;
 	}
@@ -102,13 +120,13 @@
 	.navbar-link::after {
 		border-color: #184287;
 	}
-/* pour que le menu compte s'affiche par dessus la navbar */
+
+	/* pour que le menu compte s'affiche par dessus la navbar */
 	.navbar-bas {
 		position: relative;
 		z-index: 5;
 	}
     
-
 	/* pour étirer la navbar tout le long de la page sur pc:
      https://gist.github.com/ridgey28/ac007132125d6e251f6c1b96f04049ba */
 	@media screen and (min-width: 1088px) {
@@ -133,4 +151,5 @@
 			justify-content: center;
 		}
 	}
+
 </style>
