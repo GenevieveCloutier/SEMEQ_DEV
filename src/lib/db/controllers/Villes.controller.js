@@ -22,6 +22,13 @@ export async function ajoutVilles(regions){
 } 
 //est ce qu'on rajoute une verife au cas ou? ou un drop table ? a discuter
 
+/**
+ * Récupère toutes les villes.
+ *
+ * @export
+ * @async
+ * @returns {Object} Liste des villes.
+ */
 export async function findAll(){
     return  Ville.findAll({
         include: [

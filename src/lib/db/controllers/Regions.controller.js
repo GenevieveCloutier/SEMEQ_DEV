@@ -29,3 +29,19 @@ export async function ajoutRegions(){
       await ajoutVilles(regions)
       
 }
+
+/**
+ * Récupère toutes les régions.
+ *
+ * @export
+ * @async
+ * @returns {Object} Liste des régions.
+ */
+export async function findAll(){
+  return await Region.findAll().then(resultat => {
+      return resultat.map(regions => regions.dataValues);
+  })
+  .catch((error)=>{
+      throw error;
+  });
+};
