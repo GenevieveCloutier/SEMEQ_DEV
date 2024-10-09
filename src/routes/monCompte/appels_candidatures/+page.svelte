@@ -24,13 +24,6 @@
 <Recherche bind:searchQuery typeRecherche="un événement" />
 
 <div>
-    {#if !events}
-        <section class="section">
-            <p class="title"> Désolé  <span class="icon is-large"><i class="fa-regular fa-face-sad-tear fa-xl"></i></span></p>
-            <p class="subtitle">Il n'y a aucun appel de candidature en cours.</p>
-        </section>
-    {/if}
-
     {#if events.filter(event => event.nom.toLowerCase().includes(searchQuery.toLowerCase())).length === 0}
         <RechercheNoResult />
     {:else}
