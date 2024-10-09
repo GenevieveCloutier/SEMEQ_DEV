@@ -6,7 +6,6 @@
     let searchQuery = '';
 
     export let data;
-    console.log(data);
     const events = data.events;
 
     import { onMount } from "svelte";

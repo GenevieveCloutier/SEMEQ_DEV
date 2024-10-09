@@ -10,31 +10,13 @@ import { Region } from "../../../lib/db/models/Region.model";
  * @param {Object} params - Les paramètres de la requête.
  * @returns {Object} - Les événements et leurs détails pour ceux ayant des appels de candidatures en cours.
  */
-/*export async function load({ params }){
-    //const aujourdhui = new Date().toISOString().split('T')[0];  // date du jour au format ISO sans l'heure
-
-    const events = await findAll({
-        where: {
-            // événement approuvé
-            approuve: true,
-            // fin_cand a une date inférieure (avant) à date du jour ou fin_cand est null
-            [Op.or]: [
-                { fin_cand: { [Op.lt]: new Date() } },
-                { fin_cand: null }
-            ],
-            // début_even a une date inférieure (avant) ou égale à date du jour
-            debut_even: { [Op.lte]: new Date() }
-        }
-    });
-
-    return { events: events }
-}*/
-
 export async function load({ params }){
+    let aujourdhui = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z'; // date du jour au format ISO avec l'heure 00:00:00
+
     const events = await Evenement.findAll({
         where : {
-            //approuve: false,
-            fin_cand: { [Op.lt]: new Date() },
+            debut_cand: { [Op.lte]: aujourdhui }, // Date inférieure (avant) ou égale à aujourdhui
+            fin_cand: { [Op.gte]: aujourdhui }, // Date supérieure (après) à aujourdhui
         },
         include: [
             { model: Utilisateur, as: "utilisateur" },
