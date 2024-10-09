@@ -33,15 +33,17 @@ import { Region } from "../../../lib/db/models/Region.model";
 export async function load({ params }){
     const events = await Evenement.findAll({
         where : {
+            //approuve: false,
             fin_cand: { [Op.lt]: new Date() },
-            include: [
-                { model: Ville, as: "ville",
-                    include: [
-                      { model: Region, as: "region" }
-                    ]
-                  }  
-            ],
-        }
+        },
+        include: [
+            { model: Utilisateur, as: "utilisateur" },
+            { model: Ville, as: "ville",
+                include: [
+                  { model: Region, as: "region" }
+                ]
+            }
+        ]
     })
 
     let plop = events.map(evenement => ({
