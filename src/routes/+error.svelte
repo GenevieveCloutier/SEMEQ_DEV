@@ -1,19 +1,19 @@
-<script>  
-    import { page } from '$app/stores';
-    let notfound = null; 
-    if($page.status === 404)
-        notfound = true;
-    
-  </script>
-  
-  {#if notfound}
-  
+<script>
+  import { page } from '$app/stores';
+  let isNotFound = $page.status === 404;
+  let serverProblem = $page.status === 500;
+</script>
+
+{#if isNotFound}
   <h1 class="title has-text-centered">{$page.status} <br>
-    oups, cette page n'éxiste pas...</h1>
-    <h2 class="subtitle has-text-centered">Pour le moment</h2>
-    {:else}
-    <h1 class="title has-text-centered">{$page.status}: {$page.message}</h1>
-  {/if}
-  <div class="has-text-centered">
-    <a href="/" class="button">Retour a l'accueil</a>
-  </div>
+      Oups, cette page n'existe pas...</h1>
+  <h2 class="subtitle has-text-centered">Pour le moment</h2>
+{:else if serverProblem}
+  <h1 class="title has-text-centered">Erreur {$page.status}</h1>
+  <h2 class="subtitle has-text-centered">Ce n'est pas vous, c'est notre serveur qui a de la difficulté</h2>
+{:else}
+  <h1 class="title has-text-centered">Erreur {$page.status}: {$page.error?.message}</h1>
+{/if}
+<div class="has-text-centered">
+  <a href="/" class="button">Retour à l'accueil</a>
+</div>

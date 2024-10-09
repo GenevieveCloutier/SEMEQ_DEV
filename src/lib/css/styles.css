@@ -25,14 +25,6 @@ a.is-active {
     background-color: lightgray;
 }
 
-/* Affichage si pas de résultat pour une recherche */
-.no-results{
-    width: 100%;
-    display: flex;
-    padding: 20px;
-    font-size: 1.5rem;
-    background-color: lightgray;
-}
 canvas {
   /* max-width: 100%;
   height: 400px; */
