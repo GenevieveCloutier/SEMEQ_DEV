@@ -76,11 +76,11 @@ import { onMount } from "svelte";
 			</div>
 
 			<div class="navbar-item has-dropdown is-hoverable">
-				<span class="navbar-link"> Inscription </span>
+				<a href="/creation_compte" class="navbar-link"> Inscription </a>
 				<div class="navbar-dropdown">
 					<a href="/creation_compte/creation_compte_gratuit" class="navbar-item item-deroul" on:click={cacherMenu}> Compte de base </a>
 					<hr class="navbar-divider" />
-					<a href="/exposant#tableau" class="navbar-item item-deroul" on:click={cacherMenu}> Exposants </a>
+					<a href="/exposant#avantages" class="navbar-item item-deroul" on:click={cacherMenu}> Exposants </a>
 					<hr class="navbar-divider" />
 					<!-- ajouter l'ancre vers le tableau quand la page sera faite -->
 					<a href="/organisateur" class="navbar-item item-deroul" on:click={cacherMenu}> Événements </a>

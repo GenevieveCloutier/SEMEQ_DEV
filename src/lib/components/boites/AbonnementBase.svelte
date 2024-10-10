@@ -8,19 +8,16 @@
 		<!-- pour acheter un abonnement exposant -->
 		<div class="container px-4 py-4 has-text-centered">
             <div class="zone">
-			    <H2Title title={"Obtiens plus d'avantages avec un abonnement Exposant!"} />
+			    <H2Title title={"Compte de base"} />
             </div>
 			<div class="container-content">
 				<div class=" zone content has-text-left">
 					<ul>
-						<li>Fiche de ton entreprise dans le répertoire pour le public</li>
-						<li>Reçois les appels de candidatures par courriel</li>
-						<li>Accès au groupe Facebook</li>
-						<li>Accès aux rabais de nos partenaires</li>
-						<li>Accès aux ressources dans l’espace membre</li>
+						<li>Ajouter un événement gratuit au répertoire</li>
+                        <li>Acheter des formations et des outils</li>
 					</ul>
                     <div class="zone has-text-centered">
-                        <BoutonGris lien={'/exposant#avantages'} texte={'Voir les détails'} />
+                        <BoutonGris lien={'/creation_compte/creation_compte_gratuit'} texte={'Voir les détails'} />
                     </div>
 				</div>
 			</div>

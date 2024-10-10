@@ -105,14 +105,14 @@
             </div>
         </div>
     </div>
-    <div id="tableaExposant" class="container">
+    <div id="avantages" class="container">
     <H3Title title={"Notre offre pour les exposants:"} />
 
 
 <div class="columns">
     <div class="column is-three-quarters-desktop">
         <div class="container">
-            <table class="table is-hoverable">
+            <table  class="table is-hoverable">
                 <thead>
                     <tr >
                         <th class="has-text-centered">Accessible à tous<br><span class="is-size-7 has-text-grey">gratuit</span></th>
@@ -177,7 +177,7 @@
 
                     <tr>
                         <td class="has-text-centered">Gratuit</td>
-                        <td class="has-text-centered"><a href="/panier/creation_compte_exposant"><BoutonGris texte={"Je m'inscris!"} /></a></td>
+                        <td class="has-text-centered"><a href="/boutique"><BoutonGris texte={"Je m'inscris!"} /></a></td>
                         <td></td>
                     </tr>
                 </tbody>
