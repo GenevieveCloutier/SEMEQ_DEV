@@ -115,3 +115,23 @@ export async function creationEvenement(event) {
         alert('aucune idee d\'ou c\'est partie');
     }
 }
+
+//ici
+// export async function nouveauCompteEven(event){
+    
+//     const formData = new FormData(event.target);
+//     const response = await fetch('./api?/nouveauCompteEven', {
+//         method: 'POST',
+//         body: formData
+//     });
+    
+//     const result = await response.json();
+    
+//     if (result.type === 'success') {
+//         window.location.href = '/repertoire_evenements/inscription_evenement_gratuit';
+//     } else if (result.type === 'failure'){
+//         erreur.set(JSON.parse(result.data)[1]);
+//     }
+    //rediriger vers la page d'inscription d'événement gratuit
+// }
+//ici

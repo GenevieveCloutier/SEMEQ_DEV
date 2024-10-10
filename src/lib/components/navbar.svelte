@@ -78,6 +78,8 @@ import { onMount } from "svelte";
 			<div class="navbar-item has-dropdown is-hoverable">
 				<span class="navbar-link"> Inscription </span>
 				<div class="navbar-dropdown">
+					<a href="/connexion/creation_compte_base" class="navbar-item item-deroul" on:click={cacherMenu}> Compte de base </a>
+					<hr class="navbar-divider" />
 					<a href="/panier/creation_compte_exposant" class="navbar-item item-deroul" on:click={cacherMenu}> Exposants </a>
 					<hr class="navbar-divider" />
 					<a href="/panier/creation_compte_organisateur" class="navbar-item item-deroul" on:click={cacherMenu}> Événements </a>

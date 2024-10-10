@@ -62,18 +62,21 @@ export async function load({ params, cookies }) {
     const role = cookies.get('role');
     console.log(role);
     
-    
+    // redirection temporaire, enlever quand la vraie page d'accueil sera faite
+    if (!role){
+        redirect(302, '/exposant');
+    }
     if (role == '1'){
         redirect(302, '/admin');
     }
     if (role == '2'){
-        redirect(302, '/accueilOrganisateur');
+        redirect(302, '/organisateur');
     }
     if (role == '3'){
-        redirect(302, '/accueilExposant');
+        redirect(302, '/exposant');
     }
     if (role == '4'){
-        redirect(302, '/accueilVisiteur');
+        redirect(302, '/visiteur');
     }
     
     

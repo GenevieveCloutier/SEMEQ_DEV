@@ -67,6 +67,33 @@ export const actions = {
         
     },
 
+
+    //ici
+    // nouveauCompteEven: async({cookies, request})=>{
+    //     const data = await request.formData();
+    //     console.log('request = ',request);
+    //     console.log('data = ',data);
+        
+    //     const domaine = envoieMappage(data, domaines);
+        
+    //     try {
+    //         let res = await newUser(
+    //             data.get("nomBase"),
+    //             data.get("prenomBase"),
+    //             "4",
+    //             data.get("courrielBase"),    
+    //             data.get("MDPBase"),
+    //             data.get("villeBase"),
+    //         );
+    //     createCookie(res.id, cookies, res.role_id);
+    //     }catch(error){
+    //         return fail(401, error);
+    //     }
+        
+    // },
+    //ici
+
+
     nouvelEvenement: async({cookies, request})=>{
         const data = await request.formData();
         const type = envoieMappage(data, types);

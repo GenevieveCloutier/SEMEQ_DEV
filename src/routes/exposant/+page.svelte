@@ -37,92 +37,69 @@
 
     <div class="columns is-centered">
         <div class="column is-one-fifth-desktop">
-            <div class="card">
+            <div class="card is-equal-height">
                     <div class="media px-4 py-4">
                         <div class="media-left">
                             <figure class="is-hidden-tablet-only">
                                 <img src="/src/lib/img/app/5_etoiles.svg" alt="Étoiles"/>
                             </figure>
-                            <p class="title is-6">Mélo Photo</p>
+                            <p class="title is-6">Les 1001 Mailles<br> de Miss Crochet</p>
                         </div>
                         <div class="media-content">
                             <figure class="image is-48x48">
-                                <img class="is-rounded" src="/src/lib/img/app/melo_photo.png" alt="Melo profil"/>
+                                <img class="is-rounded" src="/src/lib/img/app/avis/1000_maille_de_miss_crochet.jpg" alt="Logo de 1000 Mailles de Miss Crochet"/>
                             </figure>
                         </div>
                     </div>
                 <div class="card-content">
                     <div class="content">
-                        <p class="is-size-6">Wow, merci au Répertoire SÉMEQ! C’est incroyable le temps que vous me faites économiser!</p>
+                        <p class="is-size-6">Ce répertoire est une mine d'or ! Il fait sauver du temps à toute personne désirant avoir un suivi sur les marchés à travers le Québec ! C'est un must !</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="column is-one-fifth-desktop">
-            <div class="card">
+            <div class="card is-equal-height">
                     <div class="media px-4 py-4">
                         <div class="media-left">
                             <figure class="is-hidden-tablet-only">
                                 <img src="/src/lib/img/app/5_etoiles.svg" alt="Étoiles"/>
                             </figure>
-                            <p class="title is-6">Mélo Photo</p>
+                            <p class="title is-6">Miss ProjetSSS</p>
                         </div>
                         <div class="media-content">
                             <figure class="image is-48x48">
-                                <img class="is-rounded" src="/src/lib/img/app/melo_photo.png" alt="Melo profil"/>
+                                <img class="is-rounded" src="/src/lib/img/app/avis/miss_projetsss.jpg" alt="Logo de Miss ProjetSSS"/>
                             </figure>
                         </div>
                     </div>
                 <div class="card-content">
                     <div class="content">
-                        <p class="is-size-6">Wow, merci au Répertoire SÉMEQ! C’est incroyable le temps que vous me faites économiser!</p>
+                        <p class="is-size-6">Bel  outil pour les artisans de regrouper tous les événements sous une bannière. </p>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="column is-one-fifth-desktop">
-            <div class="card">
+            <div class="card is-equal-height">
                     <div class="media px-4 py-4">
                         <div class="media-left">
                             <figure class="is-hidden-tablet-only">
                                 <img src="/src/lib/img/app/5_etoiles.svg" alt="Étoiles"/>
                             </figure>
-                            <p class="title is-6">Mélo Photo</p>
+                            <p class="title is-6">Sage Pure</p>
                         </div>
                         <div class="media-content">
                             <figure class="image is-48x48">
-                                <img class="is-rounded" src="/src/lib/img/app/melo_photo.png" alt="Melo profil"/>
+                                <img class="is-rounded" src="/src/lib/img/app/avis/sage_pure.jpg"  alt="Logo de Sage Pure"/>
                             </figure>
                         </div>
                     </div>
                 <div class="card-content">
                     <div class="content">
-                        <p class="is-size-6">Wow, merci au Répertoire SÉMEQ! C’est incroyable le temps que vous me faites économiser!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="column is-one-fifth-desktop">
-            <div class="card">
-                    <div class="media px-4 py-4">
-                        <div class="media-left">
-                            <figure class="is-hidden-tablet-only">
-                                <img src="/src/lib/img/app/5_etoiles.svg" alt="Étoiles"/>
-                            </figure>
-                            <p class="title is-6">Mélo Photo</p>
-                        </div>
-                        <div class="media-content">
-                            <figure class="image is-48x48">
-                                <img class="is-rounded" src="/src/lib/img/app/melo_photo.png" alt="Melo profil"/>
-                            </figure>
-                        </div>
-                    </div>
-                <div class="card-content">
-                    <div class="content">
-                        <p class="is-size-6">Wow, merci au Répertoire SÉMEQ! C’est incroyable le temps que vous me faites économiser!</p>
+                        <p class="is-size-6">Nous venons tout juste de nous inscrire, j'adore le fait que tout est regroupé dans l'infolettre pour les candidatures et les trucs/conseils également. ON adore!</p>
                     </div>
                 </div>
             </div>
@@ -200,7 +177,7 @@
 
                     <tr>
                         <td class="has-text-centered">Gratuit</td>
-                        <td class="has-text-centered"><a href="/panier/creation_compte_organisateur"><BoutonGris texte={"Je m'inscris!"} /></a></td>
+                        <td class="has-text-centered"><a href="/panier/creation_compte_exposant"><BoutonGris texte={"Je m'inscris!"} /></a></td>
                         <td></td>
                     </tr>
                 </tbody>
@@ -215,7 +192,7 @@
         </div>
         <div class="block">
             <figure class=" image is-320x480 is-hidden-tablet-only">
-                <img src="https://bulma.io/assets/images/placeholders/320x480.png" alt="Étoiles"/>
+                <img src="https://bulma.io/assets/images/placeholders/320x480.png" alt="photo de marche"/>
             </figure>
         </div>
     </div>
@@ -233,4 +210,12 @@
 		border: 1px solid #d9d9d9;
         border-radius: 10px;
 	}
+
+    .is-equal-height{
+        display: flex;
+        flex-direction: column;
+        height: 100%
+    }
+
+
 </style>

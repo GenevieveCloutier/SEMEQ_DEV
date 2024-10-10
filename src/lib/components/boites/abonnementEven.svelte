@@ -3,13 +3,15 @@
 	import H2Title from '../titres/h2Title.svelte';
 </script>
 
-<div class="columns is-centered mt-4">
-	<div class="column is-one-third-desktop">
+
+
 		<!-- pour acheter un abonnement événement -->
 		<div class="container px-4 py-4 has-text-centered">
-			<H2Title title={"Obtiens plus d'avantages avec un abonnement!"} />
+			<div class="zone">
+				<H2Title title={"Obtiens plus d'avantages avec un abonnement Événement!"} />
+			</div>
 			<div class="container-content">
-				<div class="content has-text-left">
+				<div class="zone content has-text-left">
 					<ul>
 						<li>Inscription au répertoire des événements pour le public</li>
 						<li>Fiche détaillée de l’événement avec photos</li>
@@ -17,17 +19,29 @@
 						<li>Accès aux rabais de nos partenaires</li>
 						<li>Accès aux ressources dans l’espace membre</li>
 					</ul>
+					<div class="zone has-text-centered">
+						<BoutonGris lien={'/panier/creation_compte_organisateur'} texte={'Voir les détails'} />
+					</div>
 				</div>
-				<BoutonGris lien={'/panier/creation_compte_organisateur'} texte={'Voir les détails'} />
-				<br />
 			</div>
 		</div>
-	</div>
-</div>
+
+
 
 <style>
 	.container {
 		border: 1px solid #d9d9d9;
 		border-radius: 10px;
+		display: flex;
+        flex-direction: column;
+		height: 100%;
 	}
+
+	.zone{
+		display: flex;
+        flex-direction: column;
+        height: 100%;
+	}
+
+
 </style>

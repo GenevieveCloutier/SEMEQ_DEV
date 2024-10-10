@@ -8,9 +8,12 @@
 	import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
 	import { creationEvenement, erreur } from '$lib/outils/formHandlers';
+	import { redirect } from '@sveltejs/kit';
 
 	export let data;
-	const {villes} = data;
+	const {villes, users, session, role} = data;
+
+
 	//pour afficher une boite de texte si "autres" est sélectionné
 	function preciser(champs, input, requis) {
     input.hidden = true;
@@ -71,6 +74,7 @@
 	<NotifDanger></NotifDanger>
 
 	<H1Title title={'Inscrire mon événement gratuitement'} />
+	<p class="has-text-centered mb-4">(Délai de traitement de 3 jours)</p>
 
 	<div class=" container container-bordure px-4 py-4 has-text-centered has-background-light">
 		<p class="is-size-6 has-text-weight-bold">
@@ -81,11 +85,19 @@
 			agro-alimentaires, et que tu complètes le formulaire d'inscription en ligne.
 		</p>
 	</div>
-
-	<AbonnementEven />
+ 
+	<!-- afficher la boite de compte payant seulement aux personnes qui ne sont pas connectés à  un compte payant -->
+	{#if !role || role === "3" || role === "4" }
+		<div class="columns is-centered mt-5">
+			<div class="column is-one-third">
+				<AbonnementEven />
+			</div>
+		</div>
+	{/if}
+	
 
 	<form on:submit|preventDefault={creationEvenement}>
-		<div class="box">
+		<div class="box mt-5">
 			<!-- section pour les infos de l'événement -->
 			<H3Title title={"Détails de l'événement"} />
 			<div class="columns">
