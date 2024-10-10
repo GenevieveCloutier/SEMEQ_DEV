@@ -66,7 +66,7 @@ import { onMount } from "svelte";
 	<hr />
 	<div id="navMenu" class="navbar-menu">
 		<div class="navbar-center">
-			<div class="navbar-item has-dropdown is-hoverable"> <!-- use:toggleDropdownMenu -->
+			<div class="navbar-item has-dropdown is-hoverable">
 				<span class="navbar-link"> Répertoires </span>
 				<div class="navbar-dropdown">
 					<a href="/repertoire_exposants" class="navbar-item item-deroul" on:click={cacherMenu}> Exposants </a>
@@ -78,11 +78,12 @@ import { onMount } from "svelte";
 			<div class="navbar-item has-dropdown is-hoverable">
 				<span class="navbar-link"> Inscription </span>
 				<div class="navbar-dropdown">
-					<a href="/connexion/creation_compte_base" class="navbar-item item-deroul" on:click={cacherMenu}> Compte de base </a>
+					<a href="/creation_compte/creation_compte_gratuit" class="navbar-item item-deroul" on:click={cacherMenu}> Compte de base </a>
 					<hr class="navbar-divider" />
-					<a href="/panier/creation_compte_exposant" class="navbar-item item-deroul" on:click={cacherMenu}> Exposants </a>
+					<a href="/exposant#tableau" class="navbar-item item-deroul" on:click={cacherMenu}> Exposants </a>
 					<hr class="navbar-divider" />
-					<a href="/panier/creation_compte_organisateur" class="navbar-item item-deroul" on:click={cacherMenu}> Événements </a>
+					<!-- ajouter l'ancre vers le tableau quand la page sera faite -->
+					<a href="/organisateur" class="navbar-item item-deroul" on:click={cacherMenu}> Événements </a>
 				</div>
 			</div>
 

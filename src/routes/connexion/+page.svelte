@@ -34,7 +34,7 @@
                             <SubmitButon texte={'Se connecter'}></SubmitButon>
                             <Retour />
                         </div>
-                        <a href="#" class="help has-text-centered">Tu n’as pas encore de compte? Clique ici.</a>
+                        <a href="/creation_compte" class="help has-text-centered">Tu n’as pas encore de compte? Clique ici.</a>
                     </form>
                 </div>
             </div>

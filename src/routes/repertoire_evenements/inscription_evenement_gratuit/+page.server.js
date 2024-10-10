@@ -12,7 +12,7 @@ export async function load({cookies}){
 
     //pour envoyer sur le formulaire de connexion si l'utilisateur n'a pas de compte / n'est pas connecté
     if (!role){
-        redirect(302, '/connexion/creation_compte_base_even');
+        redirect(302, '/connexion');
     }
  
     return {users: users, session: session, role:role, villes:villes}; //tous les utilisateurs
