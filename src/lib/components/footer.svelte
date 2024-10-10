@@ -4,15 +4,15 @@
 		<div class="columns has-text-centered is-multiline is-mobile">
 			<div class="column is-full-mobile is-half-tablet is-one-quarter-desktop">
 				<h3 class="is-size-5 mb-3">Infos légales</h3>
-				<a class="is-size-7 p-6 has-text-link" href="/politiques_confidentialite">Politiques de confidentialité</a><br />
-				<a class="is-size-7 p-6 has-text-link" href="/conditions_utilisation">Conditions d'utilisation</a><br />
-				<a class="is-size-7 p-6 has-text-link" href="/politiques_cookies">Politiques des cookies</a><br />
+				<a class="is-size-7 has-text-link" href="/conditions_utilisation">Politiques de confidentialité</a><br />
+				<a class="is-size-7 has-text-link" href="/conditions_utilisation">Conditions d'utilisation</a><br />
+				<a class="is-size-7 has-text-link" href="/politiques_cookies">Politiques des cookies</a><br />
 			</div>
 
 			<div class="column is-full-mobile is-half-tablet is-one-quarter-desktop has-text-centered">
 				<h3 class="is-size-5 mb-3">Contact</h3>
-				<a class="is-size-7 p-6 has-text-link" href="/a_propos">À propos</a><br />
-				<a class="is-size-7 p-6 has-text-link" href="/contact">Nous joindre</a><br />
+				<a class="is-size-7 has-text-link" href="/a_propos">À propos</a><br />
+				<a class="is-size-7 has-text-link" href="/contact">Nous joindre</a><br />
 			</div>
 
 			<div class="column has-text-centered is-full-mobile is-full-tablet is-one-quarter-desktop">

@@ -6,6 +6,7 @@
 	import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
 	import Etape2Organisateur from '$lib/components/barre_progression_paiement/etape2Organisateur.svelte';
+	import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
 
 	let erreur = null;
     export let data;
@@ -82,6 +83,28 @@ function dateConforme(dateDebut, dateFin){
     let dateFin = document.querySelector("#dateCandEvenPayantFin");
     dateConforme(dateDebut, dateFin)
   }
+
+  //fonction pour afficher la section / cacher le bouton
+  function afficher(event, section, bouton){
+    event.preventDefault()
+    bouton.hidden = true;
+    section.hidden = false;
+  };
+  
+//pour la section 2
+function section2(event){
+    let section = document.querySelector('#section2');
+    let bouton = document.querySelector("#bouton2");
+    afficher(event,section, bouton)
+};
+
+//pour la section 3
+function section3(event){
+    let section = document.querySelector('#section3');
+    let bouton = document.querySelector("#bouton3");
+    afficher(event,section, bouton)
+};
+
 
 </script>
 
@@ -233,7 +256,7 @@ function dateConforme(dateDebut, dateFin){
             <div class="columns is-centered">
                 <div class="column is-one-third">
 
-                    <div class="field">
+                    <div class="field my-5">
                         <label class="label" for="photo1">Photo 1</label>
                         <div class="control">
                           <input class="input" type="file" name="photo1" id="photo1">
@@ -243,7 +266,7 @@ function dateConforme(dateDebut, dateFin){
                 </div>
 
                 <div class="column is-one-third">
-                    <div class="field">
+                    <div class="field my-5">
                         <label class="label" for="photo2">Photo 2</label>
                         <div class="control">
                           <input class="input" type="file" name="photo2" id="photo2">
@@ -252,22 +275,27 @@ function dateConforme(dateDebut, dateFin){
                 </div>
 
                 <div class="column is-one-third">
-                    <div class="field">
+                    <div class="field my-5">
                         <label class="label" for="photo3">Photo 3</label>
                         <div class="control">
                           <input class="input" type="file" name="photo3" id="photo3">
                         </div>
                       </div>
-                </div>
-                
+                </div>     
             </div>
-        <!-- fin de la section pour les photos -->
+        <!-- fin de la section pour les photos --> 
 
-    <hr class="my-6 is-hidden-mobile is-hidden-tablet-only" />
-    <!-- section pour les infos d'appel de candidatures -->
-	<H3Title title={"Détails de l'appel de candidatures"} />  
-    
+<!-- bouton pour cacher / afficher la section 2 -->
+    <div id="bouton2" class="has-text-centered">
+        <BoutonBleu texte={"Passer à la section 2 de 3"} fonction={section2} />
+    </div>
+
     <div class="block">
+        <div hidden id="section2">
+            <hr class="my-6 is-hidden-mobile is-hidden-tablet-only" />
+
+            <!-- section pour les infos d'appel de candidatures -->
+            <H3Title title={"Détails de l'appel de candidatures"} /> 
         <div class="columns">
             <div class="column is-half">
 
@@ -373,14 +401,24 @@ function dateConforme(dateDebut, dateFin){
                     </div>
                 </div>
             </div>
-          </div>
-                
-                
-        <!-- fin colonnes de la fin -->
-            </div>
+        </div>      
+    </div>
+</div>
+
+        <!-- bouton pour cacher / afficher la section 3 -->
+        <div id="bouton3" class="has-text-centered">
+            <BoutonBleu texte={"Passer à la section 3 de 3"} fonction={section3} />
         </div>
 
+     <!-- fin section 2        -->
+    </div>
+
+            
+        
+
         <hr class="mb-6 is-hidden-mobile is-hidden-tablet-only" />
+
+    <div hidden id="section3">
 
         <H3Title title={"Statistiques de votre événement"} />
 
@@ -425,14 +463,10 @@ function dateConforme(dateDebut, dateFin){
 
 
         
-<!-- /div du box du formulaire -->
-        </div>
-<!-- /div du block -->
-</div>
+
 
 			<hr class="is-hidden-mobile is-hidden-tablet-only" />
 			<CheckboxResponsabilite />
-
 
 		<!-- Boutons en bas de page -->
 		<div class="block has-text-right">
@@ -440,7 +474,17 @@ function dateConforme(dateDebut, dateFin){
 			<SubmitButon texte={'Enregistrer'}></SubmitButon>
 			<Retour />
 		</div>
-	</form>
+
+<!-- fin section 3 -->
+</div>
+
+<!-- /div du box du formulaire -->
+</div>
+
+<!-- /div du block -->
+</div>
+
+</form>
 </div>
 
 
