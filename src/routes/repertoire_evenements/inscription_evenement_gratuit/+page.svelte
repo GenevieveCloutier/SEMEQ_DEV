@@ -6,6 +6,7 @@
 	import Retour from '$lib/components/generaux/retour.svelte'
 	import CheckboxResponsabilite from '$lib/components/formulaires/checkboxResponsabilite.svelte';
 	import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
+	import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
 	import { creationEvenement, erreur } from '$lib/outils/formHandlers';
 	import { redirect } from '@sveltejs/kit';
@@ -68,13 +69,28 @@
     let dateFin = document.querySelector("#dateAppelFin");
     dateConforme(dateDebut, dateFin)
   };
+
+    //fonction pour afficher la section / cacher le bouton
+	function afficher(event, section, bouton){
+    event.preventDefault()
+    bouton.hidden = true;
+    section.hidden = false;
+  };
+  
+	//pour la section 2
+	function section2(event){
+		let section = document.querySelector('#section2');
+		let bouton = document.querySelector("#bouton2");
+		afficher(event,section, bouton)
+	};
+
 </script>
 
 <div class="block">
 	<NotifDanger></NotifDanger>
 
 	<H1Title title={'Inscrire mon événement gratuitement'} />
-	<p class="has-text-centered mb-4">(Délai de traitement de 3 jours)</p>
+	<p class="has-text-centered mb-4">(Délai de traitement de 3 jours ouvrables)</p>
 
 	<div class=" container container-bordure px-4 py-4 has-text-centered has-background-light">
 		<p class="is-size-6 has-text-weight-bold">
@@ -203,6 +219,12 @@
 		</div>
 			<!-- Fin des colonnes -->
 
+<!-- bouton pour cacher / afficher la section 2 -->
+<div id="bouton2" class="has-text-centered">
+	<BoutonBleu texte={"Continuer vers la section 2 de 2"} fonction={section2} />
+</div>
+
+<div hidden id="section2">
 			<hr class=" is-hidden-mobile is-hidden-tablet-only" />
 			<!-- section pour les infos d'appel de candidatures -->
 			<H3Title title={"Détails de l'appel de candidatures"} />
@@ -320,14 +342,15 @@
 
 			<hr class="is-hidden-mobile is-hidden-tablet-only" />
 			<CheckboxResponsabilite />
-		</div>
-		<!-- Fin box -->
 
 		<!-- Boutons en bas de page -->
 		<div class="block has-text-right">
 			<SubmitButon texte={'Enregistrer'}></SubmitButon>
 			<Retour />
+
 		</div>
+	</div>
+	<!-- Fin box et fin de section2-->
 	</form>
 </div>
 

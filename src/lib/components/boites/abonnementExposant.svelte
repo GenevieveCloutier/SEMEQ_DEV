@@ -20,7 +20,7 @@
 						<li>Accès aux ressources dans l’espace membre</li>
 					</ul>
                     <div class="zone has-text-centered">
-                        <BoutonGris lien={'/panier/creation_compte_exposant'} texte={'Voir les détails'} />
+                        <BoutonGris lien={'/exposant#infoExposant'} texte={'Voir les détails'} />
                     </div>
 				</div>
 			</div>

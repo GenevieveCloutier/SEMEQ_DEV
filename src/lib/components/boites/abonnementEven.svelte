@@ -20,7 +20,8 @@
 						<li>Accès aux ressources dans l’espace membre</li>
 					</ul>
 					<div class="zone has-text-centered">
-						<BoutonGris lien={'/panier/creation_compte_organisateur'} texte={'Voir les détails'} />
+						<!-- ajuster le lien pour que ça rende à la section de tableau de la page quand elle sera faite -->
+						<BoutonGris lien={'/organisateur'} texte={'Voir les détails'} />
 					</div>
 				</div>
 			</div>

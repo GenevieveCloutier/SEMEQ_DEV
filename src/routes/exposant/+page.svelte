@@ -17,7 +17,7 @@
     </div>
 
     <div class="container ">
-        <p class="mb-4">Trouve tous les événements à la recherche d'exposants en quelques clics!</p> 
+        <p id="infoExposant" class="mb-4">Trouve tous les événements à la recherche d'exposants en quelques clics!</p> 
 
         <!-- ce texte est à améliorer! -->
         <p>Abonne-toi à notre liste d'exposants officiels et reçois par courriel chaque mois, la liste des appels
@@ -99,7 +99,7 @@
                     </div>
                 <div class="card-content">
                     <div class="content">
-                        <p class="is-size-6">Nous venons tout juste de nous inscrire, j'adore le fait que tout est regroupé dans l'infolettre pour les candidatures et les trucs/conseils également. ON adore!</p>
+                        <p class="is-size-6">Nous venons tout juste de nous inscrire, j'adore le fait que tout est regroupé dans l'infolettre pour les candidatures et les trucs/conseils également. On adore!</p>
                     </div>
                 </div>
             </div>

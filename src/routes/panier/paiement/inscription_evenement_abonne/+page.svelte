@@ -287,7 +287,7 @@ function section3(event){
 
 <!-- bouton pour cacher / afficher la section 2 -->
     <div id="bouton2" class="has-text-centered">
-        <BoutonBleu texte={"Passer à la section 2 de 3"} fonction={section2} />
+        <BoutonBleu texte={"Continuer vers la section 2 de 3"} fonction={section2} />
     </div>
 
     <div class="block">
@@ -407,7 +407,7 @@ function section3(event){
 
         <!-- bouton pour cacher / afficher la section 3 -->
         <div id="bouton3" class="has-text-centered">
-            <BoutonBleu texte={"Passer à la section 3 de 3"} fonction={section3} />
+            <BoutonBleu texte={"Continuer vers la section 3 de 3"} fonction={section3} />
         </div>
 
      <!-- fin section 2        -->
