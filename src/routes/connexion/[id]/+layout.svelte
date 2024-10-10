@@ -7,18 +7,16 @@
     <div class="column is-2 ml-2">
         <aside class="menu is-hidden-mobile">
             <ul class="menu-list">
-                <!-- Changer moncompte/ pour [id]/ -->
-                <li><a href="/monCompte" id="monCompte">Mon compte</a></li>
+                <li><a href="/connexion/[id]" id="monCompte">Mon compte</a></li>
                 {#if role === '1' || role === '2'}
-                <li><a href="/#" id="mesEvenements">Mes événements</a></li>
+                <li><a href="/connexion/[id]/mes_evenements" id="mesEvenements">Mes événements</a></li>
                 {/if}
                 {#if role === '3' || role === '1'}
-                <!-- Changer moncompte/ pour [id]/ -->
-                <li><a href="monCompte/appels_candidatures" id="appelsCandidatures">Appels de candidatures</a></li>
+                <li><a href="/connexion/[id]/appels_candidatures" id="appelsCandidatures">Appels de candidatures</a></li>
                 {/if}
-                <li><a href="/#" id="mesAvantages">Mes avantages</a></li>
-                <li><a href="/#" id="mesFormations">Mes formations et outils</a></li>
-                <li><a href="/#" id="achats">Historique d'achat</a></li>
+                <li><a href="/connexion/[id]/mes_avantages" id="mesAvantages">Mes avantages</a></li>
+                <li><a href="/connexion/[id]/formations_outils" id="formationsOutils">Mes formations et outils</a></li>
+                <li><a href="/connexion/[id]/achats" id="achats">Historique d'achat</a></li>
                 <div class="espace"></div>
                 <li><a href="/deconnexion" class="bouton-deconnexion">Déconnexion</a></li>
             </ul>
