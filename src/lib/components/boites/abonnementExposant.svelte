@@ -9,6 +9,7 @@
 		<div class="container px-4 py-4 has-text-centered">
             <div class="zone">
 			    <H2Title title={"Obtiens plus d'avantages avec un abonnement Exposant!"} />
+                <p class="is-size-6 has-text-grey mb-3">Tout ce que le compte gratuit offre +</p>
             </div>
 			<div class="container-content">
 				<div class=" zone content has-text-left">
