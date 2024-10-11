@@ -23,9 +23,10 @@ npm install
 npm install --save sequelize
 npm install --save sqlite3
 npm i bcrypt
+npm i csvtojson
 npm run dev -- --open
 ```
 
 ## Accès compte admin
-- Courriel : À venir
-- Mot de passe : À venir
+- Courriel : adamin@admin
+- Mot de passe : admin
