@@ -14,9 +14,9 @@
 
 <div class="block">
 
-<BarrePaiementEtape1 />
+  <BarrePaiementEtape1 />
 
-<NotifDanger erreur={erreur}></NotifDanger>
+  <NotifDanger erreur={erreur}></NotifDanger>
 
   <form on:submit|preventDefault={creationOrganisateur}>
     <div class="box">

@@ -117,7 +117,7 @@ export async function creationOrganisateur(event){
       if (result.type == 'failure')
         erreur.set(JSON.parse(result.data)[0]);
       else
-        alert('Organisateur créé, mais pas encore de redirection');
+        alert('Organisateur créé, mais aucune idee d\'ou c\'est partie');
       
         // window.location.href = '/'; //AJOUTER LIEN
 }
