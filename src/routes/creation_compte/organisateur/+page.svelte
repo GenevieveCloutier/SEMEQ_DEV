@@ -6,36 +6,9 @@
   import SubmitButon from "$lib/components/formulaires/submitButon.svelte";
   import NotifDanger from "$lib/components/notifications/notifDanger.svelte";
 
-  let erreur = null;
-
-  /**
-   * Gère la soumission du formulaire pour créer un nouvel élément.
-   * @param {Event} event - L'événement de soumission du formulaire.
-   * @returns {void}
-   */
-  async function handleSubmit(event)
-  {
-      const formData = new FormData(event.target);
-
-      // Choix obligatoire pour NEQ, l'utilisateur inscrit son NEQ ou coche la checkbox
-      const neqInput = document.getElementById('neq');
-      const noNeqCheckbox = document.getElementById('no-neq');
-
-      if (!neqInput.value && !noNeqCheckbox.checked) {
-        erreur = 'Merci de remplir le champ NEQ ou cocher la case "Je n\'ai pas de NEQ".';
-        return;
-      }
-
-      const response = await fetch('?/newOrganisateur', {
-          method: 'POST',
-          body: formData
-      });
-      const result = await response.json();
-      if (result.type == 'failure')
-          erreur = JSON.parse(result.data)[0];
-      else
-          window.location.href = '/'; //AJOUTER LIEN
-  }
+  import { creationOrganisateur, erreur } from '../../../lib/outils/formHandlers';
+  export let data;
+  const { villes } = data;
 </script>
 
 
@@ -45,7 +18,7 @@
 
 <NotifDanger erreur={erreur}></NotifDanger>
 
-  <form on:submit|preventDefault={handleSubmit}>
+  <form on:submit|preventDefault={creationOrganisateur}>
     <div class="box">
       <div class="block has-text-centered">
         <a href="/login" >Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
@@ -79,7 +52,14 @@
           <div class="field">
             <label class="label" for="ville">Ville <span class="rouge">*</span></label>
             <div class="control">
-              <input class="input" type="text" name="ville" id="ville" placeholder="Ville" required>
+              <div class="select is-fullwidth">
+                <select name="ville_id" id="ville_id" >
+                  <option value="" disabled selected>Choisir une ville</option>
+                  {#each villes as ville}
+                  <option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
+                  {/each}
+                </select>
+              </div>
             </div>
           </div>
 
@@ -98,7 +78,7 @@
           <div class="field">
             <label class="label" for="password">Mot de passe <span class="rouge">*</span></label>
             <div class="control">
-              <input class="input" type="password" name="password" id="password" required>
+              <input class="input" type="password" name="pwd" id="pwd" required>
             </div>
           </div>
 
