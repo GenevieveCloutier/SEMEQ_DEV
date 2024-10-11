@@ -290,7 +290,7 @@
 								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeArt" id="typeArt" />Métiers d'art</label>
                 				<label class="checkbox"><input on:change={typeExposant} class="mr-2" type="checkbox" id="checkboxType" />Autres</label>
 							<div>
-								<input hidden type="text" name="type_autre" id="typeAutre" placeholder = "Préciser" >
+								<input hidden type="text" name="type_autre" id="inputType" placeholder = "Préciser" >
 								<span id="requisType" hidden class="rouge">*</span>
 								</div>
 							</div>
