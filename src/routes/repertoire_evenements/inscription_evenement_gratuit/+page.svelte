@@ -121,9 +121,9 @@
 				<div class="column">
 					<div>
 						<div class="field">
-							<label class="label" for="nomEven">Nom de l'événement <span class="rouge">*</span></label>
+							<label class="label" for="nom">Nom de l'événement <span class="rouge">*</span></label>
 							<div class="control">
-								<input class="input" type="text"name="nomEven" id="nomEven" placeholder="Marché de Noël" required />
+								<input class="input" type="text" name="nom" id="nomEven" placeholder="Marché de Noël" required />
 							</div>
 						</div>
 					</div>
@@ -132,9 +132,9 @@
 				<div class="my-5">
 					<div class>
 						<div class="field">
-							<label class="label" for="entrepriseEven">Entreprise<span class="rouge">*</span></label>
+							<label class="label" for="entreprise">Entreprise<span class="rouge">*</span></label>
 							<div class="control">
-								<input class="input" type="text" name="entrepriseEven" id="entrepriseEven" placeholder="Nom de l'entreprise ou organisation" required />
+								<input class="input" type="text" name="entreprise" id="entrepriseEven" placeholder="Nom de l'entreprise ou organisation" required />
 							</div>
 						</div>
 					</div>
@@ -144,11 +144,11 @@
 
 				<div class="my-5">
 					<div class="field">
-						<label class="label" for="villeEven">Ville <span class="rouge">*</span></label>
+						<label class="label" for="ville_id">Ville <span class="rouge">*</span></label>
 						<div class="control">
 							<!-- J'ai changer le champ pour un select et ajouter les villes -->
 							<div class="select is-fullwidth">
-									<select name="villeEven" id="villeEven" required >
+									<select name="ville_id" id="villeEven" required >
 										<option value="" disabled selected>Choisir une ville</option>
 										{#each villes as ville}
 										<option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
@@ -161,21 +161,21 @@
 
 				<div class="my-5">
 					<div class="field">
-						<label class="label" for="horaireEven">Heures d'ouverture (au public)</label>
+						<label class="label" for="horaire_even">Heures d'ouverture (au public)</label>
 						<div class="control">
-							<input class="input" type="text" name="horaireEven" id="horaireEven" placeholder="De 9h à 17h"/>
+							<input class="input" type="text" name="horaire_even" id="horaireEven" placeholder="De 9h à 17h"/>
 						</div>
 					</div>
 				</div>
 
 				<div class="my-5">
-					<label class="label" for="dateEven">Dates de l'événement<span class="rouge">*</span></label>
+					<label class="label" for="date">Dates de l'événement<span class="rouge">*</span></label>
 					  <div class="field is-grouped">
 							<div class="container ml-6 mb-3">
 								<span> Du:</span>
-								<input class="input" type="date" name="dateEvenDebut" id="dateEvenDebut" on:change={dateEven} required />
+								<input class="input" type="date" name="debut_even" id="debut_even" on:change={dateEven} required />
 								<span>au:</span>
-								<input class="input" type="date" name="dateEvenFin" id="dateEvenFin" required />
+								<input class="input" type="date" name="fin_even" id="fin_even" required />
               			</div>
 					</div>
         		</div>
@@ -186,24 +186,24 @@
 
 					<div>
 						<div class="field">
-							<label class="label" for="siteWebEven">Site web ou page Facebook de l'événement</label>
+							<label class="label" for="site">Site web ou page Facebook de l'événement</label>
 							<div class="control">
-								<input class="input" type="url" name="siteWebEven" id="siteWebEven" placeholder="https://www.monevenement.com"/>
+								<input class="input" type="url" name="site" id="siteWebEven" placeholder="https://www.monevenement.com"/>
 							</div>
 						</div>
 					</div>
 
 				<div class="my-5">
 					<div class="field">
-						<label class="label" for="lienFBEven">Lien vers l'événement Facebook</label>
+						<label class="label" for="fb_even">Lien vers l'événement Facebook</label>
 						<div class="control">
-							<inpuT class="input" type="url" name="lienFBEven" id="lienFBEven" placeholder="https://www.facebook.com/events/123456789123"/>
+							<inpuT class="input" type="url" name="fb_even" id="lienFBEven" placeholder="https://www.facebook.com/events/123456789123"/>
 						</div>
 					</div>
 				</div>
 
 				<div class="field my-5">
-					<label class="label" for="emplacementEven">Emplacement<span class="rouge">*</span></label>
+					<label class="label" for="emplacement">Emplacement<span class="rouge">*</span></label>
 					<div class="control">
 						<div class="checkboxes">
 							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementInterieur" id="emplacementInterieur" />Intérieur</label>
@@ -234,40 +234,40 @@
 				<div class="column">
 					<div>
 						<div class="field">
-							<label class="label" for="contactEven"
+							<label class="label" for="contact"
 								>Personne contact pour l'appel de candidatures <span class="rouge">*</span></label>
 							<div class="control">
-								<input class="input" type="text" name="contactEven" id="contactEven" placeholder="Prenom Nom" required />
+								<input class="input" type="text" name="contact" id="contactEven" placeholder="Prenom Nom" required />
 							</div>
 						</div>
 					</div>
 
 				<div class="my-5">
 					<div class="field">
-						<label class="label" for="courrielAppel">Courriel pour information ou inscription <span class="rouge">*</span></label>
+						<label class="label" for="courriel">Courriel pour information ou inscription <span class="rouge">*</span></label>
 						<div class="control">
-							<input class="input" type="email" name="courrielAppel" id="courrielAppel" placeholder="inscription@evenement.com" required />
+							<input class="input" type="email" name="courriel" id="courrielAppel" placeholder="inscription@evenement.com" required />
 						</div>
 					</div>
 				</div>
 
 				<div class="my-5">
 					<div class="field">
-						<label class="label" for="lienAppel">Lien vers le formulaire de candidatures</label>
+						<label class="label" for="form_cand">Lien vers le formulaire de candidatures</label>
 						<div class="control">
-							<input class="input" type="url" name="courrielAppel" id="courrielAppel" placeholder="https://www.formulaire_candidature.evenement.com"/>
+							<input class="input" type="url" name="form_cand" id="form_cand" placeholder="https://www.formulaire_candidature.evenement.com"/>
 						</div>
 					</div>
 				</div>
 
 				<div class="my-5">
-					<label class="label" for="dateEven">Dates de l'appel de candidature<span class="rouge">*</span></label>
+					<label class="label" for="cand">Dates de l'appel de candidature<span class="rouge">*</span></label>
 						<div class="field is-grouped">
 						<div class="container ml-6 mb-3">
 							<span> Du:</span>
-							<input class="input" type="date" name="dateAppelDebut" id="dateAppelDebut" on:change={dateAppel} required />
+							<input class="input" type="date" name="debut_cand" id="dateAppelDebut" on:change={dateAppel} required />
 							<span>au:</span>
-							<input class="input" type="date" name="dateAppelFin" id="dateAppelFin" required  />
+							<input class="input" type="date" name="fin_cand" id="dateAppelFin" required  />
 						</div>
 						</div>
 					</div>
@@ -279,7 +279,7 @@
 				<div class="column">
 		
 					<div class="field my-5">
-						<label class="label" for="artisanAppel"
+						<label class="label" for="type"
 							>Type d'exposants<span class="rouge">*</span></label>
 						<div class="control">
 							<div class="checkboxes">
@@ -288,9 +288,9 @@
 								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeMLM" id="typeMLM"/>MLM et revendeur</label>
 								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeAuteur" id="typeAuteur" />Auteur</label>
 								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeArt" id="typeArt" />Métiers d'art</label>
-                				<label class="checkbox"><input on:change={typeExposant} class="mr-2" type="checkbox" name="checkboxType" id="checkboxType" />Autres</label>
+                				<label class="checkbox"><input on:change={typeExposant} class="mr-2" type="checkbox" id="checkboxType" />Autres</label>
 							<div>
-								<input hidden type="text" name="inputType" id="inputType" placeholder = "Préciser" >
+								<input hidden type="text" name="type_autre" id="typeAutre" placeholder = "Préciser" >
 								<span id="requisType" hidden class="rouge">*</span>
 								</div>
 							</div>
@@ -300,18 +300,18 @@
 				<div class="my-5">
 					<div class="field">
 						<div class="control">
-							<label class="checkbox label" name="typeSelection" id="typeSelection">
+							<label class="checkbox label" name="selection" id="typeSelection">
 								Les places sont attribuées selon une sélection parmi les candidatures reçues <span class="rouge">*</span><br>
 								<span class="is-size-7 has-text-grey has-text-weight-normal" >(oui = sélection à la fin de la période de candidatures, non = premier arrivé, premier servi)<br></span> 
-								<input type="checkbox" name="typeSelection" class="toggle exclus">
+								<input type="checkbox" class="toggle exclus">
 							  </label>
 
 						<div class="my-5">
 							<div class="field">
-							  <label class="checkbox label" name="limiteSelection" id="limiteSelection">
+							  <label class="checkbox label" name="limite" id="limiteSelection">
 								Le nombre d'exposants par domaine est limité <span class="rouge">*</span><br>
 								<span class="is-size-7 has-text-grey has-text-weight-normal" >(ex. 2 kiosques de savons, 1 kiosque de bougies...)<br></span>
-								<input type="checkbox" name="limiteSelection" class="toggle exclus">
+								<input type="checkbox" class="toggle exclus">
 							  </label>
 							</div>
 						</div>
@@ -321,15 +321,15 @@
 
 				<div class="my-5">
 					<div class="field">
-						<label class="label" for="artisanAppel">Vérifications effectuées par l'organisateur<br>
+						<label class="label" for="verification">Vérifications effectuées par l'organisateur<br>
 						<span class="is-size-7 has-text-grey has-text-weight-normal" >(ne rien cocher si aucune vérification n'est faite par l'organisation)</span></label>
 						<div class="control">
 							<div class="checkboxes">
 								<label class="checkbox"><input class="mr-2" type="checkbox" name="verifNEQ" id="verifNEQ" />NEQ</label>
 								<label class="checkbox"><input class="mr-2" type="checkbox" name="verifPermis" id="verifPermis"/>Permis</label>
-								<label class="checkbox"><input on:change={verification} class="mr-2" type="checkbox" name="checkboxVerif" id="checkboxVerif"  />Autres</label>
+								<label class="checkbox"><input on:change={verification} class="mr-2" type="checkbox" id="checkboxVerif"  />Autres</label>
 								<div id="divVerif">
-									<input hidden type="text" name="inputVerif" id="inputVerif" placeholder = "Préciser">
+									<input hidden type="text" name="verification_autre" id="inputVerif" placeholder = "Préciser">
 									<span id="requisVerif" hidden class="rouge">*</span>
 								</div>
                 			</div>

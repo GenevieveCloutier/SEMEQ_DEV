@@ -131,28 +131,28 @@ function section3(event){
                     
                 <div>
                     <div class="field">
-						<label class="label" for="nomEvenPayant">Nom de l'événement <span class="rouge">*</span></label>
+						<label class="label" for="nom">Nom de l'événement <span class="rouge">*</span></label>
 						<div class="control">
-							<input class="input" type="text"name="nomEvenPayant" id="nomEvenPayant" placeholder="Marché de Noël" required/>
+							<input class="input" type="text" name="nom" id="nomEvenPayant" placeholder="Marché de Noël" required/>
 						</div>
 					</div>
                 </div>
 
             <div class="my-5">
                 <div class="field">
-                    <label class="label" for="adresseEvenPayant">Adresse <span class="rouge">*</span></label>
+                    <label class="label" for="adresse">Adresse <span class="rouge">*</span></label>
                     <div class="control">
-                        <input class="input" type="text" name="adresseEvenPayant" id="adresseEvenPayant" placeholder="123 rue du Sous-Bois" required/>
+                        <input class="input" type="text" name="adresse" id="adresseEvenPayant" placeholder="123 rue du Sous-Bois" required/>
                     </div>
                 </div>
             </div>
             <div class="my-5">
                 <div class="field">
-                    <label class="label" for="villeEven">Ville <span class="rouge">*</span></label>
+                    <label class="label" for="ville_id">Ville <span class="rouge">*</span></label>
                     <div class="control">
                         <!-- J'ai changer le champ pour un select et ajouter les villes -->
                         <div class="select is-fullwidth">
-                                <select name="villeEven" id="villeEven" required >
+                                <select name="ville_id" id="villeEven" required >
                                     <option value="" disabled selected>Choisir une ville</option>
                                     {#each villes as ville}
                                     <option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
@@ -170,21 +170,21 @@ function section3(event){
 
                 <div>
                     <div class="field">
-                        <label class="label" for="horaireEvenPayant">Heures d'ouverture (au public)</label>
+                        <label class="label" for="horaire_even">Heures d'ouverture (au public)</label>
                         <div class="control">
-                            <input class="input" type="text"name="horaireEvenPayant" id="horaireEvenPayant" placeholder="De 9h à 17h"/>
+                            <input class="input" type="text" name="horaire_even" id="horaireEvenPayant" placeholder="De 9h à 17h"/>
                         </div>
                     </div>
                 </div>
 
                 <div class="mt-5">
-                    <label class="label" for="dateEvenPayant">Dates de l'événement<span class="rouge">*</span></label>
+                    <label class="label" for="date">Dates de l'événement<span class="rouge">*</span></label>
                       <div class="field is-grouped">
                             <div class="container ml-6 mb-3">
                                 <span> Du:</span>
-                                <input class="input" type="date" name="dateEvenPayantDebut" id="dateEvenPayantDebut" on:change={dateEven} required/>
+                                <input class="input" type="date" name="debut_even" id="dateEvenPayantDebut" on:change={dateEven} required/>
                                 <span>au:</span>
-                                <input class="input" type="date" name="dateEvenPayantFin" id="dateEvenPayantFin" required />
+                                <input class="input" type="date" name="fin_even" id="dateEvenPayantFin" required />
                             </div>
                         </div>
                     </div>
@@ -198,9 +198,9 @@ function section3(event){
         <!-- colonne pleine largeur -->
             <div class="column is-full">
             <div class="field">
-                <label class="label" for="descriptionEvenPayant">Description de l'événement</label>
+                <label class="label" for="description">Description de l'événement</label>
                 <div class="control">
-                    <textarea class="textarea" maxlength="300" name="descriptionEvenPayant" id="descriptionEvenPayant" cols="30" rows="5" 
+                    <textarea class="textarea" maxlength="300" name="description" id="descriptionEvenPayant" cols="30" rows="5" 
                     placeholder="Décrivez brièvement votre événement en un maximum 300 caractères."></textarea>
                 </div>
             </div>
@@ -212,9 +212,9 @@ function section3(event){
 
                 <div class="my-5">
                     <div class="field">
-						<label class="label" for="siteEvenPayant">Site web ou page Facebook de l'événement</label>
+						<label class="label" for="site">Site web ou page Facebook de l'événement</label>
 						<div class="control">
-							<input class="input" type="url" name="siteEvenPayant" id="siteEvenPayant" placeholder="https://monevenement.com"/>
+							<input class="input" type="url" name="site" id="siteEvenPayant" placeholder="https://monevenement.com"/>
 						</div>
 					</div>
                 </div>
@@ -226,9 +226,9 @@ function section3(event){
                  <div class="column is-half">
                     <div class="my-5">
                         <div class="field">
-                            <label class="label" for="siteEvenPayant">Lien vers l'événement Facebook</label>
+                            <label class="label" for="fb_even">Lien vers l'événement Facebook</label>
                             <div class="control">
-                                <input class="input" type="url" name="siteEvenPayant" id="siteEvenPayant" placeholder="https://www.facebook.com/events/426652909763130"/>
+                                <input class="input" type="url" name="fb_even" id="siteEvenPayant" placeholder="https://www.facebook.com/events/426652909763130"/>
                             </div>
                         </div>
                     </div>
@@ -241,14 +241,14 @@ function section3(event){
         <!-- debut de la section pour les photos -->
         
                 <div class="field my-5">
-                    <label class="label" for="emplacementEvenPayant">Emplacement<span class="rouge">*</span></label>
+                    <label class="label" for="emplacement">Emplacement<span class="rouge">*</span></label>
                     <div class="control">
                         <div class="checkboxes">
-                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementInterieurPayant" id="emplacementInterieurPayant" />Intérieur</label>
-                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementExterieurPayant" id="emplacementExterieurPayant" />Extérieur</label>
-                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementChapiteauPayant" id="emplacementChapiteauPayant"/>Extérieur, sous un grand chapiteau</label>
-                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementAbriPayant" id="emplacementAbriPayant" />Extérieur, petits abris fournis</label>
-                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementSansAbriPayant" id="emplacementSansAbriPayant" />Extérieur, apportez votre abri</label>
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementInterieur" id="emplacementInterieurPayant" />Intérieur</label>
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementExterieur" id="emplacementExterieurPayant" />Extérieur</label>
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementChapiteau" id="emplacementChapiteauPayant"/>Extérieur, sous un grand chapiteau</label>
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementAbri" id="emplacementAbriPayant" />Extérieur, petits abris fournis</label>
+                            <label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementSansAbri" id="emplacementSansAbriPayant" />Extérieur, apportez votre abri</label>
                         </div>
                     </div>
                 </div>
@@ -257,9 +257,9 @@ function section3(event){
                 <div class="column is-one-third">
 
                     <div class="field my-5">
-                        <label class="label" for="photo1">Photo 1</label>
+                        <label class="label" for="photo_1">Photo 1</label>
                         <div class="control">
-                          <input class="input" type="file" name="photo1" id="photo1">
+                          <input class="input" type="file" name="photo_1" id="photo_1">
                         </div>
                     </div>
 
@@ -267,18 +267,18 @@ function section3(event){
 
                 <div class="column is-one-third">
                     <div class="field my-5">
-                        <label class="label" for="photo2">Photo 2</label>
+                        <label class="label" for="photo_2">Photo 2</label>
                         <div class="control">
-                          <input class="input" type="file" name="photo2" id="photo2">
+                          <input class="input" type="file" name="photo_2" id="photo_2">
                         </div>
                       </div>
                 </div>
 
                 <div class="column is-one-third">
                     <div class="field my-5">
-                        <label class="label" for="photo3">Photo 3</label>
+                        <label class="label" for="photo_3">Photo 3</label>
                         <div class="control">
-                          <input class="input" type="file" name="photo3" id="photo3">
+                          <input class="input" type="file" name="photo_3" id="photo_3">
                         </div>
                       </div>
                 </div>     
@@ -301,39 +301,39 @@ function section3(event){
 
                 <div>
                     <div class="field">
-                        <label class="label" for="contactEvenPayant">Personne contact pour l'appel de candidature <span class="rouge">*</span></label>
+                        <label class="label" for="contact">Personne contact pour l'appel de candidature <span class="rouge">*</span></label>
                         <div class="control">
-                            <input class="input" type="text"name="contactEvenPayant" id="contactEvenPayant" placeholder="Marché de Noël" required/>
+                            <input class="input" type="text" name="contact" id="contactEvenPayant" placeholder="Marché de Noël" required/>
                         </div>
                     </div>
                 </div>
 
                 <div class="mt-5">
                     <div class="field">
-                        <label class="label" for="courrielEvenPayant">Courriel pour information ou inscription <span class="rouge">*</span></label>
+                        <label class="label" for="courriel">Courriel pour information ou inscription <span class="rouge">*</span></label>
                         <div class="control">
-                            <input class="input" type="courriel"name="courrielEvenPayant" id="courrielEvenPayant" placeholder="inscription_evenement@mail.com" required/>
+                            <input class="input" type="courriel" name="courriel" id="courrielEvenPayant" placeholder="inscription_evenement@mail.com" required/>
                         </div>
                     </div>
                 </div>
 
                 <div class="mt-5">
                     <div class="field">
-                        <label class="label" for="formEvenPayant">Lien vers le formulaire d'appel de candidatures</label>
+                        <label class="label" for="form_cand">Lien vers le formulaire d'appel de candidatures</label>
                         <div class="control">
-                            <input class="input" type="url"name="formEvenPayant" id="formEvenPayant" placeholder="inscription_evenement@mail.com"/>
+                            <input class="input" type="url" name="form_cand" id="formEvenPayant" placeholder="inscription_evenement@mail.com"/>
                         </div>
                     </div>
                 </div>
 
                 <div class="my-5">
-                    <label class="label" for="dateCandEvenPayant">Dates de l'appel de candidatures<span class="rouge">*</span></label>
+                    <label class="label" for="cand">Dates de l'appel de candidatures<span class="rouge">*</span></label>
                     <div class="field is-grouped">
                         <div class="container ml-6 mb-3">
                             <span> Du:</span>
-                            <input class="input" type="date" name="dateCandEvenPayantDebut" id="dateCandEvenPayantDebut" on:change={dateAppel} required/>
+                            <input class="input" type="date" name="debut_cand" id="dateCandEvenPayantDebut" on:change={dateAppel} required/>
                             <span>au:</span>
-                            <input class="input" type="date" name="dateCandEvenPayantFin" id="dateCandEvenPayantFin" required />
+                            <input class="input" type="date" name="fin_cand" id="dateCandEvenPayantFin" required />
                         </div>
                     </div>
                 </div>
@@ -345,17 +345,17 @@ function section3(event){
 
             <div>
                 <div class="field">
-                  <label class="label" for="artisanAppel">Type d'exposants<span class="rouge">*</span></label>
+                  <label class="label" for="type">Type d'exposants<span class="rouge">*</span></label>
                   <div class="control">
                       <div class="checkboxes">
-                          <label class="checkbox"><input class="mr-2" type="checkbox" name="typeArtisanPayant" id="typeArtisanPayant"  />Artisan</label>
-                          <label class="checkbox"><input class="mr-2" type="checkbox" name="typeAgroPayant" id="typeAgroPayant" />Agro-alimentaire</label>
-                          <label class="checkbox"><input class="mr-2" type="checkbox" name="typeMLMPayant" id="typeMLMPayant" />MLM et revendeur</label>
-                          <label class="checkbox"><input class="mr-2" type="checkbox" name="typeAuteurPayant" id="typeAuteurPayant" />Auteur</label>
-                          <label class="checkbox"><input class="mr-2" type="checkbox" name="typeArtPayant" id="typeArtPayant" />Métiers d'art</label>
-                          <label class="checkbox"><input on:change={typeExposant} class="mr-2" type="checkbox" name="typeAutrePayant" id="typeAutrePayant" />Autres</label>
+                          <label class="checkbox"><input class="mr-2" type="checkbox" name="typeArtisan" id="typeArtisanPayant"  />Artisan</label>
+                          <label class="checkbox"><input class="mr-2" type="checkbox" name="typeAgro" id="typeAgroPayant" />Agro-alimentaire</label>
+                          <label class="checkbox"><input class="mr-2" type="checkbox" name="typeMLM" id="typeMLMPayant" />MLM et revendeur</label>
+                          <label class="checkbox"><input class="mr-2" type="checkbox" name="typeAuteur" id="typeAuteurPayant" />Auteur</label>
+                          <label class="checkbox"><input class="mr-2" type="checkbox" name="typeArt" id="typeArtPayant" />Métiers d'art</label>
+                          <label class="checkbox"><input on:change={typeExposant} class="mr-2" type="checkbox"  id="typeAutrePayant" />Autres</label>
                           <div>
-                              <input hidden type="text" name="inputTypePayant" id="inputTypePayant" placeholder = "Préciser">
+                              <input hidden type="text" name="type_autre" id="inputTypePayant" placeholder = "Préciser">
                               <span id="requisTypePayant" hidden class="rouge">*</span>
                           </div>
                       </div>
@@ -366,20 +366,20 @@ function section3(event){
           <div class="my-5">
             <div class="field">
                 <div class="control">
-                    <label class="checkbox label" name="typeSelectionPayant" id="typeSelectionPayant">
+                    <label class="checkbox label" name="selection" id="typeSelectionPayant">
                         Les places sont attribuées selon une sélection parmi les candidatures reçues <span class="rouge">*</span><br>
                         <span class="is-size-7 has-text-grey has-text-weight-normal" >(oui = sélection à la fin de la période de candidatures, non = premier arrivé, premier servi)<br></span> 
-                        <input type="checkbox" name="typeSelectionPayant" class="toggle exclus">
+                        <input type="checkbox" class="toggle exclus">
                       </label>
                     </div>
                 </div>
 
                 <div class="my-5">
                     <div class="field">
-                      <label class="checkbox label" name="limiteSelectionPayant" id="limiteSelectionPayant">
+                      <label class="checkbox label" name="limite" id="limiteSelectionPayant">
                         Le nombre d'exposants par domaine est limité <span class="rouge">*</span><br>
                         <span class="is-size-7 has-text-grey has-text-weight-normal" >(ex. 2 kiosques de savons, 1 kiosque de bougies...)<br></span>
-                        <input type="checkbox" name="limiteSelectionPayant" class="toggle exclus">
+                        <input type="checkbox" class="toggle exclus">
                       </label>
                 </div>
             </div>
@@ -387,15 +387,15 @@ function section3(event){
 
           <div class="my-5">
             <div class="field">
-                <label class="label" for="artisanAppelPayant">Vérifications effectuées par l'organisateur<br>
+                <label class="label" for="verification">Vérifications effectuées par l'organisateur<br>
                 <span class="is-size-7 has-text-grey has-text-weight-normal" >(ne rien cocher si aucune vérification n'est faite par l'organisation)</span></label>
                 <div class="control">
                     <div class="checkboxes">
-                        <label class="checkbox"><input class="mr-2" type="checkbox" name="verifNEQPayant" id="verifNEQPayant" />NEQ</label>
-                        <label class="checkbox"><input class="mr-2" type="checkbox" name="verifPermisPayant" id="verifPermisPayant"/>Permis</label>
-                        <label class="checkbox"><input on:change={verification} class="mr-2" type="checkbox" name="checkboxVerifPayant" id="checkboxVerifPayant"  />Autres</label>
+                        <label class="checkbox"><input class="mr-2" type="checkbox" name="verifNEQ" id="verifNEQPayant" />NEQ</label>
+                        <label class="checkbox"><input class="mr-2" type="checkbox" name="verifPermis" id="verifPermisPayant"/>Permis</label>
+                        <label class="checkbox"><input on:change={verification} class="mr-2" type="checkbox" id="checkboxVerifPayant"  />Autres</label>
                         <div id="divVerif">
-                            <input hidden type="text" name="inputVerifPayant" id="inputVerifPayant" placeholder = "Préciser">
+                            <input hidden type="text" name="verification_autre" id="inputVerifPayant" placeholder = "Préciser">
                             <span id="requisVerif" hidden class="rouge">*</span>
                         </div>
                     </div>
@@ -425,18 +425,18 @@ function section3(event){
         <div class="columns">
             <div class="column is-half">
                 <div class="field">
-                    <label class="label" for="nbExpoEvenPayant">Nombre d'exposants</label>
+                    <label class="label" for="nb_expo">Nombre d'exposants</label>
                     <div class="control">
-                        <input class="input" type="number"name="nbExpoEvenPayant" id="nbExpoEvenPayant" placeholder="25"/>
+                        <input class="input" type="number" name="nb_expo" id="nbExpoEvenPayant" placeholder="25"/>
                     </div>
                 </div>
             </div>
             
             <div class="column is-half">
                 <div class="field">
-                    <label class="label" for="formEvenPayant">Nombre de visiteurs (en moyenne)</label>
+                    <label class="label" for="nb_visiteur">Nombre de visiteurs (en moyenne)</label>
                     <div class="control">
-                        <input class="input" type="number"name="formEvenPayant" id="formEvenPayant" placeholder="750"/>
+                        <input class="input" type="number" name="nb_visiteur" id="formEvenPayant" placeholder="750"/>
                     </div>
                 </div>
             </div>
@@ -445,24 +445,13 @@ function section3(event){
 
     <div>
         <div class="field">
-            <label class="label" for="descriptionEvenPayant">Profil des visieurs (âge moyen, etc)</label>
+            <label class="label" for="profil">Profil des visieurs (âge moyen, etc)</label>
             <div class="control">
-                <textarea class="textarea" maxlength="300" name="descriptionEvenPayant" id="descriptionEvenPayant" cols="30" rows="5" 
+                <textarea class="textarea" maxlength="300" name="profil" id="descriptionEvenPayant" cols="30" rows="5" 
                 placeholder="Événement visant les familles avec jeunes enfants (max 300 caractères)."></textarea>
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-        
 
 
 			<hr class="is-hidden-mobile is-hidden-tablet-only" />

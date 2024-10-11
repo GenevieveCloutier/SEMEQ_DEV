@@ -37,24 +37,24 @@
             <div class="column is-half">
 
                 <div class="field">
-                    <label class="label" for="nomBase">Nom <span class="rouge">*</span></label>
+                    <label class="label" for="nom">Nom <span class="rouge">*</span></label>
                     <div class="control">
-                        <input class="input" type="text" name="nomBase" id="nomBase" placeholder="Nom" required />
+                        <input class="input" type="text" name="nom" id="nomBase" placeholder="Nom" required />
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label" for="prenomBase">Prénom <span class="rouge">*</span></label>
+                    <label class="label" for="prenom">Prénom <span class="rouge">*</span></label>
                     <div class="control">
-                        <input class="input" type="text" name="prenomBase" id="prenomBase" placeholder="prenom" required />
+                        <input class="input" type="text" name="prenom" id="prenomBase" placeholder="prenom" required />
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label" for="villeBase">Ville</label>
+                    <label class="label" for="ville_id">Ville</label>
                     <div class="control">
                         <div class="select is-fullwidth">
-                                <select name="villeBase" id="villeBase" >
+                                <select name="ville_id" id="villeBase" >
                                     <option value="" disabled selected>Choisir une ville</option>
                                     {#each villes as ville}
                                     <option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
@@ -69,16 +69,16 @@
             <div class="column is-half">
 
                 <div class="field">
-                    <label class="label" for="courrielBase">Courriel <span class="rouge">*</span></label>
+                    <label class="label" for="courriel">Courriel <span class="rouge">*</span></label>
                     <div class="control">
-                        <input class="input" type="email" name="courrielBase" id="courrielBase" placeholder="nom@mail.com" required />
+                        <input class="input" type="email" name="courriel" id="courrielBase" placeholder="nom@mail.com" required />
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label" for="MDPBase">Mot de passe <span class="rouge">*</span></label>
+                    <label class="label" for="pwd">Mot de passe <span class="rouge">*</span></label>
                     <div class="control">
-                        <input class="input" type="password" name="MDPBase" id="MDPBase" placeholder="**************" required />
+                        <input class="input" type="pwd" name="pwd" id="MDPBase" placeholder="**************" required />
                     </div>
                 </div>
 
