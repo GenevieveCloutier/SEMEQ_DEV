@@ -64,8 +64,43 @@ export const actions = {
         }catch(error){
             return fail(401, error);
         }
-        
     },
+
+    nouveauOrganisateur: async({cookies, request})=>{
+        const data = await request.formData();
+        console.log('request = ',request);
+        console.log('data = ',data);
+        
+        try {
+            let res = await newUser(
+                data.get("nom"),
+                data.get("prenom"),
+                "2",
+                data.get("entreprise"),
+                data.get("neq"),
+                data.get("courriel"),    
+                data.get("password"),
+                data.get("site"),
+                data.get("insta"),
+                data.get("tiktok"),
+                data.get("ville_id"),
+                data.get("abonne") == 'on' ? 1 : 0,
+                data.get("fin_abo"),
+                data.get("description"),
+                data.get("adresse"),
+                data.get("publique") == 'on' ? 1 : 0,
+                data.get("photo_1"),
+                data.get("photo_2"),
+                data.get("photo_3"),
+                data.get("logo")
+            );
+        createCookie(res.id, cookies, res.role_id);
+        }catch(error){
+            return fail(401, error);
+        }
+    },
+        
+    
 
 
     //ici
