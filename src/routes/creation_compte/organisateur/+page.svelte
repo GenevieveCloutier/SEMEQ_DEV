@@ -1,62 +1,27 @@
 <script>
   import Retour from "$lib/components/generaux/retour.svelte";
-  import BarrePaiementEtape1 from "$lib/components/barre_progression_paiement/etape1.svelte";
+  import BarrePaiementEtape1 from "$lib/components/barre_progression_paiement/etape1Organisateur.svelte";
   import Neq from "$lib/components/formulaires/neq.svelte";
-  import CheckboxResponsabilite from "$lib/components/formulaires/checkboxResponsabilite.svelte";
   import CheckboxConditionsVente from "$lib/components/formulaires/checkboxConditionsVente.svelte";
   import SubmitButon from "$lib/components/formulaires/submitButon.svelte";
   import NotifDanger from "$lib/components/notifications/notifDanger.svelte";
-  import DomainesActivites from "$lib/components/formulaires/domainesActivites.svelte";
-  
-  let erreur = null;
 
-  /**
-   * Gère la soumission du formulaire pour créer un nouvel élément.
-   * @param {Event} event - L'événement de soumission du formulaire.
-   * @returns {void}
-   */
-   async function handleSubmit(event) {
-    const formData = new FormData(event.target);
-
-    // Vérifier si le nombre de checkbox cochées est entre 1 et 3 pour Domaine(s) d'activit(é)s
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked:not(.exclus)');
-    if (checkboxes.length < 1 || checkboxes.length > 3) {
-      erreur = 'Merci de sélectionner entre 1 et 3 domaine(s) d\'activité(s) selon l\'abonnement choisi.';
-      return;
-    }
-
-    // Choix obligatoire pour NEQ, l'utilisateur inscrit son NEQ ou coche la checkbox
-    const neqInput = document.getElementById('neq');
-    const noNeqCheckbox = document.getElementById('no-neq');
-
-    if (!neqInput.value && !noNeqCheckbox.checked) {
-      erreur = 'Merci de remplir le champ NEQ ou cocher la case "Je n\'ai pas de NEQ".';
-      return;
-    }
-
-    const response = await fetch('?/newExposant', {
-      method: 'POST',
-      body: formData
-    });
-    const result = await response.json();
-    if (result.type == 'failure')
-      erreur = JSON.parse(result.data)[0];
-    else
-      window.location.href = '/'; //AJOUTER LIEN
-  }
+  import { creationOrganisateur, erreur } from '../../../lib/outils/formHandlers';
+  export let data;
+  const { villes } = data;
 </script>
 
 
 <div class="block">
 
-<BarrePaiementEtape1 />
+  <BarrePaiementEtape1 />
 
-<NotifDanger erreur={erreur}></NotifDanger>
+  <NotifDanger erreur={erreur}></NotifDanger>
 
-  <form on:submit|preventDefault={handleSubmit}>
+  <form on:submit|preventDefault={creationOrganisateur}>
     <div class="box">
       <div class="block has-text-centered">
-      <a href="/login" >Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
+        <a href="/login" >Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
       </div>
 
       <div class="columns">
@@ -87,7 +52,14 @@
           <div class="field">
             <label class="label" for="ville">Ville <span class="rouge">*</span></label>
             <div class="control">
-              <input class="input" type="text" name="ville" id="ville" placeholder="Ville" required>
+              <div class="select is-fullwidth">
+                <select name="ville_id" id="ville_id" >
+                  <option value="" disabled selected>Choisir une ville</option>
+                  {#each villes as ville}
+                  <option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
+                  {/each}
+                </select>
+              </div>
             </div>
           </div>
 
@@ -106,7 +78,7 @@
           <div class="field">
             <label class="label" for="password">Mot de passe <span class="rouge">*</span></label>
             <div class="control">
-              <input class="input" type="password" name="password" id="password" required>
+              <input class="input" type="password" name="pwd" id="pwd" required>
             </div>
           </div>
 
@@ -137,27 +109,6 @@
 
       </div> <!-- Fin des colonnes -->
 
-      <DomainesActivites />
-
-      <div class="columns">
-        <!-- Première colonne -->
-        <div class="column">
-          <label class="checkbox label" name="affichage" id="affichage">
-            Être affiché sur le site de Répertoire SÉMEQ dans l’onglet Répertoire exposants (nom + lien cliquable)?<br>
-            <input type="checkbox" class="toggle exclus">
-          </label>
-        </div>
-
-        <!-- Deuxième colonne -->
-        <div class="column">
-          <label class="checkbox label" name="partage" id="partage">
-            Partager mon adresse courriel aux organisateurs d'événements (membres) pour recevoir leurs appels de candidatures?<br>
-            <input type="checkbox" class="toggle exclus">
-          </label>
-        </div>
-      </div>
-
-      <CheckboxResponsabilite />
       <CheckboxConditionsVente />
 
     </div> <!-- Fin box -->

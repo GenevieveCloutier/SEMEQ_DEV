@@ -1,0 +1,144 @@
+<script>
+    import Retour from "$lib/components/generaux/retour.svelte";
+    import BarrePaiementEtape1 from "$lib/components/barre_progression_paiement/etape1.svelte";
+    import Neq from "$lib/components/formulaires/neq.svelte";
+    import CheckboxResponsabilite from "$lib/components/formulaires/checkboxResponsabilite.svelte";
+    import CheckboxConditionsVente from "$lib/components/formulaires/checkboxConditionsVente.svelte";
+    import SubmitButon from "$lib/components/formulaires/submitButon.svelte";
+    import NotifDanger from "$lib/components/notifications/notifDanger.svelte";
+    import DomainesActivites from "$lib/components/formulaires/domainesActivites.svelte";
+    
+    import { creationExposant, erreur } from '../../../lib/outils/formHandlers';
+    export let data;
+    const { villes } = data;
+</script>
+  
+  
+<div class="block">
+
+  <BarrePaiementEtape1 />
+
+  <NotifDanger erreur={erreur}></NotifDanger>
+
+  <form on:submit|preventDefault={creationExposant}>
+    <div class="box">
+      <a href="/login" class="has-text-centered">Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
+
+      <div class="columns">
+        <!-- Première colonne -->
+        <div class="column">
+
+          <div class="field">
+            <label class="label" for="courriel">Courriel <span class="rouge">*</span></label>
+            <div class="control">
+              <input class="input" type="email" name="courriel" id="courriel" placeholder="nom@mail.com" >
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="nom">Nom <span class="rouge">*</span></label>
+            <div class="control">
+              <input class="input" type="text" name="nom" id="nom" placeholder="Nom" >
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="entreprise">Entreprise <span class="rouge">*</span></label>
+            <div class="control">
+              <input class="input" type="text" name="entreprise" id="entreprise" placeholder="Nom de l'entreprise ou organisation" >
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="ville">Ville <span class="rouge">*</span></label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select name="ville_id" id="ville_id" >
+                  <option value="" disabled selected>Choisir une ville</option>
+                  {#each villes as ville}
+                  <option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
+                  {/each}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="insta">Instagram</label>
+            <div class="control">
+              <input class="input" type="url" name="insta" id="insta" placeholder="https://www.instagram.com/entreprise">
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Deuxième colonne -->
+        <div class="column">
+
+          <div class="field">
+            <label class="label" for="password">Mot de passe <span class="rouge">*</span></label>
+            <div class="control">
+              <input class="input" type="password" name="pwd" id="pwd" >
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="prenom">Prénom <span class="rouge">*</span></label>
+            <div class="control">
+              <input class="input" type="text" name="prenom" id="prenom" placeholder="Prénom" >
+            </div>
+          </div>
+
+          <Neq />
+
+          <div class="field">
+            <label class="label" for="site">Site internet ou lien de ta page Facebook</label>
+            <div class="control">
+              <input class="input" type="url" name="site" id="site" placeholder="https://www.entreprise.com ou https://www.facebook.com/entreprise">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="tiktok">TikTok</label>
+            <div class="control">
+              <input class="input" type="url" name="tiktok" id="tiktok" placeholder="https://www.tiktok.com/@entreprise">
+            </div>
+          </div>
+          
+        </div>
+
+      </div> <!-- Fin des colonnes -->
+
+      <DomainesActivites />
+
+      <div class="columns">
+        <!-- Première colonne -->
+        <div class="column">
+          <label class="checkbox">
+            Être affiché sur le site de Répertoire SÉMEQ dans l’onglet Répertoire exposants (nom + lien cliquable)?<br>
+            <input type="checkbox" class="toggle exclus" name="affichage" id="affichage" >
+          </label>
+        </div>
+
+        <!-- Deuxième colonne -->
+        <div class="column">
+          <label class="checkbox">
+            Partager mon adresse courriel aux organisateurs d'événements (membres) pour recevoir leurs appels de candidatures?<br>
+            <input type="checkbox" class="toggle exclus" name="partage" id="partage">
+          </label>
+        </div>
+      </div>
+
+      <CheckboxResponsabilite />
+      <CheckboxConditionsVente />
+
+    </div> <!-- Fin box -->
+
+    <!-- Boutons en bas de page -->
+    <div class="block has-text-right">
+      <SubmitButon texte={"Passer au paiement"}></SubmitButon>
+      <Retour />
+    </div>
+  </form>
+    
+</div>

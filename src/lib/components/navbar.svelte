@@ -69,21 +69,23 @@ import { onMount } from "svelte";
 			<div class="navbar-item has-dropdown is-hoverable">
 				<span class="navbar-link"> Répertoires </span>
 				<div class="navbar-dropdown">
-					<a href="/repertoire_exposants" class="navbar-item item-deroul" on:click={cacherMenu}> Exposants </a>
+					<a href="/visiteur" class="navbar-item item-deroul" on:click={cacherMenu}> Événements de la semaine </a>
 					<hr class="navbar-divider" />
-					<a href="/repertoire_evenements" class="navbar-item item-deroul" on:click={cacherMenu}> Événements </a>
+					<a href="/repertoire_exposants" class="navbar-item item-deroul" on:click={cacherMenu}> Répertoire des exposants </a>
+					<hr class="navbar-divider" />
+					<a href="/repertoire_evenements" class="navbar-item item-deroul" on:click={cacherMenu}> Répertoire des événements </a>
 				</div>
 			</div>
 
 			<div class="navbar-item has-dropdown is-hoverable">
-				<a href="/creation_compte" class="navbar-link"> Inscription </a>
+				<a href="/creation_compte" class="navbar-link" on:click={cacherMenu}> Inscription </a>
 				<div class="navbar-dropdown">
-					<a href="/creation_compte/creation_compte_gratuit" class="navbar-item item-deroul" on:click={cacherMenu}> Compte de base </a>
+					<a href="/creation_compte/compte_gratuit" class="navbar-item item-deroul" on:click={cacherMenu}> Compte gratuit </a>
 					<hr class="navbar-divider" />
-					<a href="/exposant#avantages" class="navbar-item item-deroul" on:click={cacherMenu}> Exposants </a>
+					<a href="/exposant#avantages" class="navbar-item item-deroul" on:click={cacherMenu}> Compte exposant </a>
 					<hr class="navbar-divider" />
 					<!-- ajouter l'ancre vers le tableau quand la page sera faite -->
-					<a href="/organisateur" class="navbar-item item-deroul" on:click={cacherMenu}> Événements </a>
+					<a href="/organisateur" class="navbar-item item-deroul" on:click={cacherMenu}> Compte organisateur </a>
 				</div>
 			</div>
 

@@ -106,6 +106,33 @@ export async function creationExposant(event){
     }
 }
 
+export async function creationOrganisateur(event){
+    const formData = new FormData(event.target);
+
+    // Choix obligatoire pour NEQ, l'utilisateur inscrit son NEQ ou coche la checkbox
+    const neqInput = event.target.querySelector('#neq');
+    const noNeqCheckbox = event.target.querySelector('#no-neq');
+
+    if (!neqInput.value && !noNeqCheckbox.checked) {
+      erreur.set('Merci de remplir le champ NEQ ou cocher la case "Je n\'ai pas de NEQ".');
+      return;
+    }
+    
+
+    const response = await fetch('../api?/nouveauOrganisateur', {
+        method: 'POST',
+        body: formData
+      });
+      
+      const result = await response.json();
+      if (result.type == 'failure')
+        erreur.set(JSON.parse(result.data)[0]);
+      else
+        alert('Organisateur créé, mais aucune idee d\'ou c\'est partie');
+      
+        // window.location.href = '/'; //AJOUTER LIEN
+}
+
 export async function creationEvenement(event) {
 
     
