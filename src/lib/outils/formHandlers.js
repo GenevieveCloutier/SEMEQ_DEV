@@ -60,7 +60,19 @@ export async function connexion(event){
     }
 }
 
+/**
+ * Gère la création d'un nouvel exposant en envoyant les données du formulaire via une requête POST.
+ * Vérifie que le nombre de cases à cocher sélectionnées pour le domaine d'activité est compris entre 1 et 3.
+ * Vérifie que l'utilisateur a rempli le champ NEQ ou coché la case correspondante.
+ * En cas de succès (status 200), redirige vers la page d'accueil.
+ * En cas d'échec (status 401), définit un message d'erreur.
+ * Enregistre toute erreur inattendue dans la console.
+ * 
+ * @param {Event} event L'événement contenant les données du formulaire.
+ */
+
 export async function creationExposant(event){
+    try{
     const formData = new FormData(event.target);
     
     // Vérifier si le nombre de checkbox cochées est entre 1 et 3 pour Domaine(s) d'activit(é)s
@@ -78,20 +90,20 @@ export async function creationExposant(event){
       erreur.set('Merci de remplir le champ NEQ ou cocher la case "Je n\'ai pas de NEQ".');
       return;
     }
-    
-
-    const response = await fetch('../api?/nouveauExposant', {
+    const response = await fetch('../api?/nouvelUtilisateur', {
         method: 'POST',
         body: formData
       });
       
-      const result = await response.json();
-      if (result.type == 'failure')
+    const result = await response.json();
+    if (result.status == 200)
+        window.location.href = '/';
+    if (result.status == 401)
         erreur.set(JSON.parse(result.data)[0]);
-      else
-        alert('exposant créé, mais pas encore de redirection');
-      
-        // window.location.href = '/'; //AJOUTER LIEN
+    }catch(error){
+        console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.")
+    }
 }
 
 export async function creationEvenement(event) {

@@ -29,9 +29,12 @@ export const actions = {
 
     nouvelUtilisateur: async({cookies, request})=>{
         const data = await request.formData();
+        console.log("les data = ", data);
         
         const dataEntree = [...data.entries()];
-        const role = dataEntree.length == 6 ? '4' : '2';  
+        const role = dataEntree.length == 6 ? '4' : '2';
+        const finAbo = data.get("abonne") == 'on' ? (new Date(Date.now() + 3.1536e10)) : null;
+
         const domaine = envoieMappage(data, domaines);
         try {
             let res = await newUser(
@@ -50,7 +53,7 @@ export const actions = {
                 data.get("partage") == 'on' ? 1 : 0,
                 data.get("affichage") == 'on' ? 1 : 0,
                 data.get("abonne") == 'on' ? 1 : 0,
-                data.get("fin_abo"),
+                finAbo,
                 data.get("description"),
                 data.get("adresse"),
                 data.get("publique") == 'on' ? 1 : 0,
