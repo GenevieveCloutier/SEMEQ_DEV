@@ -107,11 +107,9 @@ export const actions = {
         const type = envoieMappage(data, types);
         const verif = envoieMappage(data, verifs);
         const emplacement = envoieMappage(data, emplacements)
-        console.log(data);
-        
         let session;
         try{
-            session = await findOne({uuid: cookies.get('session')});    
+            session = await findOne({uuid: cookies.get('session')});//faudras tester ca
         }catch(error){
             throw (error);
         }
@@ -150,9 +148,15 @@ export const actions = {
                 data.get('photo_3'),
                 session.utilisateur.abonne,
             )
-            return res;
-        }catch(error){
-            return fail(401, error);
-        }
+            return {
+                status: 200,
+                body: {
+                    message: 'Evénement créé avec succès',
+                    evenement: res
+                }
+            };
+            }catch(error){
+                return fail(401, error);
+            }
     }
 }
