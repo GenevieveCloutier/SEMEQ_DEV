@@ -116,7 +116,7 @@
         <div class="column">
           <label class="checkbox">
             Être affiché sur le site de Répertoire SÉMEQ dans l’onglet Répertoire exposants (nom + lien cliquable)?<br>
-            <input type="checkbox" class="toggle exclus" name="affichage" >
+            <input type="checkbox" class="toggle exclus" name="affichage" id="affichage" >
           </label>
         </div>
 
@@ -124,7 +124,7 @@
         <div class="column">
           <label class="checkbox">
             Partager mon adresse courriel aux organisateurs d'événements (membres) pour recevoir leurs appels de candidatures?<br>
-            <input type="checkbox" class="toggle exclus" name="partage">
+            <input type="checkbox" class="toggle exclus" name="partage" id="partage">
           </label>
         </div>
       </div>
