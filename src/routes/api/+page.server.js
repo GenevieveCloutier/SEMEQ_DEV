@@ -27,22 +27,21 @@ export const actions = {
         }
     },
 
-    nouveauExposant: async({cookies, request})=>{
+    nouvelUtilisateur: async({cookies, request})=>{
         const data = await request.formData();
-        console.log('request = ',request);
-        console.log('data = ',data);
         
+        const dataEntree = [...data.entries()];
+        const role = dataEntree.length == 6 ? '4' : '2';  
         const domaine = envoieMappage(data, domaines);
-        
         try {
             let res = await newUser(
                 data.get("nom"),
                 data.get("prenom"),
-                "3",
+                role,
                 data.get("entreprise"),
                 data.get("neq"),
                 data.get("courriel"),    
-                data.get("password"),
+                data.get("pwd"),
                 data.get("site"),
                 data.get("insta"),
                 data.get("tiktok"),
@@ -61,10 +60,16 @@ export const actions = {
                 data.get("logo")
             );
         createCookie(res.id, cookies, res.role_id);
+        return {
+            status: 200,
+            body: {
+                message: 'Utilisateur créé avec succès',
+                utilisateur: res
+            }
+        };
         }catch(error){
             return fail(401, error);
         }
-        
     },
 
 

@@ -1,4 +1,3 @@
-import { redirect } from '@sveltejs/kit';
 import { writable } from 'svelte/store';
 
 export const erreur = writable(null);
@@ -115,6 +114,33 @@ export async function creationEvenement(event) {
         alert('aucune idee d\'ou c\'est partie');
     }
 }
+/**
+ * Gère la création d'un nouveau visiteur en envoyant les données du formulaire via une requête POST.
+ * En cas de succès (status 200), redirige vers la page d'accueil.
+ * En cas d'échec (status 401), définit un message d'erreur.
+ * Enregistre toute erreur inattendue dans la console.
+ * 
+ * @param {Event} event L'événement contenant les données du formulaire.
+ */
+
+export async function creationVisiteur(event){
+    try{
+        const formData = new FormData(event.target);
+        const response = await fetch('../api?/nouvelUtilisateur', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+        if (result.status == 200)
+            window.location.href = '/';
+        if (result.status == 401)
+            erreur.set(JSON.parse(result.data)[0]);
+        }catch(error){
+            console.error("erreur inattendue : ", error);
+            erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.")
+        }
+}
+
 
 //ici
 // export async function nouveauCompteEven(event){

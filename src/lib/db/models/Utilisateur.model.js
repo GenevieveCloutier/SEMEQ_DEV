@@ -61,10 +61,6 @@ export const Utilisateur = sequelize.define('utilisateur', {
         type: DataTypes.BOOLEAN,
         allowNull: true
     },
-    date_insc: {
-        type: DataTypes.DATE,
-        allowNull: true
-    },
     abonne: {
         type: DataTypes.BOOLEAN,
         allowNull: true
