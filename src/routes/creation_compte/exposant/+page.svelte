@@ -1,4 +1,13 @@
 <script>
+    import Retour from "$lib/components/generaux/retour.svelte";
+    import BarrePaiementEtape1 from "$lib/components/barre_progression_paiement/etape1.svelte";
+    import Neq from "$lib/components/formulaires/neq.svelte";
+    import CheckboxResponsabilite from "$lib/components/formulaires/checkboxResponsabilite.svelte";
+    import CheckboxConditionsVente from "$lib/components/formulaires/checkboxConditionsVente.svelte";
+    import SubmitButon from "$lib/components/formulaires/submitButon.svelte";
+    import NotifDanger from "$lib/components/notifications/notifDanger.svelte";
+    import DomainesActivites from "$lib/components/formulaires/domainesActivites.svelte";
+    
     import { creationExposant, erreur } from '../../../lib/outils/formHandlers';
     export let data;
     const { villes } = data;
@@ -7,49 +16,9 @@
   
 <div class="block">
 
-<!-- Barre de progression, source : https://aramvisser.github.io/bulma-steps/ -->
-<ul class="steps is-narrow is-medium is-centered has-content-centered">
-    <li class="steps-segment is-active">
-        <span class="steps-marker">
-          <span class="icon">
-            <i class="fa fa-user"></i>
-          </span>
-        </span>
-        <div class="steps-content">
-          <p class="heading">INFORMATIONS</p>
-        </div>
-    </li>
+  <BarrePaiementEtape1 />
 
-    <li class="steps-segment">
-        <span class="steps-marker">
-          <span class="icon">
-            <i class="fa fa-usd"></i>
-          </span>
-        </span>
-        <div class="steps-content">
-          <p class="heading">PAIEMENT</p>
-        </div>
-    </li>
-
-    <li class="steps-segment">
-        <span class="steps-marker">
-          <span class="icon">
-            <i class="fa fa-check"></i>
-          </span>
-        </span>
-        <div class="steps-content">
-          <p class="heading">CONFIRMATION</p>
-        </div>
-    </li>
-</ul>
-
-<div class="container has-text-centered">
-  {#if $erreur}
-  <div class="notification is-danger">
-      <p>{$erreur}</p>
-  </div>
-  {/if}
-</div>
+  <NotifDanger erreur={erreur}></NotifDanger>
 
   <form on:submit|preventDefault={creationExposant}>
     <div class="box">
@@ -120,20 +89,7 @@
             </div>
           </div>
 
-          <div class="field">
-            <label class="label" for="neq">
-              Numéro d'entreprise du Québec (NEQ) <span class="rouge">*</span>
-              <!-- Tooltip, source : https://wikiki.github.io/elements/tooltip/ -->
-              <span class="icon is-small has-tooltip-top has-tooltip-bottom-desktop has-tooltip-left-tablet-only"
-                data-tooltip="Tu dois avoir un statut légal conforme au Québec et posséder un numéro d'entreprise du Québec (NEQ) si tu veux apparaître dans notre registre. Si ton prénom et nom de famille font partie de ton nom professionnel, merci de cocher la case 'Je n'ai pas de NEQ.'. Si tu n'as pas de NEQ ou de statut conforme, tu peux être membre quand même mais ton nom n'apparaîtra pas dans notre répertoire. Merci de ta compréhension.">
-                <i class="fas fa-info-circle"></i>
-              </span>
-            </label>
-            <div class="control">
-              <input class="input" type="text" name="neq" id="neq" placeholder="1012345678" pattern="^1\d{4}\d{5}$">
-              <input class="checkbox exclus"  type="checkbox" id="no-neq"> Je n'ai pas de NEQ.
-            </div>
-          </div>
+          <Neq />
 
           <div class="field">
             <label class="label" for="site">Site internet ou lien de ta page Facebook</label>
@@ -153,57 +109,7 @@
 
       </div> <!-- Fin des colonnes -->
 
-      <div class="field">
-        <div class="control">
-          <label class="label" for="domaine">Domaine(s) d'activité(s) <span class="rouge">*</span>
-            <!-- Tooltip -->
-            <span class="icon is-small has-tooltip-top has-tooltip-bottom-desktop has-tooltip-left-tablet-only"
-              data-tooltip="Catégorie(s) dans laquelle ou lesquelles tu apparaitras sur notre site Web. La première catégorie est incluse, puis un ajout de 5$ par catégorie s'applique sur l'abonnement.">
-              <i class="fas fa-info-circle"></i>
-            </span>
-          </label>
-
-          <div class="columns">
-            <!-- Première colonne -->
-            <div class="column">
-              <input class="checkbox" type="checkbox" name="accessoires_sacs" id="accessoires_sacs">Accessoires et sacs
-              <input class="checkbox" type="checkbox" name="agro-alimentaire" id="agro-alimentaire">Agro-alimentaire
-              <input class="checkbox" type="checkbox" name="animaux" id="animaux">Animaux
-              <input class="checkbox" type="checkbox" name="arts_visuels" id="arts_visuels">Arts visuels
-              <input class="checkbox" type="checkbox" name="bijoux_joaillerie" id="bijoux_joaillerie">Bijoux et/ou joaillerie
-            </div>
-    
-            <!-- Deuxième colonne -->
-            <div class="column">
-              <input class="checkbox" type="checkbox" name="ceramique_poterie" id="ceramique_poterie">Céramique et poterie
-              <input class="checkbox" type="checkbox" name="decoration_interieure" id="decoration_interieure">Décoration intérieure
-              <input class="checkbox" type="checkbox" name="ebenisterie" id="ebenisterie">Ébénisterie et travail du bois
-              <input class="checkbox" type="checkbox" name="forgerie" id="forgerie">Forgerie et travail des métaux
-              <input class="checkbox" type="checkbox" name="jouets_loisirs" id="jouets_loisirs">Jouets, jeux et loisirs
-            </div>
-
-          <!-- Troisième colonne -->
-          <div class="column">
-            <input class="checkbox" type="checkbox" name="papeteries_livres" id="domaine">Papeteries et livres
-            <input class="checkbox" type="checkbox" name="photographies" id="photographies">Photographies
-            <input class="checkbox" type="checkbox" name="produits_corporels" id="produits_corporels">Produits corporels et/ou savons
-            <input class="checkbox" type="checkbox" name="sculpture" id="sculpture">Sculpture
-            <input class="checkbox" type="checkbox" name="tricots_crochets" id="tricots_crochets">Tricots et crochets
-          </div>
-
-          <!-- Quatrième colonne -->
-          <div class="column">
-            <input class="checkbox" type="checkbox" name="verre_vitrail" id="verre_vitrail">Verre et/ou vitrail
-            <input class="checkbox" type="checkbox" name="vetements_tous" id="vetements_tous">Vêtements pour tous
-            <input class="checkbox" type="checkbox" name="vetements_enfants" id="vetements_enfants">Vêtements pour enfants et bébés
-            <input class="checkbox" type="checkbox" name="zero_dechet" id="zero_dechet">Zéro déchet
-            <input class="checkbox" type="checkbox" name="autres" id="autres">Autres
-          </div>
-          
-          </div>
-
-        </div>
-      </div>
+      <DomainesActivites />
 
       <div class="columns">
         <!-- Première colonne -->
@@ -223,32 +129,15 @@
         </div>
       </div>
 
-      <div class="field">
-        <div class="control">
-          <label class="checkbox">
-            <input type="checkbox" class="exclus" >
-            Je comprends que Répertoire SÉMEQ n'est pas responsable du service donné par ses partenaires,
-            je décharge donc de toute responsabilité le Répertoire SÉMEQ de tous mésententes et litiges pouvant éventuellement
-            survenir à la suite d'une collaboration avec un de ses partenaires. <span class="rouge">*</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="control">
-          <label class="checkbox">
-            <input type="checkbox" class="exclus" >
-            J'ai lu et j'accepte les <a href="#">conditions de vente de services</a>. <span class="rouge">*</span> <!-- AJOUTER LIEN -->
-          </label>
-        </div>
-      </div>
+      <CheckboxResponsabilite />
+      <CheckboxConditionsVente />
 
     </div> <!-- Fin box -->
 
     <!-- Boutons en bas de page -->
     <div class="block has-text-right">
-      <input type="submit" class="button is-link" value="Passer au paiement">
-      
+      <SubmitButon texte={"Passer au paiement"}></SubmitButon>
+      <Retour />
     </div>
   </form>
     
