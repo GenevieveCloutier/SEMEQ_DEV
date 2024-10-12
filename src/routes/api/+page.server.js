@@ -11,7 +11,6 @@ export const actions = {
 
     supprimeUtilisateur: async({ cookies, request })=>{
         const data = await request.formData();
-        console.log(data.get('id'));
         
         const result = await deleteUser(data.get('id'));
         return result;
@@ -31,7 +30,7 @@ export const actions = {
 
     nouvelUtilisateur: async({cookies, request})=>{
         const data = await request.formData();
-        console.log("les data = ", data);
+        log("les data = ", data);
         
         const dataEntree = [...data.entries()];
         const role = dataEntree.length == 6 ? '4' : '2';
@@ -115,35 +114,35 @@ export const actions = {
         }catch(error){
             throw (error);
         }
-        
+        log("api nouvelEvenement data = ", data)
         try{
             let res = await creationEvenement(
-                data.get('nomEven'),
+                data.get('nom'),
                 session.utilisateur.id,
-                data.get('contactEven'),
-                data.get('entrepriseEven'),
-                data.get('dateEvenDebut'),
-                data.get('dateEvenFin'),
-                data.get('horaireEven'),
-                data.get('dateAppelDebut'),
-                data.get('dateAppelFin'),
+                data.get('contact'),
+                data.get('entreprise'),
+                data.get('debut_even'),
+                data.get('fin_even'),
+                data.get('horaire_even'),
+                data.get('debut_cand'),
+                data.get('fin_cand'),
                 data.get('fondation'),//a verifier pour les payant
                 data.get('nb_visiteur'),//a verifier pour les payant
                 data.get('nb_expo'),//a verifier pour les payant
                 data.get('profil'),//a verifier pour les payant
-                data.get('siteWebEven'),
-                data.get('lienFBEven'),
-                data.get('courrielAppel'),
-                data.get('villeEven'),
+                data.get('site'),
+                data.get('fb_even'),
+                data.get('courriel'),
+                data.get('ville_id'),
                 data.get('adresse'),
                 emplacement,
                 type,
-                data.get('inputType'),
-                data.get('lienAppel'),
+                data.get('type_autre'),
+                data.get('form_cand'),
                 verif,
-                data.get('inputVerif'),
-                data.get('typeSelection'),
-                data.get('limiteSelection'),
+                data.get('verification_autre'),
+                data.get('Selection'),
+                data.get('limite'),
                 data.get('description'),
                 data.get('photo_1'),
                 data.get('photo_2'),
@@ -164,10 +163,10 @@ export const actions = {
 
     recuperation: async ({cookies, request}) =>{
         const data = await request.formData();
-        console.log("dans lapi data = ", data);
+        log("dans lapi data = ", data);
         try{
             let res = await recuperationMDP(data.get('courriel'));
-            console.log("api res = ", res);
+            log("api res = ", res);
             const lien = `http://localhost:5173/connexion/validation/${res}`;
             await envoieCourriel(data.get('courriel'),
                                 'Réinitialisation de mot de passe',
@@ -181,7 +180,7 @@ export const actions = {
                 }
             }
         }catch(error){
-            console.log("api error = ", error);
+            log("api error = ", error);
             
             return fail(401, error);
         }
