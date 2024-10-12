@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { log } from './debug';
 
 export const erreur = writable(null);
 erreur.set('');
@@ -18,7 +19,7 @@ export async function handleUserDelete(event)
 
     if (result.type === 'success') {
         alert('Utilisateur supprimé');
-        console.log(result);
+        log(result);
         
     } else {
         alert('Erreur : ' + JSON.parse(result.data)[0]);
@@ -174,11 +175,58 @@ export async function creationVisiteur(event){
             window.location.href = '/';
         if (result.status == 401)
             erreur.set(JSON.parse(result.data)[0]);
-        }catch(error){
-            console.error("erreur inattendue : ", error);
-            erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.")
-        }
+    }catch(error){
+        console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+    }
 }
+
+
+export async function recuperation(event){
+    try{
+        const formData = new FormData(event.target);
+        const response = await fetch('../api?/recuperation', {
+            method: 'POST',
+            body: formData
+        });
+        log("formhandler response = ", response);
+        const result = await response.json();
+        log("formhandler recuperation, result = ",result);
+        
+        if (result.status == 200)
+            window.location.href = '/connexion/demandeEnvoye';
+        if (result.status == 401)
+            erreur.set(JSON.parse(result.data)[0]);
+        
+    }catch(error){
+        console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+    }
+}
+
+export async function changementMotDePasse(event){
+    try{
+        const formData = new FormData(event.target);
+       log("formhandler changementMotDePasse formdata = ", formData);
+        const response = await fetch('../../api?/changement', {
+            method: 'POST',
+            body: formData
+        });
+        log("formhandler changementMDP response = ", response);
+        const result = await response.json();
+        log("formhandler changementMDP result = ", result);
+        if (result.status == 200)
+            window.location.href = '/connexion';
+        if (result.status == 401)
+            erreur.set(JSON.parse(result.data)[0]);
+        
+    }catch(error){
+        console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+    }
+}
+
+
 
 
 //ici

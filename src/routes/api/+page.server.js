@@ -1,9 +1,11 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { createCookie, findOne } from "../../lib/db/controllers/sessions.controller.js";
-import { authenticate, newUser } from '../../lib/db/controllers/Utilisateurs.controller.js';
+import { authenticate, changementMDP, newUser, recuperationMDP } from '../../lib/db/controllers/Utilisateurs.controller.js';
 import { deleteUser } from '../../lib/db/controllers/Utilisateurs.controller.js';
 import { domaines, emplacements, envoieDomaine, envoieMappage, types, verifs } from '../../lib/outils/compteurBinaire.js';
 import { creationEvenement } from '../../lib/db/controllers/Evenements.controller.js';
+import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
+import { log } from '../../lib/outils/debug.js';
 
 export const actions = {
 
@@ -158,5 +160,48 @@ export const actions = {
             }catch(error){
                 return fail(401, error);
             }
+    },
+
+    recuperation: async ({cookies, request}) =>{
+        const data = await request.formData();
+        console.log("dans lapi data = ", data);
+        try{
+            let res = await recuperationMDP(data.get('courriel'));
+            console.log("api res = ", res);
+            const lien = `http://localhost:5173/connexion/validation/${res}`;
+            await envoieCourriel(data.get('courriel'),
+                                'Réinitialisation de mot de passe',
+                                `Cliquez sur ce lien pour réinitialiser votre mot de passe : ${lien}`
+                            );
+            return {
+                status: 200,
+                body: {
+                    message: 'Jeton créé avec succès',
+                    jeton: res
+                }
+            }
+        }catch(error){
+            console.log("api error = ", error);
+            
+            return fail(401, error);
+        }
+    },
+
+    changement: async ({ cookies, request}) =>{
+        const data = await request.formData();
+        log("api changement MDP data = ", data);
+        try{
+            let res = await changementMDP(data.get('utilisateur_id'), data.get('nouveau_pwd'));
+            return {
+                status: 200,
+                body: {
+                    message: res.message
+                }
+            };
+        }catch(error){
+            log("api changement error = ", error);
+            
+            return fail(401, error);
+        }
     }
 }
