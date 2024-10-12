@@ -173,9 +173,9 @@
 					  <div class="field is-grouped">
 							<div class="container ml-6 mb-3">
 								<span> Du:</span>
-								<input class="input" type="date" name="debut_even" id="debut_even" on:change={dateEven} required />
+								<input class="input" type="date" name="debut_even" id="dateEvenDebut" on:change={dateEven} required />
 								<span>au:</span>
-								<input class="input" type="date" name="fin_even" id="fin_even" required />
+								<input class="input" type="date" name="fin_even" id="dateEvenFin" required />
               			</div>
 					</div>
         		</div>
