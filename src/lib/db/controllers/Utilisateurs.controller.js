@@ -100,10 +100,50 @@ export async function adminCreation(){
             }
         );
         console.log('Admin créé');
-        
     } catch (error) {
         console.log(error);
-        
+    }
+    try {
+        await Utilisateur.create(
+            {
+                nom: 'Peuplu',
+                prenom: 'Jean',
+                role_id: 2,
+                courriel: 'exposant@exposant',
+                pwd: 'exposant'
+            }
+        );
+        console.log('Exposant créé');
+    } catch (error) {
+        console.log(error);
+    }
+    try {
+        await Utilisateur.create(
+            {
+                nom: 'Dinateur',
+                prenom: 'Laure',
+                role_id: 3,
+                courriel: 'organisateur@organisateur',
+                pwd: 'organisateur'
+            }
+        );
+        console.log('Organisateur créé');
+    } catch (error) {
+        console.log(error);
+    }
+    try {
+        await Utilisateur.create(
+            {
+                nom: 'Ramènpatoi',
+                prenom: 'Lara',
+                role_id: 4,
+                courriel: 'visiteur@visiteur',
+                pwd: 'visiteur'
+            }
+        );
+        console.log('Visiteur créé');
+    } catch (error) {
+        console.log(error);
     }
 }
 

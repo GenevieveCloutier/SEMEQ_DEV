@@ -5,11 +5,13 @@ import { Ville } from "../models/Ville.model";
 import { Region } from "../models/Region.model";
  
 /**
+ * Récupère tous les événements de la base de données.
  * 
- *
- * @export
- * @async
- * @returns {Object}
+ * Inclut les informations sur l'utilisateur associé et la ville,
+ * ainsi que la région de la ville. 
+ * Si aucun événement n'est trouvé, un message est affiché.
+ * 
+ * @returns {Array} Un tableau d'objets représentant les événements.
  */
 export async function findAll(){
     return await Evenement.findAll({
@@ -39,6 +41,47 @@ export async function findAll(){
     });
 }; 
 
+/**
+ * Crée un nouvel événement avec les informations fournies.
+ * 
+ * Vérifie d'abord si un événement similaire existe déjà. 
+ * Si c'est le cas, une erreur est levée. 
+ * Sinon, l'événement est créé dans la base de données.
+ * 
+ * @param {string} p_nom - Le nom de l'événement.
+ * @param {number} p_utilisateur_id - L'ID de l'utilisateur créateur de l'événement.
+ * @param {string} p_contact - Le contact de l'événement.
+ * @param {string} p_entreprise - Le nom de l'entreprise organisatrice.
+ * @param {string} p_debut_even - La date de début de l'événement.
+ * @param {string} p_fin_even - La date de fin de l'événement.
+ * @param {string} p_horaire_even - L'horaire de l'événement.
+ * @param {string} p_debut_cand - La date de début de la période de candidature.
+ * @param {string} p_fin_cand - La date de fin de la période de candidature.
+ * @param {string} p_fondation - Le nom de la fondation organisatrice.
+ * @param {number} p_nb_visiteur - Le nombre prévu de visiteurs.
+ * @param {number} p_nb_expo - Le nombre d'exposants.
+ * @param {string} p_profil - Le profil de visiteurs attendus.
+ * @param {string} p_site - L'URL du site de l'événement.
+ * @param {string} p_fb_even - L'URL de la page Facebook de l'événement.
+ * @param {string} p_courriel - L'adresse courriel de l'événement.
+ * @param {number} p_ville_id - L'ID de la ville de l'événement.
+ * @param {string} p_adresse - L'adresse de l'événement.
+ * @param {string} p_emplacement - L'emplacement spécifique de l'événement.
+ * @param {string} p_type - Le type de l'événement.
+ * @param {string} p_type_autre - Autre type d'événement, si applicable.
+ * @param {string} p_form_cand - Le formulaire de candidature.
+ * @param {string} p_verification - Le processus de vérification.
+ * @param {string} p_verification_autre - Autre méthode de vérification, si applicable.
+ * @param {string} p_selection - La méthode de sélection.
+ * @param {number} p_limite - La limite de participants.
+ * @param {string} p_description - La description de l'événement.
+ * @param {string} p_photo_1 - L'URL de la première photo de l'événement.
+ * @param {string} p_photo_2 - L'URL de la deuxième photo de l'événement.
+ * @param {string} p_photo_3 - L'URL de la troisième photo de l'événement.
+ * @param {boolean} p_approuve - Statut d'approbation de l'événement.
+ * 
+ * @returns {Object} Les valeurs de l'événement créé.
+ */
 export async function creationEvenement(p_nom,p_utilisateur_id,p_contact,p_entreprise,p_debut_even,
                                         p_fin_even,p_horaire_even,p_debut_cand,p_fin_cand,
                                         p_fondation,p_nb_visiteur,p_nb_expo,p_profil,p_site,
@@ -51,11 +94,8 @@ export async function creationEvenement(p_nom,p_utilisateur_id,p_contact,p_entre
             console.log('ville = ',p_ville_id);
             console.log('debut = ',p_debut_even);
             console.log('fin = ',p_fin_even);
-            
-            
-            
-            
-        const doublon = await Evenement.findAll({
+
+            const doublon = await Evenement.findAll({
             where:{
                 nom: p_nom,
                 ville_id: p_ville_id,
@@ -108,6 +148,5 @@ export async function creationEvenement(p_nom,p_utilisateur_id,p_contact,p_entre
         return resultat.dataValues;
     } catch (error) {
         throw (error);
-        
     }
 }

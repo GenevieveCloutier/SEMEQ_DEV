@@ -4,15 +4,20 @@ import { Session } from "../models/Session.model";
 
 
 /**
- * Crée un cookie de session et une entrée correspondante dans la table Sessions.
- * @param {number} p_user_id - ID de l'utilisateur.
- * @param {Object} p_cookies - Objet des cookies pour la requête.
- * @returns {Object} - Les données de la session créée.
+ * Crée des cookies de session, rôle et identifiant utilisateur, 
+ * chacun avec une durée de vie d'un jour. Génére un UUID pour la session 
+ * et l'enregistre dans la base de données.
+ * 
+ * Retourne les valeurs de la session créée.
+ * 
+ * @param {number} p_user_id - L'ID de l'utilisateur.
+ * @param {Cookies} p_cookies - L'objet cookies utilisé pour définir les cookies.
+ * @param {string} p_role - Le rôle de l'utilisateur.
+ * 
+ * @returns {Object} Les valeurs de la session créée.
  */
 export async function createCookie(p_user_id, p_cookies, p_role)
-{
-    console.log('dans create cookies = ', p_role);
-    
+{   
     let uuid = crypto.randomUUID();
     p_cookies.set('session', uuid, 
         {
@@ -22,6 +27,13 @@ export async function createCookie(p_user_id, p_cookies, p_role)
         }
     );
     p_cookies.set('role', p_role,
+        {
+            path: '/',
+            httpOnly: true,
+            maxAge: 60 * 60 * 24
+        }
+    );
+    p_cookies.set('id', p_user_id,
         {
             path: '/',
             httpOnly: true,
@@ -42,9 +54,14 @@ export async function createCookie(p_user_id, p_cookies, p_role)
 
 
 /**
- * Supprime le cookie de session et l'entrée correspondante dans la table Sessions.
- * @param {Object} p_cookie - Objet des cookies pour la requête.
- * @returns {Object} - Message de succès.
+ * Supprime les cookies de session et de rôle, puis supprime la session
+ * correspondante de la base de données en fonction de l'UUID de session.
+ * 
+ * Retourne les valeurs de la session supprimée.
+ * 
+ * @param {Cookies} p_cookie - L'objet cookies utilisé pour accéder et supprimer les cookies.
+ * 
+ * @returns {Object} Les valeurs de la session supprimée.
  */
 export async function deleteCookie(p_cookie)
 {
@@ -61,9 +78,14 @@ export async function deleteCookie(p_cookie)
 }
 
 /**
- * Récupère une session spécifique en fonction des conditions fournies.
- * @param {Object} p_where - Conditions de filtrage pour la session.
- * @returns {Object|null} - Les données de la session trouvée ou null.
+ * Trouve une session unique en fonction des conditions spécifiées,
+ * et inclut les informations de l'utilisateur associé.
+ * 
+ * Retourne les valeurs de la session trouvée ainsi que celles de l'utilisateur, si disponible.
+ * 
+ * @param {Object} p_where - Les conditions utilisées pour rechercher la session.
+ * 
+ * @returns {Object} Les valeurs de la session trouvée et les données de l'utilisateur associé.
  */
 export async function findOne(p_where){
     return await Session.findOne({ where: p_where, include: [{

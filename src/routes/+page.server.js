@@ -17,14 +17,18 @@ import { Ville } from '../lib/db/models/Ville.model.js';
 import { findAll } from '$lib/db/controllers/Utilisateurs.controller.js';
 import { newRole } from '../lib/db/controllers/Roles.controller.js';
 import { ajoutRegions } from '../lib/db/controllers/Regions.controller.js';
-import { ajoutVilles } from '../lib/db/controllers/Villes.controller.js';
 import { adminCreation } from '../lib/db/controllers/Utilisateurs.controller.js';
 
-import csv from 'csvtojson';
+//Appel de fonctions externe
 import { redirect } from '@sveltejs/kit';
 
+/**
+ * Initialise la base de données en synchronisant les modèles Sequelize.
+ * Crée les rôles par défaut si la base de données est vide.
+ * Crée les régions par défaut si la base de données est vide.
+ * Crée des utilisateurs de tests si administrateur inexistant.
+ */
 async function initializeDatabase() {
-    
     await sequelize.sync();
 //Création des roles si la bd est vide.    
     const role_admin = await Role.findOne({ where: { id: 1 } });
@@ -45,23 +49,13 @@ async function initializeDatabase() {
         adminCreation();
 }
 
-
-
-
 await initializeDatabase();
 
-
-
-
 export async function load({ params, cookies }) {
-
-
     // aller chercher tous les utilisateurs de la BD
     const users = await findAll();
     const session = cookies.get('session');
     const role = cookies.get('role');
-    console.log(role);
-    
     // redirection temporaire, enlever quand la vraie page d'accueil sera faite
     if (!role){
         redirect(302, '/exposant');
@@ -78,11 +72,6 @@ export async function load({ params, cookies }) {
     if (role == '4'){
         redirect(302, '/visiteur');
     }
-    
-    
-    
-    
     return {users: users, session: session}; //tous les utilisateurs
-        
 }
 

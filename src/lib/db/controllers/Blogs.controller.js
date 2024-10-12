@@ -1,11 +1,9 @@
 import { Blog } from "../models/Blog.model.js";
 
 /**
- * Va chercher tous les blogs
- *
- * @export
- * @async
- * @returns {Object}
+ * Récupère tous les blogs de la base de données.
+ * 
+ * @returns {Array} Un tableau d'objets représentant les blogs.
  */
 export async function findAll(){
     return await Blog.findAll().then(resultat => {

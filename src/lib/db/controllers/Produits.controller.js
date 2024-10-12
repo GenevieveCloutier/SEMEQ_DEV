@@ -1,11 +1,12 @@
 import { Produit } from "../models/Produit.model.js";
 import { Type } from "../models/Type.model.js";
+
 /**
+ * Récupère tous les produits de la base de données en incluant les informations de leur type.
  * 
- *
- * @export
- * @async
- * @returns {Object}
+ * Retourne un tableau contenant les valeurs de chaque produit ainsi que celles de son type associé.
+ * 
+ * @returns {Array<Object>} Un tableau des valeurs de chaque produit et des données de son type associé.
  */
 export async function findAll(){
     return await Produit.findAll({

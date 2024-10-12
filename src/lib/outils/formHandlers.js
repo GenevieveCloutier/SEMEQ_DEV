@@ -2,24 +2,6 @@ import { writable } from 'svelte/store';
 
 export const erreur = writable(null);
 erreur.set('');
-// export async function nouveauCompte(event) {
-//     const formData = new FormData(event.target);
-//         console.log('formdata = ',formData);
-        
-//         const response = await fetch('./api?/new', {
-//             method: 'POST',
-//             body: formData
-//         });
-
-//         const result = await response.json();
-//         console.log(result);
-        
-//         if (result.type === 'success') {
-//             alert('Nouvel utilisateur enregistré');
-//         } else {
-//             alert('Erreur : ' + JSON.parse(result.data)[0]);
-//         }
-// }
 
 export async function handleUserDelete(event)
 {
@@ -43,6 +25,17 @@ export async function handleUserDelete(event)
     }
 }
 
+/**
+ * Gère la connexion d'un utilisateur à partir des données du formulaire.
+ *
+ * Cette fonction récupère les données du formulaire soumis, envoie une requête
+ * POST à l'API pour établir la connexion, puis redirige vers la page d'accueil
+ * si la connexion réussit. En cas d'échec, un message d'erreur est affiché.
+ *
+ * @param {Event} event - L'événement déclenché par la soumission du formulaire.
+ *
+ * @throws {Error} - Lance une erreur en cas de problème lors de la requête.
+ */
 export async function connexion(event){
     
     const formData = new FormData(event.target);
