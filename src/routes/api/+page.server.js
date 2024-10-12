@@ -27,22 +27,24 @@ export const actions = {
         }
     },
 
-    nouveauExposant: async({cookies, request})=>{
+    nouvelUtilisateur: async({cookies, request})=>{
         const data = await request.formData();
-        console.log('request = ',request);
-        console.log('data = ',data);
+        console.log("les data = ", data);
         
+        const dataEntree = [...data.entries()];
+        const role = dataEntree.length == 6 ? '4' : '2';
+        const finAbo = data.get("abonne") == 'on' ? (new Date(Date.now() + 3.1536e10)) : null;
+
         const domaine = envoieMappage(data, domaines);
-        
         try {
             let res = await newUser(
                 data.get("nom"),
                 data.get("prenom"),
-                "3",
+                role,
                 data.get("entreprise"),
                 data.get("neq"),
                 data.get("courriel"),    
-                data.get("password"),
+                data.get("pwd"),
                 data.get("site"),
                 data.get("insta"),
                 data.get("tiktok"),
@@ -51,7 +53,7 @@ export const actions = {
                 data.get("partage") == 'on' ? 1 : 0,
                 data.get("affichage") == 'on' ? 1 : 0,
                 data.get("abonne") == 'on' ? 1 : 0,
-                data.get("fin_abo"),
+                finAbo,
                 data.get("description"),
                 data.get("adresse"),
                 data.get("publique") == 'on' ? 1 : 0,
@@ -61,46 +63,17 @@ export const actions = {
                 data.get("logo")
             );
         createCookie(res.id, cookies, res.role_id);
+        return {
+            status: 200,
+            body: {
+                message: 'Utilisateur créé avec succès',
+                utilisateur: res
+            }
+        };
         }catch(error){
             return fail(401, error);
         }
     },
-
-    nouveauOrganisateur: async({cookies, request})=>{
-        const data = await request.formData();
-        console.log('request = ',request);
-        console.log('data = ',data);
-        
-        try {
-            let res = await newUser(
-                data.get("nom"),
-                data.get("prenom"),
-                "2",
-                data.get("entreprise"),
-                data.get("neq"),
-                data.get("courriel"),    
-                data.get("password"),
-                data.get("site"),
-                data.get("insta"),
-                data.get("tiktok"),
-                data.get("ville_id"),
-                data.get("abonne") == 'on' ? 1 : 0,
-                data.get("fin_abo"),
-                data.get("description"),
-                data.get("adresse"),
-                data.get("publique") == 'on' ? 1 : 0,
-                data.get("photo_1"),
-                data.get("photo_2"),
-                data.get("photo_3"),
-                data.get("logo")
-            );
-        createCookie(res.id, cookies, res.role_id);
-        }catch(error){
-            return fail(401, error);
-        }
-    },
-        
-    
 
 
     //ici
@@ -134,11 +107,9 @@ export const actions = {
         const type = envoieMappage(data, types);
         const verif = envoieMappage(data, verifs);
         const emplacement = envoieMappage(data, emplacements)
-        console.log(data);
-        
         let session;
         try{
-            session = await findOne({uuid: cookies.get('session')});    
+            session = await findOne({uuid: cookies.get('session')});//faudras tester ca
         }catch(error){
             throw (error);
         }
@@ -177,9 +148,15 @@ export const actions = {
                 data.get('photo_3'),
                 session.utilisateur.abonne,
             )
-            return res;
-        }catch(error){
-            return fail(401, error);
-        }
+            return {
+                status: 200,
+                body: {
+                    message: 'Evénement créé avec succès',
+                    evenement: res
+                }
+            };
+            }catch(error){
+                return fail(401, error);
+            }
     }
 }

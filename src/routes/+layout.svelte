@@ -7,10 +7,8 @@
 	  import Footer from '../lib/components/footer.svelte';
 	  import Entete from '../lib/components/entete.svelte';
 
-
     export let data;
   const { users, session, cookiesAll } = data;
-  console.log(session);
   
 </script>
 

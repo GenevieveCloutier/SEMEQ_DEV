@@ -1,4 +1,3 @@
-import { redirect } from '@sveltejs/kit';
 import { writable } from 'svelte/store';
 
 export const erreur = writable(null);
@@ -61,7 +60,19 @@ export async function connexion(event){
     }
 }
 
+/**
+ * Gère la création d'un nouvel exposant en envoyant les données du formulaire via une requête POST.
+ * Vérifie que le nombre de cases à cocher sélectionnées pour le domaine d'activité est compris entre 1 et 3.
+ * Vérifie que l'utilisateur a rempli le champ NEQ ou coché la case correspondante.
+ * En cas de succès (status 200), redirige vers la page d'accueil.
+ * En cas d'échec (status 401), définit un message d'erreur.
+ * Enregistre toute erreur inattendue dans la console.
+ * 
+ * @param {Event} event L'événement contenant les données du formulaire.
+ */
+
 export async function creationExposant(event){
+    try{
     const formData = new FormData(event.target);
     
     // Vérifier si le nombre de checkbox cochées est entre 1 et 3 pour Domaine(s) d'activit(é)s
@@ -79,20 +90,20 @@ export async function creationExposant(event){
       erreur.set('Merci de remplir le champ NEQ ou cocher la case "Je n\'ai pas de NEQ".');
       return;
     }
-    
-
-    const response = await fetch('../api?/nouveauExposant', {
+    const response = await fetch('../api?/nouvelUtilisateur', {
         method: 'POST',
         body: formData
       });
       
-      const result = await response.json();
-      if (result.type == 'failure')
+    const result = await response.json();
+    if (result.status == 200)
+        window.location.href = '/';
+    if (result.status == 401)
         erreur.set(JSON.parse(result.data)[0]);
-      else
-        alert('exposant créé, mais pas encore de redirection');
-      
-        // window.location.href = '/'; //AJOUTER LIEN
+    }catch(error){
+        console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.")
+    }
 }
 
 export async function creationOrganisateur(event){
@@ -122,26 +133,60 @@ export async function creationOrganisateur(event){
         // window.location.href = '/'; //AJOUTER LIEN
 }
 
+/**
+ * Gère la création d'un nouvel événement en envoyant les données du formulaire via une requête POST.
+ * En cas de succès (status 200), redirige vers la page d'accueil.
+ * En cas d'échec (status 401), définit un message d'erreur.
+ * Enregistre toute erreur inattendue dans la console.
+ * 
+ * @param {Event} event L'événement contenant les données du formulaire.
+ */
 export async function creationEvenement(event) {
 
-    
-    const formData = new FormData(event.target);
-
-    const response = await fetch('api?/nouvelEvenement', {
-        method: 'POST',
-        body: formData
-    });
-    
-    const result = await response.json();
-    console.log(result);
-     if (result.type == 'failure') 
-        erreur.set(JSON.parse(result.data)[0]);
-     else if (result.type == 'success')
-       alert('Evenement créé, mais pas encore de redirection');
-    else {
-        alert('aucune idee d\'ou c\'est partie');
+    try{
+        const formData = new FormData(event.target);
+        const response = await fetch('../api?/nouvelEvenement', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+        if (result.status == 200)
+            window.location.href = '/';//redirection a discuter avec le groupe
+        if (result.status == 401)
+            erreur.set(JSON.parse(result.data)[0]);
+    }catch(error){
+            console.error("erreur inattendue : ", error);
+            erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.")
     }
 }
+
+/**
+ * Gère la création d'un nouveau visiteur en envoyant les données du formulaire via une requête POST.
+ * En cas de succès (status 200), redirige vers la page d'accueil.
+ * En cas d'échec (status 401), définit un message d'erreur.
+ * Enregistre toute erreur inattendue dans la console.
+ * 
+ * @param {Event} event L'événement contenant les données du formulaire.
+ */
+
+export async function creationVisiteur(event){
+    try{
+        const formData = new FormData(event.target);
+        const response = await fetch('../api?/nouvelUtilisateur', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+        if (result.status == 200)
+            window.location.href = '/';
+        if (result.status == 401)
+            erreur.set(JSON.parse(result.data)[0]);
+        }catch(error){
+            console.error("erreur inattendue : ", error);
+            erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.")
+        }
+}
+
 
 //ici
 // export async function nouveauCompteEven(event){

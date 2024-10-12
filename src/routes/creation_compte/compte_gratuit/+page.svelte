@@ -4,11 +4,19 @@
     import AbonnementEven from "$lib/components/boites/abonnementEven.svelte";
     import AbonnementExposant from "$lib/components/boites/abonnementExposant.svelte";
     import CheckboxResponsabilite from "$lib/components/formulaires/checkboxResponsabilite.svelte";
+    import NotifDanger from "$lib/components/notifications/notifDanger.svelte"
     import Retour from "$lib/components/generaux/retour.svelte";
+    import { creationVisiteur, erreur } from "$lib/outils/formHandlers";
+
 
     export let data;
 	const {villes, users, session, role} = data;
+
 </script>
+
+{#if $erreur}
+    <NotifDanger></NotifDanger>
+{/if}
 
 <div class="container is-flex mt-6 mb-6">
     <div class="columns">
@@ -21,11 +29,9 @@
     </div>
 </div>
 
-
-
 <H1Title title={"Créer mon compte gratuit"} />
 <p class="has-text-centered">(Nécessaire pour inscrire un événement!)</p>
-<form><!-- on:submit|preventDefault={nouveauCompteEven}> -->
+<form on:submit|preventDefault={creationVisiteur}><!-- on:submit|preventDefault={nouveauCompteEven}> -->
 
 <div class="block has-text-centered">
     <a href="/connexion" >Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
@@ -78,10 +84,9 @@
                 <div class="field">
                     <label class="label" for="pwd">Mot de passe <span class="rouge">*</span></label>
                     <div class="control">
-                        <input class="input" type="pwd" name="pwd" id="MDPBase" placeholder="**************" required />
+                        <input class="input" type="password" name="pwd" id="MDPBase" placeholder="**************" required />
                     </div>
                 </div>
-
             </div>
         </div>
 

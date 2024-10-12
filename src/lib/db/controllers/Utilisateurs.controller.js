@@ -56,6 +56,7 @@ export async function newUser(p_nom,p_prenom, p_role_id, p_entreprise, p_neq, p_
         const mail = await Utilisateur.findOne({where: {courriel: p_courriel}});
         if(mail)
             throw "Un Compte avec ce courriel existe déjà.";
+        
          const resultat = await Utilisateur.create({
             nom:            p_nom,
             prenom:         p_prenom,

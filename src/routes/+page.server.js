@@ -67,7 +67,7 @@ export async function load({ params, cookies }) {
         redirect(302, '/exposant');
     }
     if (role == '1'){
-        redirect(302, '/admin');
+        redirect(302, '/gestionnaire');
     }
     if (role == '2'){
         redirect(302, '/organisateur');

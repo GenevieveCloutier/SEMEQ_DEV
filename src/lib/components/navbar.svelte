@@ -46,7 +46,7 @@ import { onMount } from "svelte";
 </script>
 
 <hr class="mb-1 is-hidden-mobile is-hidden-tablet-only"/>
-<nav class="navbar mx-6 navbar-bas" role="navigation" aria-label="main navigation">
+<nav class="navbar mx-6 navbar-bas block" role="navigation" aria-label="main navigation">
 
         <!-- svelte-ignore a11y-missing-attribute -->
 		<a
