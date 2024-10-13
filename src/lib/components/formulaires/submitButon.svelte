@@ -22,4 +22,4 @@
     }
 </script>
 
-<button id="submitButton" type="submit" class="button" style="background-color: #053682; color:white" on:click={chargement}>{texte}</button>
+<button id="submitButton" type="submit" class="button is-dark" style="background-color: #053682; color:white" on:click={chargement}>{texte}</button>
