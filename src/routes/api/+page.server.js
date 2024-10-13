@@ -6,6 +6,7 @@ import { domaines, emplacements, envoieDomaine, envoieMappage, types, verifs } f
 import { creationEvenement } from '../../lib/db/controllers/Evenements.controller.js';
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
+import { creationOrganisateur } from '../../lib/outils/formHandlers.js';
 
 export const actions = {
 
@@ -77,30 +78,47 @@ export const actions = {
     },
 
 
-    //ici
-    // nouveauCompteEven: async({cookies, request})=>{
-    //     const data = await request.formData();
-    //     console.log('request = ',request);
-    //     console.log('data = ',data);
+    //j'ai ajouté ici pour le form /creation_compte/organisateur
+    creationOrganisateur: async({cookies, request})=>{
+        const data = await request.formData();
+        log("les data = ", data);
         
-    //     const domaine = envoieMappage(data, domaines);
-        
-    //     try {
-    //         let res = await newUser(
-    //             data.get("nomBase"),
-    //             data.get("prenomBase"),
-    //             "4",
-    //             data.get("courrielBase"),    
-    //             data.get("MDPBase"),
-    //             data.get("villeBase"),
-    //         );
-    //     createCookie(res.id, cookies, res.role_id);
-    //     }catch(error){
-    //         return fail(401, error);
-    //     }
-        
-    // },
-    //ici
+        const dataEntree = [...data.entries()];
+        const role = dataEntree.length == 6 ? '4' : '3';  //pas certaine
+        const finAbo = data.get("abonne") == 'on' ? (new Date(Date.now() + 3.1536e10)) : null;
+
+        const domaine = envoieMappage(data, domaines);
+        try {
+            let res = await newUser(
+                data.get("nom"),
+                data.get("prenom"),
+                role,
+                data.get("entreprise"),
+                data.get("neq"),
+                data.get("courriel"),    
+                data.get("pwd"),
+                data.get("site"),
+                data.get("insta"),
+                data.get("tiktok"),
+                domaine,
+                data.get("ville_id"),
+                data.get("abonne") == 'on' ? 1 : 0,
+                finAbo,
+            );
+        createCookie(res.id, cookies, res.role_id);
+        return {
+            status: 200,
+            body: {
+                message: 'Utilisateur créé avec succès',
+                utilisateur: res
+            }
+        };
+        }catch(error){
+            return fail(401, error);
+        }
+    },
+//jusqu'à ici
+
 
 
     nouvelEvenement: async({cookies, request})=>{

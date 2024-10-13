@@ -113,7 +113,9 @@ export async function creationOrganisateur(event){
     }
     
 
-    const response = await fetch('../api?/nouveauOrganisateur', {
+    const response = await fetch('../api?/creationOrganisateur', { //j'ai changé /nouveauOrganisateur pour creationOrganisateur
+        //le form s'envoie, ça va dans la BD mais message 'Organisateur créé, mais aucune idee d\'ou c\'est partie' apparait
+        //est-ce qu'on peut donc enlever le alert?
         method: 'POST',
         body: formData
       });
@@ -124,7 +126,7 @@ export async function creationOrganisateur(event){
       else
         alert('Organisateur créé, mais aucune idee d\'ou c\'est partie');
       
-        // window.location.href = '/'; //AJOUTER LIEN
+        window.location.href = '/panier/paiement/inscription_evenement_abonne'; //lien vers où ça doit aller après avoir envoyé le form
 }
 
 /**
