@@ -15,8 +15,10 @@
 <div class="block">
 
   <BarrePaiementEtape1 />
-
-  <NotifDanger erreur={erreur}></NotifDanger>
+  <!-- le message s'Affiche mais on est quand même redirigé -->
+  {#if $erreur}
+    <NotifDanger erreur={erreur}></NotifDanger>
+  {/if}
 
   <form on:submit|preventDefault={creationOrganisateur}>
     <div class="box">
