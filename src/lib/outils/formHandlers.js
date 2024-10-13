@@ -1,8 +1,22 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import { log } from './debug';
 
 export const erreur = writable(null);
 erreur.set('');
+
+/**
+* Ajoute la classe 'is-loading' à l'élément déclencheur de l'événement.
+*
+* Cette fonction permet d'ajouter une classe CSS au bouton de validation
+* afin de signaler visuellement que le chargement est en cours.
+*
+* @param {Event} event - L'événement déclenché, contenant l'élément cible.
+*/
+function chargement(){
+    log("Dans chargement boutton = ", document.getElementById('submitButton'));
+	document.getElementById('submitButton').classList.add('is-loading');
+}
+
 
 export async function handleUserDelete(event)
 {
@@ -38,6 +52,7 @@ export async function handleUserDelete(event)
  * @throws {Error} - Lance une erreur en cas de problème lors de la requête.
  */
 export async function connexion(event){
+    chargement();
     erreur.set('');
     const formData = new FormData(event.target);
     const response = await fetch('./api?/connexionUtilisateur', {
@@ -66,6 +81,7 @@ export async function connexion(event){
  */
 
 export async function creationExposant(event){
+    chargement();
     erreur.set('');
     try{
     const formData = new FormData(event.target);
@@ -102,6 +118,7 @@ export async function creationExposant(event){
 }
 
 export async function creationOrganisateur(event){
+    chargement();
     erreur.set('');
     const formData = new FormData(event.target);
 
@@ -138,6 +155,7 @@ export async function creationOrganisateur(event){
  * @param {Event} event L'événement contenant les données du formulaire.
  */
 export async function creationEvenement(event) {
+    chargement();
     erreur.set('');
     try{
         const formData = new FormData(event.target);
@@ -166,6 +184,7 @@ export async function creationEvenement(event) {
  */
 
 export async function creationVisiteur(event){
+    chargement();
     erreur.set('');
     try{
         const formData = new FormData(event.target);
@@ -186,6 +205,7 @@ export async function creationVisiteur(event){
 
 
 export async function recuperation(event){
+    chargement();
     erreur.set('');
     try{
         const formData = new FormData(event.target);
@@ -209,6 +229,7 @@ export async function recuperation(event){
 }
 
 export async function changementMotDePasse(event){
+    chargement();
     erreur.set('');
     try{
         const formData = new FormData(event.target);
