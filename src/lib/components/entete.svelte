@@ -2,18 +2,19 @@
 
 export let session;
 
+
 	// Pour faire afficher le menu dropdown quand on clique sur l'icone ou la flèche
-	export function toggleNavbarMenu(node) {
-		function toggle() {
-			node.closest('.dropdown').classList.toggle('is-active');
-		}
-		node.addEventListener('click', toggle);
-		return {
-			destroy() {
-				node.removeEventListener('click', toggle);
-			}
-		};
-	};
+	// export function toggleNavbarMenu(node) {
+	// 	function toggle() {
+	// 		node.closest('.dropdown').classList.toggle('is-active');
+	// 	}
+	// 	node.addEventListener('click', toggle);
+	// 	return {
+	// 		destroy() {
+	// 			node.removeEventListener('click', toggle);
+	// 		}
+	// 	};
+	// };
 
 //pour que le menu connexion se referme quand on clique sur un des liens
 	function cacherMenu() {  
@@ -50,17 +51,17 @@ export let session;
 		<div class="dropdown-menu" id="dropdown-compte" role="menu" >
 			<div class="dropdown-content">
 				<!-- ajouter les autorisations pour l'accès aux liens (remplacer /id/) -->
-				<a href="/connexion/id" class="dropdown-item"> Mon compte </a>
+				<a href="/id" class="dropdown-item"> Mon compte </a>
 				<hr class="dropdown-divider" />
-				<a href="/connexion/id/mes_evenements" class="dropdown-item" on:click={cacherMenu}> Mes événements </a>
+				<a href="/id/mes_evenements" class="dropdown-item" on:click={cacherMenu}> Mes événements </a>
 				<hr class="dropdown-divider" />
-				<a href="/connexion/id/appels_candidature" class="dropdown-item" on:click={cacherMenu}> Appels de candidature </a>
+				<a href="/id/appels_candidature" class="dropdown-item" on:click={cacherMenu}> Appels de candidature </a>
 				<hr class="dropdown-divider" />
-				<a href="/connexion/id/mes_avantages" class="dropdown-item" on:click={cacherMenu}> Mes avantages </a>
+				<a href="/id/mes_avantages" class="dropdown-item" on:click={cacherMenu}> Mes avantages </a>
 				<hr class="dropdown-divider" />
-				<a href="/connexion/id/formations_outils" class="dropdown-item" on:click={cacherMenu}> Mes formations et outils </a>
+				<a href="/id/formations_outils" class="dropdown-item" on:click={cacherMenu}> Mes formations et outils </a>
 				<hr class="dropdown-divider" />
-				<a href="/connexion/id/achats" class="dropdown-item" on:click={cacherMenu}> Historique d'achat </a>
+				<a href="/id/achats" class="dropdown-item" on:click={cacherMenu}> Historique d'achat </a>
 				<hr class="dropdown-divider" />
 				<a href="/deconnexion" class="dropdown-item bouton-deconnexion" on:click={cacherMenu}> Déconnexion </a>
 			</div>

@@ -3,18 +3,13 @@
 import { onMount } from "svelte";
 
   onMount(() => {
+// actualiser la page si on fait la transition pc/simulateur de mobile, le mien capote sinon
     const burger = document.querySelector('.navbar-burger');
     const menu = document.getElementById('navMenu');
-	let element = document.getElementsByClassName("has-dropdown");
-
 
     burger.addEventListener('click', () => {
       burger.classList.toggle('is-active');
       menu.classList.toggle('is-active');
-	  element.classList.toggle('is-active');
-
-	  console.log("ici")
-	  console.log(element.classList)
     });
   });
 
