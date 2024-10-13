@@ -42,7 +42,13 @@ export const emplacements = {
     "emplacementSansAbri"   : 16
 };
 
-
+/**
+ * Récupère les clés correspondant aux bits activés dans p_nombre.
+ *
+ * @param {number} p_nombre - Le nombre dont les bits sont vérifiés.
+ * @param {Object} p_constante - Un objet de mappage avec des clés et des valeurs de bits.
+ * @return {Array<string>} resultat - Un tableau contenant les clés dont les bits sont activés.
+ */
 export function recupMappage(p_nombre, p_constante) {
     const resultat = [];
     for (const [cle, bit] of Object.entries(p_constante)) {
@@ -53,6 +59,13 @@ export function recupMappage(p_nombre, p_constante) {
     return resultat;
 }
 
+/**
+ * Envoie le mappage des clés activées à leur valeur correspondante.
+ *
+ * @param {Map<string, boolean>} p_data - Un objet contenant des clés avec des valeurs booléennes.
+ * @param {Object} p_constante - Un objet de mappage avec des clés et des valeurs.
+ * @return {number} resultat - La somme des valeurs correspondant aux clés activées.
+ */
 export function envoieMappage(p_data, p_constante){
     let resultat = 0;
 

@@ -1,25 +1,8 @@
 import { writable } from 'svelte/store';
+import { log } from './debug';
 
 export const erreur = writable(null);
 erreur.set('');
-// export async function nouveauCompte(event) {
-//     const formData = new FormData(event.target);
-//         console.log('formdata = ',formData);
-        
-//         const response = await fetch('./api?/new', {
-//             method: 'POST',
-//             body: formData
-//         });
-
-//         const result = await response.json();
-//         console.log(result);
-        
-//         if (result.type === 'success') {
-//             alert('Nouvel utilisateur enregistré');
-//         } else {
-//             alert('Erreur : ' + JSON.parse(result.data)[0]);
-//         }
-// }
 
 export async function handleUserDelete(event)
 {
@@ -36,13 +19,24 @@ export async function handleUserDelete(event)
 
     if (result.type === 'success') {
         alert('Utilisateur supprimé');
-        console.log(result);
+        log(result);
         
     } else {
         alert('Erreur : ' + JSON.parse(result.data)[0]);
     }
 }
 
+/**
+ * Gère la connexion d'un utilisateur à partir des données du formulaire.
+ *
+ * Cette fonction récupère les données du formulaire soumis, envoie une requête
+ * POST à l'API pour établir la connexion, puis redirige vers la page d'accueil
+ * si la connexion réussit. En cas d'échec, un message d'erreur est affiché.
+ *
+ * @param {Event} event - L'événement déclenché par la soumission du formulaire.
+ *
+ * @throws {Error} - Lance une erreur en cas de problème lors de la requête.
+ */
 export async function connexion(event){
     
     const formData = new FormData(event.target);
@@ -181,11 +175,58 @@ export async function creationVisiteur(event){
             window.location.href = '/';
         if (result.status == 401)
             erreur.set(JSON.parse(result.data)[0]);
-        }catch(error){
-            console.error("erreur inattendue : ", error);
-            erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.")
-        }
+    }catch(error){
+        console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+    }
 }
+
+
+export async function recuperation(event){
+    try{
+        const formData = new FormData(event.target);
+        const response = await fetch('../api?/recuperation', {
+            method: 'POST',
+            body: formData
+        });
+        log("formhandler response = ", response);
+        const result = await response.json();
+        log("formhandler recuperation, result = ",result);
+        
+        if (result.status == 200)
+            window.location.href = '/connexion/demandeEnvoye';
+        if (result.status == 401)
+            erreur.set(JSON.parse(result.data)[0]);
+        
+    }catch(error){
+        console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+    }
+}
+
+export async function changementMotDePasse(event){
+    try{
+        const formData = new FormData(event.target);
+       log("formhandler changementMotDePasse formdata = ", formData);
+        const response = await fetch('../../api?/changement', {
+            method: 'POST',
+            body: formData
+        });
+        log("formhandler changementMDP response = ", response);
+        const result = await response.json();
+        log("formhandler changementMDP result = ", result);
+        if (result.status == 200)
+            window.location.href = '/connexion';
+        if (result.status == 401)
+            erreur.set(JSON.parse(result.data)[0]);
+        
+    }catch(error){
+        console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+    }
+}
+
+
 
 
 //ici

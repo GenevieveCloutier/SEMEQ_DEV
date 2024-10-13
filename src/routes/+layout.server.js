@@ -1,7 +1,8 @@
 
 export async function load({ cookies }){
-    const cookiesAll = cookies.getAll();
     const session = cookies.get('session');
+    const role = cookies.get('role');
+    const id = cookies.get('id');
     
-    return({cookiesAll: cookiesAll, session});
+    return({session, role, id});
 }

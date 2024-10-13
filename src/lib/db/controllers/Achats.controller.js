@@ -1,12 +1,11 @@
 import { Achat } from "../models/Achat.model.js";
 import { Utilisateur } from "../models/Utilisateur.model.js";
 import { Produit } from "../models/Produit.model.js";
+
 /**
+ * Récupère tous les achats de la base de données.
  * 
- *
- * @export
- * @async
- * @returns {Object}
+ * @returns {Array} Un tableau d'objets représentant les achats, incluant les utilisateurs et les produits associés.
  */
 export async function findAll(){
     return await Achat.findAll({

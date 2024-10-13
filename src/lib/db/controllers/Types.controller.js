@@ -1,11 +1,11 @@
 import { Type } from "../models/Type.model";
 
 /**
- * Va chercher tous les types
- *
- * @export
- * @async
- * @returns {Object}
+ * Récupère tous les types de la base de données.
+ * 
+ * Retourne un tableau contenant les valeurs de chaque type trouvé.
+ * 
+ * @returns {Array<Object>} Un tableau des valeurs de chaque type.
  */
 export async function findAll(){
     return await Type.findAll().then(resultat => {

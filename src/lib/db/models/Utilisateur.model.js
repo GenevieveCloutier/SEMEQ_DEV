@@ -97,12 +97,25 @@ export const Utilisateur = sequelize.define('utilisateur', {
         type: DataTypes.STRING,
         allowNull: true
     },
+    jeton: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    jetonExpiration: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
 },
     { paranoid: true }// Permet à sequelize de faire de la soft-deletion
 );
 
 //encrypter le MDP à la première utilisation
 Utilisateur.addHook('beforeCreate',(async (user, option) => {
+    user.pwd = await bcrypt.hash(user.pwd, 10);
+}));
+
+//encrypter le MDP à la modification
+Utilisateur.addHook('beforeUpdate',(async (user, option) => {
     user.pwd = await bcrypt.hash(user.pwd, 10);
 }));
 

@@ -2,9 +2,13 @@ import { Role } from "../models/Role.model";
 
 
 /**
- * Crée un nouveau rôle.
- * @param {string} p_nom - Nom du rôle.
- * @returns {Object} - Les données du rôle créé.
+ * Crée un nouveau rôle avec le nom spécifié.
+ * 
+ * Retourne les valeurs du rôle créé.
+ * 
+ * @param {string} p_nom - Le nom du rôle à créer.
+ * 
+ * @returns {Object} Les valeurs du rôle créé.
  */
 export async function newRole(p_nom){
     Role.create({
@@ -19,8 +23,11 @@ export async function newRole(p_nom){
 }
 
 /**
- * Récupère tous les rôles.
- * @returns {Object[]} - Liste des rôles.
+ * Récupère tous les rôles de la base de données.
+ * 
+ * Retourne un tableau contenant les valeurs de chaque rôle trouvé.
+ * 
+ * @returns {Array<Object>} Un tableau des valeurs de chaque rôle.
  */
 export async function findAll(){
     return await Role.findAll().then(resultat => {
@@ -32,9 +39,13 @@ export async function findAll(){
 }
 
 /**
- * Récupère un rôle spécifique en fonction des conditions fournies.
- * @param {Object} p_where - Conditions de filtrage pour le rôle.
- * @returns {Object|null} - Les données du rôle trouvé ou null.
+ * Trouve un rôle unique en fonction des conditions spécifiées.
+ * 
+ * Retourne les valeurs du rôle trouvé.
+ * 
+ * @param {Object} p_where - Les conditions utilisées pour rechercher le rôle.
+ * 
+ * @returns {Object} Les valeurs du rôle trouvé.
  */
 export async function findOne(p_where){
     return await Role.findOne({ where: p_where })
