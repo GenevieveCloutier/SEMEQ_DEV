@@ -38,7 +38,7 @@ export async function handleUserDelete(event)
  * @throws {Error} - Lance une erreur en cas de problème lors de la requête.
  */
 export async function connexion(event){
-    
+    erreur.set('');
     const formData = new FormData(event.target);
     const response = await fetch('./api?/connexionUtilisateur', {
         method: 'POST',
@@ -66,6 +66,7 @@ export async function connexion(event){
  */
 
 export async function creationExposant(event){
+    erreur.set('');
     try{
     const formData = new FormData(event.target);
     
@@ -101,6 +102,7 @@ export async function creationExposant(event){
 }
 
 export async function creationOrganisateur(event){
+    erreur.set('');
     const formData = new FormData(event.target);
 
     // Choix obligatoire pour NEQ, l'utilisateur inscrit son NEQ ou coche la checkbox
@@ -136,7 +138,7 @@ export async function creationOrganisateur(event){
  * @param {Event} event L'événement contenant les données du formulaire.
  */
 export async function creationEvenement(event) {
-
+    erreur.set('');
     try{
         const formData = new FormData(event.target);
         const response = await fetch('../api?/nouvelEvenement', {
@@ -164,6 +166,7 @@ export async function creationEvenement(event) {
  */
 
 export async function creationVisiteur(event){
+    erreur.set('');
     try{
         const formData = new FormData(event.target);
         const response = await fetch('../api?/nouvelUtilisateur', {
@@ -183,6 +186,7 @@ export async function creationVisiteur(event){
 
 
 export async function recuperation(event){
+    erreur.set('');
     try{
         const formData = new FormData(event.target);
         const response = await fetch('../api?/recuperation', {
@@ -205,6 +209,7 @@ export async function recuperation(event){
 }
 
 export async function changementMotDePasse(event){
+    erreur.set('');
     try{
         const formData = new FormData(event.target);
        log("formhandler changementMotDePasse formdata = ", formData);
