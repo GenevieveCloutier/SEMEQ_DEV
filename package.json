@@ -8,7 +8,8 @@
 		"preview": "vite preview",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"test": "vitest"
+		"test": "vitest",
+		"debug": "node src/lib/outils/debug-npm.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",

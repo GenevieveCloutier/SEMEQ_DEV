@@ -1,4 +1,4 @@
-const DEBUG_MODE = true; // Change à false pour désactiver
+export let DEBUG_MODE = false;
 
 export function log(message, objet) {
     if (DEBUG_MODE) {
