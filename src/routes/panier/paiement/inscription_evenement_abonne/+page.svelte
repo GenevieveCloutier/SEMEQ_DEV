@@ -239,7 +239,7 @@ function section3(event){
 
         <!-- debut de la section pour les photos -->
         
-                <!-- <div class="field my-5">
+                <div class="field my-5">
                     <label class="label" for="emplacement">Emplacement<span class="rouge">*</span></label>
                     <div class="control">
                         <div class="checkboxes">
@@ -258,7 +258,7 @@ function section3(event){
                     <div class="field my-5">
                         <label class="label" for="photo_1">Photo 1</label>
                         <div class="control">
-                          <input class="input" type="file" name="photo_1" id="photo_1">
+                          <input class="input" type="file" accept="image/*" name="photo_1" id="photo_1">
                         </div>
                     </div>
 
@@ -281,7 +281,7 @@ function section3(event){
                         </div>
                       </div>
                 </div>     
-            </div> -->
+            </div>
         <!-- fin de la section pour les photos --> 
 
 <!-- bouton pour cacher / afficher la section 2 -->

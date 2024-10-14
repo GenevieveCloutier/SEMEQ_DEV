@@ -165,6 +165,7 @@ export async function creationEvenement(event) {
         const formData = new FormData(event.target);
         const response = await fetch('../api?/nouvelEvenement', {
             method: 'POST',
+            enctype: "multipart/form-data",
             body: formData
         });
         const result = await response.json();

@@ -1,3 +1,4 @@
+import { findAll } from '../../lib/db/controllers/Utilisateurs.controller.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { createCookie, findOne } from "../../lib/db/controllers/sessions.controller.js";
 import { authenticate, changementMDP, newUser, recuperationMDP } from '../../lib/db/controllers/Utilisateurs.controller.js';
@@ -6,7 +7,12 @@ import { domaines, emplacements, envoieDomaine, envoieMappage, types, verifs } f
 import { creationEvenement } from '../../lib/db/controllers/Evenements.controller.js';
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
-import { creationOrganisateur } from '../../lib/outils/formHandlers.js';
+import fs from 'fs';
+import path from 'path';
+
+//chemin de base pour stocker les photos
+const cheminBase = path.join(process.cwd(), 'src/lib/img/app'); 
+
 
 export const actions = {
 
@@ -29,7 +35,7 @@ export const actions = {
         }
     },
 
-    //tous les utilisateurs (gratuit, exposant, organisateur) doivent être créés par ici
+    //tous les utilisateurs (gratuit, exposant, organisateur à venir) doivent être créés par ici
     nouvelUtilisateur: async({cookies, request})=>{
         const data = await request.formData();
         log("les data = ", data);
@@ -80,16 +86,41 @@ export const actions = {
 
 
     nouvelEvenement: async({cookies, request})=>{
+        //reste à changer la variable approuvé
+        //reste à faire mettre les fichiers dans un dossier avec le id de l'utilisateur
+        //erreur pour les photos si on en met que une
         const data = await request.formData();
         const type = envoieMappage(data, types);
         const verif = envoieMappage(data, verifs);
         const emplacement = envoieMappage(data, emplacements)
+
+        //pour uploader et stocker les photos 
+        const uploadPhoto = async (nomFichier) => {
+            const photo = data.get(nomFichier);
+
+            if (photo && photo.name) { 
+            const buffer = Buffer.from(await photo.arrayBuffer());
+            const filePath = path.resolve(cheminBase, photo.name);
+            fs.writeFileSync(filePath, buffer);
+            return path.relative(process.cwd(), filePath);
+            };
+            // si pas de photo, retourne null
+            return null;
+        };
+
+        const photo_1 = await uploadPhoto('photo_1');
+        const photo_2 = await uploadPhoto('photo_2');
+        const photo_3 = await uploadPhoto('photo_3');
+
         let session;
         try{
             session = await findOne({uuid: cookies.get('session')});//faudras tester ca
+            console.log("=======================" + session.utilisateur.id)// retourne l'utilisateur
         }catch(error){
             throw (error);
         }
+
+        
         log("api nouvelEvenement data = ", data)
         try{
             let res = await creationEvenement(
@@ -102,10 +133,10 @@ export const actions = {
                 data.get('horaire_even'),
                 data.get('debut_cand'),
                 data.get('fin_cand'),
-                data.get('fondation'),//a verifier pour les payant
-                data.get('nb_visiteur'),//a verifier pour les payant
-                data.get('nb_expo'),//a verifier pour les payant
-                data.get('profil'),//a verifier pour les payant
+                data.get('fondation'),
+                data.get('nb_visiteur'),
+                data.get('nb_expo'),
+                data.get('profil'),
                 data.get('site'),
                 data.get('fb_even'),
                 data.get('courriel'),
@@ -120,9 +151,9 @@ export const actions = {
                 data.get('Selection'),
                 data.get('limite'),
                 data.get('description'),
-                data.get('photo_1'),
-                data.get('photo_2'),
-                data.get('photo_3'),
+                photo_1,
+                photo_2,
+                photo_3,
                 session.utilisateur.abonne,
             )
             return {
