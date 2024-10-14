@@ -18,13 +18,13 @@
                         <div class="field">
 						    <label class="label" for="courriel">Courriel</label>
 						    <div class="control">
-							    <input class="input" type="mail" name="courriel" id="courriel" placeholder="" />
+							    <input class="input" type="mail" name="courriel" id="courriel" placeholder="" required/>
 						    </div>
 					    </div>
                         <div class="field">
 						    <label class="label" for="pwd">Mot de passe</label>
 						    <div class="control">
-							    <input class="input" type="password" name="pwd" id="pwd" placeholder="" />
+							    <input class="input" type="password" name="pwd" id="pwd" placeholder="" required/>
 						    </div>
 					    </div>
                         <a href="/connexion/recuperation" class="help has-text-centered">J'ai oublié mon mot de passe</a>
