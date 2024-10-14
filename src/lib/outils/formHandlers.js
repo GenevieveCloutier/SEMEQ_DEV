@@ -160,6 +160,36 @@ export async function creationEvenement(event) {
     }
 }
 
+//ici
+/**
+ * Gère la création d'un nouvel événement payant en envoyant les données du formulaire via une requête POST.
+ * En cas de succès (status 200), redirige vers la page d'accueil.
+ * En cas d'échec (status 401), définit un message d'erreur.
+ * Enregistre toute erreur inattendue dans la console.
+ * 
+ * @param {Event} event L'événement contenant les données du formulaire.
+ */
+export async function creationEvenementPayant(event) {
+    erreur.set('');
+    try{
+        const formData = new FormData(event.target);
+        const response = await fetch('../../api?/nouvelEvenement', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+        if (result.status == 200)
+            window.location.href = '/';//redirection a discuter avec le groupe
+        if (result.status == 401)
+            erreur.set(JSON.parse(result.data)[0]);
+            return
+    }catch(error){
+            console.error("erreur inattendue : ", error);
+            erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.")
+    }
+}
+//ici
+
 /**
  * Gère la création d'un nouveau visiteur en envoyant les données du formulaire via une requête POST.
  * En cas de succès (status 200), redirige vers la page d'accueil.

@@ -7,8 +7,9 @@
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
 	import Etape2Organisateur from '$lib/components/barre_progression_paiement/etape2Organisateur.svelte';
 	import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
+    import {creationEvenementPayant, erreur} from '$lib/outils/formHandlers';
 
-	let erreur = null;
+	//let erreur = null;
     export let data;
 	const {villes} = data;
 
@@ -112,7 +113,7 @@ function section3(event){
     <Etape2Organisateur />
 	<NotifDanger {erreur}></NotifDanger>
 
-	<form on:submit|preventDefault={handleSubmit}>
+	<form on:submit|preventDefault={creationEvenementPayant}>
         <div class="box">
             <div class="mt-5 container has-text-centered">
                 <!-- modifier le lien pour pointer vers une page de son compte -->
@@ -366,7 +367,7 @@ function section3(event){
           <div class="my-5">
             <div class="field">
                 <div class="control">
-                    <label class="checkbox label" name="selection" id="typeSelectionPayant">
+                    <label class="checkbox label" name="Selection" id="typeSelectionPayant">
                         Les places sont attribuées selon une sélection parmi les candidatures reçues <span class="rouge">*</span><br>
                         <span class="is-size-7 has-text-grey has-text-weight-normal" >(oui = sélection à la fin de la période de candidatures, non = premier arrivé, premier servi)<br></span> 
                         <input type="checkbox" class="toggle exclus">
@@ -443,14 +444,26 @@ function section3(event){
 
         </div>
 
-    <div>
-        <div class="field">
-            <label class="label" for="profil">Profil des visieurs (âge moyen, etc)</label>
-            <div class="control">
-                <textarea class="textarea" maxlength="300" name="profil" id="descriptionEvenPayant" cols="30" rows="5" 
-                placeholder="Événement visant les familles avec jeunes enfants (max 300 caractères)."></textarea>
+    <div class="columns">
+        <div class="column is-half">
+            <div class="field">
+                <label class="label" for="fondation">Année de fondation</label>
+                <div class="control">
+                    <input class="input" type="number" name="fondation" id="fondation" placeholder="2022"/>
+                </div>
             </div>
-        </div>
+        </div>  
+
+        <div class="column is-half">
+            <div class="field">
+                <label class="label" for="profil">Profil des visieurs (âge moyen, etc)</label>
+                <div class="control">
+                    <textarea class="textarea" maxlength="300" name="profil" id="descriptionEvenPayant" cols="30" rows="5" 
+                    placeholder="Événement visant les familles avec jeunes enfants (max 300 caractères)."></textarea>
+                </div>
+            </div>
+        </div> 
+
     </div>
 
 

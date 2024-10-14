@@ -29,6 +29,7 @@ export const actions = {
         }
     },
 
+    //tous les utilisateurs (gratuit, exposant, organisateur) doivent être créés par ici
     nouvelUtilisateur: async({cookies, request})=>{
         const data = await request.formData();
         log("les data = ", data);
@@ -76,49 +77,6 @@ export const actions = {
             return fail(401, error);
         }
     },
-
-
-    //j'ai ajouté ici pour le form /creation_compte/organisateur
-    creationOrganisateur: async({cookies, request})=>{
-        const data = await request.formData();
-        log("les data = ", data);
-        
-        const dataEntree = [...data.entries()];
-        const role = dataEntree.length == 6 ? '4' : '3';  //pas certaine
-        const finAbo = data.get("abonne") == 'on' ? (new Date(Date.now() + 3.1536e10)) : null;
-
-        const domaine = envoieMappage(data, domaines);
-        try {
-            let res = await newUser(
-                data.get("nom"),
-                data.get("prenom"),
-                role,
-                data.get("entreprise"),
-                data.get("neq"),
-                data.get("courriel"),    
-                data.get("pwd"),
-                data.get("site"),
-                data.get("insta"),
-                data.get("tiktok"),
-                domaine,
-                data.get("ville_id"),
-                data.get("abonne") == 'on' ? 1 : 0,
-                finAbo,
-            );
-        createCookie(res.id, cookies, res.role_id);
-        return {
-            status: 200,
-            body: {
-                message: 'Utilisateur créé avec succès',
-                utilisateur: res
-            }
-        };
-        }catch(error){
-            return fail(401, error);
-        }
-    },
-//jusqu'à ici
-
 
 
     nouvelEvenement: async({cookies, request})=>{
