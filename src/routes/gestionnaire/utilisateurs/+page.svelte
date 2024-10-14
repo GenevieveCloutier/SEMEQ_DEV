@@ -44,12 +44,13 @@
       }).length === 0}
         <RechercheNoResult />
     {:else}
+    <div class="block table-container">
     <table class="table is-hoverable is-striped is-fullwidth ">
         <thead class="has-text-centered">
             <tr>
                 <th>Utilisateur <button on:click={event => triage(event, 'prenom')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
                 <th>Role <button on:click={event => triage(event, 'role_nom')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
-                <th class="is-hidden-mobile">Courriel <button on:click={event => triage(event, 'courriel')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
+                <th>Courriel <button on:click={event => triage(event, 'courriel')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
                 <th>Abonnement <button on:click={event => triage(event, 'fin_abo')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
             </tr>
         </thead>
@@ -62,11 +63,12 @@
             <tr on:click={() => window.location = `./utilisateurs/${utilisateur.id}`}>
                 <td> {utilisateur.prenom} {utilisateur.nom}</td>
                 <td>{utilisateur.role.nom}</td>
-                <td class="is-hidden-mobile">{utilisateur.courriel}</td>
+                <td>{utilisateur.courriel}</td>
                 <td>{utilisateur.fin_abo}</td>
             </tr>
             {/each}
         </tbody>
-    </table>    
+    </table>
+</div>    
     {/if}
 </div>

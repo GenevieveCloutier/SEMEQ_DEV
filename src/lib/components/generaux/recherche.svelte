@@ -4,7 +4,7 @@
 </script>
 
 <div class="field">
-    <div class="control">
+    <div class="control block">
         <input class="input" type="text" name="recherche" placeholder="Rechercher {typeRecherche}..." bind:value={searchQuery} />
     </div>
 </div>
