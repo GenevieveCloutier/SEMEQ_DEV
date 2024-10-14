@@ -111,7 +111,7 @@ function section3(event){
 
 <div class="block">
     <Etape2Organisateur />
-	<NotifDanger {erreur}></NotifDanger>
+	<NotifDanger />
 
 	<form on:submit|preventDefault={creationEvenementPayant}>
         <div class="box">
@@ -151,7 +151,6 @@ function section3(event){
                 <div class="field">
                     <label class="label" for="ville_id">Ville <span class="rouge">*</span></label>
                     <div class="control">
-                        <!-- J'ai changer le champ pour un select et ajouter les villes -->
                         <div class="select is-fullwidth">
                                 <select name="ville_id" id="villeEven" required >
                                     <option value="" disabled selected>Choisir une ville</option>
@@ -196,7 +195,6 @@ function section3(event){
 <!-- /div du block des deux colonnes -->
 </div>
 
-        <!-- colonne pleine largeur -->
             <div class="column is-full">
             <div class="field">
                 <label class="label" for="description">Description de l'événement</label>
@@ -241,7 +239,7 @@ function section3(event){
 
         <!-- debut de la section pour les photos -->
         
-                <div class="field my-5">
+                <!-- <div class="field my-5">
                     <label class="label" for="emplacement">Emplacement<span class="rouge">*</span></label>
                     <div class="control">
                         <div class="checkboxes">
@@ -283,7 +281,7 @@ function section3(event){
                         </div>
                       </div>
                 </div>     
-            </div>
+            </div> -->
         <!-- fin de la section pour les photos --> 
 
 <!-- bouton pour cacher / afficher la section 2 -->
@@ -348,7 +346,7 @@ function section3(event){
                 <div class="field">
                   <label class="label" for="type">Type d'exposants<span class="rouge">*</span></label>
                   <div class="control">
-                      <div class="checkboxes">
+                      <div class="checkboxes"> 
                           <label class="checkbox"><input class="mr-2" type="checkbox" name="typeArtisan" id="typeArtisanPayant"  />Artisan</label>
                           <label class="checkbox"><input class="mr-2" type="checkbox" name="typeAgro" id="typeAgroPayant" />Agro-alimentaire</label>
                           <label class="checkbox"><input class="mr-2" type="checkbox" name="typeMLM" id="typeMLMPayant" />MLM et revendeur</label>
