@@ -163,9 +163,9 @@
       </div> <!-- Fin 3 colonnes -->
 
       <div class="field">
-        <label class="label">Description</label>
+        <label class="label" for="description">Description</label>
         <div class="control">
-          <textarea class="textarea" placeholder="Décris briévement ton entreprise"></textarea>
+          <textarea class="textarea" name="description" id="description" placeholder="Décris briévement ton entreprise"></textarea>
         </div>
       </div><br>
 
