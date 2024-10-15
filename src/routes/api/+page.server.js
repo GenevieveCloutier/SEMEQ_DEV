@@ -1,4 +1,3 @@
-import { findAll } from '../../lib/db/controllers/Utilisateurs.controller.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { createCookie, findOne } from "../../lib/db/controllers/sessions.controller.js";
 import { authenticate, changementMDP, newUser, recuperationMDP } from '../../lib/db/controllers/Utilisateurs.controller.js';
@@ -11,7 +10,7 @@ import fs from 'fs';
 import path from 'path';
 
 //chemin de base pour stocker les photos
-const cheminBase = path.join(process.cwd(), 'src/lib/img/app'); 
+const cheminBase = path.join(process.cwd(), 'src/lib/img/app/evenements'); 
 
 
 export const actions = {
@@ -114,8 +113,7 @@ export const actions = {
 
         let session;
         try{
-            session = await findOne({uuid: cookies.get('session')});//faudras tester ca
-            console.log("=======================" + session.utilisateur.id)// retourne l'utilisateur
+            session = await findOne({uuid: cookies.get('session')});//ça fonctionne :D
         }catch(error){
             throw (error);
         }

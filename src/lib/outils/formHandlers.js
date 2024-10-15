@@ -133,8 +133,6 @@ export async function creationOrganisateur(event){
     
 
     const response = await fetch('../api?/nouvelUtilisateur', {
-        //le form s'envoie, ça va dans la BD mais message 'Organisateur créé, mais aucune idee d\'ou c\'est partie' apparait
-        //est-ce qu'on peut donc enlever le alert?
         method: 'POST',
         body: formData
       });
@@ -146,8 +144,8 @@ export async function creationOrganisateur(event){
       }
        
       else
-        alert('Organisateur créé, mais aucune idee d\'ou c\'est partie');
-        window.location.href = '/panier/paiement/inscription_evenement_abonne'; //lien vers où ça doit aller après avoir envoyé le form
+       //lien vers où ça doit aller après avoir envoyé le form
+        window.location.href = '/[id]/mes_evenements/inscription_evenement_abonne'; 
 }
 
 /**
@@ -286,26 +284,3 @@ export async function changementMotDePasse(event){
         erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
     }
 }
-
-
-
-
-//ici
-// export async function nouveauCompteEven(event){
-    
-//     const formData = new FormData(event.target);
-//     const response = await fetch('./api?/nouveauCompteEven', {
-//         method: 'POST',
-//         body: formData
-//     });
-    
-//     const result = await response.json();
-    
-//     if (result.type === 'success') {
-//         window.location.href = '/repertoire_evenements/inscription_evenement_gratuit';
-//     } else if (result.type === 'failure'){
-//         erreur.set(JSON.parse(result.data)[1]);
-//     }
-    //rediriger vers la page d'inscription d'événement gratuit
-// }
-//ici

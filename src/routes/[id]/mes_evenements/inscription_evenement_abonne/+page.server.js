@@ -2,18 +2,19 @@ import { findAll } from '$lib/db/controllers/Villes.controller.js'; "$lib/db/con
 import { redirect } from '@sveltejs/kit';
 
 export async function load({cookies}){
-    const villes = await findAll();   
+    const villes = await findAll();
 
-    // aller chercher tous les utilisateurs de la BD
+    //pour envoyer sur le formulaire de connexion si l'utilisateur n'a pas de rôle, ou si le rôle est 
+    //compte gratuit ou compte exposant (laisser passer gestionnaire et organisateur)
+    //ajouter l'autorisation pour l'abonnement si il est actif ou non
     const users = await findAll();
     const session = cookies.get('session');
     const role = cookies.get('role');
-
-    //pour envoyer sur le formulaire de connexion si l'utilisateur n'a pas de compte / n'est pas connecté
-    if (!role){
+    
+   
+    if (!role || role == 3 || role == 4){
         redirect(302, '/connexion');
     }
  
     return {users: users, session: session, role:role, villes:villes}; //tous les utilisateurs
-
 }
