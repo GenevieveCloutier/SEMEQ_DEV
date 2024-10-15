@@ -107,7 +107,7 @@ export async function creationEvenement(p_nom,p_utilisateur_id,p_contact,p_entre
         });
         console.log('doublon = ', doublon);
         if (doublon.length > 0) {
-            throw "Un événement similaire existe déjà";
+            throw "Un événement similaire existe déjà. Contacte-nous si tu crois qu'il s'agit d'une erreur";
         }
     
         const resultat = await Evenement.create(

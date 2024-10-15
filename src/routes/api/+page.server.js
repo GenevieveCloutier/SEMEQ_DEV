@@ -86,8 +86,7 @@ export const actions = {
 
     nouvelEvenement: async({cookies, request})=>{
         //reste à changer la variable approuvé
-        //reste à faire mettre les fichiers dans un dossier avec le id de l'utilisateur
-        //erreur pour les photos si on en met que une
+        
         const data = await request.formData();
         const type = envoieMappage(data, types);
         const verif = envoieMappage(data, verifs);
@@ -117,9 +116,6 @@ export const actions = {
         }catch(error){
             throw (error);
         }
-
-        
-        log("api nouvelEvenement data = ", data)
         try{
             let res = await creationEvenement(
                 data.get('nom'),
