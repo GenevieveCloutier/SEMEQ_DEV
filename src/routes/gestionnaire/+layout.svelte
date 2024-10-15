@@ -18,8 +18,8 @@
   </script>
   
   <div class="columns">
-    <div class="column is-2 ml-2">
-      <aside class="menu">
+    <div class="column is-2">
+      <aside class="menu block">
         <p class="menu-label" id="general-label">Général</p>
         <ul class="menu-list is-hidden-mobile" id="general-menu">
           <li><a href="/gestionnaire" id="dashboard">Dashboard</a></li>
