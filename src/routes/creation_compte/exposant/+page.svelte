@@ -105,7 +105,7 @@
           <div class="field">
             <label class="label" for="logo">Logo</label>
             <div class="control">
-              <input class="input" type="file" name="logo" id="logo">
+              <input class="input" type="file" accept="image/png, image/jpeg, image/svg" name="logo" id="logo">
             </div>
           </div>
 
@@ -135,7 +135,7 @@
           <div class="field">
             <label class="label" for="photo_1">Photo 1</label>
             <div class="control">
-              <input class="input" type="file" name="photo_1" id="photo_1">
+              <input class="input" type="file" accept="image/png, image/jpeg, image/svg" name="photo_1" id="photo_1">
             </div>
           </div>
         </div>
@@ -145,7 +145,7 @@
           <div class="field">
             <label class="label" for="photo_2">Photo 2</label>
             <div class="control">
-              <input class="input" type="file" name="photo_2" id="photo_2">
+              <input class="input" type="file" accept="image/png, image/jpeg, image/svg" name="photo_2" id="photo_2">
             </div>
           </div>
         </div>
@@ -155,7 +155,7 @@
           <div class="field">
             <label class="label" for="photo_3">Photo 3</label>
             <div class="control">
-              <input class="input" type="file" name="photo_3" id="photo_3">
+              <input class="input" type="file" accept="image/png, image/jpeg, image/svg" name="photo_3" id="photo_3">
             </div>
           </div>
         </div>
