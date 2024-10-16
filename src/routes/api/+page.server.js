@@ -82,10 +82,9 @@ export const actions = {
             return fail(401, error);
         }
     },
-
-
+    
     nouvelEvenement: async({cookies, request})=>{
-        //reste à changer la variable approuvé
+        //reste à changer la variable approuvé? Enregistre 1 si le form est payant, NULL si le form est gratuit, c'est ok?
         
         const data = await request.formData();
         const type = envoieMappage(data, types);
@@ -131,7 +130,7 @@ export const actions = {
                 data.get('nb_visiteur'),
                 data.get('nb_expo'),
                 data.get('profil'),
-                data.get('site'),
+                data.get('site'), 
                 data.get('fb_even'),
                 data.get('courriel'),
                 data.get('ville_id'),
@@ -142,8 +141,8 @@ export const actions = {
                 data.get('form_cand'),
                 verif,
                 data.get('verification_autre'),
-                data.get('Selection'),
-                data.get('limite'),
+                data.get('selection') == 'on' ? 1 : 0,
+                data.get('limite') == 'on' ? 1 : 0,
                 data.get('description'),
                 photo_1,
                 photo_2,

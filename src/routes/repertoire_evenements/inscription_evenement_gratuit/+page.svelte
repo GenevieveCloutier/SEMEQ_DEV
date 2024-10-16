@@ -283,7 +283,7 @@
 							>Type d'exposants<span class="rouge">*</span></label>
 						<div class="control">
 							<div class="checkboxes">
-								<label class="checkbox"><input class="mr-2 exposant " type="checkbox" name="typeArtisan" id="typeArtisan" />Artisan</label>
+								<label class="checkbox"><input class="mr-2 exposant" type="checkbox" name="typeArtisan" id="typeArtisan" />Artisan</label>
 								<label class="checkbox"><input class="mr-2 exposant" type="checkbox" name="typeAgro" id="typeAgro" />Agro-alimentaire</label>
 								<label class="checkbox"><input class="mr-2 exposant" type="checkbox" name="typeMLM" id="typeMLM"/>MLM et revendeur</label>
 								<label class="checkbox"><input class="mr-2 exposant" type="checkbox" name="typeAuteur" id="typeAuteur" />Auteur</label>
@@ -300,18 +300,18 @@
 				<div class="my-5">
 					<div class="field">
 						<div class="control">
-							<label class="checkbox label" name="selection" id="typeSelection">
+							<label class="checkbox label" for="selection">
 								Les places sont attribuées selon une sélection parmi les candidatures reçues <span class="rouge">*</span><br>
 								<span class="is-size-7 has-text-grey has-text-weight-normal" >(oui = sélection à la fin de la période de candidatures, non = premier arrivé, premier servi)<br></span> 
-								<input type="checkbox" class="toggle exclus">
+								<input type="checkbox" class="toggle exclus" name="selection" id="selection">
 							  </label>
 
 						<div class="my-5">
 							<div class="field">
-							  <label class="checkbox label" name="limite" id="limiteSelection">
+							  <label class="checkbox label" for="limite">
 								Le nombre d'exposants par domaine est limité <span class="rouge">*</span><br>
 								<span class="is-size-7 has-text-grey has-text-weight-normal" >(ex. 2 kiosques de savons, 1 kiosque de bougies...)<br></span>
-								<input type="checkbox" class="toggle exclus">
+								<input type="checkbox" class="toggle exclus" name="limite" id="limite">
 							  </label>
 							</div>
 						</div>
