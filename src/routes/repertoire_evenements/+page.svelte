@@ -71,7 +71,7 @@ function obtenirMois() {
 
 <!-- Ajouter barre de recherche -->
 
-<div class="container if-fluid">
+<!-- <div class="container if-fluid">
     <div class="columns">
 
         <div class="column mt-4 is-one-quarter texte-bleu">
@@ -120,4 +120,4 @@ function obtenirMois() {
     .bordure{
         border:1px solid lightgray;
     }
-</style>
+</style> -->
