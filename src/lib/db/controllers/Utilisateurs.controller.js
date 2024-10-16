@@ -176,7 +176,7 @@ export async function adminCreation(){
             {
                 nom: 'Peuplu',
                 prenom: 'Jean',
-                role_id: 2,
+                role_id: 3,
                 courriel: 'exposant@exposant',
                 pwd: 'exposant'
             }
@@ -190,7 +190,7 @@ export async function adminCreation(){
             {
                 nom: 'Dinateur',
                 prenom: 'Laure',
-                role_id: 3,
+                role_id: 2,
                 courriel: 'organisateur@organisateur',
                 pwd: 'organisateur'
             }
