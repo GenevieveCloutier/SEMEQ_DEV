@@ -1,8 +1,10 @@
+import { error, redirect } from '@sveltejs/kit';
 import { Op } from "sequelize";
 import { Evenement } from "$lib/db/models/Evenement.model.js"
-import { Utilisateur } from "../../../lib/db/models/Utilisateur.model";
-import { Ville } from "../../../lib/db/models/Ville.model";
-import { Region } from "../../../lib/db/models/Region.model";
+import { Utilisateur } from "$lib/db/models/Utilisateur.model";
+import { Ville } from "$lib/db/models/Ville.model";
+import { Region } from "$lib/db/models/Region.model";
+import { findOne } from '$lib/db/controllers/Utilisateurs.controller';
 
 /**
  * Charge les détails des événements approuvés dont la date de début des appels de candidatures est aujourd'hui ou passée et
@@ -10,7 +12,17 @@ import { Region } from "../../../lib/db/models/Region.model";
  * @param {Object} params - Les paramètres de la requête.
  * @returns {Object} - Les événements et leurs détails pour ceux ayant des appels de candidatures en cours.
  */
-export async function load({ params }){
+export async function load({ cookies, params }){
+    const role = cookies.get('role');
+    const cookiesId = cookies.get('id');
+    const user = await findOne({ id: cookiesId });
+    let abonne = user.abonne;
+
+    // Restriction accès page à exposant abonné ou admin
+    if (role !== '1' && (role === '2' && abonne !== true)) {
+        throw error(403, 'Seuls les exposants abonnés peuvent accéder à cette page.');
+    }
+
     let aujourdhui = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z'; // date du jour au format ISO avec l'heure 00:00:00
 
     const events = await Evenement.findAll({
