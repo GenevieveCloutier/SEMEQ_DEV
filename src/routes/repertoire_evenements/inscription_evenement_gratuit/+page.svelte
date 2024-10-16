@@ -206,11 +206,11 @@
 					<label class="label" for="emplacement">Emplacement<span class="rouge">*</span></label>
 					<div class="control">
 						<div class="checkboxes">
-							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementInterieur" id="emplacementInterieur" />Intérieur</label>
-							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementExterieur" id="emplacementExterieur" />Extérieur</label>
-							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementChapiteau" id="emplacementChapiteau"/>Extérieur, sous un grand chapiteau</label>
-							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementAbri" id="emplacementAbri" />Extérieur, petits abris fournis</label>
-							<label class="checkbox"><input class="mr-2" type="checkbox" name="emplacementSansAbri" id="emplacementSansAbri" />Extérieur, apportez votre abri</label>
+							<label class="checkbox"><input class="mr-2 emplacement" type="checkbox" name="emplacementInterieur" id="emplacementInterieur" />Intérieur</label>
+							<label class="checkbox"><input class="mr-2 emplacement" type="checkbox" name="emplacementExterieur" id="emplacementExterieur" />Extérieur</label>
+							<label class="checkbox"><input class="mr-2 emplacement" type="checkbox" name="emplacementChapiteau" id="emplacementChapiteau"/>Extérieur, sous un grand chapiteau</label>
+							<label class="checkbox"><input class="mr-2 emplacement" type="checkbox" name="emplacementAbri" id="emplacementAbri" />Extérieur, petits abris fournis</label>
+							<label class="checkbox"><input class="mr-2 emplacement" type="checkbox" name="emplacementSansAbri" id="emplacementSansAbri" />Extérieur, apportez votre abri</label>
 						</div>
 					</div>
 				</div>
@@ -283,11 +283,11 @@
 							>Type d'exposants<span class="rouge">*</span></label>
 						<div class="control">
 							<div class="checkboxes">
-								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeArtisan" id="typeArtisan" />Artisan</label>
-								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeAgro" id="typeAgro" />Agro-alimentaire</label>
-								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeMLM" id="typeMLM"/>MLM et revendeur</label>
-								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeAuteur" id="typeAuteur" />Auteur</label>
-								<label class="checkbox"><input class="mr-2" type="checkbox" name="typeArt" id="typeArt" />Métiers d'art</label>
+								<label class="checkbox"><input class="mr-2 exposant " type="checkbox" name="typeArtisan" id="typeArtisan" />Artisan</label>
+								<label class="checkbox"><input class="mr-2 exposant" type="checkbox" name="typeAgro" id="typeAgro" />Agro-alimentaire</label>
+								<label class="checkbox"><input class="mr-2 exposant" type="checkbox" name="typeMLM" id="typeMLM"/>MLM et revendeur</label>
+								<label class="checkbox"><input class="mr-2 exposant" type="checkbox" name="typeAuteur" id="typeAuteur" />Auteur</label>
+								<label class="checkbox"><input class="mr-2 exposant" type="checkbox" name="typeArt" id="typeArt" />Métiers d'art</label>
                 				<label class="checkbox"><input on:change={typeExposant} class="mr-2" type="checkbox" id="checkboxType" />Autres</label>
 							<div>
 								<input hidden type="text" name="type_autre" id="inputType" placeholder = "Préciser" >

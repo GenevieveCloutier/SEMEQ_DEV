@@ -157,10 +157,34 @@ export async function creationOrganisateur(event){
  * @param {Event} event L'événement contenant les données du formulaire.
  */
 export async function creationEvenement(event) {
+
     chargement();
     erreur.set('');
+
     try{
         const formData = new FormData(event.target);
+
+            const checkboxesEmpl = event.target.querySelectorAll('input[type="checkbox"].emplacement:not(.exclus):checked');
+            const checkboxesExpo = event.target.querySelectorAll('input[type="checkbox"].exposant:not(.exclus):checked');
+    
+            //// Vérifier si au moins une checkbox est cochée pour l'emplacement et type d'exposant et retourner le bon message
+            if (checkboxesEmpl.length < 1 && checkboxesExpo.length < 1 ) {
+                erreur.set("Merci de sélectionner au moins un emplacement et un type d'exposant.");
+                return;
+            }
+    
+            // Vérifier si au moins une checkbox est cochée pour l'emplacement
+            if (checkboxesEmpl.length < 1 ) {
+                erreur.set("Merci de sélectionner au moins un emplacement.");
+                return;
+            }
+    
+            // Vérifier si au moins une checkbox est cochée pour le type d'exposant
+            if (checkboxesExpo.length < 1 ) {
+                erreur.set("Merci de sélectionner au moins un type d'exposant.");
+                return;
+            }
+       
         const response = await fetch('../api?/nouvelEvenement', {
             method: 'POST',
             enctype: "multipart/form-data",
@@ -177,7 +201,7 @@ export async function creationEvenement(event) {
     }
 }
 
-//ici
+
 /**
  * Gère la création d'un nouvel événement payant en envoyant les données du formulaire via une requête POST.
  * En cas de succès (status 200), redirige vers la page d'accueil.
@@ -205,7 +229,7 @@ export async function creationEvenementPayant(event) {
             erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.")
     }
 }
-//ici
+
 
 /**
  * Gère la création d'un nouveau visiteur en envoyant les données du formulaire via une requête POST.

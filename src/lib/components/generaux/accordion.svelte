@@ -53,7 +53,7 @@
       }
       
       div.details {
-          background-color: #cecece;
+          background-color: white;
           padding:1rem;
       }
       .fa-chevron-down, .fa-chevron-up{

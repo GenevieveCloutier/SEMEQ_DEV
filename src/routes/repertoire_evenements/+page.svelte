@@ -90,10 +90,20 @@ function obtenirMois() {
                     <div slot="details">
                         Événements:<br>
                         ajouter filtres region et dates
+                        <div class="columns">
+
+                        
                         {#each evenements as evenement}
-                            {evenement.nom}<br>
+                        <div class=" card bordure">
+                            <div class="card-content">
+                                <p class="has-text-weight-bold">{evenement.nom}</p>
+                            </div>
+
+
+                        </div>
                         {/each}
                     </div>
+                </div>
                 </Accordion>
                 {/each}
         </div>
@@ -105,5 +115,9 @@ function obtenirMois() {
 <style>
     .texte-bleu{
         color: #184287;
+    }
+
+    .bordure{
+        border:1px solid lightgray;
     }
 </style>
