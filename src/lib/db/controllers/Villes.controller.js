@@ -27,7 +27,7 @@ export async function ajoutVilles(regions){
     }
     console.log('Villes ajoutées');
 } 
-//est ce qu'on rajoute une verife au cas ou? ou un drop table ? a discuter
+//?est ce qu'on rajoute une verife au cas ou? ou un drop table ? a discuter
 
 /**
  * Récupère toutes les villes de la base de données en incluant les informations de leur région.
@@ -45,9 +45,14 @@ export async function findAll(){
         if(resultat.length === 0){
             console.log("Aucune ville à afficher")
         }
+        //* Trim les 5 derniers caractères pour enlever ne numero de region
+        resultat.map(x => x.region.nom = x.region.nom.slice(0, -5));
+        //*Remplace les double tiret par des simple
+        resultat.map(x => x.region.nom = x.region.nom.replace('--', '-'));
+        
         return resultat.map(ville => ({
             ...ville.dataValues,
-            region: ville.region ? ville.region.dataValues : null
+            region: ville.region ? ville.region.dataValues : null 
         }));
     })
     .catch((error)=>{
