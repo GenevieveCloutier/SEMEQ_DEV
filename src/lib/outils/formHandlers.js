@@ -59,11 +59,15 @@ export async function connexion(event){
         method: 'POST',
         body: formData
     });
-    
     const result = await response.json();
-    
+    //*initialise la variable pour le chemin
+    let origine = '/';
+    //*Si le cookie origine existe
+    if(document.cookie.includes('origine'))
+        origine = document.cookie.replaceAll('%2F', '/').slice(8); //*Remplace les '%2F' par des '/' et enlève les 8 premier caractères (origine=)
+    //!Cette solution ne fonctionne que si il n'y as qu'un seul cookie http:false 
     if (result.type === 'success') {
-        window.location.href = '/';
+        window.location.href = origine;
     } else if (result.type === 'failure'){
         erreur.set(JSON.parse(result.data)[1]);
     }
@@ -105,10 +109,17 @@ export async function creationExposant(event){
         method: 'POST',
         body: formData
       });
+
+    //*initialise la variable pour le chemin
+    let origine = '/';
+    //*Si le cookie origine existe
+    if(document.cookie.includes('origine'))
+        origine = document.cookie.replaceAll('%2F', '/').slice(8); //*Remplace les '%2F' par des '/' et enlève les 8 premier caractères (origine=)
+    //!Cette solution ne fonctionne que si il n'y as qu'un seul cookie http:false  
       
     const result = await response.json();
     if (result.status == 200)
-        window.location.href = '/';
+        window.location.href = origine;
     if (result.status == 401)
         erreur.set(JSON.parse(result.data)[0]);
     }catch(error){
@@ -191,8 +202,14 @@ export async function creationEvenement(event) {
             body: formData
         });
         const result = await response.json();
+        //*initialise la variable pour le chemin
+    let origine = '/';
+    //*Si le cookie origine existe
+    if(document.cookie.includes('origine'))
+        origine = document.cookie.replaceAll('%2F', '/').slice(8); //*Remplace les '%2F' par des '/' et enlève les 8 premier caractères (origine=)
+    //!Cette solution ne fonctionne que si il n'y as qu'un seul cookie http:false
         if (result.status == 200)
-            window.location.href = '/';//redirection a discuter avec le groupe
+            window.location.href = origine;//redirection a discuter avec le groupe
         if (result.status == 401)
             erreur.set(JSON.parse(result.data)[0]);
     }catch(error){
@@ -272,8 +289,14 @@ export async function creationVisiteur(event){
             body: formData
         });
         const result = await response.json();
+        //*initialise la variable pour le chemin
+    let origine = '/';
+    //*Si le cookie origine existe
+    if(document.cookie.includes('origine'))
+        origine = document.cookie.replaceAll('%2F', '/').slice(8); //*Remplace les '%2F' par des '/' et enlève les 8 premier caractères (origine=)
+    //!Cette solution ne fonctionne que si il n'y as qu'un seul cookie http:false
         if (result.status == 200)
-            window.location.href = '/';
+            window.location.href = origine;
         if (result.status == 401)
             erreur.set(JSON.parse(result.data)[0]);
     }catch(error){

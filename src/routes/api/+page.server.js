@@ -40,7 +40,7 @@ export const actions = {
         log("les data = ", data);
         
         const dataEntree = [...data.entries()];
-        const role = dataEntree.length == 6 ? '4' : '2';
+        const role = dataEntree.length == 6 ? '4' : envoieMappage(data, domaines) == 0 ? '2' : '3';
         const finAbo = data.get("abonne") == 'on' ? (new Date(Date.now() + 3.1536e10)) : null;
 
         const domaine = envoieMappage(data, domaines);

@@ -9,6 +9,17 @@ export async function load({cookies}){
     const users = await findAllUsers();
     const session = cookies.get('session');
     const role = cookies.get('role');
+    //* si le cookie existe, c'est que la personne viens de la, donc on le détruit et on le laisse acceder a la page
+    if ( cookies.get('origine'))
+        cookies.delete('origine', {path: '/'});
+    else //* si il n'existe pas on le créé avec le lien de la page actuelle
+        cookies.set('origine', '/repertoire_evenements/inscription_evenement_gratuit', 
+            {
+                path: '/',
+                httpOnly: false, //! false permet d'acceder au cookie depuis le front
+                maxAge: 60 * 60 * 24
+            }
+        );
 
     //pour envoyer sur le formulaire de connexion si l'utilisateur n'a pas de compte / n'est pas connecté
     if (!role){

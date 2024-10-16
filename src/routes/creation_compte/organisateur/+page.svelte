@@ -17,7 +17,7 @@
   <BarrePaiementEtape1 />
   <!-- le message s'Affiche mais on est quand même redirigé -->
   {#if $erreur}
-    <NotifDanger erreur={erreur}></NotifDanger>
+    <NotifDanger />
   {/if}
 
   <form on:submit|preventDefault={creationOrganisateur}>
@@ -72,6 +72,13 @@
             </div>
           </div>
 
+          <div class="field">
+            <label class="label" for="tiktok">TikTok</label>
+            <div class="control">
+              <input class="input" type="url" name="tiktok" id="tiktok" placeholder="https://www.tiktok.com/@entreprise">
+            </div>
+          </div>
+
         </div>
 
         <!-- Deuxième colonne -->
@@ -101,9 +108,9 @@
           </div>
 
           <div class="field">
-            <label class="label" for="tiktok">TikTok</label>
+            <label class="label" for="logo">Logo</label>
             <div class="control">
-              <input class="input" type="url" name="tiktok" id="tiktok" placeholder="https://www.tiktok.com/@entreprise">
+              <input class="input" type="file" accept="image/png, image/jpeg, image/svg" name="logo" id="logo">
             </div>
           </div>
           
@@ -115,6 +122,8 @@
 
     </div> <!-- Fin box -->
 
+    <!-- champ caché pour preciser qu'il s'agit d'un compte abonné -->
+    <input name="abonne" value="on" hidden>
     <!-- Boutons en bas de page -->
     <div class="block has-text-right">
       <SubmitButon texte={"Passer au paiement"}></SubmitButon>

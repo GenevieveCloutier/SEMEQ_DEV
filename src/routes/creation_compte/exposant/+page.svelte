@@ -18,11 +18,15 @@
 
   <BarrePaiementEtape1 />
 
-  <NotifDanger erreur={erreur}></NotifDanger>
+  {#if $erreur}
+    <NotifDanger />
+  {/if}
 
   <form on:submit|preventDefault={creationExposant}>
     <div class="box">
-      <a href="/login" class="has-text-centered">Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
+      <div class="block has-text-centered">
+        <a href="/login" >Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
+      </div>
 
       <div class="columns">
         <!-- Première colonne -->
@@ -46,6 +50,13 @@
             <label class="label" for="entreprise">Entreprise <span class="rouge">*</span></label>
             <div class="control">
               <input class="input" type="text" name="entreprise" id="entreprise" placeholder="Nom de l'entreprise ou organisation" >
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="adresse">Adresse</label>
+            <div class="control">
+              <input class="input" type="text" name="adresse" id="adresse" placeholder="Numéro et rue" >
             </div>
           </div>
 
@@ -92,6 +103,13 @@
           <Neq />
 
           <div class="field">
+            <label class="label" for="logo">Logo</label>
+            <div class="control">
+              <input class="input" type="file" accept="image/png, image/jpeg, image/svg" name="logo" id="logo">
+            </div>
+          </div>
+
+          <div class="field">
             <label class="label" for="site">Site internet ou lien de ta page Facebook</label>
             <div class="control">
               <input class="input" type="url" name="site" id="site" placeholder="https://www.entreprise.com ou https://www.facebook.com/entreprise">
@@ -110,6 +128,46 @@
       </div> <!-- Fin des colonnes -->
 
       <DomainesActivites />
+
+      <div class="columns">
+        <!-- Première colonne -->
+        <div class="column">
+          <div class="field">
+            <label class="label" for="photo_1">Photo 1</label>
+            <div class="control">
+              <input class="input" type="file" accept="image/png, image/jpeg, image/svg" name="photo_1" id="photo_1">
+            </div>
+          </div>
+        </div>
+
+        <!-- Deuxième colonne -->
+        <div class="column">
+          <div class="field">
+            <label class="label" for="photo_2">Photo 2</label>
+            <div class="control">
+              <input class="input" type="file" accept="image/png, image/jpeg, image/svg" name="photo_2" id="photo_2">
+            </div>
+          </div>
+        </div>
+
+        <!-- Troisième colonne -->
+        <div class="column">
+          <div class="field">
+            <label class="label" for="photo_3">Photo 3</label>
+            <div class="control">
+              <input class="input" type="file" accept="image/png, image/jpeg, image/svg" name="photo_3" id="photo_3">
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- Fin 3 colonnes -->
+
+      <div class="field">
+        <label class="label" for="description">Description</label>
+        <div class="control">
+          <textarea class="textarea" name="description" id="description" placeholder="Décris briévement ton entreprise"></textarea>
+        </div>
+      </div><br>
 
       <div class="columns">
         <!-- Première colonne -->
