@@ -12,6 +12,7 @@ import path from 'path';
 //Chemins de base pour stocker les photos
 const cheminBase = path.join(process.cwd(), 'src/lib/img/app/evenements'); 
 const cheminLogos = path.join(process.cwd(), 'src/lib/img/app/logos');
+const cheminPhotosUtilisateurs = path.join(process.cwd(), 'src/lib/img/app/utilisateurs');
 
 export const actions = {
 
@@ -60,6 +61,23 @@ export const actions = {
         };
         const logo = await uploadLogo('logo');
 
+        // Pour uploader et stocker les photos des utilisateurs
+        const uploadPhotoUtilisateur = async (nomFichier) => {
+            const photo = data.get(nomFichier);
+
+            if (photo && photo.name) { 
+            const buffer = Buffer.from(await photo.arrayBuffer());
+            const filePath = path.resolve(cheminPhotosUtilisateurs, photo.name);
+            fs.writeFileSync(filePath, buffer);
+            return path.relative(process.cwd(), filePath);
+            };
+            // Si pas de photo, retourne null
+            return null;
+        };
+        const photo_1 = await uploadPhotoUtilisateur('photo_1');
+        const photo_2 = await uploadPhotoUtilisateur('photo_2');
+        const photo_3 = await uploadPhotoUtilisateur('photo_3');
+
         try {
             let res = await newUser(
                 data.get("nom"),
@@ -81,9 +99,9 @@ export const actions = {
                 data.get("description"),
                 data.get("adresse"),
                 data.get("publique") == 'on' ? 1 : 0,
-                data.get("photo_1"),
-                data.get("photo_2"),
-                data.get("photo_3"),
+                photo_1,
+                photo_2,
+                photo_3,
                 logo
             );
 
