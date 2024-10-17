@@ -8,11 +8,11 @@
 	  import Entete from '../lib/components/entete.svelte';
 
     export let data;
-  const { users, session, cookiesAll } = data;
+  const { id, role, session, cookiesAll } = data;
   
 </script>
 
-<Entete session={session}></Entete>
+<Entete session={session} id={id} role={role}></Entete>
 <Navbar />
 <slot />
 <Footer />

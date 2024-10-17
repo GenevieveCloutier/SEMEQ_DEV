@@ -1,5 +1,8 @@
 <script>
 	import H1Title from "$lib/components/titres/h1Title.svelte";
+
+    export let data;
+    const user = data.user;
     
     import { onMount } from "svelte";
 
@@ -13,3 +16,6 @@
 <H1Title title={"Mon compte"} />
 
 <p class="has-text-centered">En construction!</p>
+
+id_user : {user.id}<br>
+{user.prenom} {user.nom}

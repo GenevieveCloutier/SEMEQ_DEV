@@ -101,6 +101,10 @@ export async function creationExposant(event){
     const neqInput = event.target.querySelector('#neq');
     const noNeqCheckbox = event.target.querySelector('#no-neq');
 
+    if (noNeqCheckbox.checked && neqInput.value) {
+        erreur.set('Vous ne pouvez pas remplir le champ NEQ et cocher la case "Je n\'ai pas de NEQ" en même temps.');
+        return;
+    }
     if (!neqInput.value && !noNeqCheckbox.checked) {
       erreur.set('Merci de remplir le champ NEQ ou cocher la case "Je n\'ai pas de NEQ".');
       return;
@@ -131,32 +135,37 @@ export async function creationExposant(event){
 export async function creationOrganisateur(event){
     chargement();
     erreur.set('');
-    const formData = new FormData(event.target);
+    try{
+        const formData = new FormData(event.target);
 
-    // Choix obligatoire pour NEQ, l'utilisateur inscrit son NEQ ou coche la checkbox
-    const neqInput = event.target.querySelector('#neq');
-    const noNeqCheckbox = event.target.querySelector('#no-neq');
+        // Choix obligatoire pour NEQ, l'utilisateur inscrit son NEQ ou coche la checkbox
+        const neqInput = event.target.querySelector('#neq');
+        const noNeqCheckbox = event.target.querySelector('#no-neq');
 
-    if (!neqInput.value && !noNeqCheckbox.checked) {
-      erreur.set('Merci de remplir le champ NEQ ou cocher la case "Je n\'ai pas de NEQ".');
-      return;
+        if (noNeqCheckbox.checked && neqInput.value) {
+            erreur.set('Vous ne pouvez pas remplir le champ NEQ et cocher la case "Je n\'ai pas de NEQ" en même temps.');
+            return;
+        }
+        if (!neqInput.value && !noNeqCheckbox.checked) {
+            erreur.set('Merci de remplir le champ NEQ ou cocher la case "Je n\'ai pas de NEQ".');
+            return;
+        }
+
+        const response = await fetch('../api?/nouvelUtilisateur', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+        
+        if (result.status == 200)
+            //lien vers où ça doit aller après avoir envoyé le form
+            window.location.href = '/[id]/mes_evenements/inscription_evenement_abonne';
+        if (result.status == 401)
+            erreur.set(JSON.parse(result.data)[0]);
+    }catch(error){
+        console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
     }
-    
-
-    const response = await fetch('../api?/nouvelUtilisateur', {
-        method: 'POST',
-        body: formData
-      });
-      
-      const result = await response.json();
-      if (result.type == 'failure'){
-        erreur.set(JSON.parse(result.data)[0]);
-        return
-      }
-       
-      else
-       //lien vers où ça doit aller après avoir envoyé le form
-        window.location.href = '/[id]/mes_evenements/inscription_evenement_abonne'; 
 }
 
 /**
