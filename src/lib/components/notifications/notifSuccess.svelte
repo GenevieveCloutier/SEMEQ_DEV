@@ -4,6 +4,10 @@
   function supprimerNotification(event) {
     event.target.parentNode.remove();
   }
+
+  $: if ($success) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 </script>
 
 <div class="block">
