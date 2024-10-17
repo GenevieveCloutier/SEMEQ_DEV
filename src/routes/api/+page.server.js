@@ -9,9 +9,9 @@ import { log } from '../../lib/outils/debug.js';
 import fs from 'fs';
 import path from 'path';
 
-//chemin de base pour stocker les photos
+//Chemins de base pour stocker les photos
 const cheminBase = path.join(process.cwd(), 'src/lib/img/app/evenements'); 
-
+const cheminLogos = path.join(process.cwd(), 'src/lib/img/app/logos');
 
 export const actions = {
 
@@ -44,6 +44,22 @@ export const actions = {
         const finAbo = data.get("abonne") == 'on' ? (new Date(Date.now() + 3.1536e10)) : null;
 
         const domaine = envoieMappage(data, domaines);
+
+        // Pour uploader et stocker les logos
+        const uploadLogo = async (nomFichier) => {
+            const logo = data.get(nomFichier);
+
+            if (logo && logo.name) { 
+            const buffer = Buffer.from(await logo.arrayBuffer());
+            const filePath = path.resolve(cheminLogos, logo.name);
+            fs.writeFileSync(filePath, buffer);
+            return path.relative(process.cwd(), filePath);
+            };
+            // Si pas de logo, retourne null
+            return null;
+        };
+        const logo = await uploadLogo('logo');
+
         try {
             let res = await newUser(
                 data.get("nom"),
@@ -68,8 +84,9 @@ export const actions = {
                 data.get("photo_1"),
                 data.get("photo_2"),
                 data.get("photo_3"),
-                data.get("logo")
+                logo
             );
+
         createCookie(res.id, cookies, res.role_id);
         return {
             status: 200,
