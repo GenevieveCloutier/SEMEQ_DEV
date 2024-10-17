@@ -54,11 +54,9 @@ export let role;
 				<!-- ajouter les autorisations pour l'accès aux liens (remplacer /id/) -->
 				<a href={`/${id}`} class="dropdown-item"> Mon compte </a>
 				<hr class="dropdown-divider" />
-				{#if role === '3' || role === '1'}
 				<a href={`/${id}/mes_evenements`} class="dropdown-item" on:click={cacherMenu}> Mes événements </a>
 				<hr class="dropdown-divider" />
-				{/if}
-				{#if role === '2' || role === '1'}
+				{#if role === '3' || role === '1'}
 				<a href={`/${id}/appels_candidatures`} class="dropdown-item" on:click={cacherMenu}> Appels de candidature </a>
 				<hr class="dropdown-divider" />
 				{/if}

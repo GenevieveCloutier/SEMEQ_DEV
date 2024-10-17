@@ -19,7 +19,7 @@ export async function load({ cookies, params }){
     let abonne = user.abonne;
 
     // Restriction accès page à exposant abonné ou admin
-    if (role !== '1' && (role === '2' && abonne !== true)) {
+    if (role !== '1' && (role === '3' && abonne !== true)) {
         throw error(403, 'Seuls les exposants abonnés peuvent accéder à cette page.');
     }
 

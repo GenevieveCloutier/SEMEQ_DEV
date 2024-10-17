@@ -9,10 +9,8 @@
         <aside class="menu is-hidden-mobile">
             <ul class="menu-list">
                 <li><a href={`/${id}`} id="monCompte">Mon compte</a></li>
-                {#if role === '3' || role === '1'}
                 <li><a href={`/${id}/mes_evenements`} id="mesEvenements">Mes événements</a></li>
-                {/if}
-                {#if role === '2' || role === '1'}
+                {#if role === '3' || role === '1'}
                 <li><a href={`/${id}/appels_candidatures`} id="appelsCandidatures">Appels de candidatures</a></li>
                 {/if}
                 <li><a href={`/${id}/mes_avantages`} id="mesAvantages">Mes avantages</a></li>
