@@ -41,6 +41,14 @@ export const Utilisateur = sequelize.define('utilisateur', {
         type: DataTypes.STRING,
         allowNull: true
     },
+    insta: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    tiktok: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     domaine: {
         type: DataTypes.STRING,
         allowNull: true
