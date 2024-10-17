@@ -1,10 +1,13 @@
-import { error, redirect } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import { Op } from "sequelize";
 import { Evenement } from "$lib/db/models/Evenement.model.js"
 import { Utilisateur } from "$lib/db/models/Utilisateur.model";
 import { Ville } from "$lib/db/models/Ville.model";
 import { Region } from "$lib/db/models/Region.model";
 import { findOne } from '$lib/db/controllers/Utilisateurs.controller';
+
+import { findAll as findAllVilles} from '$lib/db/controllers/Villes.controller.js'; 
+import { findAll as findAllRegions} from '$lib/db/controllers/Regions.controller.js'; 
 
 /**
  * Charge les détails des événements approuvés dont la date de début des appels de candidatures est aujourd'hui ou passée et
@@ -23,7 +26,12 @@ export async function load({ cookies, params }){
         throw error(403, 'Seuls les exposants abonnés peuvent accéder à cette page.');
     }
 
-    let aujourdhui = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z'; // date du jour au format ISO avec l'heure 00:00:00
+    // Récupérer toutes les régions et villes pour filtrage
+    const regions = await findAllRegions();
+    const villes = await findAllVilles();
+
+    // Date du jour au format ISO avec l'heure 00:00:00 pour comparer avec dates dans BD
+    let aujourdhui = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z'; 
 
     const events = await Evenement.findAll({
         where: {
@@ -52,5 +60,5 @@ export async function load({ cookies, params }){
         } : null
     }));
 
-    return { events: resultat }
+    return { events: resultat, regions: regions, villes: villes }
 }
