@@ -18,17 +18,6 @@
     <NotifDanger></NotifDanger>
 {/if}
 
-<div class="container is-flex mt-6 mb-6">
-    <div class="columns">
-        <div class="column is-half">
-            <AbonnementExposant />
-        </div>
-        <div class="column is-half">
-            <AbonnementEven />
-        </div>
-    </div>
-</div>
-
 <H1Title title={"Créer mon compte gratuit"} />
 <p class="has-text-centered">(Nécessaire pour inscrire un événement!)</p>
 <form on:submit|preventDefault={creationVisiteur}><!-- on:submit|preventDefault={nouveauCompteEven}> -->
@@ -102,3 +91,14 @@
 
 </div>
 </form>
+
+<div class="container is-flex my-5">
+    <div class="columns">
+        <div class="column is-half ">
+            <AbonnementExposant />
+        </div>
+        <div class="column is-half">
+            <AbonnementEven />
+        </div>
+    </div>
+</div>

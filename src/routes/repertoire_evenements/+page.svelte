@@ -58,9 +58,9 @@ function obtenirMois() {
     <p class="has-text-centered">
         <BoutonGris 
         lien={"repertoire_evenements/inscription_evenement_gratuit"}    
-        texte={"Ajouter un événement"} 
-        />
-    </p>
+        texte={"Ajouter un événement"} /> <br>
+        <span class="has-text-grey">Un compte est requis pour ajouter un événement. <br>
+            Tu seras redirigé si tu n'as pas de compte ou que tu n'es pas connecté.</span>
 </div>
 
 <div class="container is-fluid mb-6">
@@ -76,7 +76,7 @@ function obtenirMois() {
 
         <div class="column mt-4 is-one-quarter texte-bleu">
             <div>
-                {#each regions as region}
+                {#each regions as region} aller les chercher par les villes à la place!
                     <button class="is-uppercase has-text-left " on:click={afficherEvenements} name="region">{region.nom}</button><br>
                 {/each}
             </div>
