@@ -4,8 +4,6 @@ import { log } from './debug';
 export const erreur = writable(null);
 erreur.set('');
 
-export let id; // Pour redirection dans routes /[id]
-
 /**
 * Ajoute la classe 'is-loading' à l'élément déclencheur de l'événement.
 *
@@ -160,8 +158,8 @@ export async function creationOrganisateur(event){
         const result = await response.json();
         
         if (result.status == 200)
-            //Lien vers où ça doit aller après avoir envoyé le form
-            window.location.href = `/${id}/mes_evenements/inscription_evenement_abonne`;
+            //lien vers où ça doit aller après avoir envoyé le form
+            window.location.href = '/[id]/mes_evenements/inscription_evenement_abonne';
         if (result.status == 401)
             erreur.set(JSON.parse(result.data)[0]);
     }catch(error){
