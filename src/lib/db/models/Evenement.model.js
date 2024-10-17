@@ -16,6 +16,10 @@ export const Evenement = sequelize.define("evenement", {
         },
         allowNull: true
     },
+    entreprise: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     contact: {
         type: DataTypes.STRING,
         allowNull: true
