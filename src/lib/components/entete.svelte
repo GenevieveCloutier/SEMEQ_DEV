@@ -77,9 +77,11 @@ export let role;
 		</div>
 		{/if}
 	</div>
+	<a href="/panier">
 	<span class="icon is-large">
 		<i class="ml-5 fa-solid fa-cart-shopping fas fa-2x has-text-dark"></i>
-		</span>
+	</span>
+	</a>
 </div>
 
 <style>

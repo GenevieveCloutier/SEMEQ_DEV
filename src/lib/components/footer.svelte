@@ -6,6 +6,7 @@
 				<h3 class="is-size-5 mb-3">Infos légales</h3>
 				<a class="is-size-7 has-text-link" href="/politiques_confidentialite">Politiques de confidentialité</a><br />
 				<a class="is-size-7 has-text-link" href="/conditions_utilisation">Conditions d'utilisation</a><br />
+				<a class="is-size-7 has-text-link" href="/conditions_vente">Conditions de vente</a><br />
 				<a class="is-size-7 has-text-link" href="/politiques_cookies">Politiques des cookies</a><br />
 			</div>
 
