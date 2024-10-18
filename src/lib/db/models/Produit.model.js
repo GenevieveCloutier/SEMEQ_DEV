@@ -18,7 +18,7 @@ export const Produit = sequelize.define("produit", {
             key: "id"
         },
         allowNull: true
-    }, 
+    },
     dispo: {
         type: DataTypes.BOOLEAN,
         allowNull: true
@@ -32,6 +32,10 @@ export const Produit = sequelize.define("produit", {
         allowNull: true
     },
     photo: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    url: {
         type: DataTypes.STRING,
         allowNull: true
     },
