@@ -34,6 +34,9 @@ export async function load({ cookies, params }){
     let aujourdhui = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z'; 
 
     const events = await Evenement.findAll({
+        order: [
+            ['fin_cand', 'ASC']
+          ],
         where: {
             [Op.and]: [
               { approuve: 1}, //true
