@@ -2,6 +2,15 @@
     import H1Title from "$lib/components/titres/h1Title.svelte";
     import Recherche from "$lib/components/generaux/recherche.svelte";
     import RechercheNoResult from '$lib/components/generaux/rechercheNoResult.svelte';
+    import { onMount } from "svelte";
+
+  onMount(()=>{
+        const actives = document.querySelectorAll('a.is-active');
+        actives.forEach((x)=>x.classList.remove('is-active'));
+    document.getElementById('utilisateurs').classList.add('is-active')
+    });
+
+
     export let data;
     let { utilisateursModifie : utilisateurs } = data;
     let searchQuery = '';

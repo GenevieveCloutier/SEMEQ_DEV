@@ -12,7 +12,7 @@
 	 * @param {Event} event - L'événement de soumission du formulaire.
 	 * @returns {void}
 	 */
-	async function handleSubmit(event) {
+	async function handleSubmit(event) {  //! normalement la fonction handleSubmit ne devrais plus exister nul par
 		const formData = new FormData(event.target);
 
 		const response = await fetch('?/newExposant', {

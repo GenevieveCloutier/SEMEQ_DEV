@@ -44,6 +44,10 @@ export async function ajoutRegions(){
  */
 export async function findAll(){
   return await Region.findAll().then(resultat => {
+    //* Trim les 5 derniers caractères pour enlever ne numero de region
+    resultat.map(x => x.nom = x.nom.slice(0, -5));
+    //*Remplace les double tiret par des simple
+    resultat.map(x => x.nom = x.nom.replace('--', '-'));
       return resultat.map(regions => regions.dataValues);
   })
   .catch((error)=>{
