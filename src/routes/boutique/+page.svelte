@@ -18,16 +18,16 @@
 <Recherche bind:searchQuery typeRecherche="une formation, un outil ou un abonnement" />
 
 <div>
-    {#if produits}
+    <!--{#if produits}
         <RechercheNoResult />
-    {:else}
+    {:else}-->
     {#each produits as produit}
-        {produit.nom}
+        <li>{produit.nom} {produit.type.nom}</li>
     {/each}
-    {/if}
+    <!--{/if}-->
 </div>
 
-
+<br><br>
 <BoutonGris lien={"/creation_compte/exposant"} texte={"Acheter un abonnement exposant"}/>
 <BoutonGris lien={"/creation_compte/organisateur"}  texte={"Acheter un abonnement événement"}/>
 
