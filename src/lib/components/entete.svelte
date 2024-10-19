@@ -52,7 +52,11 @@ export let role;
 		<div class="dropdown-menu" id="dropdown-compte" role="menu" >
 			<div class="dropdown-content">
 				<!-- ajouter les autorisations pour l'accès aux liens (remplacer /id/) -->
+				 {#if id == 1}
+				<a href={`/`} class="dropdown-item"> Mon compte </a>
+				{:else}
 				<a href={`/${id}`} class="dropdown-item"> Mon compte </a>
+				{/if}
 				<hr class="dropdown-divider" />
 				<a href={`/${id}/mes_evenements`} class="dropdown-item" on:click={cacherMenu}> Mes événements </a>
 				<hr class="dropdown-divider" />
