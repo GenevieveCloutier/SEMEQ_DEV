@@ -18,13 +18,13 @@
 <Recherche bind:searchQuery typeRecherche="une formation, un outil ou un abonnement" />
 
 <div>
-    <!--{#if produits}
+    {#if produits.filter(produit => produit.nom.toLowerCase().includes(searchQuery.toLowerCase())).length === 0}
         <RechercheNoResult />
-    {:else}-->
-    {#each produits as produit}
+    {:else}
+    {#each produits.filter(produit => produit.nom.toLowerCase().includes(searchQuery.toLowerCase())) as produit}
         <li>{produit.nom} {produit.type.nom}</li>
     {/each}
-    <!--{/if}-->
+    {/if}
 </div>
 
 <br><br>
