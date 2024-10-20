@@ -87,7 +87,9 @@
 </script>
 
 <div class="block">
-	<NotifDanger />
+{#if $erreur}
+    <NotifDanger></NotifDanger>
+{/if}
 
 	<H1Title title={'Inscrire mon événement gratuitement'} />
 	<p class="has-text-centered mb-4">(Délai de traitement de 3 jours ouvrables)</p>

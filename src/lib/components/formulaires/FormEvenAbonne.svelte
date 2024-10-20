@@ -278,7 +278,7 @@ function section3(event){
                     <div class="field">
                         <label class="label" for="contact">Personne contact pour l'appel de candidature <span class="rouge">*</span></label>
                         <div class="control">
-                            <input class="input" type="text" name="contact" id="contactEvenPayant" placeholder="Marché de Noël" required/>
+                            <input class="input" type="text" name="contact" id="contactEvenPayant" placeholder="Prenom Nom" required/>
                         </div>
                     </div>
                 </div>
@@ -296,7 +296,7 @@ function section3(event){
                     <div class="field">
                         <label class="label" for="form_cand">Lien vers le formulaire d'appel de candidatures</label>
                         <div class="control">
-                            <input class="input" type="url" name="form_cand" id="formEvenPayant" placeholder="inscription_evenement@mail.com"/>
+                            <input class="input" type="url" name="form_cand" id="formEvenPayant" placeholder="https://www.formulaire_candidature.com"/>
                         </div>
                     </div>
                 </div>
