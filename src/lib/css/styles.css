@@ -42,6 +42,18 @@ canvas {
   height: 400px; */
 }
 
+.blog-element{
+  background-color: #18428780;
+}
+
+.blog-element > p {
+  color: white;
+}
+
+.card-footer{
+  border-top: none;
+}
+
 /* 
 essais pour théme sombre et clair BG fonctionne mais pas .theme-light
 @media (prefers-color-scheme: light) {
