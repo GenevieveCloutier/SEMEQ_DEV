@@ -293,14 +293,14 @@ export async function recuperationMDP(p_courriel){
     try{
         const utilisateur = await Utilisateur.findOne({where: {courriel: p_courriel}});
         if(!utilisateur)
-            throw {message:"Utilisateur non trouvé"};
+            throw "Utilisateur non trouvé";
         console.log("controller utilisateur = ", utilisateur);
         
         await utilisateur.update({
             jeton: jeton,
             jetonExpiration: jetonExpiration
         });
-        return jeton;
+        return {jeton, utilisateur};
     }catch(error){
         throw error;
     }

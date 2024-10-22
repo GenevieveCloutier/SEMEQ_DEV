@@ -8,17 +8,17 @@ import nodemailer from 'nodemailer';
 const transporteur = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'testsemeq@gmail.com', //J'ai créé une adresse bidon pour les tests
+        user: 'testsemeq@gmail.com', //!J'ai créé une adresse bidon pour les tests
         pass: 'enet kskx ogat sbqz',
     },
 });
 
-export async function envoieCourriel(to, subject, text) {
+export async function envoieCourriel(to, subject, html) {
     const options = {
         from: 'testsemeq@gmail.com',
         to,
         subject,
-        text,
+        html,
     };
     try {
         await transporteur.sendMail(options);

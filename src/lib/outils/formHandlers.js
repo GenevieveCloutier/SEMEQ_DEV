@@ -330,8 +330,11 @@ export async function recuperation(event){
         
         if (result.status == 200)
             window.location.href = '/connexion/demandeEnvoye';
-        if (result.status == 401)
+        if (result.status == 401){
+            log("formhandler error recuperation = ",JSON.parse(result.data)[0])
             erreur.set(JSON.parse(result.data)[0]);
+        }
+            
         
     }catch(error){
         console.error("erreur inattendue : ", error);
