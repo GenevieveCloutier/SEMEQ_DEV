@@ -35,14 +35,14 @@
     <H2Title title={"Formations"} />
     <div class="grid is-col-min-10">
     {#each formations.filter(produit => produit.nom.toLowerCase().includes(searchQuery.toLowerCase())) as formation}
-        <SectionBoutique id={formation.id} photo={formation.photo}, nom={formation.nom}, desc={formation.desc}, prix_a={formation.prix_a}, prix_v={formation.prix_v}></SectionBoutique>
+        <SectionBoutique id={formation.id} photo={formation.photo} nom={formation.nom} desc={formation.desc} prix_a={formation.prix_a} prix_v={formation.prix_v}></SectionBoutique>
     {/each}
     </div>
 
     <H2Title title={"Outils et ressources"} />
     <div class="grid is-col-min-10">
     {#each outils.filter(produit => produit.nom.toLowerCase().includes(searchQuery.toLowerCase())) as outil}
-        <SectionBoutique id={outil.id} photo={outil.photo}, nom={outil.nom}, desc={outil.desc}, prix_a={outil.prix_a}, prix_v={outil.prix_v}></SectionBoutique>
+        <SectionBoutique id={outil.id} photo={outil.photo} nom={outil.nom} desc={outil.desc} prix_a={outil.prix_a} prix_v={outil.prix_v}></SectionBoutique>
     {/each}
     </div>
 
