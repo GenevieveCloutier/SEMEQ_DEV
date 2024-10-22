@@ -147,6 +147,7 @@ export const actions = {
         let session;
         try{
             session = await findOne({uuid: cookies.get('session')});//ça fonctionne :D
+            log("session dans api = ", session.utilisateur.abonne);
         }catch(error){
             throw (error);
         }

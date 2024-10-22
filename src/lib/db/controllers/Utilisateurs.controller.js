@@ -164,7 +164,8 @@ export async function adminCreation(){
                 prenom: 'Nancy',
                 role_id: 1,
                 courriel: 'admin@admin',
-                pwd: 'admin'
+                pwd: 'admin',
+                abonne: true
             }
         );
         console.log('Admin créé');
