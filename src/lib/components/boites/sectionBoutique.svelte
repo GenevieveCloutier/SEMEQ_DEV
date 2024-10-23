@@ -15,13 +15,11 @@
         <div class="card-content">
             <div class="content">
                 <b>{nom}</b><br>
-                <!-- {outil.desc.length > 300 ? outil.desc.substring(0, 3000) + "..." : outil.desc}<br><br>
-                Limiter les descriptions à 300 caractères et ajoute "..." à la fin si texte tronqué -->
                 <div class="tronquer-texte-card">{desc}</div><br>
                 <b>Prix abonné: </b>{prix_a}<br>
                 <b>Prix non-abonné: </b>{prix_v}<br>
                 <div class="content has-text-centered">
-                <a href={`./boutique/${id}`}><button class="px-3 py-3">Plus de détails</button></a>
+                    <a href={`./boutique/${id}`}><button class="px-3 py-3">Plus de détails</button></a>
                 </div>
             </div>
         </div>
