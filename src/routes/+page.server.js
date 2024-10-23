@@ -52,9 +52,9 @@ async function initializeDatabase() {
 //Création des types si la bd est vide.    
     const type_abonnement = await Type.findOne({ where: { id: 1 } });
     if (!type_abonnement){
-        await newType('abonnement');
-        await newType('formation');
-        await newType('outil');
+        await newType('Abonnement');
+        await newType('Formation');
+        await newType('Outil');
     }
 }
 
