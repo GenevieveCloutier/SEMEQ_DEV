@@ -2,6 +2,7 @@
     import H1Title from "$lib/components/titres/h1Title.svelte";
     import H2Title from "$lib/components/titres/h2Title.svelte";
     import BoutonGris from '$lib/components/boutons/boutonGris.svelte';
+    import Retour from "$lib/components/generaux/retour.svelte";
     import AbonnementEven from '$lib/components/boites/abonnementEven.svelte';
     import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
 
@@ -33,6 +34,7 @@
                 Prix: {produit.prix_v}<br>  <!-- MODIFIER POUR SÉLECTION ABONNEMENT CATÉGORIE/NB ÉVÉNEMENTS -->
             {/if}
             <BoutonGris lien={'/panier'} texte={'Acheter'} /> <!-- fonction={ajouterPanier} -->
+            <Retour />
         </div>
     </div>
 
