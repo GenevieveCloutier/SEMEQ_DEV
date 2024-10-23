@@ -18,7 +18,7 @@
 
     <div class="columns">
         <div class="column is-one-third">
-            <figure class="image is-1by1">
+            <figure class="image is-1by1 ">
                 <img src="{produit.photo}" alt="Photo {produit.nom}" />
             </figure>
         </div>
