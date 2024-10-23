@@ -1,7 +1,6 @@
 <script>
     import H1Title from "$lib/components/titres/h1Title.svelte";
     import H2Title from "$lib/components/titres/h2Title.svelte";
-    import BoutonGris from "$lib/components/boutons/boutonGris.svelte";
     import Recherche from '$lib/components/generaux/recherche.svelte';
     import RechercheNoResult from '$lib/components/generaux/rechercheNoResult.svelte';
     import SectionBoutique from "$lib/components/boites/sectionBoutique.svelte";
@@ -17,8 +16,8 @@
     const nonAbonnements = produits.filter(produit => produit.type.nom !== 'Abonnement'); //Éviter recherches abonnements
 
     // Pour les liens vers les pages détails d'achat d'abonnements
-    let idAboExposant = abonnements.find(abonnement => abonnement.nom === 'Abonnement exposant')?.id;
-    let idAboOrganisateur = abonnements.find(abonnement => abonnement.nom === 'Abonnement organisateur')?.id;
+    let idAboExposant = abonnements.find(abonnement => abonnement.nom === 'Abonnement exposant 1 catégorie')?.id;
+    let idAboOrganisateur = abonnements.find(abonnement => abonnement.nom === 'Abonnement organisateur 1 événement/an')?.id;
 
     // Barre de recherche
     let searchQuery = '';
@@ -49,12 +48,12 @@
             </div>
         </div>
     {:else} <!-- Affichage de tous les produits par type -->
-        <div class="block">
+        <div class="block" id="abonnements">
             <H2Title title={"Abonnements"} />
             <AbonnementsBoutique lienExposant={`./boutique/${idAboExposant}`} lienOrganisateur={`./boutique/${idAboOrganisateur}`}></AbonnementsBoutique>
         </div>
         
-        <div class="block">
+        <div class="block" id="formations">
             <H2Title title={"Formations"} />
             {#if formations.length === 0}
                 Aucune formation disponible pour le moment.
@@ -69,7 +68,7 @@
             {/if}
         </div>
 
-        <div class="block">
+        <div class="block" id="outils">
             <H2Title title={"Outils et ressources"} />
             {#if outils.length === 0}
                 Aucun outil disponible pour le moment.
