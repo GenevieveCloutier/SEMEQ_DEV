@@ -13,8 +13,6 @@
 
 </script>
 
-<H1Title title={produit.nom} />
-
 <div class="container is-fluid">
 
     <div class="columns">
@@ -25,6 +23,7 @@
         </div>
 
         <div class="column">
+            <H1Title title={produit.nom} />
             {produit.desc}<br><br>
 
             {#if produit.type.nom !== "abonnement"}

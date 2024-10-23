@@ -14,6 +14,7 @@
     const formations = produits.filter(produit => produit.type.nom === 'formation');
     const outils = produits.filter(produit => produit.type.nom === 'outil');
     const abonnements = produits.filter(produit => produit.type.nom === 'abonnement');
+    const nonAbonnements = produits.filter(produit => produit.type.nom !== 'abonnement'); //Éviter recherches abonnements
 
     // Pour les liens vers les pages détails d'achat d'abonnements
     let idAboExposant = abonnements.find(abonnement => abonnement.nom === 'Abonnement exposant')?.id;
@@ -25,46 +26,57 @@
 
 <div class="container is-fluid">
 
-<H1Title title={"Boutique"} />
+    <H1Title title={"Boutique"} />
 
-<Recherche bind:searchQuery typeRecherche="une formation, un outil ou un abonnement" />
+    <Recherche bind:searchQuery typeRecherche="une formation, un outil ou une ressource" />
 
-{#if produits.filter(produit => produit.nom.toLowerCase().includes(searchQuery.toLowerCase())).length === 0}
-    <RechercheNoResult />
-{:else}
-    <H2Title title={"Formations"} />
-    {#if formations.length === 0}
-        Aucune formation disponible pour le moment.
+    {#if nonAbonnements.filter(produit =>
+        produit.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        produit.desc.toLowerCase().includes(searchQuery.toLowerCase())
+    ).length === 0}
+        <RechercheNoResult />
     {/if}
-    <div class="grid is-col-min-10">
-    {#each formations.filter(produit => produit.nom.toLowerCase().includes(searchQuery.toLowerCase())) as formation}
-        <SectionBoutique id={formation.id} photo={formation.photo} nom={formation.nom} desc={formation.desc} prix_a={formation.prix_a} prix_v={formation.prix_v}></SectionBoutique>
-    {/each}
-    </div>
 
-    <H2Title title={"Outils et ressources"} />
-    {#if outils.length === 0}
-        Aucun outil disponible pour le moment.
+    {#if searchQuery != ""} <!-- Affichage uniquement résultats de recherche -->
+        <div class="grid is-col-min-10">
+            {#each nonAbonnements.filter(produit =>
+                produit.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                produit.desc.toLowerCase().includes(searchQuery.toLowerCase())
+            ) as item}
+                <SectionBoutique id={item.id} photo={item.photo} nom={item.nom} desc={item.desc} prix_a={item.prix_a} prix_v={item.prix_v}></SectionBoutique>
+            {/each}
+        </div>
+    {:else} <!-- Affichage de tous les produits par type -->
+        <div class="block">
+            <H2Title title={"Abonnements"} />
+            <AbonnementsBoutique lienExposant={`./boutique/${idAboExposant}`} lienOrganisateur={`./boutique/${idAboOrganisateur}`}></AbonnementsBoutique>
+        </div>
+        
+        <div class="block">
+            <H2Title title={"Formations"} />
+            {#if formations.length === 0}
+                Aucune formation disponible pour le moment.
+            {:else}
+                <div class="grid is-col-min-10">
+                {#each formations as formation}
+                    <SectionBoutique id={formation.id} photo={formation.photo} nom={formation.nom} desc={formation.desc} prix_a={formation.prix_a} prix_v={formation.prix_v}></SectionBoutique>
+                {/each}
+                </div>
+            {/if}
+        </div>
+
+        <div class="block">
+            <H2Title title={"Outils et ressources"} />
+            {#if outils.length === 0}
+                Aucun outil disponible pour le moment.
+            {:else}
+                <div class="grid is-col-min-10">
+                {#each outils as outil}
+                    <SectionBoutique id={outil.id} photo={outil.photo} nom={outil.nom} desc={outil.desc} prix_a={outil.prix_a} prix_v={outil.prix_v}></SectionBoutique>
+                {/each}
+                </div>
+            {/if}
+        </div>
     {/if}
-    <div class="grid is-col-min-10">
-    {#each outils.filter(produit => produit.nom.toLowerCase().includes(searchQuery.toLowerCase())) as outil}
-        <SectionBoutique id={outil.id} photo={outil.photo} nom={outil.nom} desc={outil.desc} prix_a={outil.prix_a} prix_v={outil.prix_v}></SectionBoutique>
-    {/each}
-    </div>
-
-    <H2Title title={"Abonnements"} />
-    {#if abonnements.length === 0}
-        Aucun abonnement disponible pour le moment.
-    {/if}
-    <div class="grid is-col-min-10">
-    {#each abonnements.filter(produit => produit.nom.toLowerCase().includes(searchQuery.toLowerCase())) as abonnement}
-        <AbonnementsBoutique lienExposant={`./boutique/${idAboExposant}`} lienOrganisateur={`./boutique/${idAboOrganisateur}`}></AbonnementsBoutique>
-    {/each}
-    </div>
-
-    <!-- Retirer les 2 boutons lorsque "Valider le panier" vers Étape 1 "Connexion/Création de compte" fonctionnel -->
-    <BoutonGris lien={"/creation_compte/exposant"} texte={"Acheter un abonnement exposant"}/>
-    <BoutonGris lien={"/creation_compte/organisateur"}  texte={"Acheter un abonnement événement"}/>
-{/if}
 
 </div>
