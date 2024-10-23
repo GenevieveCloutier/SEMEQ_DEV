@@ -49,7 +49,7 @@ export async function findOne(p_where){
         if(res)
         return {
             ...res.dataValues,
-            role: res.type ? res.type.dataValues : null
+            type: res.type ? res.type.dataValues : null
         };
         else
             return null;
