@@ -23,7 +23,7 @@
     let searchQuery = '';
 </script>
 
-<div class="block">
+<div class="container is-fluid">
 
 <H1Title title={"Boutique"} />
 
