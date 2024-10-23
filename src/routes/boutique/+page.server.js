@@ -9,6 +9,9 @@ import { Type } from "$lib/db/models/Type.model.js"
  */
 export async function load({ params }){
     const produits = await Produit.findAll({
+        order: [
+            ['createdAt', 'DESC'] //Nouveaux produits en premiers
+          ],
         where: { dispo: 1 }, //true
         include: [
             { model: Type, as: "type" },
