@@ -1,4 +1,5 @@
 import { error } from '@sveltejs/kit';
+import { Op } from "sequelize";
 import { Produit } from "$lib/db/models/Produit.model.js"
 import { Type } from "$lib/db/models/Type.model.js"
 import { Utilisateur } from "$lib/db/models/Utilisateur.model.js"
@@ -23,6 +24,38 @@ export async function load({ cookies, params }){
     if (produit.dispo !== true) {
         throw error(404, 'Produit non disponible.');
     }
+
+    const aboExposant = await Produit.findAll({
+        where: {
+            dispo: 1, //true
+            type_id : 1, //Abonneemnt
+            nom: {
+                [Op.like]: 'Abonnement exposant%'
+            }
+        },
+        include: [
+            { model: Type, as: "type" },
+        ],
+        order: [
+            ['Nom', 'ASC']
+        ]
+    })
+
+    const aboOrganisateur = await Produit.findAll({
+        where: {
+            dispo: 1, //true
+            type_id : 1, //Abonneemnt
+            nom: {
+                [Op.like]: 'Abonnement organisateur%'
+            }
+        },
+        include: [
+            { model: Type, as: "type" },
+        ],
+        order: [
+            ['Nom', 'ASC']
+        ]
+    })
     
     let resultat = {
         ...produit.dataValues,
@@ -32,5 +65,5 @@ export async function load({ cookies, params }){
         type: produit.type ? produit.type.dataValues : null,
     };
 
-    return { produit: resultat, abonne }
+    return { produit: resultat, aboExposant, aboOrganisateur, abonne }
 }
