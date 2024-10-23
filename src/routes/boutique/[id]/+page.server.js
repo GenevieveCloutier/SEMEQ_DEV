@@ -1,8 +1,14 @@
 import { error } from '@sveltejs/kit';
 import { Produit } from "$lib/db/models/Produit.model.js"
 import { Type } from "$lib/db/models/Type.model.js"
+import { Utilisateur } from "$lib/db/models/Utilisateur.model.js"
 
-export async function load({ params }){
+export async function load({ cookies, params }){
+    // Pour affichage économie et/ou "Abonnements" en bas de page
+    const cookiesId = cookies.get('id');
+    const user = await Utilisateur.findOne({ id: cookiesId });
+    let abonne = user.abonne;
+    
     const paramId = params.id;
     
     const produit = await Produit.findOne({
@@ -11,7 +17,6 @@ export async function load({ params }){
             { model: Type, as: "type" },
         ]
     })
-
     if (!produit) {
         throw error(404, 'Produit non trouvé.');
     }
@@ -27,5 +32,5 @@ export async function load({ params }){
         type: produit.type ? produit.type.dataValues : null,
     };
 
-    return { produit: resultat }
+    return { produit: resultat, abonne }
 }
