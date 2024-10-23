@@ -31,7 +31,7 @@
                 Prix abonné: {produit.prix_a}<br>
                 Prix non-abonné: {produit.prix_v}<br>
             {:else}
-                Prix: {produit.prix_v}<br>
+                Prix: {produit.prix_v}<br>  <!-- MODIFIER POUR SÉLECTION ABONNEMENT CATÉGORIE/NB ÉVÉNEMENTS -->
             {/if}
             <BoutonGris lien={'/panier'} texte={'Acheter'} /> <!-- fonction={ajouterPanier} -->
         </div>
