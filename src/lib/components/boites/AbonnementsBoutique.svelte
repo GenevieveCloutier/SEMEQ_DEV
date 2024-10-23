@@ -1,5 +1,8 @@
 <script>
     import H3Title from '../titres/h3Title.svelte';
+    import AvantagesExposant from '../generaux/avantagesExposant.svelte';
+    import AvantagesOrganisateur from '../generaux/avantagesOrganisateur.svelte';
+
     export let lienExposant;
     export let lienOrganisateur;
 </script>
@@ -14,13 +17,7 @@
                         <H3Title title={"Exposants"} />
                     </div>
                     <div class="content">
-                        <ul>
-                            <li>Fiche de ton entreprise dans le répertoire pour le public</li>
-                            <li>Reçois les appels de candidatures par courriel</li>
-                            <li>Accès au groupe Facebook</li>
-                            <li>Accès aux rabais de nos partenaires</li>
-                            <li>Accès aux ressources dans l’espace membre</li>
-                        </ul>
+                        <AvantagesExposant />
                     </div>
                     <div class="content has-text-centered">
                         <a href={lienExposant}><button class="px-3 py-3">Plus de détails</button></a>
@@ -39,13 +36,7 @@
                         <H3Title title={"Événements"} />
                     </div>
                     <div class="content">
-                        <ul>
-                            <li>Fiche de ton entreprise dans le répertoire pour le public</li>
-                            <li>Reçois les appels de candidatures par courriel</li>
-                            <li>Accès au groupe Facebook</li>
-                            <li>Accès aux rabais de nos partenaires</li>
-                            <li>Accès aux ressources dans l’espace membre</li>
-                        </ul>
+                        <AvantagesOrganisateur />
                     </div>
                     <div class="content has-text-centered">
                         <a href={lienOrganisateur}><button class="px-3 py-3">Plus de détails</button></a>
