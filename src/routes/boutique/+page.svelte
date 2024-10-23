@@ -11,10 +11,10 @@
     const produits = data.produits;
 
     // Filtrer produits selon leur type
-    const formations = produits.filter(produit => produit.type.nom === 'formation');
-    const outils = produits.filter(produit => produit.type.nom === 'outil');
-    const abonnements = produits.filter(produit => produit.type.nom === 'abonnement');
-    const nonAbonnements = produits.filter(produit => produit.type.nom !== 'abonnement'); //Éviter recherches abonnements
+    const formations = produits.filter(produit => produit.type.nom === 'Formation');
+    const outils = produits.filter(produit => produit.type.nom === 'Outil');
+    const abonnements = produits.filter(produit => produit.type.nom === 'Abonnement');
+    const nonAbonnements = produits.filter(produit => produit.type.nom !== 'Abonnement'); //Éviter recherches abonnements
 
     // Pour les liens vers les pages détails d'achat d'abonnements
     let idAboExposant = abonnements.find(abonnement => abonnement.nom === 'Abonnement exposant')?.id;
