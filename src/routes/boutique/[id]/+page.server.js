@@ -27,8 +27,8 @@ export async function load({ cookies, params }){
     let resultat = {
         ...produit.dataValues,
         // Afficher "Gratuit" si le prix est égal à zéro, sinon afficher le prix suivit de " $"
-        prix_a: produit.prix_a === 0 ? "Gratuit" : `${produit.prix_a} $`,
-        prix_v: produit.prix_v === 0 ? "Gratuit" : `${produit.prix_v} $`,
+        prix_a: produit.prix_a === 0 ? "Gratuit" : `${produit.prix_a.toFixed(2)} $`,
+        prix_v: produit.prix_v === 0 ? "Gratuit" : `${produit.prix_v.toFixed(2)} $`,
         type: produit.type ? produit.type.dataValues : null,
     };
 
