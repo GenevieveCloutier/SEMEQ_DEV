@@ -60,11 +60,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <div class="field is-horizontal">
-        <div class="field-body">
+
             <div class="field is-small">
                 <div class="controle">
                     <div class="select is-small">
@@ -77,9 +73,12 @@
                     </div>
                 </div>
             </div>
+
+            <div class="field is-small">
+                <button class="button is-small" on:click={filtrerLieux}> <span class="icon is-small"><i class="fa fa-filter"></i></span> </button>
+            </div>
         </div>
     </div>
-    <div class="field is-horizontal"><button class="button is-small" on:click={filtrerLieux}> <span class="icon is-small"><i class="fa fa-filter"></i></span> </button></div>
 </div>
 
 <Recherche bind:searchQuery typeRecherche="un événement" />
