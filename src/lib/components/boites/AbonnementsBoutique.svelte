@@ -2,9 +2,6 @@
     import H3Title from '../titres/h3Title.svelte';
     import AvantagesExposant from '../generaux/avantagesExposant.svelte';
     import AvantagesOrganisateur from '../generaux/avantagesOrganisateur.svelte';
-
-    export let lienExposant;
-    export let lienOrganisateur;
 </script>
     
 <div class="columns mx-4">
@@ -20,7 +17,7 @@
                         <AvantagesExposant />
                     </div>
                     <div class="content has-text-centered">
-                        <a href={lienExposant}><button class="px-3 py-3">Plus de détails</button></a>
+                        <a href={`./boutique/abonnement_exposant`}><button class="px-3 py-3">Plus de détails</button></a>
                     </div>
                 </div>
             </div>
@@ -39,7 +36,7 @@
                         <AvantagesOrganisateur />
                     </div>
                     <div class="content has-text-centered">
-                        <a href={lienOrganisateur}><button class="px-3 py-3">Plus de détails</button></a>
+                        <a href={`./boutique/abonnement_organisateur`}><button class="px-3 py-3">Plus de détails</button></a>
                     </div>
                 </div>
             </div>

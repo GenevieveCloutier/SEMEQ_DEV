@@ -1,61 +1,42 @@
-import { error } from '@sveltejs/kit';
-import { Op } from "sequelize";
+import { error, redirect } from '@sveltejs/kit';
 import { Produit } from "$lib/db/models/Produit.model.js"
 import { Type } from "$lib/db/models/Type.model.js"
-import { Utilisateur } from "$lib/db/models/Utilisateur.model.js"
+import { findOne } from '$lib/db/controllers/Utilisateurs.controller';
 
 export async function load({ cookies, params }){
     // Pour affichage économie et/ou "Abonnements" en bas de page
     const cookiesId = cookies.get('id');
-    const user = await Utilisateur.findOne({ id: cookiesId });
+    console.log(cookiesId);
+    const user = await findOne({ id: cookiesId });
     let abonne = user.abonne;
     
     const paramId = params.id;
     
     const produit = await Produit.findOne({
-        where: { id: paramId },
+        where: { 
+            id: paramId,
+            dispo: 1, //true
+        },
         include: [
             { model: Type, as: "type" },
         ]
     })
+
     if (!produit) {
         throw error(404, 'Produit non trouvé.');
     }
     if (produit.dispo !== true) {
         throw error(404, 'Produit non disponible.');
     }
-
-    const aboExposant = await Produit.findAll({
-        where: {
-            dispo: 1, //true
-            type_id : 1, //Abonneemnt
-            nom: {
-                [Op.like]: 'Abonnement exposant%'
-            }
-        },
-        include: [
-            { model: Type, as: "type" },
-        ],
-        order: [
-            ['Nom', 'ASC']
-        ]
-    })
-
-    const aboOrganisateur = await Produit.findAll({
-        where: {
-            dispo: 1, //true
-            type_id : 1, //Abonneemnt
-            nom: {
-                [Op.like]: 'Abonnement organisateur%'
-            }
-        },
-        include: [
-            { model: Type, as: "type" },
-        ],
-        order: [
-            ['Nom', 'ASC']
-        ]
-    })
+    /* Si produit est de type "Abonnement" doit renvoyer vers la bonne page
+       selon nom "Exposant" ou "Organisateur"
+    */
+    if (produit.type_id === 1 && produit.nom.includes("Abonnement exposant")) {
+        throw redirect(301, '/boutique/abonnement_exposant');
+    }
+    if (produit.type_id === 1 && produit.nom.includes("Abonnement organisateur")) {
+        throw redirect(301, '/boutique/abonnement_organisateur');
+    }
     
     let resultat = {
         ...produit.dataValues,
@@ -65,5 +46,5 @@ export async function load({ cookies, params }){
         type: produit.type ? produit.type.dataValues : null,
     };
 
-    return { produit: resultat, aboExposant, aboOrganisateur, abonne }
+    return { produit: resultat, abonne }
 }
