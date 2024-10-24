@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { Produit } from "$lib/db/models/Produit.model.js"
 import { Type } from "$lib/db/models/Type.model.js"
 
@@ -12,7 +13,12 @@ export async function load({ params }){
         order: [
             ['createdAt', 'DESC'] //Nouveaux produits en premiers
         ],
-        where: { dispo: 1 }, //true
+        where: {
+            dispo: 1, //true
+            type_id: {
+                [Op.ne]: 1 // Ne correspond PAS à "Abonnement"
+            }
+        },
         include: [
             { model: Type, as: "type" },
         ]

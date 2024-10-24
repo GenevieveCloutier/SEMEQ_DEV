@@ -12,12 +12,6 @@
     // Filtrer produits selon leur type
     const formations = produits.filter(produit => produit.type.nom === 'Formation');
     const outils = produits.filter(produit => produit.type.nom === 'Outil');
-    const abonnements = produits.filter(produit => produit.type.nom === 'Abonnement');
-    const nonAbonnements = produits.filter(produit => produit.type.nom !== 'Abonnement'); //Éviter recherches abonnements
-
-    // Pour les liens vers les pages détails d'achat d'abonnements
-    let idAboExposant = abonnements.find(abonnement => abonnement.nom === 'Abonnement exposant 1 catégorie')?.id;
-    let idAboOrganisateur = abonnements.find(abonnement => abonnement.nom === 'Abonnement organisateur 1 événement/an')?.id;
 
     // Barre de recherche
     let searchQuery = '';
@@ -29,7 +23,7 @@
 
     <Recherche bind:searchQuery typeRecherche="une formation, un outil ou une ressource" />
 
-    {#if nonAbonnements.filter(produit =>
+    {#if produits.filter(produit =>
         produit.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
         produit.desc.toLowerCase().includes(searchQuery.toLowerCase())
     ).length === 0}
@@ -39,7 +33,7 @@
     {#if searchQuery != ""} <!-- Affichage uniquement résultats de recherche -->
         <div class="fixed-grid is-col-min-10 has-2-cols-mobile has-3-cols-tablet has-4-cols-desktop has-4-cols-widescreen has-5-cols-fullhd">
             <div class="grid">
-                {#each nonAbonnements.filter(produit =>
+                {#each produits.filter(produit =>
                     produit.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
                     produit.desc.toLowerCase().includes(searchQuery.toLowerCase())
                 ) as item}
@@ -50,7 +44,7 @@
     {:else} <!-- Affichage de tous les produits par type -->
         <div class="block" id="abonnements">
             <H2Title title={"Abonnements"} />
-            <AbonnementsBoutique lienExposant={`./boutique/${idAboExposant}`} lienOrganisateur={`./boutique/${idAboOrganisateur}`}></AbonnementsBoutique>
+            <AbonnementsBoutique />
         </div>
         
         <div class="block" id="formations">
