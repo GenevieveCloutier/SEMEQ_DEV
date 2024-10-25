@@ -44,17 +44,6 @@ canvas {
   border-top: none;
 }
 
-/* Limiter la taille de la zone de texte des descriptions d'items sur /boutique à 2 lignes
-   et uniformiser la hauteur des cards
-*/
-.tronquer-texte-card {
-  display: -webkit-box;
-  -webkit-line-clamp: 2; 
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  height: 3em;
-}
-
 /* 
 essais pour théme sombre et clair BG fonctionne mais pas .theme-light
 @media (prefers-color-scheme: light) {
