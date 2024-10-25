@@ -28,7 +28,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="content has-text-centered">
-                        <H3Title title={"Événements"} />
+                        <H3Title title={"Organisateur"} />
                     </div>
                     <AvantagesOrganisateur />
                     <div class="content has-text-centered">
