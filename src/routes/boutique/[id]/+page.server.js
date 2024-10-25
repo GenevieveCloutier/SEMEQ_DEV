@@ -28,13 +28,16 @@ export async function load({ cookies, params }){
         throw error(404, 'Produit non disponible.');
     }
     /* Si produit est de type "Abonnement" doit renvoyer vers la bonne page
-       selon nom "Exposant" ou "Organisateur"
+       selon nom "Exposant" ou "Organisateur", sinon erreur 404
     */
-    if (produit.type_id === 1 && produit.nom.includes("exposant")) {
-        throw redirect(301, '/boutique/abonnement_exposant');
-    }
-    if (produit.type_id === 1 && produit.nom.includes("organisateur")) {
-        throw redirect(301, '/boutique/abonnement_organisateur');
+    if (produit.type_id === 1) {
+        if (produit.nom.includes("exposant")) {
+            throw redirect(301, '/boutique/abonnement_exposant');
+        } else if (produit.nom.includes("organisateur")) {
+            throw redirect(301, '/boutique/abonnement_organisateur');
+        } else {
+            throw error(404, 'Abonnement non trouvé.');
+        }
     }
     
     let resultat = {
