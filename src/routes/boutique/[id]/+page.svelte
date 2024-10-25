@@ -10,7 +10,9 @@
     const produit = data.produit;
     const abonne = data.abonne;
 
-    const economie = (parseFloat(produit.prix_v) - parseFloat(produit.prix_a)).toFixed(2);
+    // Variable prix_a_calcul pour faire fonctionner calcul economie si prix_a "Gratuit"
+    let prix_a_calcul = produit.prix_a === "Gratuit" ? 0 : produit.prix_a;
+    let economie = (parseFloat(produit.prix_v) - parseFloat(prix_a_calcul)).toFixed(2);
 </script>
 
 <div class="container is-fluid">
@@ -35,8 +37,8 @@
         </div>
     </div>
 
-
-    {#if produit.prix_v !== produit.prix_a} <!-- S'assurer qu'il y a une différence entre les prix -->
+    <!-- Afficher l'économie si prix_v et prix_a ne sont pas null ("Non défini") ET qu'il y a une différence entre les prix. -->
+    {#if produit.prix_v !== "Non défini" && produit.prix_a !== "Non défini" && produit.prix_v !== produit.prix_a}
     <div class="block">
         {#if abonne !== true}
             <H2Title title={"Abonnements"} />
