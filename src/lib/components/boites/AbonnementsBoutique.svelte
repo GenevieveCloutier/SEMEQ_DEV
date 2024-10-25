@@ -13,9 +13,7 @@
                     <div class="content has-text-centered">
                         <H3Title title={"Exposants"} />
                     </div>
-                    <div class="content">
-                        <AvantagesExposant />
-                    </div>
+                    <AvantagesExposant />
                     <div class="content has-text-centered">
                         <a href={`./boutique/abonnement_exposant`}><button class="px-3 py-3">Plus de détails</button></a>
                     </div>
@@ -32,9 +30,7 @@
                     <div class="content has-text-centered">
                         <H3Title title={"Événements"} />
                     </div>
-                    <div class="content">
-                        <AvantagesOrganisateur />
-                    </div>
+                    <AvantagesOrganisateur />
                     <div class="content has-text-centered">
                         <a href={`./boutique/abonnement_organisateur`}><button class="px-3 py-3">Plus de détails</button></a>
                     </div>
