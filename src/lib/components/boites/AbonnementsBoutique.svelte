@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="content has-text-centered">
-                        <H3Title title={"Exposants"} />
+                        <H3Title title={"Exposant"} />
                     </div>
                     <AvantagesExposant />
                     <div class="content has-text-centered">
