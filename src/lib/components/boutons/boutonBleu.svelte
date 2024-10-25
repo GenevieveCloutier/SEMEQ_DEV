@@ -1,9 +1,12 @@
 <script>
 	export let texte;
+	export let lien;
+	export let target;
+	export let fichierNom;
 	export let fonction = () => {};
 </script>
 
-<button class="px-3 py-3" on:click={fonction}> {texte} </button>
+<a href={lien} target={target} download={fichierNom}><button class="px-3 py-3" on:click={fonction}> {texte} </button></a>
 
 <style>
 	button {

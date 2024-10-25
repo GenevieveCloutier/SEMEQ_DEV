@@ -1,6 +1,7 @@
 <script>
 	import BoutonGris from '../boutons/boutonGris.svelte';
 	import H2Title from '../titres/h2Title.svelte';
+	import AvantagesExposant from '../generaux/avantagesExposant.svelte';
 </script>
 
 
@@ -12,17 +13,9 @@
                 <p class="is-size-6 has-text-grey mb-3">Tout ce que le compte gratuit offre +</p>
             </div>
 			<div class="container-content">
-				<div class=" zone content has-text-left">
-					<ul>
-						<li>Fiche de ton entreprise dans le répertoire pour le public</li>
-						<li>Reçois les appels de candidatures par courriel</li>
-						<li>Accès au groupe Facebook</li>
-						<li>Accès aux rabais de nos partenaires</li>
-						<li>Accès aux ressources dans l’espace membre</li>
-					</ul>
-                    <div class="zone has-text-centered">
-                        <BoutonGris lien={'/exposant#avantages'} texte={'Voir les détails'} />
-                    </div>
+				<AvantagesExposant />
+				<div class="zone has-text-centered">
+					<BoutonGris lien={'/exposant#avantages'} texte={'Voir les détails'} />
 				</div>
 			</div>
 		</div>
@@ -43,5 +36,4 @@
         flex-direction: column;
         height: 100%;
 	}
-
 </style>

@@ -12,7 +12,7 @@
 </script>
 
 
-<div class="block">
+<div class="container is-fluid">
 
   <BarrePaiementEtape1 />
   <!-- le message s'Affiche mais on est quand même redirigé -->

@@ -14,7 +14,7 @@
 </script>
   
   
-<div class="block">
+<div class="container is-fluid">
 
   <BarrePaiementEtape1 />
 
