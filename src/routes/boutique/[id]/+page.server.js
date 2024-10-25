@@ -31,10 +31,10 @@ export async function load({ cookies, params }){
     /* Si produit est de type "Abonnement" doit renvoyer vers la bonne page
        selon nom "Exposant" ou "Organisateur"
     */
-    if (produit.type_id === 1 && produit.nom.includes("Abonnement exposant")) {
+    if (produit.type_id === 1 && produit.nom.includes("exposant")) {
         throw redirect(301, '/boutique/abonnement_exposant');
     }
-    if (produit.type_id === 1 && produit.nom.includes("Abonnement organisateur")) {
+    if (produit.type_id === 1 && produit.nom.includes("organisateur")) {
         throw redirect(301, '/boutique/abonnement_organisateur');
     }
     
