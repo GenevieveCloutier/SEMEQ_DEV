@@ -4,8 +4,8 @@
     import AvantagesOrganisateur from '../generaux/avantagesOrganisateur.svelte';
 </script>
     
-<div class="columns mx-4">
-    <div class="column is-two-fifths">
+<div class="columns mx-2 is-5">
+    <div class="column is-half">
         <!-- Pour acheter un abonnement exposant -->
         <div class="cell">
             <div class="card">
@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div class="column is-two-fifths">
+    <div class="column is-half">
         <!-- Pour acheter un abonnement organisateur/événement -->
         <div class="cell">
             <div class="card">
