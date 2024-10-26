@@ -3,7 +3,6 @@
     import H2Title from "$lib/components/titres/h2Title.svelte";
     import Recherche from '$lib/components/generaux/recherche.svelte';
     import RechercheNoResult from '$lib/components/generaux/rechercheNoResult.svelte';
-    import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
 
     export let data;
     const achats = data.achats;
@@ -29,7 +28,7 @@
     onMount(()=>{
         const actives = document.querySelectorAll('a.is-active');
         actives.forEach((x)=>x.classList.remove('is-active'));
-    document.getElementById('formationsOutils').classList.add('is-active')
+        document.getElementById('formationsOutils').classList.add('is-active')
     });
 </script>
 
@@ -91,16 +90,14 @@
                         </div>
                 
                         <div class="card-content">
-                            <div class="content">
-                                <div class="content has-text-centered">
-                                    <H2Title title={achat.produit.nom} />
-                                </div>
-                                <div class="tronquer-texte-card">{achat.produit.desc}</div><br>
-                                <div class="content has-text-centered">
-                                    <BoutonBleu lien={`${achat.produit.url}`} target={"_blank"} fichierNom={achat.produit.nom} texte={'Consulter'} />
-                                </div>
+                            <div class="content has-text-centered">
+                                <H2Title title={achat.produit.nom} />
                             </div>
+                            <div class="content tronquer-desc-3lignes" id="test">{achat.produit.desc}</div>
                         </div>
+                        <footer class="card-footer">
+                            <a href={`${achat.produit.url}`} target="_blank" download={achat.produit.nom} id="btnConsulter" class="button is-fullwidth">Consulter</a>
+                        </footer>
                     </div>
                 </div>
             {/each}
@@ -109,3 +106,37 @@
     {/if}
 
 </div>
+
+<style>
+    #btnConsulter {
+		background-color: #184287;
+		border-radius: 0.75rem;
+		color: white;
+	}
+
+    .cell {
+        display: flex;          /* Égaliser la hauteur des cell d'une même ligne */
+        flex-direction: column; /* Égaliser la hauteur des cell d'une même ligne */
+    }
+    
+    .card {
+        background-color: #d9d9d9;
+        padding: 0.25rem;
+        height: 100%;           /* Égaliser la hauteur des card d'une même ligne */
+        display: flex;          /* Égaliser la hauteur des card d'une même ligne */
+        flex-direction: column; /* Égaliser la hauteur des card d'une même ligne */
+    }
+
+    .card-footer {
+        margin-top: auto; /* Coller en bas de card */
+    }
+
+    /* Limiter la taille de la zone de texte des descriptions de produits sur 3 lignes */
+    .tronquer-desc-3lignes {
+            display: -webkit-box;
+            line-clamp: 3;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+    }
+</style>
