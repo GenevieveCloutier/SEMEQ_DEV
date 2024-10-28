@@ -1,14 +1,17 @@
 <script>
-	import { erreur } from "../../outils/formHandlers";
+	import { erreur, success } from "../../outils/formHandlers";
 
 	export let texte;
 	export let fonction = () => {}; //Vraiment besoin ? ou on supprime ?
 
 
-
-	//Permet de retirer la classe de chargement si un message d'erreur s'affiche
-	$: if ($erreur !== '') {
-		document.getElementById('submitButton').classList.remove('is-loading');
+	//Permet de retirer la classe de chargement si un message d'erreur ou de succes s'affiche
+	//Le setTimeout a été ajouté car dans certain cas le classList remove se lançais avant que le bouton ne soit chargé
+	//ce qui causais des erreur d'affichage
+	$: if ($erreur !== '' || $success !== '') {
+		setTimeout(() => {
+			document.getElementById('submitButton').classList.remove('is-loading');
+		}, 1000);
     }
 </script>
 

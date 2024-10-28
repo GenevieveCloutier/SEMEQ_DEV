@@ -29,7 +29,7 @@
 
       <!-- Troisième colonne -->
       <div class="column">
-        <input class="checkbox" type="checkbox" name="papeteries_livres" id="domaine"> Papeteries et livres<br>
+        <input class="checkbox" type="checkbox" name="papeteries_livres" id="papeteries_livres"> Papeteries et livres<br>
         <input class="checkbox" type="checkbox" name="photographies" id="photographies"> Photographies<br>
         <input class="checkbox" type="checkbox" name="produits_corporels" id="produits_corporels"> Produits corporels et/ou savons<br>
         <input class="checkbox" type="checkbox" name="sculpture" id="sculpture"> Sculpture<br>

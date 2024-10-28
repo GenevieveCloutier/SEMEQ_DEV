@@ -64,7 +64,7 @@
             <label class="label" for="ville">Ville <span class="rouge">*</span></label>
             <div class="control">
               <div class="select is-fullwidth">
-                <select name="ville_id" id="ville_id" >
+                <select name="ville_id" id="ville_id" required>
                   <option value="" disabled selected>Choisir une ville</option>
                   {#each villes as ville}
                   <option value={ville.id}>{ville.nom} ({ville.region.nom})</option>

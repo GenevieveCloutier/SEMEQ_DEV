@@ -45,8 +45,13 @@ async function initializeDatabase() {
     }
 //Création de l'admin si inexistant
     const admin = await Utilisateur.findByPk(1);
+    //* J'ai du ajouter un setTimeout parce que le script allais trop vite et créait
+    //* les utilisateurs avant d'avoir fini d'ajouter les villes
+    //* et vu qu'on as besoin de leur attribuer des villes...
     if(!admin)
-        adminCreation();
+        setTimeout(() => {
+           adminCreation(); 
+        }, 5000);
 }
 
 await initializeDatabase();

@@ -122,10 +122,7 @@ Utilisateur.addHook('beforeCreate',(async (user, option) => {
     user.pwd = await bcrypt.hash(user.pwd, 10);
 }));
 
-//encrypter le MDP à la modification
-Utilisateur.addHook('beforeUpdate',(async (user, option) => {
-    user.pwd = await bcrypt.hash(user.pwd, 10);
-}));
+
 
 Utilisateur.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
 Role.hasMany(Utilisateur, { foreignKey: 'role_id', as: 'utilisateurs_role' });

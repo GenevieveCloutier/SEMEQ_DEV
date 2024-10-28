@@ -8,6 +8,6 @@
     </label>
     <div class="control">
       <input class="input" type="number" name="neq" id="neq" placeholder="1012345678" pattern="^d{10}$">
-      <input class="checkbox" type="checkbox" id="no-neq"> Je n'ai pas de NEQ.
+      <input class="checkbox exclus" type="checkbox" id="no-neq"> Je n'ai pas de NEQ.
     </div>
 </div>

@@ -142,10 +142,10 @@ export async function creationEvenement(
 	p_approuve
 ) {
 	try {
-		console.log('nom = ', p_nom);
-		console.log('ville = ', p_ville_id);
-		console.log('debut = ', p_debut_even);
-		console.log('fin = ', p_fin_even);
+		//console.log('nom = ', p_nom);
+		//console.log('ville = ', p_ville_id);
+		//console.log('debut = ', p_debut_even);
+		//console.log('fin = ', p_fin_even);
 
 		const doublon = await Evenement.findAll({
 			where: {
@@ -157,7 +157,7 @@ export async function creationEvenement(
 				]
 			}
 		});
-		console.log('doublon = ', doublon);
+		//console.log('doublon = ', doublon);
 		if (doublon.length > 0) {
 			throw 'Un événement similaire existe déjà';
 		}

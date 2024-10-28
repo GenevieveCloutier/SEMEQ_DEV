@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Utilisateur } from '../models/Utilisateur.model';
 import { Session } from "../models/Session.model";
+import { log } from '../../outils/debug';
 
 
 /**
@@ -18,6 +19,7 @@ import { Session } from "../models/Session.model";
  */
 export async function createCookie(p_user_id, p_cookies, p_role)
 {   
+    log("cookie crée ", null)
     let uuid = crypto.randomUUID();
     p_cookies.set('session', uuid, 
         {
@@ -65,6 +67,7 @@ export async function createCookie(p_user_id, p_cookies, p_role)
  */
 export async function deleteCookie(p_cookie)
 {
+    log("cookies supprimé", null)
     let uuid = p_cookie.get('session');
     p_cookie.delete('session', {path: '/'});
     p_cookie.delete('role', {path: '/'});
