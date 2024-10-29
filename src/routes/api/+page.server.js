@@ -8,6 +8,7 @@ import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
 import fs from 'fs';
 import path from 'path';
+import { randomUUID } from 'crypto';
 
 //Chemins de base pour stocker les photos
 const cheminBase = path.join(process.cwd(), 'src/lib/img/app/evenements'); 
@@ -52,7 +53,8 @@ export const actions = {
 
             if (logo && logo.name) { 
             const buffer = Buffer.from(await logo.arrayBuffer());
-            const filePath = path.resolve(cheminLogos, logo.name);
+            const nomTemporaire = (randomUUID() + logo.name)
+            const filePath = path.resolve(cheminLogos, nomTemporaire);
             fs.writeFileSync(filePath, buffer);
             return path.relative(process.cwd(), filePath);
             };
@@ -67,7 +69,8 @@ export const actions = {
 
             if (photo && photo.name) { 
             const buffer = Buffer.from(await photo.arrayBuffer());
-            const filePath = path.resolve(cheminPhotosUtilisateurs, photo.name);
+            const nomTemporaire = (randomUUID() + photo.name)
+            const filePath = path.resolve(cheminPhotosUtilisateurs, nomTemporaire);
             fs.writeFileSync(filePath, buffer);
             return path.relative(process.cwd(), filePath);
             };
