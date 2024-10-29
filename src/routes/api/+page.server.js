@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { createCookie, findOne } from "../../lib/db/controllers/sessions.controller.js";
 import { authenticate, changementMDP, modificationUtilisateur, newUser, recuperationMDP } from '../../lib/db/controllers/Utilisateurs.controller.js';
-import { deleteUser } from '../../lib/db/controllers/Utilisateurs.controller.js';
+import { deleteUser, findOne } from '../../lib/db/controllers/Utilisateurs.controller.js';
 import { domaines, emplacements, envoieDomaine, envoieMappage, types, verifs } from '../../lib/outils/compteurBinaire.js';
 import { creationEvenement } from '../../lib/db/controllers/Evenements.controller.js';
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
@@ -313,6 +313,7 @@ export const actions = {
         // log("dans l'api, modif utilisateur, data = ", data.get('nom'));
         // log("dans l'api, modif utilisateur, cookies = ", cookies.get('role'));
         try{
+            log("data = ", data)
             if (cookies.get('role') == 4 && !data.get('role_id')){
                 // log("api dans le if modif = ", data.get('role_id'))
                 let res = await modificationUtilisateur(cookies.get('id'), {
@@ -321,6 +322,8 @@ export const actions = {
                     courriel: data.get('courriel'),
                     ville_id: data.get('ville_id')
                 });
+                
+            log("res = ", res)
             }
 			else if (cookies.get('role') == 3 && !data.get('role_id')){
 				const domaine = envoieMappage(data, domaines);

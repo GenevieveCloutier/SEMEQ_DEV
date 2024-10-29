@@ -5,6 +5,7 @@ import { error } from '@sveltejs/kit';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import { log } from '../../outils/debug';
+import { Op } from 'sequelize';
 
 /**
  * Récupère tous les utilisateurs, incluant leurs rôles et villes associés.
@@ -362,6 +363,11 @@ export async function changementMDP(p_utilisateur_id, p_nouveau_pwd) {
 
 export async function modificationUtilisateur(p_utilisateur_id, p_modifications) {
 	try {
+		const courrielUtilise = await findOne({
+			courriel: p_modifications.courriel,
+			id: { [Op.ne]: p_utilisateur_id }
+		});
+		if (courrielUtilise) throw 'Cette adresse courriel est déjâ utilisée.';
 		const utilisateur = await Utilisateur.findByPk(p_utilisateur_id);
 		if (!utilisateur) throw new Error('Utilisateur non trouvé');
 		log('controller modification = ', p_modifications);

@@ -452,7 +452,7 @@ export async function modifUtilisateur(event) {
 		}
         }
 		if ([...formData.keys()].includes('expo')) {
-			// Vérifier si le nombre de checkbox cochées est entre 1 et 3 pour Domaine(s) d'activit(é)s
+			// Vérifier si le nombre de checkbox cochées est entre 1 et 3 pour domaines d'activités, mais faudras changer ca pour le vrai chiffre
 			const checkboxes = event.target.querySelectorAll(
 				'input[type="checkbox"]:checked:not(.exclus)'
 			);
@@ -469,11 +469,13 @@ export async function modifUtilisateur(event) {
 			body: formData
 		});
 		const result = await response.json();
-		//log("dans le formhandler, result = ", result);
+		log("dans le formhandler, result = ", result);
 		if (result.status == 200) success.set('Modifications enregistrées');
-		else erreur.set(JSON.parse(result.data)[1]);
+		else erreur.set(JSON.parse(result.data)[1] || JSON.parse(result.data)[0]);
+		log(JSON.parse(result.data))
 	} catch (error) {
 		console.error('erreur inattendue : ', error);
+		log
 		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
 	}
 }
