@@ -614,7 +614,6 @@
 	  </div>
 	  {:else}
 	  <ChangementMdp {user} />
-	  
   {/if}
 </div>
 </form>
