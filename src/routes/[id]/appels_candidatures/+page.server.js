@@ -39,7 +39,7 @@ export async function load({ cookies, params }){
           ],
         where: {
             [Op.and]: [
-              { approuve: 1}, //true
+              { approuve: 1 }, //true
               { debut_cand: { [Op.lte]: aujourdhui } }, // Date inférieure (avant) ou égale à aujourd'hui
               { fin_cand: { [Op.gte]: aujourdhui } },  // Date supérieure (après) ou égale à aujourd'hui
             ],
@@ -56,6 +56,9 @@ export async function load({ cookies, params }){
 
     let resultat = events.map(evenement => ({
         ...evenement.dataValues,
+        debut_even: evenement.debut_even === null ? "Inconnue" : `${evenement.debut_even.toISOString().split('T')[0]}`,
+        fin_even: evenement.fin_even === null ? "Inconnue" : `${evenement.fin_even.toISOString().split('T')[0]}`,
+        fin_cand: `${evenement.fin_cand.toISOString().split('T')[0]}`,
         utilisateur: evenement.utilisateur ? evenement.utilisateur.dataValues : null,
         ville: evenement.ville ? {
             ...evenement.ville.dataValues,
