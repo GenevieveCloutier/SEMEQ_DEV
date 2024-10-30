@@ -247,12 +247,10 @@ export const actions = {
 
     ajouterPanier: async({cookies, request})=>{        
         const data = await request.formData();
-        log("les data = ", data);
 
         let session;
         try{
             session = await findOne({uuid: cookies.get('session')});
-            log("session dans api = ", session.id);
         }catch(error){
             throw (error);
         }
