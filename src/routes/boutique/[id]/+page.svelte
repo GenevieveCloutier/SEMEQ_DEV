@@ -9,7 +9,7 @@
 
     export let data;
     const produit = data.produit;
-    const abonne = data.abonne;
+    const utilisateur = data.utilisateur;
 
     // Variable prix_a_calcul pour faire fonctionner calcul economie si prix_a "Gratuit"
     let prix_a_calcul = produit.prix_a === "Gratuit" ? 0 : produit.prix_a;
@@ -33,7 +33,7 @@
                 Prix non-abonné: {produit.prix_v}
             </p><br><br>
            
-            <BoutonBleu lien={'/panier'} texte={'Acheter'} fonction={ajouterPanier} />
+            <BoutonBleu lien={'/panier'} texte={'Acheter'} value={produit.id} fonction={ajouterPanier} />
             <Retour />
         </div>
     </div>
@@ -41,7 +41,7 @@
     <!-- Afficher l'économie si prix_v et prix_a ne sont pas null ("Non défini") ET qu'il y a une différence entre les prix. -->
     {#if produit.prix_v !== "Non défini" && produit.prix_a !== "Non défini" && produit.prix_v !== produit.prix_a}
     <div class="block">
-        {#if abonne !== true}
+        {#if utilisateur.abonne !== true}
             <H2Title title={"Abonnements"} />
             En étant membre, tu économiserais <b>{economie} $</b> en plus de profiter de plusieurs avantages exclusifs!<br><br>
             <div class="container-fluid">
@@ -61,7 +61,7 @@
         {/if}
     </div>
     {:else} <!-- Si PAS de différence entre les prix, mais non-abonné -->
-        {#if abonne !== true}
+        {#if utilisateur.abonne !== true}
             <div class="block">
                 <H2Title title={"Abonnements"} />
                 <div class="container-fluid">

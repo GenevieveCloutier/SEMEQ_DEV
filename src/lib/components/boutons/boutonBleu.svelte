@@ -1,10 +1,11 @@
 <script>
 	export let texte;
 	export let lien;
+	export let value;
 	export let fonction = () => {};
 </script>
 
-<a href={lien}><button class="px-3 py-3" on:click={fonction}> {texte} </button></a>
+<a href={lien}><button class="px-3 py-3" value={value} on:click={fonction}> {texte} </button></a>
 
 <style>
 	button {
