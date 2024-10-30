@@ -5,6 +5,7 @@
     import Retour from "$lib/components/generaux/retour.svelte";
     import AbonnementEven from '$lib/components/boites/abonnementEven.svelte';
     import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
+    import { ajouterPanier, erreur } from '$lib/outils/formHandlers';
 
     export let data;
     const produit = data.produit;
@@ -32,7 +33,7 @@
                 Prix non-abonné: {produit.prix_v}
             </p><br><br>
            
-            <BoutonBleu lien={'/panier'} texte={'Acheter'} /> <!-- fonction={ajouterPanier} -->
+            <BoutonBleu lien={'/panier'} texte={'Acheter'} fonction={ajouterPanier} />
             <Retour />
         </div>
     </div>

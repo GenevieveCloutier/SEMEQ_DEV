@@ -4,6 +4,7 @@
     import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
     import Retour from "$lib/components/generaux/retour.svelte";
     import AvantagesExposant from "$lib/components/generaux/avantagesExposant.svelte";
+    import { ajouterPanier, erreur } from '$lib/outils/formHandlers';
 
     export let data;
     const abonnementsExpo = data.abonnementsExpo;
@@ -49,7 +50,7 @@
                 </div>
             </div><br>
 
-            <BoutonBleu lien={'/panier'} texte={'Acheter'} /> <!-- fonction={ajouterPanier} -->
+            <BoutonBleu lien={'/panier'} texte={'Acheter'} fonction={ajouterPanier} />
             <Retour />
         </div>
     </div>
