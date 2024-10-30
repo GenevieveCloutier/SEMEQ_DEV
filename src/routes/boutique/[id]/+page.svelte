@@ -17,7 +17,6 @@
     let economie = (parseFloat(produit.prix_v) - parseFloat(prix_a_calcul)).toFixed(2);
 </script>
 
-
 {#if $erreur}
     <div class="block">
         <NotifDanger></NotifDanger>

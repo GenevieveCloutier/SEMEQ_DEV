@@ -1,9 +1,10 @@
 <script>
     import H1Title from "$lib/components/titres/h1Title.svelte";
     import H2Title from "$lib/components/titres/h2Title.svelte";
-    import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
+    import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
     import Retour from "$lib/components/generaux/retour.svelte";
     import AvantagesOrganisateur from "$lib/components/generaux/avantagesOrganisateur.svelte";
+    import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
     import { ajouterPanier, erreur } from '$lib/outils/formHandlers';
 
     export let data;
@@ -11,6 +12,12 @@
 
     let premierAvecPhoto = abonnementsEven.find(organisateur => organisateur.photo !== null);
 </script>
+
+{#if $erreur}
+    <div class="block">
+        <NotifDanger></NotifDanger>
+    </div>
+{/if}
 
 <div class="container is-fluid">
 
@@ -37,22 +44,24 @@
             <H2Title title={"Avantages :"} />
             <AvantagesOrganisateur /><br>
 
-            <div class="field-body">
-                <div class="field">
-                    <div class="controle">
-                        <div class="select">
-                            <select id="selectionAbonnement">
-                                {#each abonnementsEven as abonnement}
-                                    <option value={abonnement.id}>{abonnement.desc} {abonnement.prix_v}</option>
-                                {/each}
-                            </select>
+            <form on:submit|preventDefault={ajouterPanier}>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="controle">
+                            <div class="select">
+                                <select id="selectionAbonnement" name="produit_id">
+                                    {#each abonnementsEven as abonnement}
+                                        <option value={abonnement.id}>{abonnement.desc} {abonnement.prix_v}</option>
+                                    {/each}
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div><br>
+                </div><br>
 
-            <BoutonBleu lien={'/panier'} texte={'Acheter'} fonction={ajouterPanier} />
-            <Retour />
+                <SubmitButon texte={'Acheter'} />
+                <Retour />
+            </form>
         </div>
     </div>
 
