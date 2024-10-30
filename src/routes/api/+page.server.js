@@ -4,6 +4,7 @@ import { authenticate, changementMDP, newUser, recuperationMDP } from '../../lib
 import { deleteUser } from '../../lib/db/controllers/Utilisateurs.controller.js';
 import { domaines, emplacements, envoieDomaine, envoieMappage, types, verifs } from '../../lib/outils/compteurBinaire.js';
 import { creationEvenement } from '../../lib/db/controllers/Evenements.controller.js';
+import { ajoutProduitPanier } from '../../lib/db/controllers/Paniers.controller.js';
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
 import fs from 'fs';
@@ -242,7 +243,35 @@ export const actions = {
             
             return fail(401, error);
         }
-    }
+    },
+
+    ajouterPanier: async({cookies, request})=>{        
+        const data = await request.formData();
+        log("les data = ", data);
+
+        let session;
+        try{
+            session = await findOne({uuid: cookies.get('session')});
+            log("session dans api = ", session.id);
+        }catch(error){
+            throw (error);
+        }
+        try{
+            let res = await ajoutProduitPanier(
+                session.utilisateur.id,
+                data.get('produit_id'),
+            )
+            return {
+                status: 200,
+                body: {
+                    message: 'Produit ajouté au panier avec succès',
+                    evenement: res
+                }
+            };
+            }catch(error){
+                return fail(401, error);
+            }
+    },
 }
 
 /**

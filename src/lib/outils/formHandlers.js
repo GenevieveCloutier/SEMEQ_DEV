@@ -365,3 +365,30 @@ export async function changementMotDePasse(event){
         erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
     }
 }
+
+export async function ajouterPanier(event){
+    chargement();
+    erreur.set('');
+    try{
+        const formData = new FormData(event.target);
+        const response = await fetch('../api?/ajouterPanier', {
+            method: 'POST',
+            body: formData
+        });
+        log("formhandler ajouterPanier response = ", response);
+        const result = await response.json();
+        log("formhandler ajouterPanier, result = ",result);
+        
+        if (result.status == 200)
+            window.location.href = '/panier';
+        if (result.status == 401){
+            log("formhandler error ajouterPanier = ",JSON.parse(result.data)[0])
+            erreur.set(JSON.parse(result.data)[0]);
+        }
+            
+        
+    }catch(error){
+        console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+    }
+}

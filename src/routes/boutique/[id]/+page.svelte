@@ -1,10 +1,11 @@
 <script>
     import H1Title from "$lib/components/titres/h1Title.svelte";
     import H2Title from "$lib/components/titres/h2Title.svelte";
-    import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
+    import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
     import Retour from "$lib/components/generaux/retour.svelte";
     import AbonnementEven from '$lib/components/boites/abonnementEven.svelte';
     import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
+    import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
     import { ajouterPanier, erreur } from '$lib/outils/formHandlers';
 
     export let data;
@@ -15,6 +16,13 @@
     let prix_a_calcul = produit.prix_a === "Gratuit" ? 0 : produit.prix_a;
     let economie = (parseFloat(produit.prix_v) - parseFloat(prix_a_calcul)).toFixed(2);
 </script>
+
+
+{#if $erreur}
+    <div class="block">
+        <NotifDanger></NotifDanger>
+    </div>
+{/if}
 
 <div class="container is-fluid">
 
@@ -33,8 +41,11 @@
                 Prix non-abonné: {produit.prix_v}
             </p><br><br>
            
-            <BoutonBleu lien={'/panier'} texte={'Acheter'} value={produit.id} fonction={ajouterPanier} />
-            <Retour />
+            <form on:submit|preventDefault={ajouterPanier}>
+                <input type="hidden" name="produit_id" value={produit.id} />
+                <SubmitButon texte={'Acheter'} />
+                <Retour />
+            </form>
         </div>
     </div>
 
