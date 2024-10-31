@@ -11,6 +11,6 @@ export async function load({ cookies, params,}){
             return x;});
 
 
-    log("Load evenement = ", evenements)
+    // log("Load evenement = ", evenements)
     return {evenements};
 }
