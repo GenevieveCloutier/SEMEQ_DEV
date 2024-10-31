@@ -1,12 +1,44 @@
+<script context=module>
+
+    //références pour la création de l'accordéon: 
+        //https://svelte.dev/playground/c109f83f3c114cb7829f04fe2440ef94?version=4.2.19
+
+    //référence pour refermer une section avant d'en ouvrir une autre: 
+        //https://svelte.dev/playground/29bf8248d5044e12877e9cbec9381115?version=3.48.0
+        
+	import { setContext, getContext } from 'svelte';
+	import { writable } from 'svelte/store';
+	
+	const key = {};
+	
+	export const getAccordionContext = () => getContext(key);
+	export const createAccordionContext = () => {
+		const current = writable(null);
+		const context = { current };
+		setContext(key, context);
+		
+		return context;
+	}
+</script>
 <script>
-
-    // ceci a servi de base pour faire le component accordion
-    // https://svelte.dev/repl/c109f83f3c114cb7829f04fe2440ef94?version=4.2.19
-
+    import { slide } from 'svelte/transition';
+    
     export let open = false;
-      import { slide } from 'svelte/transition';
-      const handleClick = () => open = !open
-  </script>
+	
+		const { current } = getAccordionContext();
+		const currentKey = {};
+	
+		createAccordionContext();
+
+    function handleClick() {
+        open = !open
+				if (open)
+					$current = currentKey;
+    }
+	
+		$: if ($current != currentKey)
+			open = false;
+</script>
   
   <div class="accordion">
       <div class="header">
@@ -18,7 +50,7 @@
                 <i class="fa-solid fa-chevron-up"></i>
             </button>
 
-            <!-- si fermé, afficher la flèche pas en bas -->
+            <!-- si fermé, afficher la flèche par en bas -->
             {:else}
             <button on:click={handleClick} >
                 <slot name="head"></slot>

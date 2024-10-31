@@ -28,7 +28,7 @@
     
     <div class="has-text-centered">
         <!-- pour sauter les avis sur mobile et aller direct au tableau -->
-        <a class="is-hidden-desktop is-hidden-tablet-only mb-3" href="#tableaExposant">Voir nos forfaits</a>
+        <a class="is-hidden-desktop is-hidden-tablet-only mb-3" href="#avantages">Voir nos forfaits</a>
     </div>
 
     <div class="container">
