@@ -28,9 +28,8 @@ export async function load({ params }){
 
     let resultat = abonnementsExpo.map(abonnement => ({
         ...abonnement.dataValues,
-        // Afficher "Non défini" si le prix est null, "Gratuit" si le prix est égal à zéro, sinon afficher le prix suivit de " $"
-        prix_a: abonnement.prix_a === null ? "Non défini" : abonnement.prix_a === 0 ? "Gratuit" : `${abonnement.prix_a.toFixed(2)} $`,
-        prix_v: abonnement.prix_v === null ? "Non défini" : abonnement.prix_v === 0 ? "Gratuit" : `${abonnement.prix_v.toFixed(2)} $`,
+        // Afficher "Gratuit" si le prix est égal à zéro, sinon afficher le prix suivit de " $"
+        prix_v: abonnement.prix_v === 0 ? "Gratuit" : `${abonnement.prix_v.toFixed(2)} $`,
         type: abonnement.type ? abonnement.type.dataValues : null,
     }));
 
