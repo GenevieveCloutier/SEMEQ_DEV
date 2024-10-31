@@ -19,26 +19,31 @@
 
 	export let data;
 	let { user, villes } = data;
-	
+
 	/**
- 	* Charge les informations de l'utilisateur dans le formulaire en récupérant et vérifiant les données existantes.
- 	* 
- 	* @async
- 	* @function chargeInfos
- 	* @returns {void}
- 	* 
- 	* @description Cette fonction récupère les informations de l'utilisateur stockées dans `data.user`. 
- 	* Elle initialise certains champs du formulaire : si `user.neq` est vide, la case "no-neq" est cochée ; sinon, le champ "neq" est rempli.
- 	* Ensuite, si l'utilisateur a un domaine défini, la fonction active les cases à cocher correspondantes dans le formulaire.
- 	*/
+	 * Charge les informations de l'utilisateur dans le formulaire en récupérant et vérifiant les données existantes.
+	 *
+	 * @async
+	 * @function chargeInfos
+	 * @returns {void}
+	 *
+	 * @description Cette fonction récupère les informations de l'utilisateur stockées dans `data.user`.
+	 * Elle initialise certains champs du formulaire : si `user.neq` est vide, la case "no-neq" est cochée ; sinon, le champ "neq" est rempli.
+	 * Ensuite, si l'utilisateur a un domaine défini, la fonction active les cases à cocher correspondantes dans le formulaire.
+	 */
 	async function chargeInfos() {
 		await invalidateAll();
 		let user = data.user;
-		if (!user.neq) document.getElementById('no-neq').checked = true;
-		else document.getElementById('neq').value = user.neq;
+		const checkbox = document.getElementById('no-neq');
+		!user.neq
+			? checkbox && (checkbox.checked = true)
+			: (document.getElementById('neq').value = user.neq);
+
 		if (user.domaine) {
 			const listeDomaine = recupMappage(user.domaine, domaines);
-			Object.keys(domaines).forEach((x)=>document.getElementById(x).checked = listeDomaine.includes(x));
+			Object.keys(domaines).forEach(
+				(x) => (document.getElementById(x).checked = listeDomaine.includes(x))
+			);
 		}
 	}
 
@@ -52,9 +57,6 @@
 	//La variable qui gere le changement de vue
 	let visible = true;
 	//Pour switcher entre la vue du form principal et du changement de mdp
-	export function slideMDP() {
-		visible = !visible;
-	}
 
 	//La on vérifie si une notif success a ete envoyée
 	$: if ($success) {
@@ -201,6 +203,7 @@
 										id="courriel"
 										placeholder="nom@mail.com"
 										value={user.courriel}
+										required
 									/>
 								</div>
 							</div>
@@ -215,6 +218,7 @@
 										id="nom"
 										placeholder="Nom"
 										value={user.nom}
+										required
 									/>
 								</div>
 							</div>
@@ -230,6 +234,7 @@
 										id="entreprise"
 										placeholder="Nom de l'entreprise ou organisation"
 										value={user.entreprise}
+										required
 									/>
 									<input
 										type="checkbox"
@@ -306,12 +311,13 @@
 										id="prenom"
 										placeholder="Prénom"
 										value={user.prenom}
+										required
 									/>
 								</div>
 							</div>
 
 							<Neq />
-									<label class="label" for="logo">Logo</label>
+							<label class="label" for="logo">Logo</label>
 							<div class="field is-grouped">
 								<div class="control is-expanded">
 									<input
@@ -481,7 +487,7 @@
 					<SubmitButon texte={'Enregistrer'}></SubmitButon>
 					<Retour />
 				</div>
-				<input name="expo" hidden readonly value="true">
+				<input name="expo" hidden readonly value="true" />
 			{:else}
 				<ChangementMdp {user} />
 			{/if}
@@ -489,132 +495,190 @@
 	</form>
 {/if}
 <!-- ! Partie pour la modification organisateur -->
- {#if user.role_id === 2}
- <form on:submit|preventDefault={modifUtilisateur}>
-    <div class="container is-fluid">
-		{#if visible}
-			<div
-				class="box"
-				in:fly={{ y: -200, duration: 400, delay: 400 }}
-				out:fly={{ y: 200, duration: 300 }}
-			>
-      <div class="columns">
-        <!-- Première colonne -->
-        <div class="column">
+{#if user.role_id === 2}
+	<form on:submit|preventDefault={modifUtilisateur}>
+		<div class="container is-fluid">
+			{#if visible}
+				<div
+					class="box"
+					in:fly={{ y: -200, duration: 400, delay: 400 }}
+					out:fly={{ y: 200, duration: 300 }}
+				>
+					<div class="columns">
+						<!-- Première colonne -->
+						<div class="column">
+							<div class="field">
+								<label class="label" for="courriel">Courriel <span class="rouge">*</span></label>
+								<div class="control">
+									<input
+										class="input"
+										type="email"
+										name="courriel"
+										id="courriel"
+										placeholder="nom@mail.com"
+										required
+										value={user.courriel}
+									/>
+								</div>
+							</div>
 
-          <div class="field">
-            <label class="label" for="courriel">Courriel <span class="rouge">*</span></label>
-            <div class="control">
-              <input class="input" type="email" name="courriel" id="courriel" placeholder="nom@mail.com" required value="{user.courriel}">
-            </div>
-          </div>
+							<div class="field">
+								<label class="label" for="nom">Nom <span class="rouge">*</span></label>
+								<div class="control">
+									<input
+										class="input"
+										type="text"
+										name="nom"
+										id="nom"
+										placeholder="Nom"
+										required
+										value={user.nom}
+									/>
+								</div>
+							</div>
 
-          <div class="field">
-            <label class="label" for="nom">Nom <span class="rouge">*</span></label>
-            <div class="control">
-              <input class="input" type="text" name="nom" id="nom" placeholder="Nom" required value="{user.nom}">
-            </div>
-          </div>
+							<div class="field">
+								<label class="label" for="entreprise">Entreprise <span class="rouge">*</span></label
+								>
+								<div class="control">
+									<input
+										class="input"
+										type="text"
+										name="entreprise"
+										id="entreprise"
+										placeholder="Nom de l'entreprise ou organisation"
+										required
+										value={user.entreprise}
+									/>
+									<input
+										type="checkbox"
+										class="checkbox"
+										style="appearance: none;"
+									/><!-- Ca, c'est juste pour décaler la ligne parce que les deux colonnes n'étaient pas l'une en face de l'autre  -->
+								</div>
+							</div>
 
-          <div class="field">
-            <label class="label" for="entreprise">Entreprise <span class="rouge">*</span></label>
-            <div class="control">
-              <input class="input" type="text" name="entreprise" id="entreprise" placeholder="Nom de l'entreprise ou organisation" required value="{user.entreprise}">
-			  <input
-			  type="checkbox"
-			  class="checkbox"
-			  style="appearance: none;"
-		  /><!-- Ca, c'est juste pour décaler la ligne parce que les deux colonnes n'étaient pas l'une en face de l'autre  -->
-			</div>
-          </div>
+							<div class="field">
+								<label class="label" for="ville">Ville <span class="rouge">*</span></label>
+								<div class="control">
+									<div class="select is-fullwidth">
+										<select name="ville_id" id="ville_id">
+											<option value={user.ville_id} selected>{user.ville.nom}</option>
+											{#each villes as ville}
+												<option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
+											{/each}
+										</select>
+									</div>
+								</div>
+							</div>
 
-          <div class="field">
-            <label class="label" for="ville">Ville <span class="rouge">*</span></label>
-            <div class="control">
-              <div class="select is-fullwidth">
-                <select name="ville_id" id="ville_id" >
-					<option value={user.ville_id} selected>{user.ville.nom}</option>
-					{#each villes as ville}
-						<option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
-					{/each}
-                </select>
-              </div>
-            </div>
-          </div>
+							<div class="field">
+								<label class="label" for="insta">Instagram</label>
+								<div class="control">
+									<input
+										class="input"
+										type="url"
+										name="insta"
+										id="insta"
+										placeholder="https://www.instagram.com/entreprise"
+										value={user.insta}
+									/>
+								</div>
+							</div>
 
-          <div class="field">
-            <label class="label" for="insta">Instagram</label>
-            <div class="control">
-              <input class="input" type="url" name="insta" id="insta" placeholder="https://www.instagram.com/entreprise" value="{user.insta}">
-            </div>
-          </div>
+							<div class="field">
+								<label class="label" for="tiktok">TikTok</label>
+								<div class="control">
+									<input
+										class="input"
+										type="url"
+										name="tiktok"
+										id="tiktok"
+										placeholder="https://www.tiktok.com/@entreprise"
+										value={user.tiktok}
+									/>
+								</div>
+							</div>
+						</div>
 
-          <div class="field">
-            <label class="label" for="tiktok">TikTok</label>
-            <div class="control">
-              <input class="input" type="url" name="tiktok" id="tiktok" placeholder="https://www.tiktok.com/@entreprise" value="{user.tiktok}">
-            </div>
-          </div>
+						<!-- Deuxième colonne -->
+						<div class="column">
+							<div class="field">
+								<label class="label" for="password">Mot de passe <span class="rouge">*</span></label
+								>
+								<div class="control">
+									<button
+										class="button is-primary-blue"
+										on:click|preventDefault={() => (visible = !visible)}
+									>
+										Changer de mot de passe
+									</button>
+								</div>
+							</div>
 
-        </div>
+							<div class="field">
+								<label class="label" for="prenom">Prénom <span class="rouge">*</span></label>
+								<div class="control">
+									<input
+										class="input"
+										type="text"
+										name="prenom"
+										id="prenom"
+										placeholder="Prénom"
+										required
+										value={user.prenom}
+									/>
+								</div>
+							</div>
 
-        <!-- Deuxième colonne -->
-        <div class="column">
+							<Neq />
 
-          <div class="field">
-            <label class="label" for="password">Mot de passe <span class="rouge">*</span></label>
-            <div class="control">
-				<button
-				class="button is-primary-blue"
-				on:click|preventDefault={() => (visible = !visible)}
-			>
-				Changer de mot de passe
-			</button>
-            </div>
-          </div>
+							<div class="field">
+								<label class="label" for="site">Site internet ou lien de ta page Facebook</label>
+								<div class="control">
+									<input
+										class="input"
+										type="url"
+										name="site"
+										id="site"
+										placeholder="https://www.entreprise.com ou https://www.facebook.com/entreprise"
+										value={user.site}
+									/>
+								</div>
+							</div>
 
-          <div class="field">
-            <label class="label" for="prenom">Prénom <span class="rouge">*</span></label>
-            <div class="control">
-              <input class="input" type="text" name="prenom" id="prenom" placeholder="Prénom" required value="{user.prenom}">
-            </div>
-          </div>
+							<div class="field">
+								<label class="label" for="logo">Logo</label>
+								<div class="control">
+									<input
+										class="input"
+										type="file"
+										accept="image/png, image/jpeg, image/svg"
+										name="logo"
+										id="logo"
+									/>
+								</div>
+								{#if user.logo}
+									<figure class="image is-128x128">
+										<img class="block" src="/{user.logo}" alt="logo" />
+									</figure>
+								{/if}
+							</div>
+						</div>
+					</div>
+					<!-- Fin des colonnes -->
+					<input name="orga" value="true" hidden readonly />
+				</div>
+				<!-- Fin box -->
 
-          <Neq />
-
-          <div class="field">
-            <label class="label" for="site">Site internet ou lien de ta page Facebook</label>
-            <div class="control">
-              <input class="input" type="url" name="site" id="site" placeholder="https://www.entreprise.com ou https://www.facebook.com/entreprise" value="{user.site}">
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="label" for="logo">Logo</label>
-            <div class="control">
-              <input class="input" type="file" accept="image/png, image/jpeg, image/svg" name="logo" id="logo">
-            </div>
-			{#if user.logo}
-								<figure class="image is-128x128">
-									<img class="block" src="/{user.logo}" alt="logo" />
-								</figure>
-							{/if}
-          </div>
-          
-        </div>
-
-      </div> <!-- Fin des colonnes -->
-<input name="orga" value="true" hidden readonly>
-    </div> <!-- Fin box -->
-
-    <!-- Boutons en bas de page -->
-    <div class="block has-text-right">
-      <SubmitButon texte={"Enregistrer"}></SubmitButon>
-      <Retour />
-	  </div>
-	  {:else}
-	  <ChangementMdp {user} />
-  {/if}
-</div>
-</form>
- {/if}
+				<!-- Boutons en bas de page -->
+				<div class="block has-text-right">
+					<SubmitButon texte={'Enregistrer'}></SubmitButon>
+					<Retour />
+				</div>
+			{:else}
+				<ChangementMdp {user} />
+			{/if}
+		</div>
+	</form>
+{/if}

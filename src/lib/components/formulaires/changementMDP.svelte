@@ -86,7 +86,7 @@
 <div class="block has-text-right">
 	<button
 		class="button is-primary-blue is-dark"
-		on:click|preventDefault={modifMdp(user, document.getElementById('pwdActuel').value, nouveauMdp)}
+		on:click|preventDefault={() => modifMdp(user, document.getElementById('pwdActuel').value, nouveauMdp)}
 		id="envoie"
 		disabled
 	>
