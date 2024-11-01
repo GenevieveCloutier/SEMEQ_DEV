@@ -40,11 +40,18 @@
                 Prix non-abonné: {produit.prix_v}
             </p><br><br>
            
-            <form on:submit|preventDefault={ajouterPanier}>
-                <input type="hidden" name="produit_id" value={produit.id} />
-                <SubmitButon texte={'Acheter'} />
-                <Retour />
-            </form>
+            <div class="columns is-1">
+                <div class="column is-narrow">
+                    <form on:submit|preventDefault={ajouterPanier}>
+                        <input type="hidden" name="produit_id" value={produit.id} />
+                        <SubmitButon texte={'Acheter'} />
+                    </form>
+                </div>
+                <div class="column">
+                    <Retour />
+                </div>
+            </div>
+
         </div>
     </div>
 
