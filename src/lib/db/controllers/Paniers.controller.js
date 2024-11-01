@@ -1,6 +1,7 @@
 import { Panier } from "../models/Panier.model";
 import { Utilisateur } from "../models/Utilisateur.model";
 import { Produit } from "../models/Produit.model";
+import { Type } from "../models/Type.model";
 
 /**
  * Récupère tous les paniers de la base de données en incluant les informations de l'utilisateur et du produit associés.
@@ -13,7 +14,11 @@ export async function findAll(){
     return await Panier.findAll({
         include: [
             { model: Utilisateur, as: "utilisateur" },
-            { model: Produit, as: "produit" }
+            { model: Produit, as: "produit",
+                include: [
+                  { model: Type, as: "type" }
+                ]
+            }
         ],
     }).then(resultat => {
         if(resultat.length === 0){
@@ -22,7 +27,10 @@ export async function findAll(){
         return resultat.map(panier => ({
             ...panier.dataValues,
             utilisateur: panier.utilisateur ? panier.utilisateur.dataValues : null,
-            produit: panier.produit ? panier.produit.dataValues : null
+            produit: panier.produit ? {
+                ...panier.produit.dataValues,
+                type: panier.produit.type ? panier.produit.type.dataValues : null
+            } : null
         }));
     })
     .catch((error)=>{
@@ -47,7 +55,11 @@ export async function findOne(p_where){
         where: p_where,
         include: [
             { model: Utilisateur, as: "utilisateur" },
-            { model: Produit, as: "produit" }
+            { model: Produit, as: "produit",
+                include: [
+                  { model: Type, as: "type" }
+                ]
+            }
         ],
     })
     .then(res => {
@@ -55,7 +67,10 @@ export async function findOne(p_where){
         return {
             ...res.dataValues,
             utilisateur: res.utilisateur ? res.utilisateur.dataValues : null,
-            produit: res.produit ? res.produit.dataValues : null
+            produit: res.produit ? {
+                ...res.produit.dataValues,
+                type: res.produit.type ? res.produit.type.dataValues : null
+            } : null
         };
         else
             return null;
