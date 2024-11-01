@@ -145,7 +145,7 @@ function filtreRegionDate(){
     </p>
 
     <div class="columns">
-        <div class="column mt-2 is-align-content-center is-three-quarters">
+        <div class="column mt-2 is-four-fifths">
             <Recherche bind:searchQuery typeRecherche="un événement" />
         </div>
         <div class="column block">
