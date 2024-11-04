@@ -1,5 +1,7 @@
 import { get, writable } from 'svelte/store';
 import { log } from './debug';
+import { redirect } from '@sveltejs/kit';
+import { goto } from '$app/navigation';
 
 export const erreur = writable(null);
 export const success = writable(null);
@@ -19,11 +21,10 @@ function chargement() {
 	document.getElementById('submitButton').classList.add('is-loading');
 }
 
-export async function handleUserDelete(event) {
+export async function handleUserDelete(id) {
 	//mettre un premier niveau de securite ici pour verifier les droits
-
-	const formData = new FormData(event.target);
-
+	const formData = new FormData();
+	formData.append('id', id);
 	const response = await fetch('./api?/supprimeUtilisateur', {
 		method: 'POST',
 		body: formData
@@ -32,7 +33,7 @@ export async function handleUserDelete(event) {
 	const result = await response.json();
 
 	if (result.type === 'success') {
-		//log(result);
+		goto('/deconnexion');
 	} else {
 		'Erreur : ' + JSON.parse(result.data)[0];
 	}

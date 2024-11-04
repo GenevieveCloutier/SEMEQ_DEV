@@ -28,10 +28,9 @@ export const actions = {
     */
     supprimeUtilisateur: async({ cookies, request })=>{
         const data = await request.formData();
-        
+        log("api id = ",data.get("id").id)
         const result = await deleteUser(data.get('id'));
         return result;
-        //redirect(302, '/logout');
     },
 
     /**

@@ -16,6 +16,7 @@
 	import ChangementMdp from '../../lib/components/formulaires/changementMDP.svelte';
 	import { domaines, recupMappage } from '$lib/outils/compteurBinaire';
 	import { invalidateAll } from '$app/navigation';
+	import Confirmation from '../../lib/components/notifications/confirmation.svelte';
 
 	export let data;
 	let { user, villes } = data;
@@ -39,7 +40,7 @@
 			? checkbox && (checkbox.checked = true)
 			: (document.getElementById('neq').value = user.neq);
 
-		if (user.domaine) {
+		if (user.domaine != 0) {
 			const listeDomaine = recupMappage(user.domaine, domaines);
 			Object.keys(domaines).forEach(
 				(x) => (document.getElementById(x).checked = listeDomaine.includes(x))
@@ -54,9 +55,8 @@
 		document.getElementById('monCompte').classList.add('is-active');
 		chargeInfos();
 	});
-	//La variable qui gere le changement de vue
+	//La variable qui gere le changement de vue pour les mot de passe
 	let visible = true;
-	//Pour switcher entre la vue du form principal et du changement de mdp
 
 	//La on vérifie si une notif success a ete envoyée
 	$: if ($success) {
@@ -162,6 +162,9 @@
 				<div class="block has-text-right">
 					<SubmitButon texte={'Enregistrer'}></SubmitButon>
 					<Retour />
+				</div>
+				<div class="block has-text-right">
+					<Confirmation id={user.id} />
 				</div>
 			{:else}
 				<ChangementMdp {user} />
@@ -487,6 +490,9 @@
 					<SubmitButon texte={'Enregistrer'}></SubmitButon>
 					<Retour />
 				</div>
+				<div class="block has-text-right">
+					<Confirmation id={user.id} />
+				</div>
 				<input name="expo" hidden readonly value="true" />
 			{:else}
 				<ChangementMdp {user} />
@@ -675,6 +681,9 @@
 				<div class="block has-text-right">
 					<SubmitButon texte={'Enregistrer'}></SubmitButon>
 					<Retour />
+				</div>
+				<div class="block has-text-right">
+					<Confirmation id={user.id} />
 				</div>
 			{:else}
 				<ChangementMdp {user} />

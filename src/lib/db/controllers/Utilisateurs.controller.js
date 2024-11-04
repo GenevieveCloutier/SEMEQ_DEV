@@ -253,6 +253,7 @@ export async function adminCreation() {
  */
 export async function deleteUser(p_id) {
 	try {
+		log("controller id = ", p_id)
 		const user = await Utilisateur.findByPk(p_id);
 		if (!user) throw new Error('Utilisateur non trouvé');
 		await user.destroy();
