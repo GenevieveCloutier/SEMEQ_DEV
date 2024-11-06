@@ -6,9 +6,10 @@ import { findOne } from '$lib/db/controllers/Utilisateurs.controller';
 export async function load({ cookies, params }){
     // Pour affichage économie et/ou "Abonnements" en bas de page
     let utilisateur = null;
-    const session = cookies.get('id');
+    const session = cookies.get('session');
     if (session) {
-        utilisateur = await findOne({ id: session });
+        const sessionId = cookies.get('id');
+        utilisateur = await findOne({ id: sessionId });
     }
     
     const paramId = params.id;
