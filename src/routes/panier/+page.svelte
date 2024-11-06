@@ -10,6 +10,24 @@
     export let data;
     const paniers = data.paniers;
     const utilisateur = data.utilisateur;
+
+    // Calcul économie
+    let economie = paniers.reduce((acc, panier) => {
+        return acc + (panier.produit.prix_v - panier.produit.prix_a);
+    }, 0);
+
+    // Calcul sous-total
+    let sousTotal = paniers.reduce((acc, panier) => {
+        let prix = utilisateur.abonne ? panier.produit.prix_a : panier.produit.prix_v;
+        return acc + prix;
+    }, 0);
+
+    // Calcul TPS, TVQ et total
+    /*const tpsTaux = 0.05;
+    const tvqTaux = 0.09975;
+    let tps = sousTotal * tpsTaux;
+    let tvq = sousTotal * tvqTaux;*/
+    let total = sousTotal/* + tps + tvq*/;
 </script>
 
 <H1Title title={"Panier"} />
@@ -26,7 +44,7 @@
                         <tr>
                             <th></th> <!-- Cases sélectionner pour suppression -->
                             <th>PRODUIT</th>
-                            <th>TYPE DE PRODUIT</th>
+                            <th>TYPE</th>
                             <th>PRIX</th>
                             <th class="has-text-centered">RETIRER</th>
                         </tr>
@@ -43,13 +61,13 @@
                                 </td>
                                 <td>
                                     {panier.produit.nom}<br>
-                                    <i>{panier.produit.desc}</i>
-                                </td>                               
-                                <td>{panier.produit.type.nom}<br>produit_id:{panier.produit_id}</td>
+                                    <div class="tronquer-desc-2lignes"><i>{panier.produit.desc}</i></div>
+                                </td>
+                                <td>{panier.produit.type.nom}</td>
                                 {#if utilisateur.abonne === true}
-                                    <td>{panier.produit.prix_a}</td>
+                                    <td>{panier.produit.prix_a === 0 ? "Gratuit" : `${panier.produit.prix_a.toFixed(2)} $`}</td>
                                 {:else}
-                                    <td>{panier.produit.prix_v}</td>
+                                    <td>{panier.produit.prix_v === 0 ? "Gratuit" : `${panier.produit.prix_v.toFixed(2)} $`}</td>
                                 {/if}
                                 <td class="has-text-centered"> <!--on:click={supprimerProduitPanier}-->
                                     <button class="button"> <span class="icon"><i class="fa-regular fa-trash-can" style="color: #000000;"></i></span> </button>
@@ -63,18 +81,65 @@
             <!-- Récapitulatif de commande -->
             <div class="column is-one-quarter">
                 <div class="box">
-                    Récapitulatif de commande
+                    <div class="block has-text-centered"><H2Title title={"Récapitulatif de commande"} /></div>
+                    <div class="block">
+                        {#if economie !== 0} <!-- Afficher s'il y a une économie -->
+                            {#if utilisateur.abonne === true}
+                            <div class="block">  
+                                En étant abonné, tu économises <b>{`${economie.toFixed(2)} $`}</b> sur ta commande!<br>
+                            </div>
+                            {:else}
+                            <div class="block">    
+                                En étant abonné, tu économiserais <b>{`${economie.toFixed(2)} $`}</b> en plus de profiter de plusieurs avantages exclusifs!<br>
+                            </div>
+                            {/if}
+                        {/if}
+
+                        <div class="columns">
+                            <div class="column">
+                            Sous-total :<!--<br>
+                            TPS (5%) :<br>
+                            TVQ (9,975%) :-->
+                            </div>
+
+                            <div class="column is-narrow has-text-right">
+                                {sousTotal === 0 ? "Gratuit" : `${sousTotal.toFixed(2)} $`}<!--<br>
+                                {tps.toFixed(2)} $<br>
+                                {tvq.toFixed(2)} $-->
+                            </div>
+                        </div>
+
+                        <form class="block">
+                            <label class="label" for="code_promo">Tu as un code promo?</label>
+                            <div class="field has-addons">
+                                <p class="control">
+                                    <input class="input" name="code_promo" type="text" placeholder="Code promo">
+                                </p>
+                                <p class="control">
+                                    <button type="submit" class="button" id="btn_code_promo">Appliquer</button>
+                                </p>
+                            </div>
+                        </form>
+
+                        <div class="columns">
+                            <div class="column">
+                                <b>Total :</b>
+                            </div>
+                            <div class="column is-narrow has-text-right">
+                                <b>{total === 0 ? "Gratuit" : `${total.toFixed(2)} $`}</b>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="block has-text-centered">
+                        <SubmitButon texte={'Valider et payer'} />
+                    </div>                
                 </div>
             </div>
         </div>
 
-        <div class="columns is-1 has-text-right">
-            <div class="column is-narrow">
-                <SubmitButon texte={'Passer au paiement'} />
-            </div>
-            <div class="column">
-                <Retour />
-            </div>
+        <div class="block has-text-right">
+            <Retour />
         </div>
     {:else}
         <section class="section has-text-centered">
@@ -106,3 +171,26 @@
     {/if}
 
 </div>
+
+
+<style>
+    /* Centrer verticalement le texte dans les lignes du tableau */
+    td {
+        height: 100%;
+        vertical-align: middle;
+    }
+    
+    /* Limiter la taille de la zone de texte des descriptions de produits sur 2 lignes */
+    .tronquer-desc-2lignes {
+            display: -webkit-box;
+            line-clamp: 2;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+    }
+
+    #btn_code_promo {
+		background-color: #d9d9d9;
+		color: black;
+	}
+</style>
