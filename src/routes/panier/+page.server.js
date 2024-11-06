@@ -1,18 +1,13 @@
 import { redirect } from '@sveltejs/kit';
-import { Panier } from "$lib/db/models/Panier.model.js"
-import { Produit } from "$lib/db/models/Produit.model.js"
-import { Type } from "$lib/db/models/Type.model";
-import { Utilisateur } from "$lib/db/models/Produit.model.js"
 import { findOne } from '$lib/db/controllers/Utilisateurs.controller';
 import { findAllInCart } from '$lib/db/controllers/Paniers.controller';
 
 /**
- * Charge les éléments du panier de l'utilisateur avec les détails du film.
- * @param {Object} params - Les paramètres de la requête.
+ * Charge tous les paniers de l'utilisateur avec les détails des produits, incluant les types.
  * @param {Object} cookies - Les cookies de la requête.
- * @returns {Object} - Les éléments du panier avec les détails du film.
+ * @returns {Object} - Les éléments des paniers avec les détails des produits.
  */
-export async function load({ params, cookies }){
+export async function load({ cookies }){
     const session = cookies.get('session');
     if (!session) {
         throw redirect(307, '/login');
@@ -22,5 +17,11 @@ export async function load({ params, cookies }){
 
     const paniers = await findAllInCart({ utilisateur_id: sessionId });
 
-    return { paniers:paniers, utilisateur }
+    // Afficher "Gratuit" si le prix est égal à zéro, sinon afficher le prix suivit de " $"
+    paniers.forEach(panier => {
+        panier.produit.prix_a = panier.produit.prix_a === 0 ? "Gratuit" : `${panier.produit.prix_a.toFixed(2)} $`;
+        panier.produit.prix_v = panier.produit.prix_v === 0 ? "Gratuit" : `${panier.produit.prix_v.toFixed(2)} $`;
+    });
+
+    return { paniers, utilisateur }
 }
