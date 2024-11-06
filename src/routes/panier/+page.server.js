@@ -17,11 +17,5 @@ export async function load({ cookies }){
 
     const paniers = await findAllInCart({ utilisateur_id: sessionId });
 
-    // Afficher "Gratuit" si le prix est égal à zéro, sinon afficher le prix suivit de " $"
-    paniers.forEach(panier => {
-        panier.produit.prix_a = panier.produit.prix_a === 0 ? "Gratuit" : `${panier.produit.prix_a.toFixed(2)} $`;
-        panier.produit.prix_v = panier.produit.prix_v === 0 ? "Gratuit" : `${panier.produit.prix_v.toFixed(2)} $`;
-    });
-
     return { paniers, utilisateur }
 }
