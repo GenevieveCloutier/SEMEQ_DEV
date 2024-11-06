@@ -4,34 +4,23 @@ import { Produit } from "$lib/db/models/Produit.model.js"
 import { Type } from "$lib/db/models/Type.model";
 import { Utilisateur } from "$lib/db/models/Produit.model.js"
 import { findOne } from '$lib/db/controllers/Utilisateurs.controller';
-import { findAll } from '$lib/db/controllers/Paniers.controller';
+import { findAllInCart } from '$lib/db/controllers/Paniers.controller';
 
-export async function load({ cookies }){
-    const sessionId = cookies.get('id');
-    if (!sessionId) {
+/**
+ * Charge les éléments du panier de l'utilisateur avec les détails du film.
+ * @param {Object} params - Les paramètres de la requête.
+ * @param {Object} cookies - Les cookies de la requête.
+ * @returns {Object} - Les éléments du panier avec les détails du film.
+ */
+export async function load({ params, cookies }){
+    const session = cookies.get('session');
+    if (!session) {
         throw redirect(307, '/login');
-    } else {
-        const utilisateur = await findOne({ id: sessionId });
-
-        const paniers = await findAll({
-            where: {
-                utilisateur_id: sessionId,
-                //panier.produit.dispo: 1, //true
-            },
-            include: [
-                { model: Utilisateur, as: 'utilisateur' },
-                { model: Produit, as: "produit",
-                    include: [
-                      { model: Type, as: "type" }
-                    ]
-                }
-            ],
-            order: [
-                ['createdAt', 'ASC'] //Date d'ajout ordre croissant
-            ]
-        });
-    
-        return { paniers: paniers, utilisateur }
     }
+    const sessionId = cookies.get('id');
+    const utilisateur = await findOne({ id: sessionId });
 
+    const paniers = await findAllInCart({ utilisateur_id: sessionId });
+
+    return { paniers:paniers, utilisateur }
 }

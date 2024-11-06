@@ -39,6 +39,40 @@ export async function findAll(){
 };
 
 /**
+ * Récupère tous les produits dans un panier spécifique.
+ * @param {Object} p_where - Conditions de filtrage pour le panier.
+ * @returns {Object[]} - Liste des données des produits dans le panier.
+ */
+export async function findAllInCart(p_where){
+    return await Panier.findAll({
+        where: p_where,
+        include: [
+            { model: Utilisateur, as: "utilisateur" },
+            { model: Produit, as: "produit",
+                include: [
+                  { model: Type, as: "type" }
+                ]
+            }
+        ],
+    }).then(resultat => {
+        if(resultat.length === 0){
+            return null
+        }
+        return resultat.map(panier => ({
+            ...panier.dataValues,
+            utilisateur: panier.utilisateur ? panier.utilisateur.dataValues : null,
+            produit: panier.produit ? {
+                ...panier.produit.dataValues,
+                type: panier.produit.type ? panier.produit.type.dataValues : null
+            } : null
+        }));
+    })
+    .catch((error)=>{
+        throw error;
+    });
+}
+
+/**
  * Trouve un panier selon les critères de recherche spécifiés.
  *
  * Cette fonction cherche un panier en fonction des critères passés dans `p_where`.
@@ -91,7 +125,7 @@ export async function findOne(p_where){
  * @param {number} p_produit_id - ID du produit.
  *
  * @return {Object} resultat - Les données du panier nouvellement créé.
- * @throws {string} - "Ce produit est déjà dans votre panier." si le produit est déjà dans un panier avec le même utilisateur.
+ * @throws {string} - "Ce produit est déjà dans votre panier." si le produit est déjà dans un panier avec le même id_utilisateur.
  * @throws {Error} - Autre erreur lors de la création du panier.
 */
 export async function ajoutProduitPanier(p_utilisateur_id, p_produit_id) {
