@@ -1,9 +1,9 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { createCookie, findOne } from "../../lib/db/controllers/sessions.controller.js";
+import { createCookie, findOne as findSession } from "../../lib/db/controllers/sessions.controller.js";
 import { authenticate, changementMDP, modificationUtilisateur, newUser, recuperationMDP } from '../../lib/db/controllers/Utilisateurs.controller.js';
 import { deleteUser, findOne } from '../../lib/db/controllers/Utilisateurs.controller.js';
 import { domaines, emplacements, envoieDomaine, envoieMappage, types, verifs } from '../../lib/outils/compteurBinaire.js';
-import { creationEvenement } from '../../lib/db/controllers/Evenements.controller.js';
+import { creationEvenement, findOne as findEvenement, suppressionEvenement } from '../../lib/db/controllers/Evenements.controller.js';
 import { ajoutProduitPanier } from '../../lib/db/controllers/Paniers.controller.js';
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
@@ -188,12 +188,14 @@ export const actions = {
 
         let session;
         try{
-            session = await findOne({uuid: cookies.get('session')});//ça fonctionne :D
+            log("api ", "findone")
+            session = await findSession({uuid: cookies.get('session')});//ça fonctionne :D
             //log("session dans api = ", session.utilisateur.abonne);
         }catch(error){
             throw (error);
         }
         try{
+            log("api creation = ", "plop")
             let res = await creationEvenement(
                 data.get('nom'),
                 session.utilisateur.id,
@@ -237,6 +239,18 @@ export const actions = {
             }catch(error){
                 return fail(401, error);
             }
+    },
+
+    supprimeEvenement: async({cookies, request})=>{
+        const data = await request.formData();
+        const utilisateur = await findOne({id: cookies.get('id')});
+        const evenement = await findEvenement({id: data.get('id')});
+        if(utilisateur.role_id == 1 || utilisateur.id == evenement.utilisateur_id ){
+            const res = await suppressionEvenement(data.get('id'));
+            return res;
+        }
+        else
+            return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action');
     },
 
     /**
@@ -429,7 +443,7 @@ export const actions = {
 
         let session;
         try{
-            session = await findOne({uuid: cookies.get('session')});
+            session = await findSession({uuid: cookies.get('session')});
         }catch(error){
             throw (error);
         }

@@ -40,6 +40,34 @@ export async function findAll() {
 		});
 }
 
+export async function findAllWhere(p_where) {
+	return await Evenement.findAll({
+		where: p_where,
+		include: [
+			{ model: Utilisateur, as: 'utilisateur' },
+			{ model: Ville, as: 'ville', include: [{ model: Region, as: 'region' }] }
+		]
+	})
+		.then((resultat) => {
+			if (resultat.length === 0) {
+				console.log('Aucun evenement à afficher');
+			}
+			return resultat.map((evenement) => ({
+				...evenement.dataValues,
+				utilisateur: evenement.utilisateur ? evenement.utilisateur.dataValues : null,
+				ville: evenement.ville
+					? {
+							...evenement.ville.dataValues,
+							region: evenement.ville.region ? evenement.ville.region.dataValues : null
+						}
+					: null
+			}));
+		})
+		.catch((error) => {
+			throw error;
+		});
+}
+
 export async function findOne(p_where) {
 	return await Evenement.findOne({
 		where: p_where,
@@ -161,6 +189,7 @@ export async function creationEvenement(
 		if (doublon.length > 0) {
 			throw 'Un événement similaire existe déjà';
 		}
+		if(!p_photo_1) p_photo_1 = '..\\src\\lib\\img\\app\\produit_defaut.png'
 
 		const resultat = await Evenement.create({
 			nom: p_nom,
@@ -196,6 +225,23 @@ export async function creationEvenement(
 			approuve: p_approuve
 		});
 		return resultat.dataValues;
+	} catch (error) {
+		throw error;
+	}
+}
+
+export async function suppressionEvenement(p_id) {
+	try {
+		const evenement = await Evenement.findByPk(p_id);
+	if(!evenement) throw new Error('Evénement non trouvé');
+	await evenement.destroy();
+	return{
+		status:200,
+		body:{
+			message: 'Evénement supprimé.',
+			utilisateur: evenement.utilisateur_id
+		}
+	};
 	} catch (error) {
 		throw error;
 	}

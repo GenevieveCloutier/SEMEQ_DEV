@@ -21,10 +21,10 @@ function chargement() {
 	document.getElementById('submitButton').classList.add('is-loading');
 }
 
-export async function handleUserDelete(id) {
+export async function handleUserDelete(p_id) {
 	//mettre un premier niveau de securite ici pour verifier les droits
 	const formData = new FormData();
-	formData.append('id', id);
+	formData.append('id', p_id);
 	const response = await fetch('./api?/supprimeUtilisateur', {
 		method: 'POST',
 		body: formData
@@ -36,6 +36,30 @@ export async function handleUserDelete(id) {
 		goto('/deconnexion');
 	} else {
 		'Erreur : ' + JSON.parse(result.data)[0];
+	}
+}
+
+export async function suppressionEvenement(p_id) {
+	erreur.set('');
+	success.set('');
+	log("handler = ", 'suppression evenement');
+	const formData = new FormData();
+	formData.append('id', p_id);
+	const response = await fetch('../../api?/supprimeEvenement', {
+		method: 'POST',
+		body: formData
+	});
+	
+	const result = await response.json();
+	const test = JSON.parse(result.data);
+	log("response = ", response)
+	log("result = ", result);
+	log("test = ", test);
+	if(result.status === 200){
+		success.set(JSON.parse(result.data)[3]);
+		goto(`/${JSON.parse(result.data)[4]}`);
+	}else{
+		erreur.set(JSON.parse(result.data)[0]);
 	}
 }
 
@@ -209,7 +233,7 @@ export async function creationEvenement(event) {
 			erreur.set("Merci de sélectionner au moins un type d'exposant.");
 			return;
 		}
-
+log("handler ", "gratuit")
 		const response = await fetch('../api?/nouvelEvenement', {
 			method: 'POST',
 			enctype: 'multipart/form-data',
@@ -268,6 +292,7 @@ export async function creationEvenementPayant(event) {
 			return;
 		}
 
+		log("handler = ", "payant")
 		const response = await fetch('../../api?/nouvelEvenement', {
 			method: 'POST',
 			body: formData

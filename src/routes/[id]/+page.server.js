@@ -20,6 +20,5 @@ export async function load({ cookies, params }){
     if (paramId != cookiesId)
         redirect(307, '/');
     const villes = await findAllVilles();
-    log("load rerun ", null)
     return { user:user, villes };
 }

@@ -683,7 +683,7 @@
 					<Retour />
 				</div>
 				<div class="block has-text-right">
-					<Confirmation id={user.id} />
+					<Confirmation id={user.id} but='compte' />
 				</div>
 			{:else}
 				<ChangementMdp {user} />
