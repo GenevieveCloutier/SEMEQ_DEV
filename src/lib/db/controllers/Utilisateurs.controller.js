@@ -1,6 +1,7 @@
 import { Utilisateur } from "../models/Utilisateur.model";
 import { Role } from "../models/Role.model";
 import { Ville } from "../models/Ville.model";
+import { Region } from "../models/Region.model";
 import { error } from "@sveltejs/kit";
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
@@ -21,8 +22,8 @@ export async function findAll(){
     return  Utilisateur.findAll({
         include: [
             { model: Role, as: "role" },
-            { model: Ville, as: "ville" }
-        ],
+            { model: Ville, as: "ville" , include: [{ model: Region, as: 'region' }] }
+        ]
     }).then(resultat => {
         if(resultat.length === 0){
             console.log("Aucun utilisateur à afficher")
@@ -30,7 +31,12 @@ export async function findAll(){
         return resultat.map(utilisateur => ({
             ...utilisateur.dataValues,
             role: utilisateur.role ? utilisateur.role.dataValues : null,
-            ville: utilisateur.ville ? utilisateur.ville.dataValues : null,
+            ville: utilisateur.ville
+					? {
+							...utilisateur.ville.dataValues,
+							region: utilisateur.ville.region ? utilisateur.ville.region.dataValues : null
+						}
+					: null
         }));
     })
     .catch((error)=>{

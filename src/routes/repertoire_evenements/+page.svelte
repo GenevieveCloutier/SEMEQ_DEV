@@ -65,7 +65,6 @@
 }
 
 let tousLesMois = obtenirMois();
-console.log(tousLesMois);
 
 //afficher la flèche bleue quand une région est sélectionnée
   function afficherFleche(){

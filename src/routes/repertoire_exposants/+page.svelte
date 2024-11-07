@@ -4,14 +4,16 @@
     import H2Title from "$lib/components/titres/h2Title.svelte";
     import BoutonGris from "$lib/components/boutons/boutonGris.svelte";
     import BoutonBleu from "$lib/components/boutons/boutonBleu.svelte";
+    import BoutonMince from "$lib/components/boutons/boutonMince.svelte";
     import Accordion, { createAccordionContext } from "$lib/components/generaux/accordion.svelte";
 	import { Cookies } from "nodemailer/lib/fetch";
     import { onMount } from "svelte";
     import Recherche from '$lib/components/generaux/recherche.svelte';
     import RechercheNoResult from '$lib/components/generaux/rechercheNoResult.svelte';
+    import { domaines, recupMappage } from '$lib/outils/compteurBinaire';
 
 	export let data;
-	const { villes, regions, evenements, utilisateurs } = data;
+	const { villes, regions, evenements, exposants } = data;
 
 //pour créer le contexte pour que les sections d'accordéon se referment quand on clique sur une autre
     createAccordionContext();
@@ -37,18 +39,18 @@
         repertoireEntier.hidden = false; 
     }
 
-const domaines = [
+const afficherDomaines = [
    'Accessoires et sacs',
     'Agro-alimentaire',
     'Animaux',
     'Arts visuels',
     'Bijoux et joaillerie',
-    'Ceramique et poterie',
-    'Decoration interieure',
+    'Céramique et poterie',
+    'Décoration interieure',
     'Ébenisterie',
     'Forgerie',
     'Jouets et loisirs',
-    'Papeteries_ et livres',
+    'Papeterie et livres',
     'Photographies',
     'Produits corporels',
     'Sculpture',
@@ -56,7 +58,7 @@ const domaines = [
     'Verre et vitrail',
     'Vêtements (tous)',
     'Vetements pour enfants',
-    'Zero déchet',
+    'Zéro déchet',
     'Autres'
 ];
 
@@ -70,17 +72,18 @@ const domaines = [
     };
 
 //pour la recherche de région
-    let evenementsFiltre =""
+    let exposantsFiltre =""
     let valeurDomaine = "" 
     let valeurRegion = ""
 
 function filtreRegionDate(){
-    evenementsFiltre = evenements;
-    evenementsFiltre = evenementsFiltre.filter(
-        evenement => evenement.ville.region.nom.split(" ")[0] == valeurRegion
-       // && (evenement.debut_even.toISOString().split("-")[1] == valeurDomaine)
-    );  
+    exposantsFiltre = exposants;
+    exposantsFiltre = exposantsFiltre.filter(
+        exposant => exposant.ville.region.nom.split(" ")[0] == valeurRegion
+        && (exposant.domaine & valeurDomaine) == valeurDomaine
+    ); 
 }
+console.log(exposants[2].domaine)
 
 //aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDate()
   function chercherValeurRegion(){
@@ -102,34 +105,29 @@ function filtreRegionDate(){
 //aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDate()
 function chercherValeurDomaine(){
     valeurDomaine = this.value;
-    if(valeurDomaine == 'Accessoires et sacs'){valeurDomaine = 1}
-
-    // 'agro-alimentaire': 2,
-    // 'animaux': 4,
-    // 'arts_visuels': 8,
-    // 'bijoux_joaillerie': 16,
-    // 'ceramique_poterie': 32,
-    // 'decoration_interieure': 64,
-    // 'ebenisterie': 128,
-    // 'forgerie': 256,
-    // 'jouets_loisirs': 512,
-    // 'papeteries_livres': 1024,
-    // 'photographies': 2048,
-    // 'produits_corporels': 4096,
-    // 'sculpture': 8192,
-    // 'tricots_crochets': 16384,
-    // 'verre_vitrail': 32768,
-    // 'vetements_tous': 65536,
-    // 'vetements_enfants': 131072,
-    // 'zero_dechet': 262144,
-    // 'autres': 524288
-
-    console.log(valeurDomaine)
-
-
+    if(valeurDomaine == 'Accessoires et sacs'){valeurDomaine = '1'};
+    if(valeurDomaine == 'Agro-alimentaire'){valeurDomaine = '2'};
+    if(valeurDomaine == 'Animaux'){valeurDomaine = '4'};
+    if(valeurDomaine == 'Arts visuels'){valeurDomaine = '8'};
+    if(valeurDomaine == 'Bijoux et joaillerie'){valeurDomaine = '16'};
+    if(valeurDomaine == 'Céramique et poterie'){valeurDomaine = '32'};
+    if(valeurDomaine == 'Décoration intérieure'){valeurDomaine = '64'};
+    if(valeurDomaine == 'Ébenisterie'){valeurDomaine = '128'};
+    if(valeurDomaine == 'Forgerie'){valeurDomaine = '256'};
+    if(valeurDomaine == 'Jouets et loisirs'){valeurDomaine = '512'};
+    if(valeurDomaine == 'Papetrie et livres'){valeurDomaine = '1024'};
+    if(valeurDomaine == 'Photographies'){valeurDomaine = '2048'};
+    if(valeurDomaine == 'Produits corporels'){valeurDomaine = '4096'};
+    if(valeurDomaine == 'Sculpture'){valeurDomaine = '8192'};
+    if(valeurDomaine == 'Tricot et crochet'){valeurDomaine = '16384'};
+    if(valeurDomaine == 'Verre et vitrail'){valeurDomaine = '32768'};
+    if(valeurDomaine == 'Vêtements (tous)'){valeurDomaine = '65536'};
+    if(valeurDomaine == 'Vêtements pour enfants'){valeurDomaine = '131072'};
+    if(valeurDomaine == 'Zéro déchet'){valeurDomaine = '262144'};
+    if(valeurDomaine == 'Autres'){valeurDomaine = '524288'};
 
     filtreRegionDate()
-    return valeurRegion
+    return valeurDomaine
   }
 
 
@@ -209,8 +207,8 @@ function chercherValeurDomaine(){
         </div>
 
        <div class="box column">
-             {#if evenementsFiltre}
-                {#each domaines as domaine}
+             {#if exposantsFiltre}
+                {#each afficherDomaines as domaine}
                 <Accordion>
 
                     <span  slot="head">
@@ -222,10 +220,35 @@ function chercherValeurDomaine(){
 
                     <div slot="details">
                         <div class="columns is-multiline">
-                    {#if evenementsFiltre.length > 0}
-                         {#each evenementsFiltre as evenement}
+                    {#if exposantsFiltre.length > 0}
+                         {#each exposantsFiltre as exposant}
                             <div class="column is-one-quarter">
-                                <!-- <UnEvenement evenement={evenement} /> -->
+                                <div class=" card is-equal-height bordure mx-2">
+                                    <div class="card-content">
+                                        <p class="has-text-weight-bold">{exposant.nom}</p>
+
+                                        <p class="mt-2"><strong>Ville:</strong></p>
+                                        <p>{exposant.ville.nom}</p>
+                                        <p>{recupMappage(exposant.domaine, domaines)}</p>
+                                        
+                                        <!-- si l'utilisateur est abonné, afficher le bouton pour la fiche, sinon afficher l'icone -->
+                                         {#if exposant}
+                                            <div class="has-text-centered mt-2">
+                                                <BoutonMince lien={'/repertoire_exposants/id'} texte={"Voir la fiche"} />
+                                            </div>
+                                
+                                        {:else if exposant.fb_even}
+                                            <figure class=" image is-32x32 mt-2 is-pulled-right ">
+                                                <a href="{exposant.fb_even}" target="blank"><img src="/src/lib/img/app/facebook.svg" alt="Page facebook de l'événement"></a>
+                                            </figure>
+                                                 
+                                        {:else if exposant.site}
+                                            <figure class=" image is-32x32 mt-2 is-pulled-right">
+                                                <a href="{exposant.site}" target="blank"><img src="/src/lib/img/app/site_web.svg" alt="site web de l'événement"></a>
+                                            </figure>
+                                        {/if}
+                                    </div>
+                                </div>
                             </div>
                         {/each}
                         {:else}
