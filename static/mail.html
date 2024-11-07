@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="fr-CA" data-theme="light">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css" />
+		<script src="https://kit.fontawesome.com/bc705d733d.js" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<style>
+			:root body {
+				font-family: 'Poppins', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+			}
+			.is-primary-blue {
+				background-color: #184287;
+				border-radius: 5px;
+				color: white;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="media mx-6 mt-5">
+			<figure class="media-left">
+				<a href="/">
+					<img src="/src/lib/img/app/logo.png" alt="logo SEMEQ" width="150" height="73" />
+				</a>
+			</figure>
+			<div class="media-content is-align-self-flex-end is-hidden-mobile">
+				<p class="is-size-6 pl-5 is-uppercase has-text-weight-bold">
+					Le répertoire des salons, événements, marchés et expositions du Québec
+				</p>
+			</div>
+		</div>
+		<div class="container is-fluid has-text-centered">
+			<h1 class="title">Réinitialisation de mot de passe</h1>
+			<div class="block">
+                <p>Bonjour {prenom}.</p>
+			<p>Une demande de réinitialisation de mot de passe a été reçu pour votre compte.</p>
+			<p>
+				Si vous n'etes pas a l'origine de cette demande, vous pouvez simplement ignorer ce message.
+			</p>
+			<p>
+				Pour réinitialiser votre mot de passe, cliquez sur le bouton plus bas pour etre rediriger
+				vers le répertoire SEMEQ.
+			</p>
+            </div>
+			<div class="block">
+				<a href="{lien}" class="button is-primary-blue">Changer de mot de passe</a>
+			</div>
+            <footer class="footer">
+                <p class="help">Si vous rencontrez un problème avec le bouton vous pouvez aussi copier/coller cette adresse dans votre navigateur:</p>
+                <p class="help">{lien}</p>
+                <p class="help">© 2024 répértoire SEMEQ - Tous droits réservés</p>
+            </footer>
+		</div>
+	</body>
+</html>

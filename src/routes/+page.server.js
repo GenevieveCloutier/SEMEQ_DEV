@@ -18,6 +18,7 @@ import { findAll } from '$lib/db/controllers/Utilisateurs.controller.js';
 import { newRole } from '../lib/db/controllers/Roles.controller.js';
 import { ajoutRegions } from '../lib/db/controllers/Regions.controller.js';
 import { adminCreation } from '../lib/db/controllers/Utilisateurs.controller.js';
+import { newType } from '../lib/db/controllers/Types.controller.js';
 
 //Appel de fonctions externe
 import { redirect } from '@sveltejs/kit';
@@ -45,8 +46,21 @@ async function initializeDatabase() {
     }
 //Création de l'admin si inexistant
     const admin = await Utilisateur.findByPk(1);
-    if(!admin)
-        adminCreation();
+    //* J'ai du ajouter un setTimeout parce que le script allais trop vite et créait
+    //* les utilisateurs avant d'avoir fini d'ajouter les villes
+    //* et vu qu'on as besoin de leur attribuer des villes...
+    if(!admin){
+        setTimeout(() => {
+           adminCreation(); 
+        }, 5000);
+    }
+//Création des types si la bd est vide.    
+    const type_abonnement = await Type.findOne({ where: { id: 1 } });
+    if (!type_abonnement){
+        await newType('Abonnement');
+        await newType('Formation');
+        await newType('Outil');
+    }
 }
 
 await initializeDatabase();

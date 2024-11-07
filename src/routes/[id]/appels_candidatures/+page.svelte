@@ -60,11 +60,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <div class="field is-horizontal">
-        <div class="field-body">
+
             <div class="field is-small">
                 <div class="controle">
                     <div class="select is-small">
@@ -77,9 +73,12 @@
                     </div>
                 </div>
             </div>
+
+            <div class="field is-small">
+                <button class="button is-small" on:click={filtrerLieux}> <span class="icon is-small"><i class="fa fa-filter"></i></span> </button>
+            </div>
         </div>
     </div>
-    <div class="field is-horizontal"><button class="button is-small" on:click={filtrerLieux}> <span class="icon is-small"><i class="fa fa-filter"></i></span> </button></div>
 </div>
 
 <Recherche bind:searchQuery typeRecherche="un événement" />
@@ -107,17 +106,17 @@
                 <td>{event.nom}</td>
                 <td>{event.ville.region.nom || "Inconnue"}</td>
                 <td>{event.ville.nom || "Inconnue"}</td>
-                <td>{event.debut_even || "Inconnu"}</td>
-                <td>{event.fin_even || "Inconnu"}</td>
+                <td>{event.debut_even}</td>
+                <td>{event.fin_even}</td>
                 <td>
                     {#if event.form_cand}   <!-- Formulaire appel de candidatures -->
-                        <a href="{event.form_cand}" target="_blank" class="button" style="background-color: #053682; color:white">Postuler</a>
+                        <a href="{event.form_cand}" target="_blank" class="button is-small" style="background-color: #053682; color:white">Postuler</a>
                     {:else if event.courriel}   <!-- Courriel pour information ou inscription -->
-                        <a href="mailto:{event.courriel}" class="button" style="background-color: #053682; color:white">Postuler</a>
+                        <a href="mailto:{event.courriel}" class="button is-small" style="background-color: #053682; color:white">Postuler</a>
                     {:else if event.fb_even}    <!-- Événement Facebook -->
-                        <a href="{event.fb_even}" target="_blank" class="button" style="background-color: #053682; color:white">Postuler</a>
+                        <a href="{event.fb_even}" target="_blank" class="button is-small" style="background-color: #053682; color:white">Postuler</a>
                     {:else if event.site}   <!-- Site Web ou page Facebook événement -->
-                        <a href="{event.site}" target="_blank" class="button" style="background-color: #053682; color:white">Postuler</a>
+                        <a href="{event.site}" target="_blank" class="button is-small" style="background-color: #053682; color:white">Postuler</a>
                     {:else}     <!-- Aucune information -->
                         <p>Méthode inconnue</p>
                     {/if}

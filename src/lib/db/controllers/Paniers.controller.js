@@ -29,3 +29,74 @@ export async function findAll(){
         throw error;
     });
 };
+
+/**
+ * Trouve un panier selon les critères de recherche spécifiés.
+ *
+ * Cette fonction cherche un panier en fonction des critères passés dans `p_where`.
+ * Elle inclut également les informations du produit et de l'utilisateur associé au panier, si disponible.
+ *
+ * @param {Object} p_where - Critères de recherche pour trouver un panier.
+ *
+ * @return {Object|null} res - L'objet panier avec son produit et son utilisateur associés, ou `null` si aucun panier n'est trouvé.
+ *
+ * @throws {Error} - Lance une erreur en cas de problème lors de la recherche.
+ */
+export async function findOne(p_where){
+    return await Panier.findOne({
+        where: p_where,
+        include: [
+            { model: Utilisateur, as: "utilisateur" },
+            { model: Produit, as: "produit" }
+        ],
+    })
+    .then(res => {
+        if(res)
+        return {
+            ...res.dataValues,
+            utilisateur: res.utilisateur ? res.utilisateur.dataValues : null,
+            produit: res.produit ? res.produit.dataValues : null
+        };
+        else
+            return null;
+    }).catch((error) => {;
+        throw error;
+    });
+}
+
+/**
+ * Crée un nouveau panier avec les informations fournies.
+ *
+ * Cette fonction vérifie d'abord si le produit est déjà présent
+ * dans un panier pour l'utilisateur. Si ce n'est pas le cas, elle crée
+ * un nouveau panier avec les informations passées en paramètres.
+ * 
+ *
+ * @param {number} p_utilisateur_id - ID de l'utilisateur.
+ * @param {number} p_produit_id - ID du produit.
+ *
+ * @return {Object} resultat - Les données du panier nouvellement créé.
+ * @throws {string} - "Ce produit est déjà dans votre panier." si le produit est déjà dans un panier avec le même utilisateur.
+ * @throws {Error} - Autre erreur lors de la création du panier.
+*/
+export async function ajoutProduitPanier(p_utilisateur_id, p_produit_id) {
+    try{
+        const panierExistant = await Panier.findOne({
+            where: {
+                utilisateur_id: p_utilisateur_id,
+                produit_id: p_produit_id
+            }
+        });
+        if (panierExistant) {
+            throw "Ce produit est déjà dans votre panier.";
+        }
+
+        const resultat = await Panier.create({
+            utilisateur_id:     p_utilisateur_id,
+            produit_id:         p_produit_id
+        });
+        return resultat.dataValues;
+        }catch(error){
+            throw error;
+    }
+}

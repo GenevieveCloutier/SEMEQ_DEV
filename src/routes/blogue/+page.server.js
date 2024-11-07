@@ -8,7 +8,7 @@ export async function load({cookies, params}){
     blogues.forEach(x => {
         x.image_1 = x.image_1.replace(/\\/g, '/');
       });
-    log("blogues = ", blogues);
+   // log("blogues = ", blogues);
     return { blogues };
 }
 
