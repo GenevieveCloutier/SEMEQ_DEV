@@ -8,20 +8,20 @@ import { emplacements, recupMappage, types, verifs } from '../../../../lib/outil
 
 export async function load({cookies, params}){
     const villes = await findAll();
-    log("params = ", params.id)
+    // log("params = ", params.id)
     let evenement = await findOne({id: params.id});
     evenement.debut_even = evenement.debut_even.toLocaleDateString('fr-CA');
     evenement.fin_even = evenement.fin_even.toLocaleDateString('fr-CA');
     evenement.debut_cand = evenement.debut_cand.toLocaleDateString('fr-CA');
     evenement.fin_cand = evenement.fin_cand.toLocaleDateString('fr-CA');
 
-    log("evenement = ", evenement)
+    // log("evenement = ", evenement)
 
     const liste_emplacement = recupMappage( evenement.emplacement, emplacements)
     const liste_type = recupMappage( evenement.type, types);
     const liste_verif = recupMappage( evenement.verification, verifs);
 
-    log("emplacement = ", liste_emplacement)
+    // log("emplacement = ", liste_emplacement)
     const session = cookies.get('session');
     const role = cookies.get('role');
 

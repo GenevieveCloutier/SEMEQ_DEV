@@ -6,7 +6,7 @@
 
     export let data;
     const { utilisateur } = data;
-    console.log("front utilisateur = ", utilisateur);
+    // console.log("front utilisateur = ", utilisateur);
     
 </script>
 

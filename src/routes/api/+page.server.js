@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { createCookie, findOne } from "../../lib/db/controllers/sessions.controller.js";
-import { authenticate, changementMDP, newUser, recuperationMDP } from '../../lib/db/controllers/Utilisateurs.controller.js';
-import { deleteUser } from '../../lib/db/controllers/Utilisateurs.controller.js';
+import { authenticate, changementMDP, modificationUtilisateur, newUser, recuperationMDP } from '../../lib/db/controllers/Utilisateurs.controller.js';
+import { deleteUser, findOne } from '../../lib/db/controllers/Utilisateurs.controller.js';
 import { domaines, emplacements, envoieDomaine, envoieMappage, types, verifs } from '../../lib/outils/compteurBinaire.js';
 import { creationEvenement } from '../../lib/db/controllers/Evenements.controller.js';
 import { ajoutProduitPanier } from '../../lib/db/controllers/Paniers.controller.js';
@@ -18,16 +18,34 @@ const cheminPhotosUtilisateurs = path.join(process.cwd(), 'src/lib/img/app/utili
 
 export const actions = {
 
+    /**
+    ** Action pour supprimer un utilisateur à partir de son identifiant, avec option de redirection.
+    *
+    * @param {Cookies} cookies - Les cookies pour gérer la session utilisateur si nécessaire.
+    * @param {Request} request - La requête contenant les données du formulaire, incluant l'identifiant de l'utilisateur à supprimer.
+    * 
+    * @returns {Object} - Le résultat de la suppression de l'utilisateur, ou une redirection éventuelle après suppression.
+    */
     supprimeUtilisateur: async({ cookies, request })=>{
         const data = await request.formData();
-        
+        log("api id = ",data.get("id").id)
         const result = await deleteUser(data.get('id'));
         return result;
-        //redirect(302, '/logout');
     },
 
+    /**
+     ** Action pour authentifier un utilisateur en vérifiant les informations d'identification et en créant un cookie de session.
+     *
+     * @param {Cookies} cookies - Les cookies pour enregistrer la session utilisateur après authentification.
+     * @param {Request} request - La requête contenant les données du formulaire de connexion (courriel et mot de passe).
+     * 
+     * @returns {Object} - Objet de réponse avec `success: true`, la session et l'identifiant utilisateur en cas de succès, 
+     *                     ou un échec avec statut 401 en cas d'erreur d'authentification.
+     */
     connexionUtilisateur: async({ cookies, request })=>{
         const data = await request.formData();
+        console.log(data);
+        
         try {
             let res = await authenticate(data.get("courriel"), data.get("pwd"));
             createCookie(res.id, cookies, res.role_id)
@@ -38,9 +56,19 @@ export const actions = {
     },
 
     //tous les utilisateurs (gratuit, exposant, organisateur à venir) doivent être créés par ici
+    /**
+    ** Action pour créer un nouvel utilisateur en enregistrant les données de formulaire et les photos, puis en définissant
+    * le rôle et la durée d'abonnement de l'utilisateur selon les paramètres fournis.
+    *
+    * @param {Cookies} cookies - Les cookies utilisés pour définir la session utilisateur.
+    * @param {Request} request - La requête contenant les données du formulaire d'inscription de l'utilisateur.
+    * 
+    * @returns {Object} - Objet de réponse avec un statut 200 et l'utilisateur créé en cas de succès,
+    *                     ou un échec avec statut 401 en cas d'erreur.
+    */
     nouvelUtilisateur: async({cookies, request})=>{
         const data = await request.formData();
-        log("les data = ", data);
+        //log("les data = ", data);
         
         const dataEntree = [...data.entries()];
         const role = dataEntree.length == 6 ? '4' : envoieMappage(data, domaines) == 0 ? '2' : '3';
@@ -122,6 +150,16 @@ export const actions = {
         }
     },
     
+    /**
+     ** Action pour créer un nouvel événement avec données et photos, et gérer l'approbation en fonction de l'abonnement de l'utilisateur.
+     *
+     * @param {Cookies} cookies - Les cookies contenant la session utilisateur.
+     * @param {Request} request - La requête contenant les données du formulaire pour créer un événement.
+     * 
+     * @returns {Object} - Objet de réponse avec un statut 200 et l'événement créé en cas de succès,
+     *                     ou un échec avec statut 401 en cas d'erreur.
+     */
+
     nouvelEvenement: async({cookies, request})=>{
         //reste à changer la variable approuvé? Enregistre 1 si le form est payant, NULL si le form est gratuit, c'est ok?
         
@@ -151,7 +189,7 @@ export const actions = {
         let session;
         try{
             session = await findOne({uuid: cookies.get('session')});//ça fonctionne :D
-            log("session dans api = ", session.utilisateur.abonne);
+            //log("session dans api = ", session.utilisateur.abonne);
         }catch(error){
             throw (error);
         }
@@ -201,12 +239,21 @@ export const actions = {
             }
     },
 
+    /**
+    ** Action pour initier la récupération de mot de passe en envoyant un courriel de réinitialisation.
+    *
+    * @param {Object} context - Le contexte de l'action.
+    * @param {Cookies} context.cookies - Les cookies pour gérer la session utilisateur.
+    * @param {Request} context.request - La requête contenant les données du formulaire avec l'adresse courriel de l'utilisateur.
+    * 
+    * @returns {Object} - Objet de réponse avec un statut 200 et le jeton de réinitialisation si réussi, 
+    *                     ou retourne un échec avec un statut 401 en cas d'erreur.
+    */
     recuperation: async ({cookies, request}) =>{
         const data = await request.formData();
-        log("dans lapi data = ", data);
+        //log("dans lapi data = ", data);
         try{
             let res = await recuperationMDP(data.get('courriel'));
-            log("api res = ", res);
             const lien = `http://localhost:5173/connexion/validation/${res.jeton}`;
             const courrielComplet = redacteurCourriel(res.utilisateur.prenom, lien);
             await envoieCourriel(data.get('courriel'),
@@ -221,15 +268,25 @@ export const actions = {
                 }
             }
         }catch(error){
-            log("api error = ", error);
+            //log("api error = ", error);
             
             return fail(401, error);
         }
     },
 
+    /**
+    ** Action pour changer le mot de passe d'un utilisateur.
+    *
+    * @param {Object} context - Le contexte de l'action.
+    * @param {Cookies} context.cookies - Les cookies pour identifier l'utilisateur.
+    * @param {Request} context.request - La requête contenant les données du formulaire, y compris l'ID de l'utilisateur et le nouveau mot de passe.
+    * 
+    * @returns {Object} - Objet de réponse contenant le statut et le message de succès 
+    *                     ou retourne un échec avec un statut 401 en cas d'erreur.
+    */
     changement: async ({ cookies, request}) =>{
         const data = await request.formData();
-        log("api changement MDP data = ", data);
+        //log("api changement MDP data = ", data);
         try{
             let res = await changementMDP(data.get('utilisateur_id'), data.get('nouveau_pwd'));
             return {
@@ -239,8 +296,130 @@ export const actions = {
                 }
             };
         }catch(error){
-            log("api changement error = ", error);
-            
+            //log("api changement error = ", error);
+            return fail(401, error);
+        }
+    },
+
+    /**
+    ** Action pour modifier les informations d'un utilisateur.
+    *
+    * @param {Object} context - Le contexte de l'action.
+    * @param {Cookies} context.cookies - Les cookies pour identifier l'utilisateur.
+    * @param {Request} context.request - La requête contenant les données du formulaire.
+    * 
+    * @returns {Object} - Objet de réponse contenant le statut et le message de succès
+    *                     ou retourne un échec avec un statut 401 en cas d'erreur.
+    */
+    modifUtilisateur: async ({cookies, request})=>{
+        const data = await request.formData();
+        // log("dans l'api, modif utilisateur, data = ", data.get('nom'));
+        // log("dans l'api, modif utilisateur, cookies = ", cookies.get('role'));
+        try{
+            log("data = ", data)
+            if (cookies.get('role') == 4 && !data.get('role_id')){
+                // log("api dans le if modif = ", data.get('role_id'))
+                let res = await modificationUtilisateur(cookies.get('id'), {
+                    nom: data.get('nom'),
+                    prenom: data.get('prenom'),
+                    courriel: data.get('courriel'),
+                    ville_id: data.get('ville_id')
+                });
+                
+            log("res = ", res)
+            }
+			else if (cookies.get('role') == 3 && !data.get('role_id')){
+				const domaine = envoieMappage(data, domaines);
+				//*Reprise du code de Gen pour les upload d'image
+				// Pour uploader et stocker les logos
+				const uploadLogo = async (nomFichier) => {
+					const logo = data.get(nomFichier);
+		
+					if (logo && logo.name) { 
+					const buffer = Buffer.from(await logo.arrayBuffer());
+					const filePath = path.resolve(cheminLogos, logo.name);
+					fs.writeFileSync(filePath, buffer);
+					return path.relative(process.cwd(), filePath);
+					};
+					// Si pas de logo, retourne null
+					return null;
+				};
+				const logo = await uploadLogo('logo');
+		
+				// Pour uploader et stocker les photos des utilisateurs
+				const uploadPhotoUtilisateur = async (nomFichier) => {
+					const photo = data.get(nomFichier);
+		
+					if (photo && photo.name) { 
+					const buffer = Buffer.from(await photo.arrayBuffer());
+					const filePath = path.resolve(cheminPhotosUtilisateurs, photo.name);
+					fs.writeFileSync(filePath, buffer);
+					return path.relative(process.cwd(), filePath);
+					};
+					// Si pas de photo, retourne null
+					return null;
+				};
+				const photo_1 = await uploadPhotoUtilisateur('photo_1');
+				const photo_2 = await uploadPhotoUtilisateur('photo_2');
+				const photo_3 = await uploadPhotoUtilisateur('photo_3');
+				let res = await modificationUtilisateur(cookies.get('id'), {
+					nom: data.get("nom"),
+                	prenom: data.get("prenom"),
+                	entreprise: data.get("entreprise"),
+                	neq: data.get("neq"),
+                	courriel: data.get("courriel"),
+                	site: data.get("site"),
+                	insta: data.get("insta"),
+                	tiktok: data.get("tiktok"),
+                	domaine: domaine,
+                	ville_id: data.get("ville_id"),
+                	partage: data.get("partage") == 'on' ? 1 : 0,
+                	affichage: data.get("affichage") == 'on' ? 1 : 0,
+                	description: data.get("description"),
+                	adresse: data.get("adresse"),
+                	publique: data.get("publique") == 'on' ? 1 : 0,
+                	photo_1: photo_1,
+                	photo_2: photo_2,
+                	photo_3: photo_3,
+                	log: logo
+				});
+			}
+            else if(cookies.get('role') == 2 && !data.get('role_id')){
+                // Pour uploader et stocker les logos
+				const uploadLogo = async (nomFichier) => {
+					const logo = data.get(nomFichier);
+		
+					if (logo && logo.name) { 
+					const buffer = Buffer.from(await logo.arrayBuffer());
+					const filePath = path.resolve(cheminLogos, logo.name);
+					fs.writeFileSync(filePath, buffer);
+					return path.relative(process.cwd(), filePath);
+					};
+					// Si pas de logo, retourne null
+					return null;
+				};
+				const logo = await uploadLogo('logo');
+                let res = await modificationUtilisateur(cookies.get('id'), {
+					nom: data.get("nom"),
+                	prenom: data.get("prenom"),
+                	entreprise: data.get("entreprise"),
+                	neq: data.get("neq"),
+                	courriel: data.get("courriel"),
+                	site: data.get("site"),
+                	insta: data.get("insta"),
+                	tiktok: data.get("tiktok"),
+                	ville_id: data.get("ville_id"),
+                	logo: logo
+				});
+            }
+            return{
+                status: 200,
+                body: {
+                    message: 'Utilisateur modifié avec succès'
+                }
+            };
+        }catch(error){
+            log("Erreur dans l'API de modification = ", error)
             return fail(401, error);
         }
     },
@@ -273,7 +452,7 @@ export const actions = {
 }
 
 /**
- * Génère un template HTML pour un courriel de réinitialisation de mot de passe.
+ ** Génère un template HTML pour un courriel de réinitialisation de mot de passe.
  *
  * @param {string} prenom - Le prénom du destinataire du courriel.
  * @param {string} lien - L'URL pour réinitialiser le mot de passe.
