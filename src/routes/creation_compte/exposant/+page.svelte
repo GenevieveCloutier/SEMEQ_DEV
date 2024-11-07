@@ -75,7 +75,14 @@
           </div>
 
           <div class="field">
-            <label class="label" for="insta">Instagram</label>
+            <label class="label" for="insta">Page Facebook de l'entreprise</label>
+            <div class="control">
+              <input class="input" type="url" name="facebook" id="facebook" placeholder="https://www.facebook.com/entreprise">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="insta">Compte Instagram de l'entreprise</label>
             <div class="control">
               <input class="input" type="url" name="insta" id="insta" placeholder="https://www.instagram.com/entreprise">
             </div>
@@ -110,14 +117,14 @@
           </div>
 
           <div class="field">
-            <label class="label" for="site">Site internet ou lien de ta page Facebook</label>
+            <label class="label" for="site">Site internet de l'entreprise</label>
             <div class="control">
-              <input class="input" type="url" name="site" id="site" placeholder="https://www.entreprise.com ou https://www.facebook.com/entreprise">
+              <input class="input" type="url" name="site" id="site" placeholder="https://www.entreprise.com">
             </div>
           </div>
 
           <div class="field">
-            <label class="label" for="tiktok">TikTok</label>
+            <label class="label" for="tiktok">Compte TikTok de l'entreprise</label>
             <div class="control">
               <input class="input" type="url" name="tiktok" id="tiktok" placeholder="https://www.tiktok.com/@entreprise">
             </div>

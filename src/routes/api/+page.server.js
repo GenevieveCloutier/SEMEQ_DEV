@@ -120,6 +120,7 @@ export const actions = {
                 data.get("courriel"),    
                 data.get("pwd"),
                 data.get("site"),
+                data.get("facebook"),
                 data.get("insta"),
                 data.get("tiktok"),
                 domaine,

@@ -94,6 +94,7 @@ export async function findOne(p_where) {
  * @param {string} p_courriel - Courriel de l'utilisateur.
  * @param {string} p_pwd - Mot de passe de l'utilisateur.
  * @param {string} p_site - Site web de l'utilisateur (facultatif).
+ * @param {string} p_facebook - Page facebook l'entreprise(facultatif).
  * @param {string} p_insta - Compte Instagram de l'utilisateur (facultatif).
  * @param {string} p_tiktok - Compte TikTok de l'utilisateur (facultatif).
  * @param {string} p_domaine - Domaine de travail de l'utilisateur (facultatif).
@@ -124,6 +125,7 @@ export async function newUser(
 	p_courriel,
 	p_pwd,
 	p_site,
+	p_facebook,
 	p_insta,
 	p_tiktok,
 	p_domaine,
@@ -155,6 +157,7 @@ export async function newUser(
 			courriel: p_courriel,
 			pwd: p_pwd,
 			site: p_site,
+			facebook: p_facebook,
 			insta: p_insta,
 			tiktok: p_tiktok,
 			domaine: p_domaine,
