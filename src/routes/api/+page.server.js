@@ -445,12 +445,12 @@ export const actions = {
                     evenement: res
                 }
             };
-            }catch(error){
-                return fail(401, error);
-            }
+        }catch(error){
+            return fail(401, error);
+        }
     },
 
-    deleteOnePanier: async({cookies, request})=>{        
+    deleteOnePanier: async({request})=>{        
         const data = await request.formData();
         
         try{
@@ -465,6 +465,17 @@ export const actions = {
             }catch(error){
                 return fail(401, error);
             }
+    },
+
+    deleteUserCart: async({cookies, request})=>{   
+        const session = await findSession({ uuid: cookies.get('session') });
+        //const data = await request.formData();
+        try{
+            const result = await deleteCart({ utilisateur_id: session.user_id} );
+            //const result = await deleteCart(data.get('utilisateur_id'));
+        }catch(error){
+            return fail(401, error);
+        }
     },
 }
 

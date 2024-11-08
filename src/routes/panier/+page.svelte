@@ -7,8 +7,9 @@
     import AbonnementEven from '$lib/components/boites/abonnementEven.svelte';
     import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
     import { deleteOnePanier } from '$lib/outils/formHandlers';
-    import NotifSuccess from '../../lib/components/notifications/notifSuccess.svelte';
-	import NotifDanger from '../../lib/components/notifications/notifDanger.svelte';
+    import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
+	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
+    import ViderPanier from '$lib/components/notifications/viderPanier.svelte';
 
     export let data;
     const paniers = data.paniers;
@@ -36,6 +37,9 @@
 <H1Title title={"Panier"} />
 
 <div class="container is-fluid">
+
+    <NotifSuccess />
+    <NotifDanger />
 
     {#if paniers.length === 0}
         <section class="section has-text-centered">
@@ -66,22 +70,16 @@
         </section>
 
     {:else}
-        <NotifSuccess />
-        <NotifDanger />
-
         <!-- Boutons supprimer produits/vider panier -->
         <div class="columns is-1">
             <div class="column is-narrow">
-                <form> <!-- on:submit|preventDefault={deleteAll} -->
+                <form> <!-- on:submit|preventDefault={deleteSelectedCart} -->
                     <input type="hidden" name="produit_id" /> <!-- value={produit.id} -->
-                    <button id="deleteAll" type="submit" class="button is-danger is-outlined">Supprimer les éléments</button>
+                    <button type="submit" class="button is-danger is-outlined">Supprimer les éléments</button>
                 </form>
             </div>
             <div class="column">
-                <form> <!-- on:submit|preventDefault={deleteCart} -->
-                    <input type="hidden" name="utilisateur_id" value={utilisateur.id} />
-                    <button id="deleteCart" type="submit" class="button is-danger">Vider le panier</button>
-                </form>
+                <ViderPanier utilisateur_id={utilisateur.id} />
             </div>
         </div>
     
@@ -120,7 +118,7 @@
                                 <td class="has-text-centered">
                                     <form on:submit|preventDefault={deleteOnePanier}>
                                         <input type="hidden" name="panier_id" value={panier.id} />
-                                        <button id="deleteOneCart" type="submit" class="button"> <span class="icon"><i class="fa-regular fa-trash-can" style="color: #000000;"></i></span> </button>
+                                        <button type="submit" class="button"> <span class="icon"><i class="fa-regular fa-trash-can" style="color: #000000;"></i></span> </button>
                                     </form>
                                 </td>
                             </tr>
@@ -146,19 +144,19 @@
                             {/if}
                         {/if}
 
-                        <div class="columns">
+                        <!--<div class="columns">
                             <div class="column">
-                            Sous-total :<!--<br>
+                            Sous-total :<br>
                             TPS (5%) :<br>
-                            TVQ (9,975%) :-->
+                            TVQ (9,975%) :
                             </div>
 
                             <div class="column is-narrow has-text-right">
-                                {sousTotal === 0 ? "Gratuit" : `${sousTotal.toFixed(2)} $`}<!--<br>
+                                {sousTotal === 0 ? "Gratuit" : `${sousTotal.toFixed(2)} $`}<br>
                                 {tps.toFixed(2)} $<br>
-                                {tvq.toFixed(2)} $-->
+                                {tvq.toFixed(2)} $
                             </div>
-                        </div>
+                        </div>-->
 
                         <form class="block">
                             <label class="label" for="code_promo">Tu as un code promo?</label>

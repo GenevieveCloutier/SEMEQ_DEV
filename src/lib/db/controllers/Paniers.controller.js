@@ -114,14 +114,14 @@ export async function findOne(p_where){
 }
 
 /**
- * Supprime les entrées dans la table Paniers en fonction des conditions spécifiées.
+ * Supprime les entrées dans la table paniers en fonction des conditions spécifiées.
  * @param {Object} p_where - Conditions de suppression.
  * @returns {Object} - Message de succès.
  */
 export async function deleteCart(p_where){
     return await Panier.destroy({ where: p_where })
     .then(res => {
-        return {message: "Retiré du panier avec succes."};
+        return {message: "Succès suppression panier."};
     }).catch((error) => {
         throw error;
     });

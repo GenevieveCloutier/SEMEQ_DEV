@@ -500,8 +500,6 @@ export async function ajouterPanier(event){
             log("formhandler error ajouterPanier = ",JSON.parse(result.data)[0])
             erreur.set(JSON.parse(result.data)[0]);
         }
-            
-        
     }catch(error){
         console.error("erreur inattendue : ", error);
         erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
@@ -525,11 +523,33 @@ export async function deleteOnePanier(event){
             window.location.reload();
 			success.set("Le produit a été retiré du panier.");
         if (result.status == 401){
-            log("formhandler error ajouterPanier = ",JSON.parse(result.data)[0])
+            log("formhandler error deleteOnePanier = ",JSON.parse(result.data)[0])
             erreur.set(JSON.parse(result.data)[0]);
         }
-            
+    }catch(error){
+        console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+    }
+}
+
+export async function deleteUserCart(utilisateur_id){
+    chargement();
+    erreur.set('');
+    try{
+        const formData = new FormData(utilisateur_id);
+		formData.append('utilisateur_id', utilisateur_id);
+        const response = await fetch('../api?/deleteUserCart', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
         
+        if (result.status == 200)
+            window.location.reload();
+        if (result.status == 401){
+            log("formhandler error deleteUserCart = ",JSON.parse(result.data)[0])
+            erreur.set(JSON.parse(result.data)[0]);
+        }
     }catch(error){
         console.error("erreur inattendue : ", error);
         erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
