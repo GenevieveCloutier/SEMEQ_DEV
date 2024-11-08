@@ -106,7 +106,6 @@ export async function connexion(event) {
  *
  * @param {Event} event L'événement contenant les données du formulaire.
  */
-
 export async function creationExposant(event) {
 	chargement();
 	erreur.set('');
@@ -482,6 +481,7 @@ export async function modifUtilisateur(event) {
 			const checkboxes = event.target.querySelectorAll(
 				'input[type="checkbox"]:checked:not(.exclus)'
 			);
+			// ! Ici il faudras changer pour le vrai nombre selon les achat de l'utilisateur
 			if (checkboxes.length < 1 || checkboxes.length > 3) {
 				erreur.set(
 					"Merci de sélectionner entre 1 et 3 domaine(s) d'activité(s) selon l'abonnement choisi."
@@ -503,6 +503,26 @@ export async function modifUtilisateur(event) {
 		console.error('erreur inattendue : ', error);
 		log
 		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}
+
+export async function modifEvenement(event) {
+	chargement();
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		log("dans le handler = ", formData)
+		const response = await fetch('../../api?/modifEvenement', {
+			method: 'POST',
+			body: formData
+		});
+		const result = await response.json();
+		log("dans le handler response = ", result )
+		if(result.status == 200) success.set(JSON.parse(result.data)[3])
+
+	} catch (error) {
+		console.log(error);
+		
 	}
 }
 

@@ -7,8 +7,10 @@
 	import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
     import {creationEvenementPayant, erreur} from '$lib/outils/formHandlers';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
+    import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import { onMount } from 'svelte';
 	import Confirmation from '$lib/components/notifications/confirmation.svelte';
+    import {modifEvenement} from '$lib/outils/formHandlers';
 
     export let data;
     const { villes, evenement, liste_emplacement, liste_type, liste_verif } = data;
@@ -56,9 +58,10 @@ function dateConforme(dateDebut, dateFin){
 <H1Title title={"Détails de l'événement"} />
 
 <NotifDanger />
+<NotifSuccess />
 <div class="block">
 
-	<form > <!-- ! Faire la fonction de modif d'evenement ---   on:submit|preventDefault={} -->
+	<form on:submit|preventDefault={modifEvenement}> <!-- ! Faire la fonction de modif d'evenement ---   on:submit|preventDefault={} -->
         <div class="box">
 
         <!-- section pour les infos de l'événement -->
@@ -402,6 +405,7 @@ function dateConforme(dateDebut, dateFin){
                 </div>
             </div>
         </div> 
+        <input value="{evenement.id}" hidden readonly name="id">
 
     </div>
 
