@@ -37,7 +37,35 @@
 
 <div class="container is-fluid">
 
-    {#if paniers}
+    {#if paniers.length === 0}
+        <section class="section has-text-centered">
+            <p class="subtitle">Ton panier est vide.</p>
+
+            <BoutonGris lien={'/boutique#formations'} texte={"Voir les formations"} />
+            <BoutonGris lien={'/boutique#outils'} texte={"Voir les outils"} />
+
+            {#if utilisateur.abonne !== true}
+            <br><br>
+            <hr>
+            <div class="block">
+                <H2Title title={"Abonnements"} />    
+                <div class="container-fluid">
+                    <div class="columns mx-4 is-centered">
+                
+                        <div class="column is-two-fifths">
+                            <AbonnementExposant />
+                        </div>
+                
+                        <div class="column is-two-fifths">
+                            <AbonnementEven />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/if}
+        </section>
+
+    {:else}
         <NotifSuccess />
         <NotifDanger />
 
@@ -163,34 +191,7 @@
 
         <div class="block has-text-right">
             <Retour />
-        </div>
-    {:else}
-        <section class="section has-text-centered">
-            <p class="subtitle">Ton panier est vide.</p>
-
-            <BoutonGris lien={'/boutique#formations'} texte={"Voir les formations"} />
-            <BoutonGris lien={'/boutique#outils'} texte={"Voir les outils"} />
-
-            {#if utilisateur.abonne !== true}
-            <br><br>
-            <hr>
-            <div class="block">
-                <H2Title title={"Abonnements"} />    
-                <div class="container-fluid">
-                    <div class="columns mx-4 is-centered">
-                
-                        <div class="column is-two-fifths">
-                            <AbonnementExposant />
-                        </div>
-                
-                        <div class="column is-two-fifths">
-                            <AbonnementEven />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/if}
-        </section>
+        </div>        
     {/if}
 
 </div>
