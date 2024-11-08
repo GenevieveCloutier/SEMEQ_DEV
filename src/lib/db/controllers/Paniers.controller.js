@@ -56,7 +56,7 @@ export async function findAllInCart(p_where){
         ],
     }).then(resultat => {
         if(resultat.length === 0){
-            return null
+            console.log("Aucun panier à afficher")
         }
         return resultat.map(panier => ({
             ...panier.dataValues,

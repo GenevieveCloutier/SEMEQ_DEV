@@ -522,7 +522,7 @@ export async function deleteOnePanier(event){
         log("formhandler deleteOnePanier, result = ", result);
         
         if (result.status == 200)
-            //window.location.reload();
+            window.location.reload();
 			success.set("Le produit a été retiré du panier.");
         if (result.status == 401){
             log("formhandler error ajouterPanier = ",JSON.parse(result.data)[0])
