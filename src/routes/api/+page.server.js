@@ -1,5 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { createCookie, findOne } from "../../lib/db/controllers/sessions.controller.js";
+import { createCookie, findOne as findSession } from "../../lib/db/controllers/sessions.controller.js";
 import { authenticate, changementMDP, modificationUtilisateur, newUser, recuperationMDP } from '../../lib/db/controllers/Utilisateurs.controller.js';
 import { deleteUser, findOne } from '../../lib/db/controllers/Utilisateurs.controller.js';
 import { domaines, emplacements, envoieDomaine, envoieMappage, types, verifs } from '../../lib/outils/compteurBinaire.js';
@@ -429,7 +429,7 @@ export const actions = {
 
         let session;
         try{
-            session = await findOne({uuid: cookies.get('session')});
+            session = await findSession({ uuid: cookies.get('session') });
         }catch(error){
             throw (error);
         }
