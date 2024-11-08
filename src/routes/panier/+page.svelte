@@ -6,6 +6,9 @@
     import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
     import AbonnementEven from '$lib/components/boites/abonnementEven.svelte';
     import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
+    import { deleteOnePanier } from '$lib/outils/formHandlers';
+    import NotifSuccess from '../../lib/components/notifications/notifSuccess.svelte';
+	import NotifDanger from '../../lib/components/notifications/notifDanger.svelte';
 
     export let data;
     const paniers = data.paniers;
@@ -35,7 +38,24 @@
 <div class="container is-fluid">
 
     {#if paniers}
-    <!-- Boutons supprimer produits/vider panier -->
+        <NotifSuccess />
+        <NotifDanger />
+
+        <!-- Boutons supprimer produits/vider panier -->
+        <div class="columns is-1">
+            <div class="column is-narrow">
+                <form> <!-- on:submit|preventDefault={deleteAll} -->
+                    <input type="hidden" name="produit_id" /> <!-- value={produit.id} -->
+                    <button id="deleteAll" type="submit" class="button is-danger is-outlined">Supprimer les éléments</button>
+                </form>
+            </div>
+            <div class="column">
+                <form> <!-- on:submit|preventDefault={deleteCart} -->
+                    <input type="hidden" name="utilisateur_id" value={utilisateur.id} />
+                    <button id="deleteCart" type="submit" class="button is-danger">Vider le panier</button>
+                </form>
+            </div>
+        </div>
     
         <div class="columns">
             <div class="column is-three-quarters">
@@ -69,8 +89,11 @@
                                 {:else}
                                     <td>{panier.produit.prix_v === 0 ? "Gratuit" : `${panier.produit.prix_v.toFixed(2)} $`}</td>
                                 {/if}
-                                <td class="has-text-centered"> <!--on:click={supprimerProduitPanier}-->
-                                    <button class="button"> <span class="icon"><i class="fa-regular fa-trash-can" style="color: #000000;"></i></span> </button>
+                                <td class="has-text-centered">
+                                    <form on:submit|preventDefault={deleteOnePanier}>
+                                        <input type="hidden" name="panier_id" value={panier.id} />
+                                        <button id="deleteOneCart" type="submit" class="button"> <span class="icon"><i class="fa-regular fa-trash-can" style="color: #000000;"></i></span> </button>
+                                    </form>
                                 </td>
                             </tr>
                         {/each}
