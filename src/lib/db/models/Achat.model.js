@@ -35,9 +35,3 @@ Utilisateur.hasMany(Achat, { foreignKey: 'utilisateur_id', as: 'achats' });
 
 Achat.belongsTo(Produit, { foreignKey: 'produit_id', as: 'produit' });
 Produit.hasMany(Achat, { foreignKey: 'produit_id', as: 'achats' });
-
-// sequelize.sync().then(() => {
-//     console.log('Achats table created successfully!');
-// }).catch((error) => {
-//     console.error('Unable to create table : achats', error);
-// });

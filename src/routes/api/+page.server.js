@@ -2,15 +2,16 @@ import { fail, redirect } from '@sveltejs/kit';
 import {
 	createCookie,
 	findOne as findSession
-} from '../../lib/db/controllers/sessions.controller.js';
+} from '../../lib/db/controllers/Sessions.controller.js';
 import {
 	authenticate,
 	changementMDP,
 	modificationUtilisateur,
 	newUser,
-	recuperationMDP
+	recuperationMDP,
+	deleteUser,
+	findOne
 } from '../../lib/db/controllers/Utilisateurs.controller.js';
-import { deleteUser, findOne } from '../../lib/db/controllers/Utilisateurs.controller.js';
 import {
 	domaines,
 	emplacements,
@@ -49,7 +50,6 @@ export const actions = {
 	 */
 	supprimeUtilisateur: async ({ cookies, request }) => {
 		const data = await request.formData();
-		log('api id = ', data.get('id').id);
 		const result = await deleteUser(data.get('id'));
 		return result;
 	},
@@ -65,7 +65,6 @@ export const actions = {
 	 */
 	connexionUtilisateur: async ({ cookies, request }) => {
 		const data = await request.formData();
-		console.log(data);
 
 		try {
 			let res = await authenticate(data.get('courriel'), data.get('pwd'));
@@ -89,7 +88,6 @@ export const actions = {
 	 */
 	nouvelUtilisateur: async ({ cookies, request }) => {
 		const data = await request.formData();
-		//log("les data = ", data);
 
 		const dataEntree = [...data.entries()];
 		const role = dataEntree.length == 6 ? '4' : envoieMappage(data, domaines) == 0 ? '2' : '3';
@@ -209,14 +207,11 @@ export const actions = {
 
 		let session;
 		try {
-			log('api ', 'findone');
 			session = await findSession({ uuid: cookies.get('session') }); //ça fonctionne :D
-			//log("session dans api = ", session.utilisateur.abonne);
 		} catch (error) {
 			throw error;
 		}
 		try {
-			log('api creation = ', 'plop');
 			let res = await creationEvenement(
 				data.get('nom'),
 				session.utilisateur.id,
@@ -284,7 +279,6 @@ export const actions = {
 	 */
 	recuperation: async ({ cookies, request }) => {
 		const data = await request.formData();
-		//log("dans lapi data = ", data);
 		try {
 			let res = await recuperationMDP(data.get('courriel'));
 			const lien = `http://localhost:5173/connexion/validation/${res.jeton}`;
@@ -302,7 +296,6 @@ export const actions = {
 				}
 			};
 		} catch (error) {
-			//log("api error = ", error);
 
 			return fail(401, error);
 		}
@@ -320,7 +313,6 @@ export const actions = {
 	 */
 	changement: async ({ cookies, request }) => {
 		const data = await request.formData();
-		//log("api changement MDP data = ", data);
 		try {
 			let res = await changementMDP(data.get('utilisateur_id'), data.get('nouveau_pwd'));
 			return {
@@ -330,7 +322,6 @@ export const actions = {
 				}
 			};
 		} catch (error) {
-			//log("api changement error = ", error);
 			return fail(401, error);
 		}
 	},
@@ -347,12 +338,8 @@ export const actions = {
 	 */
 	modifUtilisateur: async ({ cookies, request }) => {
 		const data = await request.formData();
-		// log("dans l'api, modif utilisateur, data = ", data.get('nom'));
-		// log("dans l'api, modif utilisateur, cookies = ", cookies.get('role'));
 		try {
-			log('data = ', data);
 			if (cookies.get('role') == 4 && !data.get('role_id')) {
-				// log("api dans le if modif = ", data.get('role_id'))
 				let res = await modificationUtilisateur(cookies.get('id'), {
 					nom: data.get('nom'),
 					prenom: data.get('prenom'),
@@ -360,7 +347,6 @@ export const actions = {
 					ville_id: data.get('ville_id')
 				});
 
-				log('res = ', res);
 			} else if (cookies.get('role') == 3 && !data.get('role_id')) {
 				const domaine = envoieMappage(data, domaines);
 				//*Reprise du code de Gen pour les upload d'image
@@ -514,7 +500,6 @@ export const actions = {
 				photo_3: photo_3,
                 approuve: toujours.abonne || cookies.get('role_id') === 1
             });
-            log("dans api res = ", res)
 			return {
 				status: 200,
 				body: {

@@ -17,7 +17,6 @@ success.set('');
  * @param {Event} event - L'événement déclenché, contenant l'élément cible.
  */
 function chargement() {
-	//log("Dans chargement boutton = ", document.getElementById('submitButton'));
 	document.getElementById('submitButton').classList.add('is-loading');
 }
 
@@ -42,7 +41,6 @@ export async function handleUserDelete(p_id) {
 export async function suppressionEvenement(p_id) {
 	erreur.set('');
 	success.set('');
-	log("handler = ", 'suppression evenement');
 	const formData = new FormData();
 	formData.append('id', p_id);
 	const response = await fetch('../../api?/supprimeEvenement', {
@@ -52,9 +50,6 @@ export async function suppressionEvenement(p_id) {
 	
 	const result = await response.json();
 	const test = JSON.parse(result.data);
-	log("response = ", response)
-	log("result = ", result);
-	log("test = ", test);
 	if(result.status === 200){
 		success.set(JSON.parse(result.data)[3]);
 		goto(`/${JSON.parse(result.data)[4]}`);
@@ -232,7 +227,6 @@ export async function creationEvenement(event) {
 			erreur.set("Merci de sélectionner au moins un type d'exposant.");
 			return;
 		}
-log("handler ", "gratuit")
 		const response = await fetch('../api?/nouvelEvenement', {
 			method: 'POST',
 			enctype: 'multipart/form-data',
@@ -291,7 +285,6 @@ export async function creationEvenementPayant(event) {
 			return;
 		}
 
-		log("handler = ", "payant")
 		const response = await fetch('../../api?/nouvelEvenement', {
 			method: 'POST',
 			body: formData
@@ -356,13 +349,10 @@ export async function recuperation(event) {
 			method: 'POST',
 			body: formData
 		});
-		//log("formhandler response = ", response);
 		const result = await response.json();
-		//log("formhandler recuperation, result = ",result);
 
 		if (result.status == 200) window.location.href = '/connexion/demandeEnvoye';
 		if (result.status == 401) {
-			//log("formhandler error recuperation = ",JSON.parse(result.data)[0])
 			erreur.set(JSON.parse(result.data)[0]);
 		}
 	} catch (error) {
@@ -384,14 +374,11 @@ export async function changementMotDePasse(event) {
 	erreur.set('');
 	try {
 		const formData = new FormData(event.target);
-		//log("formhandler changementMotDePasse formdata = ", formData);
 		const response = await fetch('../../api?/changement', {
 			method: 'POST',
 			body: formData
 		});
-		//log("formhandler changementMDP response = ", response);
 		const result = await response.json();
-		//log("formhandler changementMDP result = ", result);
 		if (result.status == 200) window.location.href = '/connexion';
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {
@@ -412,7 +399,6 @@ export async function changementMotDePasse(event) {
  */
 export async function modifMdp(utilisateur, pwdAncien, pwdNouveau) {
 	erreur.set('');
-	//log("formhandler utilisateur = ", utilisateur);
 	document.getElementById('envoie').classList.add('is-loading');
 	try {
 		const formData = new FormData();
@@ -425,9 +411,7 @@ export async function modifMdp(utilisateur, pwdAncien, pwdNouveau) {
 			method: 'POST',
 			body: formData
 		});
-		console.log(responsetAuth);
 		let result = await responsetAuth.json();
-		console.log(result);
 
 		if (result.status == 200) {
 			const responseChangement = await fetch('../api?/changement', {
@@ -458,9 +442,7 @@ export async function modifUtilisateur(event) {
 
 	try {
 		const formData = new FormData(event.target);
-		for (const [key, value] of formData.entries()) {
-			console.log(key, value);
-		}
+		
         if ([...formData.keys()].includes('expo') || [...formData.keys()].includes('orga')){
             const neqInput = event.target.querySelector('#neq');
 		const noNeqCheckbox = event.target.querySelector('#no-neq');
@@ -495,13 +477,10 @@ export async function modifUtilisateur(event) {
 			body: formData
 		});
 		const result = await response.json();
-		log("dans le formhandler, result = ", result);
 		if (result.status == 200) success.set('Modifications enregistrées');
 		else erreur.set(JSON.parse(result.data)[1] || JSON.parse(result.data)[0]);
-		log(JSON.parse(result.data))
 	} catch (error) {
 		console.error('erreur inattendue : ', error);
-		log
 		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
 	}
 }
@@ -511,18 +490,16 @@ export async function modifEvenement(event) {
 	erreur.set('');
 	try {
 		const formData = new FormData(event.target);
-		log("dans le handler = ", formData)
 		const response = await fetch('../../api?/modifEvenement', {
 			method: 'POST',
 			body: formData
 		});
 		const result = await response.json();
-		log("dans le handler response = ", result )
 		if(result.status == 200) success.set(JSON.parse(result.data)[3])
-
+		else erreur.set(JSON.parse(result.data)[1] || JSON.parse(result.data)[0]);
 	} catch (error) {
-		console.log(error);
-		
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
 	}
 }
 

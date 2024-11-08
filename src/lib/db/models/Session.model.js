@@ -20,9 +20,3 @@ export const Session = sequelize.define("session", {
 
 Session.belongsTo(Utilisateur, { foreignKey: 'user_id', as: 'utilisateur' });
 Utilisateur.hasMany(Session, { foreignKey: 'user_id', as: 'sessions' }); //Ca me fait bizarre ici, un utilisateur ne peux pas avoir plusieurs session
-
-// sequelize.sync().then(() => {
-//     console.log('Sessions table created successfully!');
-// }).catch((error) => {
-//     console.error('Unable to create table : ', error);
-// });

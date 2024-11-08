@@ -15,9 +15,3 @@ export const Ville = sequelize.define("ville", {
 
 Ville.belongsTo(Region, { foreignKey: 'region_id', as: 'region' });
 Region.hasMany(Ville, { foreignKey: 'region_id', as: 'villes' });
-
-// sequelize.sync().then(() => {
-//     console.log('Villes table created successfully!');
-// }).catch((error) => {
-//     console.error('Unable to create table villes : ', error);
-// });

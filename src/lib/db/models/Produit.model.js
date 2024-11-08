@@ -43,9 +43,3 @@ export const Produit = sequelize.define("produit", {
 
 Produit.belongsTo(Type, { foreignKey: 'type_id', as: 'type' });
 Type.hasMany(Produit, { foreignKey: 'type_id', as: 'produits' });
-
-// sequelize.sync().then(() => {
-//     console.log('Produits table created successfully!');
-// }).catch((error) => {
-//     console.error('Unable to create table produits: ', error);
-// });

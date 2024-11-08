@@ -65,7 +65,6 @@
 			chargeInfos(); //Pour transformer les infos de la bd en valeur utilisable (genre les checkbox)
 		}, 1000); //Retarder d'une petite seconde sinon il essaie d'assigner une valeur a qqch qui n'existe pas encore
 	}
-	//log('user = ', user);
 </script>
 
 <H1Title title={'Mon compte'} />

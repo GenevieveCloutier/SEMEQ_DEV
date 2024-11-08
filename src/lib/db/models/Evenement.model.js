@@ -145,9 +145,3 @@ Utilisateur.hasMany(Evenement, { foreignKey: 'utilisateur_id', as: 'evenements' 
 
 Evenement.belongsTo(Ville, { foreignKey: 'ville_id', as: 'ville' });
 Ville.hasMany(Evenement, { foreignKey: 'ville_id', as: 'evenements' });
-
-// sequelize.sync().then(() => {
-//     console.log('Evenements table created successfully!');
-// }).catch((error) => {
-//     console.error('Unable to create table evenement : ', error);
-// });

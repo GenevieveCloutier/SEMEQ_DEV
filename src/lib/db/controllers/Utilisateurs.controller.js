@@ -139,8 +139,6 @@ export async function newUser(
 		const mail = await Utilisateur.findOne({ where: { courriel: p_courriel } });
 		if (mail) throw 'Un Compte avec ce courriel existe déjà.';
 
-		console.log("password = ", p_pwd);
-		
 		const resultat = await Utilisateur.create({
 			nom: p_nom,
 			prenom: p_prenom,
@@ -253,7 +251,6 @@ export async function adminCreation() {
  */
 export async function deleteUser(p_id) {
 	try {
-		log("controller id = ", p_id)
 		const user = await Utilisateur.findByPk(p_id);
 		if (!user) throw new Error('Utilisateur non trouvé');
 		await user.destroy();
@@ -279,17 +276,11 @@ export async function deleteUser(p_id) {
 
 export async function authenticate(p_courriel, p_pwd) {
 	try {
-		console.log(p_courriel, p_pwd);
-		
 		const user = await findOne({ courriel: p_courriel });
-		console.log(user);
 		
-
 		if (!user) throw { message: 'Utilisateur non trouvé' };
 
 		const goodPassword = await bcrypt.compare(p_pwd, user.pwd);
-		console.log(goodPassword);
-		
 
 		if (!goodPassword) throw { message: 'Mot de passe invalide' };
 
@@ -314,13 +305,10 @@ export async function authenticate(p_courriel, p_pwd) {
 
 export async function recuperationMDP(p_courriel) {
 	const jeton = uuidv4();
-	//console.log('le jeton = ', jeton);
 	const jetonExpiration = new Date(Date.now() + 3600000);
-	//console.log('lexpiration du jeton = ', jetonExpiration);
 	try {
 		const utilisateur = await Utilisateur.findOne({ where: { courriel: p_courriel } });
 		if (!utilisateur) throw 'Utilisateur non trouvé';
-		//console.log('controller utilisateur = ', utilisateur);
 
 		await utilisateur.update({
 			jeton: jeton,
@@ -346,8 +334,6 @@ export async function recuperationMDP(p_courriel) {
  * @throws {Error} - Lance une erreur si l'utilisateur n'est pas trouvé ou en cas de problème.
  */
 export async function changementMDP(p_utilisateur_id, p_nouveau_pwd) {
-	//log('controller changementMDP p_utilisateur_id = ', p_utilisateur_id);
-	//log('controller changementMDP p_nouveau_pwd = ', p_nouveau_pwd);
 	try {
 		const utilisateur = await Utilisateur.findByPk(p_utilisateur_id);
 		if (!utilisateur) throw new Error('Utilisateur non trouvé');
@@ -366,13 +352,11 @@ export async function modificationUtilisateur(p_utilisateur_id, p_modifications)
 	try {
 		const courrielUtilise = await findOne({
 			courriel: p_modifications.courriel,
-			id: { [Op.ne]: p_utilisateur_id }
+			id: { [Op.ne]: p_utilisateur_id } //*l'operateur [Op.ne] pour dire "different de"
 		});
 		if (courrielUtilise) throw 'Cette adresse courriel est déjâ utilisée.';
 		const utilisateur = await Utilisateur.findByPk(p_utilisateur_id);
 		if (!utilisateur) throw new Error('Utilisateur non trouvé');
-		log('controller modification = ', p_modifications);
-		log("utilisateur avant modif = ", utilisateur)
 		await utilisateur.update({
 			nom: p_modifications.nom ?? utilisateur.nom,
 			prenom: p_modifications.prenom ?? utilisateur.prenom,
@@ -397,7 +381,6 @@ export async function modificationUtilisateur(p_utilisateur_id, p_modifications)
 			photo_3: p_modifications.photo_3 ?? utilisateur.photo_3,
 			logo: p_modifications.logo ?? utilisateur.logo
 		});
-		log("apres la modif = ", utilisateur)
 		return utilisateur;
 	} catch (error) {
 		throw error;

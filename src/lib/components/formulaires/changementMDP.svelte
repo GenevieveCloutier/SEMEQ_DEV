@@ -9,7 +9,6 @@
 	let help = null;
 	let nouveauMdp;
 	function compareMdp() {
-        //log("user = ", user)
 		const mdp1 = document.getElementById('pwdNouveau1');
 		const mdp2 = document.getElementById('pwdNouveau2');
 		const envoie = document.getElementById('envoie');

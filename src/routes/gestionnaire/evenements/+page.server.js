@@ -10,7 +10,5 @@ export async function load({ cookies, params,}){
         x.utilisateur_nom = x.utilisateur.nom;
             return x;});
 
-
-    // log("Load evenement = ", evenements)
     return {evenements};
 }
