@@ -29,6 +29,7 @@ export async function load({params, cookies}){
     dateFin = dateFin.toISOString().split("T")[0] + " 00:00:00.000 +00:00";
 
    const events = await Evenement.findAll({
+       order:[['debut_even']],
        where: {
            [Op.and]: 
             //afficher seulement les événements approuvés

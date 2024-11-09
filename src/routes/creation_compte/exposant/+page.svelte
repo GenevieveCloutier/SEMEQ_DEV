@@ -75,7 +75,7 @@
           </div>
 
           <div class="field">
-            <label class="label" for="insta">Page Facebook de l'entreprise</label>
+            <label class="label" for="facebook">Page Facebook de l'entreprise</label>
             <div class="control">
               <input class="input" type="url" name="facebook" id="facebook" placeholder="https://www.facebook.com/entreprise">
             </div>

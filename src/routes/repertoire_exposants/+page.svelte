@@ -4,23 +4,34 @@
     import H2Title from "$lib/components/titres/h2Title.svelte";
     import BoutonGris from "$lib/components/boutons/boutonGris.svelte";
     import BoutonBleu from "$lib/components/boutons/boutonBleu.svelte";
-    import BoutonMince from "$lib/components/boutons/boutonMince.svelte";
-    import Accordion, { createAccordionContext } from "$lib/components/generaux/accordion.svelte";
+    import Accordion, { createAccordionContext, getAccordionContext } from "$lib/components/generaux/accordion.svelte";
 	import { Cookies } from "nodemailer/lib/fetch";
     import { onMount } from "svelte";
     import Recherche from '$lib/components/generaux/recherche.svelte';
     import RechercheNoResult from '$lib/components/generaux/rechercheNoResult.svelte';
+    import UnExposant from "../../lib/components/repertoires/unExposant.svelte";
     import { domaines, recupMappage } from '$lib/outils/compteurBinaire';
 
 	export let data;
 	const { villes, regions, evenements, exposants } = data;
 
 //pour créer le contexte pour que les sections d'accordéon se referment quand on clique sur une autre
-    createAccordionContext();
+const { current } = createAccordionContext();
+
+// Fonction pour fermer tous les accordéons (si on change de région)
+    function fermerAccordeons() {
+        current.set(null); // Réinitialise `current` pour fermer tous les accordéons
+    }
+
+//pour fermer le message de notification
+    let notificationVisible = true;
+    function supprimerNotification() {
+        notificationVisible = false;
+    }
 
 // Barre de recherche
     let searchQuery = '';
-    let filteredEvents = evenements;
+    let filteredExposant = exposants;
 
 //fonction recherche, affiche des événements seulement si on clique sur la barre
     function barreRecherche(){
@@ -39,28 +50,28 @@
         repertoireEntier.hidden = false; 
     }
 
-const afficherDomaines = [
-   'Accessoires et sacs',
-    'Agro-alimentaire',
-    'Animaux',
-    'Arts visuels',
-    'Bijoux et joaillerie',
-    'Céramique et poterie',
-    'Décoration interieure',
-    'Ébenisterie',
-    'Forgerie',
-    'Jouets et loisirs',
-    'Papeterie et livres',
-    'Photographies',
-    'Produits corporels',
-    'Sculpture',
-    'Tricots et crochet',
-    'Verre et vitrail',
-    'Vêtements (tous)',
-    'Vetements pour enfants',
-    'Zéro déchet',
-    'Autres'
-];
+//     const afficherDomaines = [
+//     'Accessoires et sacs', 
+//     'Agro-alimentaire', 
+//     'Animaux',
+//     'Arts visuels',
+//     'Bijoux et joaillerie',
+//     'Céramique et poterie',
+//     'Décoration interieure',
+//     'Ébenisterie',
+//     'Forgerie',
+//     'Jouets et loisirs',
+//     'Papeterie et livres',
+//     'Photographies',
+//     'Produits corporels',
+//     'Sculpture',
+//     'Tricots et crochet',
+//     'Verre et vitrail',
+//     'Vêtements (tous)',
+//     'Vetements pour enfants',
+//     'Zéro déchet',
+//     'Autres'
+
 
 //afficher la flèche bleue quand une région est sélectionnée
   function afficherFleche(){
@@ -68,24 +79,24 @@ const afficherDomaines = [
     this.style.backgroundImage="url('/src/lib/img/app/fleche.png')";
     this.style.color="white";
     this.style.fontWeight="bold";
-    //document.getElementById('tableauMois').scrollIntoView()
     };
 
-//pour la recherche de région
-    let exposantsFiltre =""
-    let valeurDomaine = "" 
-    let valeurRegion = ""
+    let exposantsFiltre ="";
+    let chaqueDomaine = "";
+    let tableauDomaines = "";
+    let valeurDomaine = "" ;
+    let valeurRegion = "";
 
-function filtreRegionDate(){
+function filtreRegionDomaine(){
     exposantsFiltre = exposants;
     exposantsFiltre = exposantsFiltre.filter(
         exposant => exposant.ville.region.nom.split(" ")[0] == valeurRegion
         && (exposant.domaine & valeurDomaine) == valeurDomaine
     ); 
+    return exposantsFiltre
 }
-console.log(exposants[2].domaine)
 
-//aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDate()
+//aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDomaine()
   function chercherValeurRegion(){
     valeurRegion = this.value;
 
@@ -97,12 +108,11 @@ console.log(exposants[2].domaine)
         valeurRegion = "Gaspésie--Îles-de-la-Madeleine"
     }
 
-    filtreRegionDate()
+    filtreRegionDomaine()
     return valeurRegion
   }
 
-  
-//aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDate()
+//aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDomaine()
 function chercherValeurDomaine(){
     valeurDomaine = this.value;
     if(valeurDomaine == 'Accessoires et sacs'){valeurDomaine = '1'};
@@ -126,10 +136,37 @@ function chercherValeurDomaine(){
     if(valeurDomaine == 'Zéro déchet'){valeurDomaine = '262144'};
     if(valeurDomaine == 'Autres'){valeurDomaine = '524288'};
 
-    filtreRegionDate()
+    filtreRegionDomaine()
     return valeurDomaine
   }
 
+  //pour n'afficher que les catégories qui contiennent des exposants
+  function trierDomaine(){
+
+    chaqueDomaine = "";
+    tableauDomaines = [];
+    exposants;
+    valeurRegion;
+    tableauDomaines = new Set();
+
+    for(let x = 0; x<exposants.length; x++){
+        if(exposants[x].ville.region.nom.split(" ")[0] == valeurRegion){
+            chaqueDomaine = (recupMappage(exposants[x].domaine, domaines))
+        }
+       for (let y = 0; y<chaqueDomaine.length; y++){
+        if(chaqueDomaine[y] == 'accessoires_sacs'){chaqueDomaine[y] = 'Accessoires et sacs'}
+        if(chaqueDomaine[y] == 'agro-alimentaire'){chaqueDomaine[y] = 'Agro-alimentaire'}
+        if(chaqueDomaine[y] == 'animaux'){chaqueDomaine[y] = 'Animaux'}
+        if(chaqueDomaine[y] =='arts_visuels'){chaqueDomaine[y] = 'Arts visuels'}
+        if(chaqueDomaine[y] =='bijoux_joaillerie'){chaqueDomaine[y] = 'Bijoux et joaillerie'}
+        if(chaqueDomaine[y] =='ceramique_poterie'){chaqueDomaine[y] = 'Céramique et poterie'}
+        //ajouter les autres si ce n'est pas possible de les changer dans le compteurBinaire
+
+        tableauDomaines.add(chaqueDomaine[y])
+       }
+    };
+    return [...tableauDomaines] // retourne un tableau des noms des domaines où il y a un exposant dans la région
+}
 
 //pour enlever la flèche bleue quand une autre région est sélectionnée
   function resetCouleur(){
@@ -140,6 +177,7 @@ function chercherValeurDomaine(){
         boutons[x].style.fontWeight="normal"
     }
   };
+
   
   </script>
 
@@ -153,25 +191,25 @@ function chercherValeurDomaine(){
 
     <div class="columns">
         <div class="column mt-2 is-four-fifths">
-            <Recherche bind:searchQuery typeRecherche="un événement" />
+            <Recherche bind:searchQuery typeRecherche="un exposant" />
         </div>
         <div class="column block">
-            <BoutonBleu fonction={barreRecherche} texte={"Rechercher un événement"} />
+            <BoutonBleu fonction={barreRecherche} texte={"Rechercher un exposant"} />
         </div>
     </div>
 </div>
-<!-- 
+
 <div class="container is-centered">
     
     <div hidden id="resultatRecherche">
         <H2Title title={"Résultats de la recherche"} />
-        {#if filteredEvents.filter(event => event.nom.toLowerCase().includes(searchQuery.toLowerCase())).length === 0}
+        {#if filteredExposant.filter(event => event.nom.toLowerCase().includes(searchQuery.toLowerCase())).length === 0}
             <RechercheNoResult />
         {:else}
         <div class="columns is-multiline">
-            {#each filteredEvents.filter(event => event.nom.toLowerCase().includes(searchQuery.toLowerCase())) as event}
+            {#each filteredExposant.filter(exposant => exposant.nom.toLowerCase().includes(searchQuery.toLowerCase())) as exposant}
                 <div class="column is-one-quarter">
-                    <UnEvenement evenement={event} />
+                    <UnExposant exposant={ exposant } />
                 </div>  
         {/each}
     </div>
@@ -180,14 +218,14 @@ function chercherValeurDomaine(){
             <BoutonGris fonction={effacerRecherche} texte={"Effacer les résultats de recherche"} />
         </div>
     </div>
-</div> -->
+</div> 
 
 <div id="repertoireEntier" class="container">
     <!-- pour ajouter des explications sur l'utilisation sur un mobile -->
     <div class=" content has-background-light is-hidden-desktop is-hidden-tablet-only">
         <ol type="1">
             <li>Clique sur une <strong>région</strong> ci-dessous</li>
-            <li>Clique ensuite sur le <strong>la catégorie</strong> pour laquelle tu voudrais voir les entreprises enregistrés
+            <li>Clique ensuite sur la <strong> catégorie</strong> pour laquelle tu voudrais voir les entreprises enregistrées
             (sous la liste des régions)</li>
         </ol>
     </div>
@@ -200,6 +238,8 @@ function chercherValeurDomaine(){
                         class="is-uppercase has-text-left bouton" 
                         on:click={afficherFleche} 
                         on:click={chercherValeurRegion}
+                        on:click={trierDomaine}
+                        on:click={fermerAccordeons}
                         name="region">
                     <br>
                 {/each}
@@ -207,62 +247,54 @@ function chercherValeurDomaine(){
         </div>
 
        <div class="box column">
-             {#if exposantsFiltre}
-                {#each afficherDomaines as domaine}
-                <Accordion>
-
-                    <span  slot="head">
-                        <input readonly bind:value={domaine}
-                        class="has-text-black"
-                            on:click={chercherValeurDomaine}
-                            name="domaine">
-                    </span>
-
-                    <div slot="details">
-                        <div class="columns is-multiline">
-                    {#if exposantsFiltre.length > 0}
-                         {#each exposantsFiltre as exposant}
-                            <div class="column is-one-quarter">
-                                <div class=" card is-equal-height bordure mx-2">
-                                    <div class="card-content">
-                                        <p class="has-text-weight-bold">{exposant.nom}</p>
-
-                                        <p class="mt-2"><strong>Ville:</strong></p>
-                                        <p>{exposant.ville.nom}</p>
-                                        <p>{recupMappage(exposant.domaine, domaines)}</p>
-                                        
-                                        <!-- si l'utilisateur est abonné, afficher le bouton pour la fiche, sinon afficher l'icone -->
-                                         {#if exposant}
-                                            <div class="has-text-centered mt-2">
-                                                <BoutonMince lien={'/repertoire_exposants/id'} texte={"Voir la fiche"} />
-                                            </div>
-                                
-                                        {:else if exposant.fb_even}
-                                            <figure class=" image is-32x32 mt-2 is-pulled-right ">
-                                                <a href="{exposant.fb_even}" target="blank"><img src="/src/lib/img/app/facebook.svg" alt="Page facebook de l'événement"></a>
-                                            </figure>
-                                                 
-                                        {:else if exposant.site}
-                                            <figure class=" image is-32x32 mt-2 is-pulled-right">
-                                                <a href="{exposant.site}" target="blank"><img src="/src/lib/img/app/site_web.svg" alt="site web de l'événement"></a>
-                                            </figure>
-                                        {/if}
-                                    </div>
-                                </div>
-                            </div>
-                        {/each}
-                        {:else}
-                        <p class=" box bordure px-3 py-3 has-text-centered ">Aucun exposant dans cette catégorie<br>
-                             à afficher pour le moment!</p>
-                    {/if}
+        
+             {#if exposantsFiltre && [...tableauDomaines].length > 0}
+           
+                {#if notificationVisible}
+                    <div class="notification is-info is-light">
+                        <button class="delete" on:click={supprimerNotification}></button>
+                        Clique sur les catégorie pour voir les exposants. Tu peux aussi sélectionner une 
+                        autre région en tout temps.
                     </div>
-                </div>
-                </Accordion>
-                {/each}
-                {:else}
-                <p class="px-4 py-4 has-text-centered is-size-5 has-background-warning-light">Pour voir les exposants inscrits
-                    , cliquez sur une région</p>
-            {/if}
+                {/if}
+             
+                    {#each tableauDomaines as domaine}
+                    <Accordion>
+
+                        <span  slot="head">
+                            <input readonly bind:value={domaine}
+                            class="has-text-black"
+                                on:click={chercherValeurDomaine}
+                                on:click={trierDomaine}
+                                name={domaine}>
+                        </span>
+
+                        <div slot="details">
+                            <div class="columns is-multiline">
+                        {#if exposantsFiltre.length > 0}
+                            {#each exposantsFiltre as exposant}
+                                <div class="column is-one-quarter">
+                                    <UnExposant exposant={exposant}/>
+                                </div>
+                            {/each}
+                            {:else}
+                            <p class=" box bordure px-3 py-3 has-text-centered ">Aucun exposant dans cette catégorie<br>
+                                à afficher pour le moment!</p>
+                        {/if}
+                        </div>
+                    </div>
+                    </Accordion>
+                    {/each}
+
+                    {:else if exposantsFiltre && [...tableauDomaines].length == 0}
+                    <div class="encadre">
+                        <p>Aucun exposant n'est enregistré dans cette région pour le moment.</p>
+                        <p>Choisir une autre région en cliquant dans la liste des régions</p>
+                    </div>
+                    {:else}
+                    <p class="px-4 py-4 has-text-centered is-size-5 has-background-info-light">Pour voir les exposants inscrits
+                        , clique sur une région</p>
+                {/if}
         </div>
     </div> 
 </div>
@@ -276,6 +308,13 @@ function chercherValeurDomaine(){
 
     .bordure{
         border:1px solid lightgray;
+    }
+    .encadre{
+        border: 1px solid lightgray;
+        border-radius: 5px;
+        padding: 20px;
+        width:60%;
+        margin:auto;
     }
 
     .bouton{
@@ -291,7 +330,6 @@ function chercherValeurDomaine(){
         outline:none;
         cursor: pointer;
     }
-
 
 
 </style>

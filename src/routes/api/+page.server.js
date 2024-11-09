@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { createCookie, findOne } from "../../lib/db/controllers/sessions.controller.js";
+import { createCookie, findOne as findOneSession } from "../../lib/db/controllers/sessions.controller.js";
 import { authenticate, changementMDP, modificationUtilisateur, newUser, recuperationMDP } from '../../lib/db/controllers/Utilisateurs.controller.js';
-import { deleteUser, findOne } from '../../lib/db/controllers/Utilisateurs.controller.js';
+import { deleteUser, findOne as findOneUser} from '../../lib/db/controllers/Utilisateurs.controller.js';
 import { domaines, emplacements, envoieDomaine, envoieMappage, types, verifs } from '../../lib/outils/compteurBinaire.js';
 import { creationEvenement } from '../../lib/db/controllers/Evenements.controller.js';
 import { ajoutProduitPanier } from '../../lib/db/controllers/Paniers.controller.js';
@@ -162,7 +162,6 @@ export const actions = {
      */
 
     nouvelEvenement: async({cookies, request})=>{
-        //reste à changer la variable approuvé? Enregistre 1 si le form est payant, NULL si le form est gratuit, c'est ok?
         
         const data = await request.formData();
         const type = envoieMappage(data, types);
@@ -191,7 +190,7 @@ export const actions = {
 
         let session;
         try{
-            session = await findOne({uuid: cookies.get('session')});//ça fonctionne :D
+            session = await findOneSession({uuid: cookies.get('session')});//ça fonctionne :D
             //log("session dans api = ", session.utilisateur.abonne);
         }catch(error){
             throw (error);
@@ -432,7 +431,7 @@ export const actions = {
 
         let session;
         try{
-            session = await findOne({uuid: cookies.get('session')});
+            session = await findOneSession({uuid: cookies.get('session')});
         }catch(error){
             throw (error);
         }

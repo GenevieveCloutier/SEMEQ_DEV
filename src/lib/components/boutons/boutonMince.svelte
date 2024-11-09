@@ -1,6 +1,7 @@
 <script>
 	export let texte;
-	export let lien;
+	export let lien = "";
+
 	export let fonction = () => {};
 </script>
 
@@ -8,6 +9,7 @@
 
 <style>
 	button {
+		width: 100%;
 		background-color: #d9d9d9;
 		border-radius: 5px;
 		color: black;

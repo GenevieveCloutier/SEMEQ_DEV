@@ -25,7 +25,8 @@ export async function load({params, cookies}){
                   { model: Region, as: "region" }
                 ]
             }
-        ]
+        ],
+        
     })
 
     let resultat = exposants.map(utilisateur => ({

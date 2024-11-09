@@ -84,7 +84,8 @@ function filtreRegionDate(){
     evenementsFiltre = evenements;
     evenementsFiltre = evenementsFiltre.filter(
         evenement => evenement.ville.region.nom.split(" ")[0] == valeurRegion
-        && (evenement.debut_even.toISOString().split("-")[1] == valeurDate)
+        && ((evenement.debut_even.toISOString().split("-")[1] == valeurDate)  
+            || (evenement.fin_even.toISOString().split("-")[1] == valeurDate))
     );  
 }
 
@@ -227,7 +228,7 @@ function filtreRegionDate(){
                 </Accordion>
                 {/each}
                 {:else}
-                <p class="px-4 py-4 has-text-centered is-size-5 has-background-warning-light">Pour voir les événements, cliquez sur une région</p>
+                <p class="px-4 py-4 has-text-centered is-size-5 has-background-info-light">Pour voir les événements, clique sur une région</p>
             {/if}
         </div>
     </div>

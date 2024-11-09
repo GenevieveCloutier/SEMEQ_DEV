@@ -22,6 +22,7 @@
 </script>
 <script>
     import { slide } from 'svelte/transition';
+    import { quadInOut } from 'svelte/easing';
     
     export let open = false;
 	
@@ -62,7 +63,7 @@
       
             <!-- si ouvert, afficher le texte / résulats -->
             {#if open}
-            <div class="details" transition:slide>
+            <div class="details" transition:slide="{{ duration: 150, easing: quadInOut }}" >
                 <slot name="details"></slot>
             </div>
             {/if}
