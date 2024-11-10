@@ -188,7 +188,7 @@
 
 					<div>
 						<div class="field">
-							<label class="label" for="site">Site web ou page Facebook de l'événement</label>
+							<label class="label" for="site">Site web de l'organisation ou de l'événement (si disponible)</label>
 							<div class="control">
 								<input class="input" type="url" name="site" id="siteWebEven" placeholder="https://www.monevenement.com"/>
 							</div>
@@ -197,9 +197,27 @@
 
 				<div class="my-5">
 					<div class="field">
-						<label class="label" for="fb_even">Lien vers l'événement Facebook</label>
+						<label class="label" for="fb_even">Lien vers la page ou l'événement Facebook (si disponible)</label>
 						<div class="control">
 							<inpuT class="input" type="url" name="fb_even" id="lienFBEven" placeholder="https://www.facebook.com/events/123456789123"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="my-5">
+					<div class="field">
+						<label class="label" for="insta_even">Lien vers le compte Instagram de l'organisation ou de l'évènement (si disponible)</label>
+						<div class="control">
+							<inpuT class="input" type="url" name="insta_even" id="insta_even" placeholder="https://www.instagram.com"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="my-5">
+					<div class="field">
+						<label class="label" for="tiktok_even">Lien vers le compte Tiktok de l'organisation ou de l'évènement (si disponible)</label>
+						<div class="control">
+							<inpuT class="input" type="url" name="tiktok_even" id="tiktok_even" placeholder="https://www.instagram.com"/>
 						</div>
 					</div>
 				</div>

@@ -51,6 +51,10 @@
                 <figure class=" image is-32x32 mt-2 is-pulled-right">
                     <a href="{exposant.tiktok}" target="blank"><img src="/src/lib/img/app/tiktok.svg" alt="site web de l'enterprise"></a>
                 </figure>
+            {:else}
+            <figure class=" image is-32x32 mt-2 is-pulled-right">
+                <img src="/src/lib/img/app/non_disponible.svg" alt="aucun lien disponible">
+            </figure>
 
             {/if}
         </div>

@@ -212,6 +212,8 @@ export const actions = {
                 data.get('profil'),
                 data.get('site'), 
                 data.get('fb_even'),
+                data.get('insta_even'),
+                data.get('tiktok_even'),
                 data.get('courriel'),
                 data.get('ville_id'),
                 data.get('adresse'),

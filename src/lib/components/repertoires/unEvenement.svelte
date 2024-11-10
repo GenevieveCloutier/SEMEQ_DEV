@@ -37,14 +37,14 @@ import BoutonMince from "$lib/components/boutons/boutonMince.svelte";
                 <a href="{evenement.fb_even}" target="blank"><img src="/src/lib/img/app/facebook.svg" alt="Page facebook de l'événement"></a>
             </figure>
 
-        {:else if evenement.utilisateur.insta}
+        {:else if evenement.insta_even}
         <figure class=" image is-32x32 mt-2 is-pulled-right">
-            <a href="{evenement.utilisateur.insta}" target="blank"><img src="/src/lib/img/app/insta.svg" alt="lien vers le compte instagram"></a>
+            <a href="{evenement.insta_even}" target="blank"><img src="/src/lib/img/app/insta.svg" alt="lien vers le compte instagram"></a>
         </figure>
 
-        {:else if evenement.utilisateur.tiktok}
+        {:else if evenement.tiktok_even}
         <figure class=" image is-32x32 mt-2 is-pulled-right">
-            <a href="{evenement.utilisateur.tiktok}" target="blank"><img src="/src/lib/img/app/tiktok.svg" alt="lien vers le compte tiktok"></a>
+            <a href="{evenement.tiktok_even}" target="blank"><img src="/src/lib/img/app/tiktok.svg" alt="lien vers le compte tiktok"></a>
         </figure>
 
         {:else}

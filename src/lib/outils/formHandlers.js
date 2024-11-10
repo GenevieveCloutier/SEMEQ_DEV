@@ -222,7 +222,7 @@ export async function creationEvenement(event) {
 		if (document.cookie.includes('origine'))
 			origine = document.cookie.replaceAll('%2F', '/').slice(8); //*Remplace les '%2F' par des '/' et enlève les 8 premier caractères (origine=)
 		//!Cette solution ne fonctionne que si il n'y as qu'un seul cookie http:false
-		if (result.status == 200) window.location.href = origine; //redirection a discuter avec le groupe
+		if (result.status == 200)alert("Événement ajouté avec succès!"), window.location.href = origine; //redirection a discuter avec le groupe
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {
 		console.error('erreur inattendue : ', error);
@@ -274,7 +274,7 @@ export async function creationEvenementPayant(event) {
 			body: formData
 		});
 		const result = await response.json();
-		if (result.status == 200) window.location.href = '/'; //redirection a discuter avec le groupe
+		if (result.status == 200)alert("Événement ajouté avec succès!"), window.location.href = '/'; //redirection a discuter avec le groupe
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 		return;
 	} catch (error) {

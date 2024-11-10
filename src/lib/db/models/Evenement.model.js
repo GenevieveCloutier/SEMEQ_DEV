@@ -68,6 +68,14 @@ export const Evenement = sequelize.define("evenement", {
         type: DataTypes.STRING,
         allowNull: true
     },
+    insta_even: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    tiktok_even: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     courriel: {
         type: DataTypes.STRING,
         allowNull: true

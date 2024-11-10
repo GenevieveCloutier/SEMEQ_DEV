@@ -6,7 +6,6 @@
     import BoutonBleu from "$lib/components/boutons/boutonBleu.svelte";
     import Accordion, { createAccordionContext, getAccordionContext } from "$lib/components/generaux/accordion.svelte";
 	import { Cookies } from "nodemailer/lib/fetch";
-    import { onMount } from "svelte";
     import Recherche from '$lib/components/generaux/recherche.svelte';
     import RechercheNoResult from '$lib/components/generaux/rechercheNoResult.svelte';
     import UnExposant from "../../lib/components/repertoires/unExposant.svelte";
@@ -16,11 +15,12 @@
 	const { villes, regions, evenements, exposants } = data;
 
 //pour créer le contexte pour que les sections d'accordéon se referment quand on clique sur une autre
-const { current } = createAccordionContext();
+    const { current } = createAccordionContext();
 
 // Fonction pour fermer tous les accordéons (si on change de région)
     function fermerAccordeons() {
-        current.set(null); // Réinitialise `current` pour fermer tous les accordéons
+        // réinitialise current pour fermer tous les accordéons quand on change de région
+        current.set(null); 
     }
 
 //pour fermer le message de notification
@@ -49,29 +49,6 @@ const { current } = createAccordionContext();
         resultatRecherche.hidden = true;
         repertoireEntier.hidden = false; 
     }
-
-//     const afficherDomaines = [
-//     'Accessoires et sacs', 
-//     'Agro-alimentaire', 
-//     'Animaux',
-//     'Arts visuels',
-//     'Bijoux et joaillerie',
-//     'Céramique et poterie',
-//     'Décoration interieure',
-//     'Ébenisterie',
-//     'Forgerie',
-//     'Jouets et loisirs',
-//     'Papeterie et livres',
-//     'Photographies',
-//     'Produits corporels',
-//     'Sculpture',
-//     'Tricots et crochet',
-//     'Verre et vitrail',
-//     'Vêtements (tous)',
-//     'Vetements pour enfants',
-//     'Zéro déchet',
-//     'Autres'
-
 
 //afficher la flèche bleue quand une région est sélectionnée
   function afficherFleche(){
@@ -112,37 +89,100 @@ function filtreRegionDomaine(){
     return valeurRegion
   }
 
-//aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDomaine()
-function chercherValeurDomaine(){
-    valeurDomaine = this.value;
-    if(valeurDomaine == 'Accessoires et sacs'){valeurDomaine = '1'};
-    if(valeurDomaine == 'Agro-alimentaire'){valeurDomaine = '2'};
-    if(valeurDomaine == 'Animaux'){valeurDomaine = '4'};
-    if(valeurDomaine == 'Arts visuels'){valeurDomaine = '8'};
-    if(valeurDomaine == 'Bijoux et joaillerie'){valeurDomaine = '16'};
-    if(valeurDomaine == 'Céramique et poterie'){valeurDomaine = '32'};
-    if(valeurDomaine == 'Décoration intérieure'){valeurDomaine = '64'};
-    if(valeurDomaine == 'Ébenisterie'){valeurDomaine = '128'};
-    if(valeurDomaine == 'Forgerie'){valeurDomaine = '256'};
-    if(valeurDomaine == 'Jouets et loisirs'){valeurDomaine = '512'};
-    if(valeurDomaine == 'Papetrie et livres'){valeurDomaine = '1024'};
-    if(valeurDomaine == 'Photographies'){valeurDomaine = '2048'};
-    if(valeurDomaine == 'Produits corporels'){valeurDomaine = '4096'};
-    if(valeurDomaine == 'Sculpture'){valeurDomaine = '8192'};
-    if(valeurDomaine == 'Tricot et crochet'){valeurDomaine = '16384'};
-    if(valeurDomaine == 'Verre et vitrail'){valeurDomaine = '32768'};
-    if(valeurDomaine == 'Vêtements (tous)'){valeurDomaine = '65536'};
-    if(valeurDomaine == 'Vêtements pour enfants'){valeurDomaine = '131072'};
-    if(valeurDomaine == 'Zéro déchet'){valeurDomaine = '262144'};
-    if(valeurDomaine == 'Autres'){valeurDomaine = '524288'};
 
+  const mappageDomaines = {
+    'accessoires_sacs' : {
+        nom: 'Accessoires et sacs',
+        valeur: '1'
+    },
+    'agro-alimentaire' : {
+        nom: 'Agro-Alimentaire',
+        valeur: '2'
+    },
+    'animaux' : {
+        nom: 'Animaux',
+        valeur:'4'
+    },
+    'arts_visuels' : {
+        nom: 'Arts visuels',
+        valeur:'8'
+    },
+    'bijoux_joaillerie' : {
+        nom: 'Bijoux et joaillerie',
+        valeur:'16'
+    },
+    'ceramique_poterie' : {
+        nom: 'Céramique et poterie',
+        valeur:'32'
+    },
+    'decoration_interieure' : {
+        nom: 'Décoration intérieure',
+        valeur:'64'
+    },
+    'ebenisterie' : {
+        nom: 'Ébenisterie',
+        valeur:'128'
+    },
+    'forgerie' : {
+        nom: 'Forgerie',
+        valeur:'256'
+    },
+    'jouets_loisirs' : {
+        nom: 'Jouets et loisirs',
+        valeur:'512'
+    },
+    'papeteries_livres' : {
+        nom: 'Papeterie et livres',
+        valeur:'1024'
+    },
+    'photographies' : {
+        nom: 'Photographies',
+        valeur:'2048'
+    },
+    'produits_corporels' : {
+        nom: 'Produits corporels',
+        valeur:'4096'
+    },
+    'sculpture' : {
+        nom: 'Sculpture',
+        valeur:'8192'
+    },
+    'tricots_crochets' : {
+        nom: 'Tricots et crochet',
+        valeur:'16384'
+    },
+    'verre_vitrail' : {
+        nom: 'Verre et vitrail',
+        valeur:'32768'
+    },
+    'vetements_tous' : {
+        nom: 'Vêtements (tous)',
+        valeur:'65536'
+    },
+    'vetements_enfants' : {
+        nom: 'Vêtements pour enfants',
+        valeur:'131072'
+    },
+    'zero_dechet' : {
+        nom: 'Zéro déchet',
+        valeur:'262144'
+    },
+    'autres' : {
+        nom: 'Autres',
+        valeur:'524288'
+    }
+  };
+
+  
+//aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDomaine()
+function chercherValeurDomaine(domaine){
+    valeurDomaine = domaine.valeur;
     filtreRegionDomaine()
     return valeurDomaine
   }
 
   //pour n'afficher que les catégories qui contiennent des exposants
   function trierDomaine(){
-
     chaqueDomaine = "";
     tableauDomaines = [];
     exposants;
@@ -153,19 +193,17 @@ function chercherValeurDomaine(){
         if(exposants[x].ville.region.nom.split(" ")[0] == valeurRegion){
             chaqueDomaine = (recupMappage(exposants[x].domaine, domaines))
         }
-       for (let y = 0; y<chaqueDomaine.length; y++){
-        if(chaqueDomaine[y] == 'accessoires_sacs'){chaqueDomaine[y] = 'Accessoires et sacs'}
-        if(chaqueDomaine[y] == 'agro-alimentaire'){chaqueDomaine[y] = 'Agro-alimentaire'}
-        if(chaqueDomaine[y] == 'animaux'){chaqueDomaine[y] = 'Animaux'}
-        if(chaqueDomaine[y] =='arts_visuels'){chaqueDomaine[y] = 'Arts visuels'}
-        if(chaqueDomaine[y] =='bijoux_joaillerie'){chaqueDomaine[y] = 'Bijoux et joaillerie'}
-        if(chaqueDomaine[y] =='ceramique_poterie'){chaqueDomaine[y] = 'Céramique et poterie'}
-        //ajouter les autres si ce n'est pas possible de les changer dans le compteurBinaire
 
+       for (let y = 0; y<chaqueDomaine.length; y++){
+        chaqueDomaine[y] = mappageDomaines[chaqueDomaine[y]] || chaqueDomaine[y];
         tableauDomaines.add(chaqueDomaine[y])
        }
     };
-    return [...tableauDomaines] // retourne un tableau des noms des domaines où il y a un exposant dans la région
+    //pour trier la liste pour affichage par ordre alphabetique
+    tableauDomaines = [...tableauDomaines].sort((a, b) => a.nom.localeCompare(b.nom))
+
+    // retourne un tableau des domaines où il y a un exposant dans la région pour l'affichage à l'utilisateur des domaines
+    return [...tableauDomaines]
 }
 
 //pour enlever la flèche bleue quand une autre région est sélectionnée
@@ -177,7 +215,6 @@ function chercherValeurDomaine(){
         boutons[x].style.fontWeight="normal"
     }
   };
-
   
   </script>
 
@@ -251,7 +288,7 @@ function chercherValeurDomaine(){
              {#if exposantsFiltre && [...tableauDomaines].length > 0}
            
                 {#if notificationVisible}
-                    <div class="notification is-info is-light">
+                    <div class="notification is-info is-light has-text-centered">
                         <button class="delete" on:click={supprimerNotification}></button>
                         Clique sur les catégorie pour voir les exposants. Tu peux aussi sélectionner une 
                         autre région en tout temps.
@@ -262,11 +299,11 @@ function chercherValeurDomaine(){
                     <Accordion>
 
                         <span  slot="head">
-                            <input readonly bind:value={domaine}
+                            <input readonly bind:value={domaine.nom}
                             class="has-text-black"
-                                on:click={chercherValeurDomaine}
-                                on:click={trierDomaine}
-                                name={domaine}>
+                            on:click={(event) => chercherValeurDomaine(domaine)}
+                            on:click={(event) => trierDomaine(domaine.valeur)}
+                            name={domaine}>
                         </span>
 
                         <div slot="details">
@@ -289,7 +326,7 @@ function chercherValeurDomaine(){
                     {:else if exposantsFiltre && [...tableauDomaines].length == 0}
                     <div class="encadre">
                         <p>Aucun exposant n'est enregistré dans cette région pour le moment.</p>
-                        <p>Choisir une autre région en cliquant dans la liste des régions</p>
+                        <p>Choisis une autre région en cliquant dans la liste des régions</p>
                     </div>
                     {:else}
                     <p class="px-4 py-4 has-text-centered is-size-5 has-background-info-light">Pour voir les exposants inscrits
