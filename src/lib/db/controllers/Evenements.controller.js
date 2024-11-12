@@ -3,6 +3,7 @@ import { Evenement } from '../models/Evenement.model';
 import { Utilisateur } from '../models/Utilisateur.model';
 import { Ville } from '../models/Ville.model';
 import { Region } from '../models/Region.model';
+import { log } from '../../outils/debug';
 
 /**
  * Récupère tous les événements de la base de données.
@@ -184,7 +185,6 @@ export async function creationEvenement(
 		if (doublon.length > 0) {
 			throw 'Un événement similaire existe déjà';
 		}
-		if (!p_photo_1) p_photo_1 = '..\\src\\lib\\img\\app\\produit_defaut.png';
 
 		const resultat = await Evenement.create({
 			nom: p_nom,

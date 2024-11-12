@@ -60,7 +60,7 @@
 
 	//La on vérifie si une notif success a ete envoyée
 	$: if ($success) {
-		visible = true; //Visible a true popur assurer la vue sur le formulaire complet
+		visible = true; //Visible a true pour assurer la vue sur le formulaire complet
 		setTimeout(() => {
 			chargeInfos(); //Pour transformer les infos de la bd en valeur utilisable (genre les checkbox)
 		}, 1000); //Retarder d'une petite seconde sinon il essaie d'assigner une valeur a qqch qui n'existe pas encore

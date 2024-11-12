@@ -6,6 +6,7 @@ import { log } from '../../lib/outils/debug.js';
 export async function load({ cookies, params }){
     // Récupérer user_id de la session
     const cookiesId = cookies.get('id');
+    log("les cookies = ", cookies.getAll());
     if (!cookiesId) {
         throw redirect(307, '/connexion');
     }

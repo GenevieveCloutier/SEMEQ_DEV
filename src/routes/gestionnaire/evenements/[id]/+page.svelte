@@ -7,7 +7,10 @@
 	import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
     import {creationEvenementPayant, erreur} from '$lib/outils/formHandlers';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
+	import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import { onMount } from 'svelte';
+    import Confirmation from '$lib/components/notifications/confirmation.svelte';
+	import { modifEvenement } from '../../../../lib/outils/formHandlers';
 
     export let data;
     const { villes, evenement, liste_emplacement, liste_type, liste_verif } = data;
@@ -53,11 +56,11 @@ function dateConforme(dateDebut, dateFin){
 </script>
 
 <H1Title title={"Détails de l'événement"} />
-
+<NotifSuccess />
 <NotifDanger />
 <div class="block">
 
-	<form > <!-- ! Faire la fonction de modif d'evenement ---   on:submit|preventDefault={} -->
+	<form on:submit|preventDefault={modifEvenement}>
         <div class="box">
 
         <!-- section pour les infos de l'événement -->
@@ -401,6 +404,7 @@ function dateConforme(dateDebut, dateFin){
                 </div>
             </div>
         </div> 
+        <input value="{evenement.id}" hidden readonly name="id">
 
     </div>
 
@@ -408,14 +412,14 @@ function dateConforme(dateDebut, dateFin){
 
 		<!-- Boutons en bas de page -->
 		<div class="block has-text-right">
-            {#if !evenement.approuve}
-            <button class="button">Approuver</button><!-- ! prévoir la fonction pour approuver -->
-            {/if}
+           
 			<!-- Valider si SubmitButon fait la bonne action! -->
 			<SubmitButon texte={'Enregistrer'}></SubmitButon>
-            <button class="button is-danger is-dark">Supprimer l'événement</button> <!-- ! prévoir la fonction pour Supprimer -->
 			<Retour />
 		</div>
+        <div class="block has-text-right">
+            <Confirmation id={evenement.id} but='evenement'/>
+        </div>
 
 <!-- fin section 3 -->
 </div>

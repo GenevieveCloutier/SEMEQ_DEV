@@ -1,4 +1,5 @@
 <script>
+	import { invalidateAll } from '$app/navigation';
 	import H1Title from '$lib/components/titres/h1Title.svelte';
 	import SectionEvenement from '../../../lib/components/boites/sectionEvenement.svelte';
 	import { onMount } from 'svelte';
@@ -7,14 +8,17 @@
 		const actives = document.querySelectorAll('a.is-active');
 		actives.forEach((x) => x.classList.remove('is-active'));
 		document.getElementById('mesEvenements').classList.add('is-active');
+		// async () => await invalidateAll();
 	});
 
+	
 	export let data;
 	const { evenements, utilisateur } = data;
 
 	let lien = utilisateur.abonne
 		? './mes_evenements/inscription_evenement_abonne'
 		: '/repertoire_evenements/inscription_evenement_gratuit';
+	
 </script>
 
 <H1Title title={'Mes événements'} />
@@ -29,8 +33,8 @@
 					id={evenement.id}
 					photo={evenement.photo_1}
 					nom={evenement.nom}
-					debut_even={evenement.debut_even.toLocaleDateString('fr-CA')}
-					fin_even={evenement.fin_even.toLocaleDateString('fr-CA')}
+					debut_even={evenement.debut_even.toLocaleDateString('fr-CA', {timeZone: 'UTC'})}
+					fin_even={evenement.fin_even.toLocaleDateString('fr-CA', {timeZone: 'UTC'})}
 				/>
 			{/each}
 		</div>

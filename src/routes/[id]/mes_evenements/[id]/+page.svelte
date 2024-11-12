@@ -11,9 +11,11 @@
 	import { onMount } from 'svelte';
 	import Confirmation from '$lib/components/notifications/confirmation.svelte';
     import {modifEvenement} from '$lib/outils/formHandlers';
-
+	import { success } from '../../../../lib/outils/formHandlers.js';
+	import { invalidateAll } from '$app/navigation';
+	import { log } from '../../../../lib/outils/debug.js';
     export let data;
-    const { villes, evenement, liste_emplacement, liste_type, liste_verif } = data;
+    let { villes, evenement, liste_emplacement, liste_type, liste_verif } = data;
     //données du input type d'exposants pour preciser()
 	onMount(()=>{
         liste_emplacement.forEach(emplacement => {
@@ -32,6 +34,19 @@
             document.querySelector(`[name="limite"]`).checked = true;
         if(evenement.selection)
             document.querySelector(`[name="selection"]`).checked = true;
+
+
+            const pourAbonne = [
+		'fondation',
+		'nb_visiteur',
+		'nb_expo',
+		'profil',
+		'description',
+		'photo_1',
+		'photo_2',
+		'photo_3'
+	];
+	pourAbonne.forEach((x) => document.querySelector(`[name="${x}"]`).disabled = true);
     });
 
     //fonction pour éviter que la date de début enregistrée soit après la date de fin
@@ -53,6 +68,20 @@ function dateConforme(dateDebut, dateFin){
     let dateFin = document.querySelector("#dateCandEvenPayantFin");
     dateConforme(dateDebut, dateFin)
   }
+  async function rechargement(){
+    await invalidateAll();
+    villes = data.villes;
+    evenement = data.evenement;
+    liste_emplacement = data.liste_emplacement;
+    liste_type = data.liste_type;
+    liste_verif = data.liste_verif;
+
+  }
+  $: if($success){
+   setTimeout(() => {
+    rechargement();
+   }, 1000);
+  }
 </script>
 
 <H1Title title={"Détails de l'événement"} />
@@ -61,7 +90,7 @@ function dateConforme(dateDebut, dateFin){
 <NotifSuccess />
 <div class="block">
 
-	<form on:submit|preventDefault={modifEvenement}> <!-- ! Faire la fonction de modif d'evenement ---   on:submit|preventDefault={} -->
+	<form on:submit|preventDefault={modifEvenement}>
         <div class="box">
 
         <!-- section pour les infos de l'événement -->

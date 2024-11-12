@@ -22,6 +22,7 @@ import { newType } from '../lib/db/controllers/Types.controller.js';
 
 //Appel de fonctions externe
 import { redirect } from '@sveltejs/kit';
+import { nouveauBillet } from '../lib/db/controllers/Blogs.controller.js';
 
 /**
  * Initialise la base de données en synchronisant les modèles Sequelize.
@@ -86,6 +87,6 @@ export async function load({ params, cookies }) {
     if (role == '4'){
         redirect(302, '/visiteur');
     }
+    
     return {users: users, session: session}; //tous les utilisateurs
 }
-
