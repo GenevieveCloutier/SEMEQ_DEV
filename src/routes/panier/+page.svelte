@@ -78,9 +78,9 @@
                     <button type="submit" class="button is-danger is-outlined">Supprimer les éléments</button>
                 </form>
             </div>
-            <div class="column">
+            <!--<div class="column">
                 <ViderPanier utilisateur_id={utilisateur.id} />
-            </div>
+            </div>-->
         </div>
     
         <div class="columns">

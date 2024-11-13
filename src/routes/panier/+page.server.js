@@ -1,4 +1,5 @@
 import { redirect } from '@sveltejs/kit';
+import { Panier } from '$lib/db/models/Panier.model';
 import { findOne } from '$lib/db/controllers/Utilisateurs.controller';
 import { findAllInCart } from '$lib/db/controllers/Paniers.controller';
 
