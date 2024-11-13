@@ -1,6 +1,7 @@
 import { Utilisateur } from '../models/Utilisateur.model';
 import { Role } from '../models/Role.model';
 import { Ville } from '../models/Ville.model';
+import { Region } from "../models/Region.model";
 import { error } from '@sveltejs/kit';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
@@ -17,27 +18,31 @@ import { Op } from 'sequelize';
  *
  * @throws {Error} - Lance une erreur en cas de problème lors de la récupération.
  */
-export async function findAll() {
-	return Utilisateur.findAll({
-		include: [
-			{ model: Role, as: 'role' },
-			{ model: Ville, as: 'ville' }
-		]
-	})
-		.then((resultat) => {
-			if (resultat.length === 0) {
-				console.log('Aucun utilisateur à afficher');
-			}
-			return resultat.map((utilisateur) => ({
-				...utilisateur.dataValues,
-				role: utilisateur.role ? utilisateur.role.dataValues : null,
-				ville: utilisateur.ville ? utilisateur.ville.dataValues : null
-			}));
-		})
-		.catch((error) => {
-			throw error;
-		});
-}
+export async function findAll(){
+    return  Utilisateur.findAll({
+        include: [
+            { model: Role, as: "role" },
+            { model: Ville, as: "ville" , include: [{ model: Region, as: 'region' }] }
+        ]
+    }).then(resultat => {
+        if(resultat.length === 0){
+            console.log("Aucun utilisateur à afficher")
+        }
+        return resultat.map(utilisateur => ({
+            ...utilisateur.dataValues,
+            role: utilisateur.role ? utilisateur.role.dataValues : null,
+            ville: utilisateur.ville
+					? {
+							...utilisateur.ville.dataValues,
+							region: utilisateur.ville.region ? utilisateur.ville.region.dataValues : null
+						}
+					: null
+        }));
+    })
+    .catch((error)=>{
+        throw error;
+    });
+};
 
 /**
  * Trouve un utilisateur selon les critères de recherche spécifiés.
@@ -89,6 +94,7 @@ export async function findOne(p_where) {
  * @param {string} p_courriel - Courriel de l'utilisateur.
  * @param {string} p_pwd - Mot de passe de l'utilisateur.
  * @param {string} p_site - Site web de l'utilisateur (facultatif).
+ * @param {string} p_facebook - Page facebook l'entreprise(facultatif).
  * @param {string} p_insta - Compte Instagram de l'utilisateur (facultatif).
  * @param {string} p_tiktok - Compte TikTok de l'utilisateur (facultatif).
  * @param {string} p_domaine - Domaine de travail de l'utilisateur (facultatif).
@@ -119,6 +125,7 @@ export async function newUser(
 	p_courriel,
 	p_pwd,
 	p_site,
+	p_facebook,
 	p_insta,
 	p_tiktok,
 	p_domaine,
@@ -150,6 +157,7 @@ export async function newUser(
 			courriel: p_courriel,
 			pwd: p_pwd,
 			site: p_site,
+			facebook: p_facebook,
 			insta: p_insta,
 			tiktok: p_tiktok,
 			domaine: p_domaine,

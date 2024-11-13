@@ -89,6 +89,8 @@ export async function findOne(p_where) {
  * @param {string} p_profil - Le profil de visiteurs attendus.
  * @param {string} p_site - L'URL du site de l'événement.
  * @param {string} p_fb_even - L'URL de la page Facebook de l'événement.
+ * @param {string} p_insta_even - L'URL de la page instagram de l'événement.
+ * @param {string} p_tiktok_even - L'URL de la page Tiktok de l'événement.
  * @param {string} p_courriel - L'adresse courriel de l'événement.
  * @param {number} p_ville_id - L'ID de la ville de l'événement.
  * @param {string} p_adresse - L'adresse de l'événement.
@@ -124,6 +126,8 @@ export async function creationEvenement(
 	p_profil,
 	p_site,
 	p_fb_even,
+	p_insta_even,
+	p_tiktok_even,
 	p_courriel,
 	p_ville_id,
 	p_adresse,
@@ -178,6 +182,8 @@ export async function creationEvenement(
 			profil: p_profil,
 			site: p_site,
 			fb_even: p_fb_even,
+			insta_even: p_insta_even,
+			tiktok_even: p_tiktok_even,
 			courriel: p_courriel,
 			ville_id: p_ville_id,
 			adresse: p_adresse,

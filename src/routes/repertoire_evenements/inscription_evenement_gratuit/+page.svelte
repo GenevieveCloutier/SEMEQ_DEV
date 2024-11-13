@@ -9,11 +9,19 @@
 	import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
 	import { creationEvenement, erreur } from '$lib/outils/formHandlers';
+	import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
+	import { success } from '$lib/outils/formHandlers';
 	import { redirect } from '@sveltejs/kit';
+	import { goto } from '$app/navigation';
 
 	export let data;
 	const {villes, users, session, role} = data;
 
+	// attend 3 secondes après le succès d'envoi de formulaire puis redirige vers l'accueil
+	$: if ($success) {
+		setTimeout(() => {
+			goto("/")}, 3000); 
+	}
 
 	//pour afficher une boite de texte si "autres" est sélectionné
 	function preciser(champs, input, requis) {
@@ -87,9 +95,10 @@
 </script>
 
 <div class="block">
-{#if $erreur}
-    <NotifDanger></NotifDanger>
-{/if}
+
+	<NotifSuccess />
+    <NotifDanger />
+
 
 	<H1Title title={'Inscrire mon événement gratuitement'} />
 	<p class="has-text-centered mb-4">(Délai de traitement de 3 jours ouvrables)</p>
@@ -188,7 +197,7 @@
 
 					<div>
 						<div class="field">
-							<label class="label" for="site">Site web ou page Facebook de l'événement</label>
+							<label class="label" for="site">Site web de l'organisation ou de l'événement (si disponible)</label>
 							<div class="control">
 								<input class="input" type="url" name="site" id="siteWebEven" placeholder="https://www.monevenement.com"/>
 							</div>
@@ -197,9 +206,27 @@
 
 				<div class="my-5">
 					<div class="field">
-						<label class="label" for="fb_even">Lien vers l'événement Facebook</label>
+						<label class="label" for="fb_even">Lien vers la page ou l'événement Facebook (si disponible)</label>
 						<div class="control">
 							<inpuT class="input" type="url" name="fb_even" id="lienFBEven" placeholder="https://www.facebook.com/events/123456789123"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="my-5">
+					<div class="field">
+						<label class="label" for="insta_even">Lien vers le compte Instagram de l'organisation ou de l'évènement (si disponible)</label>
+						<div class="control">
+							<inpuT class="input" type="url" name="insta_even" id="insta_even" placeholder="https://www.instagram.com"/>
+						</div>
+					</div>
+				</div>
+
+				<div class="my-5">
+					<div class="field">
+						<label class="label" for="tiktok_even">Lien vers le compte Tiktok de l'organisation ou de l'évènement (si disponible)</label>
+						<div class="control">
+							<inpuT class="input" type="url" name="tiktok_even" id="tiktok_even" placeholder="https://www.instagram.com"/>
 						</div>
 					</div>
 				</div>

@@ -1,6 +1,6 @@
 <script>
 	export let texte;
-	export let lien;
+	export let lien = "";
 	export let fonction = () => {};
 </script>
 

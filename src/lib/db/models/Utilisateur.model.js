@@ -41,6 +41,10 @@ export const Utilisateur = sequelize.define('utilisateur', {
         type: DataTypes.STRING,
         allowNull: true
     },
+    facebook: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     insta: {
         type: DataTypes.STRING,
         allowNull: true

@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { createCookie, findOne as findSession } from "../../lib/db/controllers/sessions.controller.js";
+import { createCookie, findOne as findOneSession } from "../../lib/db/controllers/sessions.controller.js";
 import { authenticate, changementMDP, modificationUtilisateur, newUser, recuperationMDP } from '../../lib/db/controllers/Utilisateurs.controller.js';
-import { deleteUser, findOne } from '../../lib/db/controllers/Utilisateurs.controller.js';
+import { deleteUser, findOne as findOneUser} from '../../lib/db/controllers/Utilisateurs.controller.js';
 import { domaines, emplacements, envoieDomaine, envoieMappage, types, verifs } from '../../lib/outils/compteurBinaire.js';
 import { creationEvenement } from '../../lib/db/controllers/Evenements.controller.js';
 import { ajoutProduitPanier, deleteCart } from '../../lib/db/controllers/Paniers.controller.js';
@@ -12,7 +12,7 @@ import path from 'path';
 import { randomUUID } from 'crypto';
 
 //Chemins de base pour stocker les photos
-const cheminBase = path.join(process.cwd(), 'src/lib/img/app/evenements'); 
+const cheminPhotosEven = path.join(process.cwd(), 'src/lib/img/app/evenements'); 
 const cheminLogos = path.join(process.cwd(), 'src/lib/img/app/logos');
 const cheminPhotosUtilisateurs = path.join(process.cwd(), 'src/lib/img/app/utilisateurs');
 
@@ -120,6 +120,7 @@ export const actions = {
                 data.get("courriel"),    
                 data.get("pwd"),
                 data.get("site"),
+                data.get("facebook"),
                 data.get("insta"),
                 data.get("tiktok"),
                 domaine,
@@ -161,7 +162,6 @@ export const actions = {
      */
 
     nouvelEvenement: async({cookies, request})=>{
-        //reste à changer la variable approuvé? Enregistre 1 si le form est payant, NULL si le form est gratuit, c'est ok?
         
         const data = await request.formData();
         const type = envoieMappage(data, types);
@@ -169,12 +169,14 @@ export const actions = {
         const emplacement = envoieMappage(data, emplacements)
 
         //pour uploader et stocker les photos 
+
         const uploadPhoto = async (nomFichier) => {
             const photo = data.get(nomFichier);
 
             if (photo && photo.name) { 
             const buffer = Buffer.from(await photo.arrayBuffer());
-            const filePath = path.resolve(cheminBase, photo.name);
+            const nomTemporaire = (randomUUID() + photo.name)
+            const filePath = path.resolve(cheminPhotosEven, nomTemporaire);
             fs.writeFileSync(filePath, buffer);
             return path.relative(process.cwd(), filePath);
             };
@@ -188,7 +190,7 @@ export const actions = {
 
         let session;
         try{
-            session = await findOne({uuid: cookies.get('session')});//ça fonctionne :D
+            session = await findOneSession({uuid: cookies.get('session')});//ça fonctionne :D
             //log("session dans api = ", session.utilisateur.abonne);
         }catch(error){
             throw (error);
@@ -210,6 +212,8 @@ export const actions = {
                 data.get('profil'),
                 data.get('site'), 
                 data.get('fb_even'),
+                data.get('insta_even'),
+                data.get('tiktok_even'),
                 data.get('courriel'),
                 data.get('ville_id'),
                 data.get('adresse'),
@@ -429,7 +433,7 @@ export const actions = {
 
         let session;
         try{
-            session = await findSession({ uuid: cookies.get('session') });
+            session = await findOneSession({uuid: cookies.get('session')});
         }catch(error){
             throw (error);
         }

@@ -6,6 +6,9 @@
 	import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
     import {creationEvenementPayant, erreur} from '$lib/outils/formHandlers';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
+    import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
+	import { success } from '$lib/outils/formHandlers';
+	import { goto } from '$app/navigation';
 
 	export let villes;
 
@@ -91,8 +94,15 @@ function section3(event){
     afficher(event,section, bouton)
 };
 
+	// attend 3 secondes après le succès d'envoi de formulaire puis redirige vers l'accueil
+	$: if ($success) {
+		setTimeout(() => {
+			goto("/")}, 3000); 
+	}
+
 
 </script>
+<NotifSuccess />
 <NotifDanger />
 <div class="block">
 
@@ -187,9 +197,18 @@ function section3(event){
 
                 <div class="my-5">
                     <div class="field">
-						<label class="label" for="site">Site web ou page Facebook de l'événement</label>
+						<label class="label" for="site">Site web de l'événement (si disponible)</label>
 						<div class="control">
 							<input class="input" type="url" name="site" id="siteEvenPayant" placeholder="https://monevenement.com"/>
+						</div>
+					</div>
+                </div>
+                
+                <div class="my-5">
+                    <div class="field">
+						<label class="label" for="insta_even">Compte instagram de l'organisation ou de l'événement (si disponible)</label>
+						<div class="control">
+							<input class="input" type="url" name="insta_even" id="insta_even" placeholder="https://www.instagram.com"/>
 						</div>
 					</div>
                 </div>
@@ -201,12 +220,22 @@ function section3(event){
                  <div class="column is-half">
                     <div class="my-5">
                         <div class="field">
-                            <label class="label" for="fb_even">Lien vers l'événement Facebook</label>
+                            <label class="label" for="fb_even">Lien vers la page ou l'événement Facebook (si disponible)</label>
                             <div class="control">
                                 <input class="input" type="url" name="fb_even" id="siteEvenPayant" placeholder="https://www.facebook.com/events/426652909763130"/>
                             </div>
                         </div>
                     </div>
+
+                    <div class="my-5">
+                        <div class="field">
+                            <label class="label" for="tiktok_even">Lien vers le compte Tiktok de l'organisation ou de l'événement (si disponible)</label>
+                            <div class="control">
+                                <input class="input" type="url" name="tiktok_even" id="tiktok_even" placeholder="https://www.tiktok.com"/>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <!-- fin de la colonne du centre à droite -->
             </div>
@@ -462,5 +491,3 @@ function section3(event){
 
 </form>
 </div>
-
-

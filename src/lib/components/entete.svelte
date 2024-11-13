@@ -24,8 +24,6 @@ export let role;
 		setInterval(function () { element.style.display = ''; }, 50); 
 		};
 
-
-
 </script>
 
 <div class="media mx-6 mt-5">
