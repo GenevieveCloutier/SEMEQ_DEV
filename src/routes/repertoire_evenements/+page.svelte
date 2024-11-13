@@ -86,7 +86,7 @@ function filtreRegionDate(){
         evenement => evenement.ville.region.nom.split(" ")[0] == valeurRegion
         && ((evenement.debut_even.toISOString().split("-")[1] == valeurDate)  
             || (evenement.fin_even.toISOString().split("-")[1] == valeurDate))
-    );  
+    ); 
 }
 
 //aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDate()
@@ -144,17 +144,17 @@ function filtreRegionDate(){
         expositions du Québec au même endroit.
     </p>
 
-    <div class="columns">
-        <div class="column mt-2 is-four-fifths">
+    <div class="columns mt-5 is-three-fifths">
+        <div class="column mt-2 is-offset-one-fifth ">
             <Recherche bind:searchQuery typeRecherche="un événement" />
         </div>
-        <div class="column block">
+        <div class="column block has-text-left">
             <BoutonBleu fonction={barreRecherche} texte={"Rechercher un événement"} />
         </div>
     </div>
 </div>
 
-<div class="container is-centered">
+<div class="container is-centered ">
     
     <div hidden id="resultatRecherche">
         <H2Title title={"Résultats de la recherche"} />
@@ -186,7 +186,7 @@ function filtreRegionDate(){
     </div>
     <div class="columns">
 
-        <div class="column mt-4 texte-bleu is-one-quarter">
+        <div class="column texte-bleu is-one-quarter">
             <div>
                 {#each regions as region}
                     <input readonly bind:value={region.nom}
@@ -252,7 +252,7 @@ function filtreRegionDate(){
 
     .bordure{
         border:1px solid lightgray;
-    }
+    } 
 
     .bouton{
     width:100%;

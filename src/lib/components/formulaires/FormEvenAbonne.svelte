@@ -6,6 +6,9 @@
 	import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
     import {creationEvenementPayant, erreur} from '$lib/outils/formHandlers';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
+    import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
+	import { success } from '$lib/outils/formHandlers';
+	import { goto } from '$app/navigation';
 
 	export let villes;
 
@@ -91,8 +94,15 @@ function section3(event){
     afficher(event,section, bouton)
 };
 
+	// attend 3 secondes après le succès d'envoi de formulaire puis redirige vers l'accueil
+	$: if ($success) {
+		setTimeout(() => {
+			goto("/")}, 3000); 
+	}
+
 
 </script>
+<NotifSuccess />
 <NotifDanger />
 <div class="block">
 

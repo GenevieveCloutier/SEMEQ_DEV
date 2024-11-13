@@ -130,13 +130,19 @@
                     <tr>
                         <td class="has-text-centered"><span class="icon is-large"><i class="fa-solid fa-check fa-lg"></i></span></td>
                         <td class="has-text-centered"><span class="icon is-large"><i class="fa-solid fa-check fa-lg"></i></span></td>
-                        <td>Autre avantage à déterminer</td>
+                        <td>Accès aux articles de blogue contenant des idées, trucs et conseils</td>
+                    </tr>
+
+                    <tr>
+                        <td class="has-text-centered"><span class="icon is-large"><i class="fa-solid fa-check fa-lg"></i></span></td>
+                        <td class="has-text-centered"><span class="icon is-large"><i class="fa-solid fa-check fa-lg"></i></span></td>
+                        <td>Accès aux outils et formations gratuits de la <a href= "/boutique">boutique</a></td>
                     </tr>
 
                     <tr>
                         <td class="has-text-centered"><span class="icon is-large has-text-danger"><i class="fa-solid fa-x fa-lg"></i></span></td>
                         <td class="has-text-centered"><span class="icon is-large"><i class="fa-solid fa-check fa-lg"></i></span></td>
-                        <td>Infolettre mensuelle contenant les appels de candidatures en cours. Ne les manque plus! Ils seront aussi disponibles en tout temps dans ton espace membres</td>
+                        <td>Infolettre mensuelle contenant les appels de candidatures en cours. Ne les manque plus! Ils seront aussi disponibles en tout temps dans ton espace membre</td>
                     </tr>
 
                     <tr>

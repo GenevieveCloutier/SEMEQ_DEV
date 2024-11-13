@@ -173,7 +173,6 @@ function filtreRegionDomaine(){
     }
   };
 
-  
 //aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDomaine()
 function chercherValeurDomaine(domaine){
     valeurDomaine = domaine.valeur;
@@ -226,11 +225,11 @@ function chercherValeurDomaine(domaine){
          et conforme aux lois provinciales. (NEQ, MAPAQ etc)
     </p>
 
-    <div class="columns">
-        <div class="column mt-2 is-four-fifths">
+    <div class="columns mt-5 is-three-fifths">
+        <div class="column mt-2 is-offset-one-fifth">
             <Recherche bind:searchQuery typeRecherche="un exposant" />
         </div>
-        <div class="column block">
+        <div class="column block has-text-left">
             <BoutonBleu fonction={barreRecherche} texte={"Rechercher un exposant"} />
         </div>
     </div>
@@ -302,8 +301,8 @@ function chercherValeurDomaine(domaine){
                             <input readonly bind:value={domaine.nom}
                             class="has-text-black"
                             on:click={(event) => chercherValeurDomaine(domaine)}
-                            on:click={(event) => trierDomaine(domaine.valeur)}
-                            name={domaine}>
+                            on:click={(event) => trierDomaine(domaine)}
+                            name={domaine.nom}>
                         </span>
 
                         <div slot="details">

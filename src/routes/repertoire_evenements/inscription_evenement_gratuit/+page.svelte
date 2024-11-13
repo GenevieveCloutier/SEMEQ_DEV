@@ -9,11 +9,19 @@
 	import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
 	import { creationEvenement, erreur } from '$lib/outils/formHandlers';
+	import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
+	import { success } from '$lib/outils/formHandlers';
 	import { redirect } from '@sveltejs/kit';
+	import { goto } from '$app/navigation';
 
 	export let data;
 	const {villes, users, session, role} = data;
 
+	// attend 3 secondes après le succès d'envoi de formulaire puis redirige vers l'accueil
+	$: if ($success) {
+		setTimeout(() => {
+			goto("/")}, 3000); 
+	}
 
 	//pour afficher une boite de texte si "autres" est sélectionné
 	function preciser(champs, input, requis) {
@@ -87,9 +95,10 @@
 </script>
 
 <div class="block">
-{#if $erreur}
-    <NotifDanger></NotifDanger>
-{/if}
+
+	<NotifSuccess />
+    <NotifDanger />
+
 
 	<H1Title title={'Inscrire mon événement gratuitement'} />
 	<p class="has-text-centered mb-4">(Délai de traitement de 3 jours ouvrables)</p>
