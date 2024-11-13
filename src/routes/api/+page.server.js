@@ -466,17 +466,6 @@ export const actions = {
                 return fail(401, error);
             }
     },
-
-    deleteUserCart: async({cookies, request})=>{   
-        const session = await findSession({ uuid: cookies.get('session') });
-        //const data = await request.formData();
-        try{
-            const result = await deleteCart({ utilisateur_id: session.user_id} );
-            //const result = await deleteCart(data.get('utilisateur_id'));
-        }catch(error){
-            return fail(401, error);
-        }
-    },
 }
 
 /**
