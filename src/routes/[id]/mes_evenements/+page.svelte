@@ -8,13 +8,13 @@
 		const actives = document.querySelectorAll('a.is-active');
 		actives.forEach((x) => x.classList.remove('is-active'));
 		document.getElementById('mesEvenements').classList.add('is-active');
-		// async () => await invalidateAll();
 	});
 
 	
 	export let data;
 	const { evenements, utilisateur } = data;
 
+	//lien du bouton d'ajout d'événement en fonction de l'abonnement de l'utilisateur
 	let lien = utilisateur.abonne
 		? './mes_evenements/inscription_evenement_abonne'
 		: '/repertoire_evenements/inscription_evenement_gratuit';
