@@ -93,6 +93,8 @@ import { onMount } from "svelte";
 					<a href="/contact" class="navbar-item item-deroul" on:click={cacherMenu}> Nous joindre </a>
 					<hr class="navbar-divider" />
 					<a href="/a_propos" class="navbar-item item-deroul" on:click={cacherMenu}> À propos </a>
+					<hr class="navbar-divider" />
+					<a href="/faq" class="navbar-item item-deroul" on:click={cacherMenu}> F.A.Q. </a>
 				</div>
 			</div>
 

@@ -17,10 +17,16 @@
         <div class="card-content">
             {#if exposant.entreprise}
                 <p class="has-text-weight-bold">{exposant.entreprise}</p>
-            {:else}
+            {:else if exposant.prenom && exposant.nom}
                 <p class="has-text-weight-bold">{exposant.prenom} {exposant.nom}</p>
+            {:else}
+                <p class="has-text-weight-bold">Non disponible</p>
             {/if}
+
+            {#if exposant.ville}
             <p class="mt-3">{exposant.ville.nom}</p>
+            {:else}<p class="has-text-weight-bold">Non disponible</p>
+            {/if}
 
             <!-- enlever cette ligne après la démo -->
             <p>{recupMappage(exposant.domaine, domaines)}</p>

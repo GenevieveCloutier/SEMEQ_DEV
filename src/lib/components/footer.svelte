@@ -14,6 +14,7 @@
 				<h3 class="is-size-5 mb-3">Contact</h3>
 				<a class="is-size-7 has-text-link" href="/a_propos">À propos</a><br />
 				<a class="is-size-7 has-text-link" href="/contact">Nous joindre</a><br />
+				<a class="is-size-7 has-text-link" href="/faq">F.A.Q.</a><br />
 			</div>
 
 			<div class="column has-text-centered is-full-mobile is-full-tablet is-one-quarter-desktop">
