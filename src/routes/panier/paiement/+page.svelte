@@ -1,8 +1,12 @@
 
 <script>
-    import H1Title from "$lib/components/titres/h1Title.svelte";
+    import H2Title from "$lib/components/titres/h2Title.svelte";
     import { loadScript } from "@paypal/paypal-js";
-	import { onMount } from "svelte";
+	  import { onMount } from "svelte";
+
+    export let data;
+    const paniers = data.paniers;
+    const utilisateur = data.utilisateur;
 
     export let total = 10;
     //<!--! La pour le test j'ai mis la clé directement ici, mais va falloir la mettre en dotenv
@@ -44,11 +48,23 @@
 });
 </script>
 
-<H1Title title={"Paiement"} />
-<p class="has-text-centered">En construction!</p>
-<!--! La div pour le bouton paypal  -->
-    <div id="paypal-button-container"></div>
+<div class="box">
 
+  <H2Title title={"Récapitulatif de commande"} />
+
+  <div class="content">
+    <b>Liste d'items:</b>
+    <ul>
+        {#each paniers as panier}
+        <li>{panier.produit.nom}</li>
+        {/each}
+    </ul>
+  </div>
+
+  <!--! La div pour le bouton paypal  -->
+  <div id="paypal-button-container"></div>
+
+</div>
 
 
   
