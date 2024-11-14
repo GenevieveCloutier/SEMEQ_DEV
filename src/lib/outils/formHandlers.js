@@ -17,14 +17,13 @@ success.set('');
  * @param {Event} event - L'événement déclenché, contenant l'élément cible.
  */
 function chargement() {
-	//log("Dans chargement boutton = ", document.getElementById('submitButton'));
 	document.getElementById('submitButton').classList.add('is-loading');
 }
 
-export async function handleUserDelete(id) {
+export async function handleUserDelete(p_id) {
 	//mettre un premier niveau de securite ici pour verifier les droits
 	const formData = new FormData();
-	formData.append('id', id);
+	formData.append('id', p_id);
 	const response = await fetch('./api?/supprimeUtilisateur', {
 		method: 'POST',
 		body: formData
@@ -36,6 +35,26 @@ export async function handleUserDelete(id) {
 		goto('/deconnexion');
 	} else {
 		'Erreur : ' + JSON.parse(result.data)[0];
+	}
+}
+
+export async function suppressionEvenement(p_id) {
+	erreur.set('');
+	success.set('');
+	const formData = new FormData();
+	formData.append('id', p_id);
+	const response = await fetch('../../api?/supprimeEvenement', {
+		method: 'POST',
+		body: formData
+	});
+	
+	const result = await response.json();
+	const test = JSON.parse(result.data);
+	if(result.status === 200){
+		success.set(JSON.parse(result.data)[3]);
+		goto(`/${JSON.parse(result.data)[4]}`);
+	}else{
+		erreur.set(JSON.parse(result.data)[0]);
 	}
 }
 
@@ -82,7 +101,6 @@ export async function connexion(event) {
  *
  * @param {Event} event L'événement contenant les données du formulaire.
  */
-
 export async function creationExposant(event) {
 	chargement();
 	erreur.set('');
@@ -209,7 +227,6 @@ export async function creationEvenement(event) {
 			erreur.set("Merci de sélectionner au moins un type d'exposant.");
 			return;
 		}
-
 		const response = await fetch('../api?/nouvelEvenement', {
 			method: 'POST',
 			enctype: 'multipart/form-data',
@@ -335,13 +352,10 @@ export async function recuperation(event) {
 			method: 'POST',
 			body: formData
 		});
-		//log("formhandler response = ", response);
 		const result = await response.json();
-		//log("formhandler recuperation, result = ",result);
 
 		if (result.status == 200) window.location.href = '/connexion/demandeEnvoye';
 		if (result.status == 401) {
-			//log("formhandler error recuperation = ",JSON.parse(result.data)[0])
 			erreur.set(JSON.parse(result.data)[0]);
 		}
 	} catch (error) {
@@ -363,14 +377,11 @@ export async function changementMotDePasse(event) {
 	erreur.set('');
 	try {
 		const formData = new FormData(event.target);
-		//log("formhandler changementMotDePasse formdata = ", formData);
 		const response = await fetch('../../api?/changement', {
 			method: 'POST',
 			body: formData
 		});
-		//log("formhandler changementMDP response = ", response);
 		const result = await response.json();
-		//log("formhandler changementMDP result = ", result);
 		if (result.status == 200) window.location.href = '/connexion';
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {
@@ -391,7 +402,6 @@ export async function changementMotDePasse(event) {
  */
 export async function modifMdp(utilisateur, pwdAncien, pwdNouveau) {
 	erreur.set('');
-	//log("formhandler utilisateur = ", utilisateur);
 	document.getElementById('envoie').classList.add('is-loading');
 	try {
 		const formData = new FormData();
@@ -404,9 +414,7 @@ export async function modifMdp(utilisateur, pwdAncien, pwdNouveau) {
 			method: 'POST',
 			body: formData
 		});
-		console.log(responsetAuth);
 		let result = await responsetAuth.json();
-		console.log(result);
 
 		if (result.status == 200) {
 			const responseChangement = await fetch('../api?/changement', {
@@ -437,9 +445,7 @@ export async function modifUtilisateur(event) {
 
 	try {
 		const formData = new FormData(event.target);
-		for (const [key, value] of formData.entries()) {
-			console.log(key, value);
-		}
+		
         if ([...formData.keys()].includes('expo') || [...formData.keys()].includes('orga')){
             const neqInput = event.target.querySelector('#neq');
 		const noNeqCheckbox = event.target.querySelector('#no-neq');
@@ -460,6 +466,7 @@ export async function modifUtilisateur(event) {
 			const checkboxes = event.target.querySelectorAll(
 				'input[type="checkbox"]:checked:not(.exclus)'
 			);
+			// ! Ici il faudras changer pour le vrai nombre selon les achat de l'utilisateur
 			if (checkboxes.length < 1 || checkboxes.length > 3) {
 				erreur.set(
 					"Merci de sélectionner entre 1 et 3 domaine(s) d'activité(s) selon l'abonnement choisi."
@@ -473,13 +480,28 @@ export async function modifUtilisateur(event) {
 			body: formData
 		});
 		const result = await response.json();
-		log("dans le formhandler, result = ", result);
 		if (result.status == 200) success.set('Modifications enregistrées');
 		else erreur.set(JSON.parse(result.data)[1] || JSON.parse(result.data)[0]);
-		log(JSON.parse(result.data))
 	} catch (error) {
 		console.error('erreur inattendue : ', error);
-		log
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}
+
+export async function modifEvenement(event) {
+	chargement();
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('../../api?/modifEvenement', {
+			method: 'POST',
+			body: formData
+		});
+		const result = await response.json();
+		if(result.status == 200) success.set(JSON.parse(result.data)[3])
+		else erreur.set(JSON.parse(result.data)[1] || JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
 		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
 	}
 }

@@ -3,6 +3,7 @@ import { Evenement } from '../models/Evenement.model';
 import { Utilisateur } from '../models/Utilisateur.model';
 import { Ville } from '../models/Ville.model';
 import { Region } from '../models/Region.model';
+import { log } from '../../outils/debug';
 
 /**
  * Récupère tous les événements de la base de données.
@@ -15,6 +16,34 @@ import { Region } from '../models/Region.model';
  */
 export async function findAll() {
 	return await Evenement.findAll({
+		include: [
+			{ model: Utilisateur, as: 'utilisateur' },
+			{ model: Ville, as: 'ville', include: [{ model: Region, as: 'region' }] }
+		]
+	})
+		.then((resultat) => {
+			if (resultat.length === 0) {
+				console.log('Aucun evenement à afficher');
+			}
+			return resultat.map((evenement) => ({
+				...evenement.dataValues,
+				utilisateur: evenement.utilisateur ? evenement.utilisateur.dataValues : null,
+				ville: evenement.ville
+					? {
+							...evenement.ville.dataValues,
+							region: evenement.ville.region ? evenement.ville.region.dataValues : null
+						}
+					: null
+			}));
+		})
+		.catch((error) => {
+			throw error;
+		});
+}
+
+export async function findAllWhere(p_where) {
+	return await Evenement.findAll({
+		where: p_where,
 		include: [
 			{ model: Utilisateur, as: 'utilisateur' },
 			{ model: Ville, as: 'ville', include: [{ model: Region, as: 'region' }] }
@@ -53,12 +82,13 @@ export async function findOne(p_where) {
 				as: 'ville'
 			}
 		]
-	}).then((res) => {
+	})
+		.then((res) => {
 			if (res)
 				return {
 					...res.dataValues,
 					utilisateur: res.utilisateur ? res.utilisateur.dataValues : null,
-                    ville: res.ville ? res.ville.dataValues : null
+					ville: res.ville ? res.ville.dataValues : null
 				};
 			else return null;
 		})
@@ -146,11 +176,6 @@ export async function creationEvenement(
 	p_approuve
 ) {
 	try {
-		//console.log('nom = ', p_nom);
-		//console.log('ville = ', p_ville_id);
-		//console.log('debut = ', p_debut_even);
-		//console.log('fin = ', p_fin_even);
-
 		const doublon = await Evenement.findAll({
 			where: {
 				nom: p_nom,
@@ -161,7 +186,6 @@ export async function creationEvenement(
 				]
 			}
 		});
-		//console.log('doublon = ', doublon);
 		if (doublon.length > 0) {
 			throw 'Un événement similaire existe déjà';
 		}
@@ -202,6 +226,79 @@ export async function creationEvenement(
 			approuve: p_approuve
 		});
 		return resultat.dataValues;
+	} catch (error) {
+		throw error;
+	}
+}
+
+export async function suppressionEvenement(p_id) {
+	try {
+		const evenement = await Evenement.findByPk(p_id);
+		if (!evenement) throw new Error('Evénement non trouvé');
+		await evenement.destroy();
+		return {
+			status: 200,
+			body: {
+				message: 'Evénement supprimé.',
+				utilisateur: evenement.utilisateur_id
+			}
+		};
+	} catch (error) {
+		throw error;
+	}
+}
+
+export async function modificationEvenement(p_even_id, p_modifications) {
+	try {
+		const doublon = await Evenement.findAll({
+			where: {
+				nom: p_modifications.nom,
+				ville_id: p_modifications.ville_id,
+				[Op.or]: [
+					{ debut_even: new Date(p_modifications.debut_even).toISOString() },
+					{ fin_even: new Date(p_modifications.fin_even).toISOString() }
+				],
+				id: { [Op.ne]: p_even_id }
+			}
+		});
+		if (doublon.length > 0) {
+			throw 'Un événement similaire existe déjà';
+		}
+		const evenement = await Evenement.findByPk(p_even_id);
+		if (!evenement) throw new Error('Evénement non trouvé');
+		await evenement.update({
+			nom: p_modifications.nom ?? evenement.nom,
+			contact: p_modifications.contact ?? evenement.contact,
+			entreprise: p_modifications.entreprise ?? evenement.entreprise,
+			debut_even: p_modifications.debut_even ?? evenement.debut_even,
+			fin_even: p_modifications.fin_even ?? evenement.fin_even,
+			horaire_even: p_modifications.horaire_even ?? evenement.horaire_even,
+			debut_cand: p_modifications.debut_cand ?? evenement.debut_cand,
+			fin_cand: p_modifications.fin_cand ?? evenement.fin_cand,
+			fondation: p_modifications.fondation ?? evenement.fondation,
+			nb_visiteur: p_modifications.nb_visiteur ?? evenement.nb_visiteur,
+			nb__expo: p_modifications.nb__expo ?? evenement.nb__expo,
+			profil: p_modifications.profil ?? evenement.profil,
+			site: p_modifications.site ?? evenement.site,
+			fb_even: p_modifications.fb_even ?? evenement.fb_even,
+			courriel: p_modifications.courriel ?? evenement.courriel,
+			ville_id: p_modifications.ville_id ?? evenement.ville_id,
+			adresse: p_modifications.adresse ?? evenement.adresse,
+			emplacement: p_modifications.emplacement ?? evenement.emplacement,
+			type: p_modifications.type ?? evenement.type,
+			type_autre: p_modifications.type_autre ?? evenement.type_autre,
+			form_cand: p_modifications.form_cand ?? evenement.form_cand,
+			verif: p_modifications.verif ?? evenement.verif,
+			verification_autre: p_modifications.verification_autre ?? evenement.verification_autre,
+			selection: p_modifications.selection,
+			limite: p_modifications.limite,
+			description: p_modifications.description ?? evenement.description,
+			photo_1: p_modifications.photo_1 ?? evenement.photo_1,
+			photo_2: p_modifications.photo_2 ?? evenement.photo_2,
+			photo_3: p_modifications.photo_3 ?? evenement.photo_3,
+			approuve: p_modifications.approuve ?? evenement.approuve
+		});
+		return evenement.dataValues;
 	} catch (error) {
 		throw error;
 	}

@@ -3,7 +3,7 @@ import { findAllWhere } from '../../../lib/db/controllers/Evenements.controller.
 import { log } from '../../../lib/outils/debug.js';
 
 export async function load({ cookies, params,}){
-    let evenements = await findAllWhere({approuve: true});
+    let evenements = await findAllWhere({approuve: false});
     evenements.map((x)=> {   
         x.debut_even = x.debut_even.toLocaleDateString('fr-CA');
         x.fin_even = x.fin_even.toLocaleDateString('fr-CA');

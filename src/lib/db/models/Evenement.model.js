@@ -144,16 +144,12 @@ export const Evenement = sequelize.define("evenement", {
         type: DataTypes.BOOLEAN,
         allowNull: true
     },
-});
+},
+{ paranoid: true }// Permet à sequelize de faire de la soft-deletion
+);
 
 Evenement.belongsTo(Utilisateur, { foreignKey: 'utilisateur_id', as: 'utilisateur' });
 Utilisateur.hasMany(Evenement, { foreignKey: 'utilisateur_id', as: 'evenements' });
 
 Evenement.belongsTo(Ville, { foreignKey: 'ville_id', as: 'ville' });
 Ville.hasMany(Evenement, { foreignKey: 'ville_id', as: 'evenements' });
-
-// sequelize.sync().then(() => {
-//     console.log('Evenements table created successfully!');
-// }).catch((error) => {
-//     console.error('Unable to create table evenement : ', error);
-// });

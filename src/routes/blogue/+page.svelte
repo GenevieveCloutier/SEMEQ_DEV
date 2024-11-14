@@ -13,7 +13,7 @@
 	Retrouvez tous les conseils pratiques, astuces et collaborations pour réussir vos marchés
 	d'artisans et événements partout au Québec, au même endroit.
 </h2>
-<div class="block">
+<div class="block mx-5">
 	<Recherche bind:searchQuery typeRecherche={'un article de blogue'} />
 	{#if blogues.filter((x) => {
 		const recherche = searchQuery.toLowerCase();
