@@ -5,8 +5,10 @@ import { goto } from '$app/navigation';
 
 export const erreur = writable(null);
 export const success = writable(null);
+export const annonce = writable(null);
 erreur.set('');
 success.set('');
+annonce.set('');
 
 /**
  * Ajoute la classe 'is-loading' à l'élément déclencheur de l'événement.
@@ -72,6 +74,7 @@ export async function suppressionEvenement(p_id) {
 export async function connexion(event) {
 	chargement();
 	erreur.set('');
+	annonce.set('');
 	const formData = new FormData(event.target);
 	const response = await fetch('./api?/connexionUtilisateur', {
 		method: 'POST',
@@ -84,8 +87,11 @@ export async function connexion(event) {
 	if (document.cookie.includes('origine'))
 		origine = document.cookie.replaceAll('%2F', '/').slice(8); //*Remplace les '%2F' par des '/' et enlève les 8 premier caractères (origine=)
 	//!Cette solution ne fonctionne que si il n'y as qu'un seul cookie http:false
+	annonce.set((JSON.parse(result.data)[4]));
 	if (result.type === 'success') {
-		window.location.href = origine;
+	log("result = ", (JSON.parse(result.data)));
+
+		// window.location.href = origine;
 	} else if (result.type === 'failure') {
 		erreur.set(JSON.parse(result.data)[1]);
 	}

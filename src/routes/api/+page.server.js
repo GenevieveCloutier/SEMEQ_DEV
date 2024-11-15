@@ -69,7 +69,20 @@ export const actions = {
 		try {
 			let res = await authenticate(data.get('courriel'), data.get('pwd'));
 			createCookie(res.id, cookies, res.role_id);
-			return { success: true, session: cookies.get('session'), res: res.id };
+
+			//*Enlève l'abonnement si la date est dépassée au moment de la connexion.
+			let finAbonnement = false;
+			if( res.abonne && (res.fin_abo < new Date())){
+				finAbonnement = true;
+				try {
+					const utilisateur = await Utilisateur.findByPk(res.id);
+					await utilisateur.update({abonne: false, fin_abo: null});
+				} catch (error) {
+					log("erreur = ", error)
+				}
+			}
+
+			return { success: true, session: cookies.get('session'), res: res.id, finAbonnement};
 		} catch (error) {
 			return fail(401, error);
 		}
