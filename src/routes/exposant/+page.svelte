@@ -12,7 +12,8 @@
     <div class="columns is-centered mt-4">
         <div class="column is-half-desktop">
             <p class="is-size-6 has-text-centered mb-3">Le Répertoire SÉMEQ est une ressource incontournable pour connaître et trouver tous les événements,
-                marchés éphémères, expositions et salons d'artisans du Québec.</p>
+                marchés éphémères, expositions et salons d'artisans du Québec.<br><br>
+            Pour en savoir plus sur l'équipe de Répertoire SEMEQ, <a href="/a_propos">clique ici</a> </p>
         </div>
     </div>
 
@@ -191,7 +192,7 @@
         </div>
     </div>
     <div class="column is-one-quarter">
-        <div class="block bordure has-text-centered px-6 pb-5 is-hidden-tablet-only">
+        <div class="block bordure has-text-centered px-6 py-5 is-hidden-tablet-only">
             <H3Title title={"Des questions?"} />
             <p class="pb-6">Visite notre <a href="/faq">F.A.Q.</a> qui sait, peut-être y trouveras-tu la réponse!</p>
             <p>Tu peux aussi nous contacter en remplissant <a href="/contact">ce formulaire</a>.</p>
