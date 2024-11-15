@@ -1,7 +1,9 @@
 import { redirect } from '@sveltejs/kit';
 import { Panier } from '$lib/db/models/Panier.model';
+import { Utilisateur } from "$lib/db/models/Utilisateur.model";
+import { Produit } from "$lib/db/models/Produit.model";
+import { Type } from "$lib/db/models/Type.model";
 import { findOne } from '$lib/db/controllers/Utilisateurs.controller';
-import { findAllInCart } from '$lib/db/controllers/Paniers.controller';
 
 /**
  * Charge tous les paniers de l'utilisateur avec les détails des produits, incluant les types.
@@ -16,7 +18,26 @@ export async function load({ cookies }){
     const sessionId = cookies.get('id');
     const utilisateur = await findOne({ id: sessionId });
 
-    const paniers = await findAllInCart({ utilisateur_id: sessionId });
+    const paniers = await Panier.findAll({
+        where: { utilisateur_id: sessionId },
+        include: [
+            { model: Utilisateur, as: "utilisateur" },
+            { model: Produit, as: "produit",
+                include: [
+                  { model: Type, as: "type" }
+                ]
+            }
+        ]
+    })
 
-    return { paniers, utilisateur }
+    let resultat = paniers.map(panier => ({
+        ...panier.dataValues,
+        utilisateur: panier.utilisateur ? panier.utilisateur.dataValues : null,
+        produit: panier.produit ? {
+            ...panier.produit.dataValues,
+            type: panier.produit.type ? panier.produit.type.dataValues : null
+        } : null
+    }));
+
+    return { paniers: resultat, utilisateur }
 }

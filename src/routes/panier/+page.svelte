@@ -210,9 +210,4 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
     }
-
-    #btn_code_promo {
-		background-color: #d9d9d9;
-		color: black;
-	}
 </style>
