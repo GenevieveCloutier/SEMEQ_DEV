@@ -44,6 +44,11 @@ canvas {
   border-top: none;
 }
 
+#btn_code_promo {
+  background-color: #d9d9d9;
+  color: black;
+}
+
 /* 
 essais pour théme sombre et clair BG fonctionne mais pas .theme-light
 @media (prefers-color-scheme: light) {
