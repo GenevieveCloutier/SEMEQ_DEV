@@ -81,17 +81,17 @@ export async function connexion(event) {
 		body: formData
 	});
 	const result = await response.json();
-	//*initialise la variable pour le chemin
-	let origine = '/';
+	//*initialise la variable pour le chemin, renvoie a Mon compte par défaut
+	let origine = '/' + JSON.parse(result.data)[3];
 	//*Si le cookie origine existe
 	if (document.cookie.includes('origine'))
 		origine = document.cookie.replaceAll('%2F', '/').slice(8); //*Remplace les '%2F' par des '/' et enlève les 8 premier caractères (origine=)
 	//!Cette solution ne fonctionne que si il n'y as qu'un seul cookie http:false
-	annonce.set((JSON.parse(result.data)[4]));
+	//*Envoie la notif de fin d'abonnement
+	log('result = ', JSON.parse(result.data))
+	annonce.set((JSON.parse(result.data)[(JSON.parse(result.data)[0].finAbonnement)]));
 	if (result.type === 'success') {
-	log("result = ", (JSON.parse(result.data)));
-
-		// window.location.href = origine;
+		goto(origine);
 	} else if (result.type === 'failure') {
 		erreur.set(JSON.parse(result.data)[1]);
 	}

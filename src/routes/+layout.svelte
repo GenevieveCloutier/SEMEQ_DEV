@@ -6,6 +6,7 @@
     import Navbar from '../lib/components/navbar.svelte';
 	  import Footer from '../lib/components/footer.svelte';
 	  import Entete from '../lib/components/entete.svelte';
+	import Annonce from '../lib/components/notifications/annonce.svelte';
 
     export let data;
   const { id, role, session, cookiesAll } = data;
