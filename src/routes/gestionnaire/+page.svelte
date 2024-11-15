@@ -160,7 +160,7 @@ const ctu = document.getElementById('chartUtilisateurs').getContext('2d');
           <div class="columns">
             <div class="column is-half">
           <h3 class="subtitle">Ventes</h3>
-              <p class="help">Cemois ci</p>
+              <p class="help">Ce mois ci</p>
               <p>4562$</p>
             </div>
             <div class="column is-half">
