@@ -2,6 +2,31 @@
 <script>
 	import { onMount } from "svelte";
 
+  //Reception du Load
+  export let data;
+  const {evenements, utilisateurs} = data;
+
+  //Mise en forme des données pour les statistiques d'événements
+  const mois = ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jui', 'Jui', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'];
+  let evenementStats = new Array(12).fill(0);
+  evenements.forEach(evenement => {
+    evenementStats[evenement.debut_even.getMonth()] ++;
+  });
+
+  //Mise en forme des données pour les statistiques d'utilisateurs
+  const roles = ['Organisateur', 'Exposants', 'Visiteurs'];
+  let abonnes = new Array(3).fill(0);
+  let nonAbonnes = new Array(3).fill(0);
+  utilisateurs.forEach(utilisateur => {
+    console.log(utilisateur.role_id);
+    
+       if(utilisateur.abonne)
+          abonnes[utilisateur.role_id - 2]++;
+        else
+          nonAbonnes[utilisateur.role_id -2]++;
+  });
+  
+
   onMount(()=>{
         const actives = document.querySelectorAll('a.is-active');
         actives.forEach((x)=>x.classList.remove('is-active'));
@@ -16,9 +41,9 @@ onMount(() => {
   chart = new Chart(cte, {
     type: 'bar',
     data: {
-      labels: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jui', 'Jui', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'],
+      labels: mois,
       datasets: [{
-        data: [25, 21, 10, 3, 6, 12, 20, 30, 26, 30, 24, 12, 20],
+        data: evenementStats,
         backgroundColor: '#184287',
         borderColor: '#184287',
         borderWidth: 1
@@ -79,23 +104,20 @@ onMount(() => {
   });
 
 
-
-
-
 const ctu = document.getElementById('chartUtilisateurs').getContext('2d');
   chart = new Chart(ctu, {
     type: 'bar',
     data: {
-      labels: ['Visiteurs', 'Exposants', 'Organisateur'],
+      labels: roles,
       datasets: [
           {
             label: 'Abonnés',
-            data: [36, 42, 90],
+            data: abonnes,
             backgroundColor: '#184287',
           },
           {
             label: 'Non-abonnés',
-            data: [12, 26, 10],
+            data: nonAbonnes,
             backgroundColor: 'lightgray',
           }
         ]

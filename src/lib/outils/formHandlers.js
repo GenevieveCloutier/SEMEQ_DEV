@@ -81,8 +81,9 @@ export async function connexion(event) {
 		body: formData
 	});
 	const result = await response.json();
-	//*initialise la variable pour le chemin, renvoie a Mon compte par défaut
-	let origine = '/' + JSON.parse(result.data)[3];
+	//*initialise la variable pour le chemin, renvoie a Mon compte par défaut ou a la page gestionnaire
+	let origine = '/' + (JSON.parse(result.data)[3] == 1 ? 'gestionnaire': JSON.parse(result.data)[3]) ;
+
 	//*Si le cookie origine existe
 	if (document.cookie.includes('origine'))
 		origine = document.cookie.replaceAll('%2F', '/').slice(8); //*Remplace les '%2F' par des '/' et enlève les 8 premier caractères (origine=)
