@@ -195,6 +195,29 @@ export async function creationOrganisateur(event) {
 	}
 }
 
+export async function creationBillet(event) {
+	chargement;
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/nouveauBillet', {
+			method: 'POST',
+			enctype: 'multipart/form-data',
+			body: formData
+		});
+		const result = await response.json();
+		log('formhandler', result);
+		if (result.status == 200){
+			goto('/gestionnaire/blogue')
+			success.set('Article ajouté avec succès!');
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}
+
 /**
  * Gère la création d'un nouvel événement en envoyant les données du formulaire via une requête POST.
  * En cas de succès (status 200), redirige vers la page d'accueil.

@@ -2,10 +2,12 @@
 	import H1Title from '$lib/components/titres/h1Title.svelte';
 	import Recherche from '$lib/components/generaux/recherche.svelte';
 	import RechercheNoResult from '$lib/components/generaux/rechercheNoResult.svelte';
+	import { log } from '../../lib/outils/debug.js';
 
 	export let data;
 	let { blogues } = data;
 	let searchQuery = '';
+	log('', blogues)
 </script>
 
 <H1Title title={'Tous les billets de blogue en ligne'} />
@@ -42,7 +44,7 @@
 							</div>
 							<footer class="card-footer blog-element is-flex is-justify-content-space-between">
 								<p class="m-2">
-									{blogue.date.toLocaleDateString('fr-CA')}
+									{blogue.createdAt.toLocaleDateString('fr-CA')}
 								</p>
 								<p class="m-2 has-text-right">
 									<a href="blogue/{blogue.id}">Lire la suite...</a>
