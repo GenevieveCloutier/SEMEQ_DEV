@@ -270,6 +270,25 @@ export async function creationEvenementPayant(event) {
 			return;
 		}
 
+		//limiter la taille à 5 mo
+		const formatMax = 5 * 1024 * 1024; 
+		const fichierSoumis = event.target.querySelectorAll(
+			'input[type="file"]'
+		);
+
+		for (const x of fichierSoumis) {
+			const tableauFichiers = x.files; 
+			if (tableauFichiers.length > 0) {
+				for (const fichier of tableauFichiers) {
+					if (fichier.size > formatMax) {
+						erreur.set(`Le fichier ${fichier.name} dépasse la taille maximale autorisée de  Mo. Sélectionner un autre fichier.`);
+						return;
+					}
+				}
+			}
+		}
+
+
 		const response = await fetch('../../api?/nouvelEvenement', {
 			method: 'POST',
 			enctype: 'multipart/form-data',

@@ -79,8 +79,7 @@ import { onMount } from "svelte";
 					<hr class="navbar-divider" />
 					<a href="/exposant#avantages" class="navbar-item item-deroul" on:click={cacherMenu}> Compte exposant </a>
 					<hr class="navbar-divider" />
-					<!-- ajouter l'ancre vers le tableau quand la page sera faite -->
-					<a href="/organisateur" class="navbar-item item-deroul" on:click={cacherMenu}> Compte organisateur </a>
+					<a href="/organisateur#avantages_organisateur" class="navbar-item item-deroul" on:click={cacherMenu}> Compte organisateur </a>
 				</div>
 			</div>
 

@@ -175,7 +175,9 @@ export const actions = {
 
             if (photo && photo.name) { 
             const buffer = Buffer.from(await photo.arrayBuffer());
-            const nomTemporaire = (randomUUID() + photo.name)
+            const extension = photo.name.substring(photo.name.lastIndexOf("."));
+
+            const nomTemporaire = (randomUUID() +  photo.name.replaceAll(/[\s\W]/g, "_") + extension)
             const filePath = path.resolve(cheminPhotosEven, nomTemporaire);
             fs.writeFileSync(filePath, buffer);
             return path.relative(process.cwd(), filePath);

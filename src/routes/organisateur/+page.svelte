@@ -64,7 +64,7 @@
     </div>
 </div>
 
-    <div id="avantages" class="container">
+    <div id="avantages_organisateur" class="container">
         <hr class="my-6">
         <H3Title title={"Nos plans d'inscription - Événements"} />
 
