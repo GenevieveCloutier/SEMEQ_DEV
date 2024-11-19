@@ -42,3 +42,18 @@ export async function nouveauBillet(p_titre, p_article, p_image_1, p_image_2) {
 		throw error;
 	}
 }
+
+export async function modifBillet(p_id, p_modifications) {
+	try {
+		const billet = await Blog.findByPk(p_id);
+		await billet.update({
+			titre: p_modifications.titre ?? billet.titre,
+			article: p_modifications.article ?? billet.article,
+			image_1: p_modifications.image_1 ?? billet.image_1,
+			image_2: p_modifications.image_2 ?? billet.image_2,
+		});
+		return billet.dataValue
+	} catch (error) {
+		throw error;
+	}
+}

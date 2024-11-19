@@ -33,7 +33,8 @@ import fs from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
 import { Utilisateur } from '../../lib/db/models/Utilisateur.model.js';
-import { nouveauBillet } from '../../lib/db/controllers/Blogs.controller.js';
+import { nouveauBillet, modifBillet } from '../../lib/db/controllers/Blogs.controller.js';
+import { request } from 'http';
 
 //Chemins de base pour stocker les photos
 const cheminPhotosEven = path.join(process.cwd(), 'src/lib/img/app/evenements');
@@ -212,6 +213,44 @@ export const actions = {
 				status: 200,
 				body: {
 					message: 'Article créé avec succès',
+					article: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
+
+	modificationBillet: async ({request}) => {
+		const data = await request.formData();
+		//J'ai mis la fonction de photo en dehors des actions pour qu'elle puisse etre utilisé sans la répéter
+		const uploadPhoto = async (nomFichier) => {
+			const photo = data.get(nomFichier);
+
+			if (photo && photo.name) {
+				const buffer = Buffer.from(await photo.arrayBuffer());
+				const extension = photo.name.substring(photo.name.lastIndexOf("."));
+				const nomTemporaire = randomUUID() + photo.name.replaceAll(/[\s\W]/g, "_") + extension;
+				const filePath = path.resolve(cheminPhotosBlog, nomTemporaire);
+				fs.writeFileSync(filePath, buffer);
+				return path.relative(process.cwd(), filePath);
+			}
+			// si pas de photo, retourne null
+			return null;
+		};
+		let photo_1 = await uploadPhoto('photo_1');
+		const photo_2 = await uploadPhoto('photo_2');
+		try {
+			const res = await modifBillet(data.get('id'), {
+				titre: data.get('titre'),
+				article: data.get('article'),
+				image_1: photo_1,
+				image_2: photo_2
+		});
+			return {
+				status: 200,
+				body: {
+					message: 'Article modifié avec succès',
 					article: res
 				}
 			};
