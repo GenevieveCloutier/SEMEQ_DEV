@@ -24,7 +24,10 @@
 	{:else}
 		<div class="fixed-grid has-4-cols has-1-cols-mobile">
 			<div class="grid block is-col-min-14">
-				{#each blogues as blogue}
+				{#each blogues.filter(x => {
+					const recherche = searchQuery.toLowerCase();
+					return x.titre.toLowerCase().includes(recherche);
+				  }) as blogue}
 					<div class="cell">
 						<div
 							class="card"
