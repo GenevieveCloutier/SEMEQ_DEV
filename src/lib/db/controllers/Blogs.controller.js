@@ -27,7 +27,6 @@ export async function findOne(p_where) {
 		});
 }
 
-//! Fonction non final, creer seulement pour les test
 export async function nouveauBillet(p_titre, p_article, p_image_1, p_image_2) {
 	try {
         const doublon = await findOne({titre: p_titre});

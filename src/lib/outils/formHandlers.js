@@ -206,7 +206,6 @@ export async function creationBillet(event) {
 			body: formData
 		});
 		const result = await response.json();
-		log('formhandler', result);
 		if (result.status == 200){
 			goto('/gestionnaire/blogue')
 			success.set('Article ajouté avec succès!');

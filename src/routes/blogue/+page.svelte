@@ -7,7 +7,6 @@
 	export let data;
 	let { blogues } = data;
 	let searchQuery = '';
-	log('', blogues)
 </script>
 
 <H1Title title={'Tous les billets de blogue en ligne'} />
