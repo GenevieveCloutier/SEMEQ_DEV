@@ -59,6 +59,7 @@ export async function findOne(p_where){
     });
 }
 
+
 export async function suppressionProduit(p_id){
     try {
         log('plop',)
@@ -75,3 +76,43 @@ export async function suppressionProduit(p_id){
         
     }
 }
+
+
+export async function nouveauProduit(p_nom, p_type_id, p_desc, p_prix_v, p_prix_a, p_photo, p_dispo) {
+	try {
+        const doublon = await findOne({nom: p_nom});
+        if (doublon) throw "Un produit avec ce nom éxiste déjà";
+		const resultat = await Produit.create({
+			nom: p_nom,
+			type_id: p_type_id,
+			desc: p_desc,
+			prix_v: p_prix_v,
+            prix_a: p_prix_a,
+            photo: p_photo,
+            dispo: p_dispo
+		});
+		return resultat.dataValues;
+	} catch (error) {
+		throw error;
+	}
+}
+
+export async function modifProduit(p_id, p_modifications) {
+	try {
+		const produit = await Produit.findByPk(p_id);
+        log("controller = ", produit)
+		await produit.update({
+			nom: p_modifications.nom ?? produit.nom,
+			type_id: p_modifications.type_id ?? produit.type_id,
+			desc: p_modifications.desc ?? produit.desc,
+			prix_v: p_modifications.prix_v ?? produit.prix_v,
+			prix_a: p_modifications.prix_a ?? produit.prix_v,
+			photo: p_modifications.photo ?? produit.prix_v,
+			dispo: p_modifications.dispo,
+		});
+		return produit.dataValue
+	} catch (error) {
+		throw error;
+	}
+}
+

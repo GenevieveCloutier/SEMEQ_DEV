@@ -14,7 +14,6 @@ export async function load({ params }){
             ['createdAt', 'DESC'] //Nouveaux produits en premiers
         ],
         where: {
-            dispo: 1, //true
             type_id: {
                 [Op.ne]: 1 // Ne correspond PAS à "Abonnement"
             }

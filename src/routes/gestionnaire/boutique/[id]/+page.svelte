@@ -4,6 +4,7 @@
 	import SubmitButon from '../../../../lib/components/formulaires/submitButon.svelte';
     import Retour from '../../../../lib/components/generaux/retour.svelte';
     import Confirmation from '../../../../lib/components/notifications/confirmation.svelte';
+	import { modificationProduit } from '../../../../lib/outils/formHandlers';
 	export let data;
 	const { produit, types } = data;
 	onMount(() => {
@@ -13,7 +14,7 @@
 
 <H1Title title={"Détail d'un item (modifiable)"} />
 <div class="section">
-	<form>
+	<form on:submit|preventDefault={modificationProduit}>
 		<div class="columns">
 			<div class="column is-half">
 				<div class="field">
@@ -46,19 +47,19 @@
 				<div class="field">
 					<label for="prix_v" class="label">Prix visiteur</label>
 					<div class="control">
-						<input type="text" class="input" value={produit.prix_v} />
+						<input type="text" class="input" value={produit.prix_v} name="prix_v" />
 					</div>
 				</div>
 				<div class="field">
 					<label for="prix_a" class="label">Prix abonné</label>
 					<div class="control">
-						<input type="text" class="input" value={produit.prix_a} />
+						<input type="text" class="input" value={produit.prix_a} name="prix_a" />
 					</div>
 				</div>
 				<div class="field">
 					<label for="photo" class="label">Photo</label>
 					<div class="contol">
-						<input type="file" class="input" accept="image/*" />
+						<input type="file" class="input" accept="image/*" name="photo"/>
 						{#if produit.photo}
 							<figure class="image is-256x256">
 								<img class="block" src="/{produit.photo}" alt="photo produit" />
@@ -84,6 +85,7 @@
 				</div>
 			</div>
 		</div>
+		<input value="{produit.id}" name="id" hidden readonly>
         <div class="block has-text-right">
 			<!-- Valider si SubmitButon fait la bonne action! -->
 			<SubmitButon texte={'Enregistrer'}></SubmitButon>

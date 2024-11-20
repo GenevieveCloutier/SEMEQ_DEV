@@ -38,7 +38,7 @@
                     produit.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
                     produit.desc.toLowerCase().includes(searchQuery.toLowerCase())
                 ) as item}
-                    <SectionBoutique id={item.id} photo={item.photo} nom={item.nom} desc={item.desc} prix_a={item.prix_a} prix_v={item.prix_v}></SectionBoutique>
+                    <SectionBoutique id={item.id} photo={`/${item.photo}`} nom={item.nom} desc={item.desc} prix_a={item.prix_a} prix_v={item.prix_v}></SectionBoutique>
                 {/each}
             </div>
         </div>
@@ -51,7 +51,7 @@
                 <div class="fixed-grid is-col-min-10 has-2-cols-mobile has-3-cols-tablet has-4-cols-desktop has-4-cols-widescreen has-5-cols-fullhd">
                     <div class="grid">
                     {#each formations as formation}
-                        <SectionBoutique id={formation.id} photo={formation.photo} nom={formation.nom} desc={formation.desc} prix_a={formation.prix_a} prix_v={formation.prix_v}></SectionBoutique>
+                        <SectionBoutique id={formation.id} photo={`/${formation.photo}`} nom={formation.nom} desc={formation.desc} prix_a={formation.prix_a} prix_v={formation.prix_v}></SectionBoutique>
                     {/each}
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                 <div class="fixed-grid is-col-min-10 has-2-cols-mobile has-3-cols-tablet has-4-cols-desktop has-4-cols-widescreen has-5-cols-fullhd">
                     <div class="grid">
                     {#each outils as outil}
-                        <SectionBoutique id={outil.id} photo={outil.photo} nom={outil.nom} desc={outil.desc} prix_a={outil.prix_a} prix_v={outil.prix_v}></SectionBoutique>
+                        <SectionBoutique id={outil.id} photo={`/${outil.photo}`} nom={outil.nom} desc={outil.desc} prix_a={outil.prix_a} prix_v={outil.prix_v}></SectionBoutique>
                     {/each}
                     </div>
                 </div>
