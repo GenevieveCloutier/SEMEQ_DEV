@@ -60,6 +60,26 @@ export async function suppressionEvenement(p_id) {
 	}
 }
 
+export async function suppressionBlogue(p_id) {
+	erreur.set('');
+	success.set('');
+	const formData = new FormData();
+	formData.append('id', p_id);
+	const response = await fetch('../../api?/supprimeBlogue', {
+		method: 'POST',
+		body: formData
+	});
+	
+	const result = await response.json();
+	const test = JSON.parse(result.data);
+	if(result.status === 200){
+		success.set(JSON.parse(result.data)[3]);
+		goto(`/gestionnaire/blogue`);
+	}else{
+		erreur.set(JSON.parse(result.data)[0]);
+	}
+}
+
 /**
  * Gère la connexion d'un utilisateur à partir des données du formulaire.
  *

@@ -5,6 +5,7 @@
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
 	import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import { modificationBillet } from '$lib/outils/formHandlers';
+	import Confirmation from '../../../../lib/components/notifications/confirmation.svelte';
 
     export let data;
     const { blogue } = data;
@@ -69,6 +70,9 @@
                 <SubmitButon texte={'Enregistrer'} />
                 <Retour />
             </div>
+			<div class="block has-text-right">
+				<Confirmation but='blog' id={blogue.id} />
+			</div>
 		</div>
 	</div>
 </form>
