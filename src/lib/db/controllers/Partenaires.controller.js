@@ -30,8 +30,9 @@ export async function findOne(p_where) {
 
 export async function nouveauCodePromo(p_nom, p_avantage, p_code, p_logo, p_expiration) {
 	try {
-        const doublon = await findOne({code: p_code});
-        if (doublon) throw "Ce code promo existe déjà.";
+        const doublonPartenaire = await findOne({nom: p_nom});
+        const doublonCode = await findOne({code: p_code});
+        if (doublonPartenaire && doublonCode) throw "Ce code promo existe déjà pour ce partenaire.";
 		const resultat = await Partenaire.create({
 			nom: p_nom,
 			avantage: p_avantage,
