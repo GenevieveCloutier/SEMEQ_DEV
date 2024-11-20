@@ -48,7 +48,7 @@
 <div class="section">
 	<div class="columns is-align-content-center">
 		<div class="column">
-			<Recherche bind:searchQuery typeRecherche="un code promotionnel" />
+			<Recherche bind:searchQuery typeRecherche="un code par partenaire ou avantage" />
 		</div>
 		<div class="column is-narrow">
 			<div class="control block">
@@ -56,10 +56,10 @@
 			</div>
 		</div>
 	</div>
-    {#if codes.filter(x => {
-        const recherche = searchQuery.toLowerCase();
-        return x.nom.toLowerCase().includes(recherche) || x.avantage.toLowerCase().includes(recherche)
-      }).length === 0}
+    {#if codes.filter(code =>
+        code.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        code.avantage.toLowerCase().includes(searchQuery.toLowerCase())
+    ).length === 0}
         <RechercheNoResult />
     {:else}
     <div class="block table-container">
@@ -73,11 +73,10 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Petit twist pour chercher le nom et l'avantage' -->
-            {#each codes.filter(x => {
-                const recherche = searchQuery.toLowerCase();
-                return x.nom.toLowerCase().includes(recherche) || x.prenom.toLowerCase().includes(recherche);
-              }) as code}
+            {#each codes.filter(code =>
+                code.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                code.avantage.toLowerCase().includes(searchQuery.toLowerCase())
+            ) as code}
             <tr on:click={() => window.location = `./codes_promo/${code.id}`}>
                 <td>{code.nom}</td>
                 <td>{code.avantage.slice(0, 100)}...</td>
