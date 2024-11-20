@@ -1,6 +1,6 @@
 <script>
     import H1Title from "$lib/components/titres/h1Title.svelte";
-    import H3Title from "$lib/components/titres/h3Title.svelte";
+    import H2Title from "$lib/components/titres/h2Title.svelte";
     import Accordion, { createAccordionContext, getAccordionContext } from "$lib/components/generaux/accordion.svelte";
     import questions from "$lib/data/questions.json"
     
@@ -12,7 +12,7 @@ createAccordionContext();
 <H1Title title={"F.A.Q."} />
 
 <div class="container is-fluid">
-    <H3Title title={"Questions fréquentes:"} />
+    <H2Title title={"Questions fréquentes:"} />
     <div class="container">
         <!-- les questions de la FAQ sont dans le fichier /data/questions.json -->
         {#each questions as question}
@@ -22,7 +22,7 @@ createAccordionContext();
                     {question.question}
                 </span>
                 <div slot="details">
-                <p>
+                <p class="has-text-link-20">
                     {@html question.reponse}
                 </p>
                 </div>
@@ -30,7 +30,7 @@ createAccordionContext();
         {/each}
     </div>
     <div class="mt-6">
-        <H3Title title={"D'autres questions?"} />
+        <H2Title title={"D'autres questions?"} />
         <div class="container is-fluid">
             <p>Tu n'as pas trouvé la réponse à ta question? N'hésite pas à nous joindre en utilisant ce 
                 <a href="/contact">formulaire de contact!</a>

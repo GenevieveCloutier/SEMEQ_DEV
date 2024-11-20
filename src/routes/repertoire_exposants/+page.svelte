@@ -314,7 +314,7 @@ function chercherValeurDomaine(domaine){
                                 </div>
                             {/each}
                             {:else}
-                            <p class=" box bordure px-3 py-3 has-text-centered ">Aucun exposant dans cette catégorie<br>
+                            <p class=" box bordure px-3 py-3 mx-3 my-3 has-text-centered ">Aucun exposant dans cette catégorie<br>
                                 à afficher pour le moment!</p>
                         {/if}
                         </div>

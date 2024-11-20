@@ -220,7 +220,7 @@ function filtreRegionDate(){
                             </div>
                         {/each}
                         {:else}
-                        <p class=" box bordure px-3 py-3 has-text-centered ">Pas d'événement à afficher pour le moment!<br>
+                        <p class=" box bordure px-3 py-3 mx-3 my-3 has-text-centered ">Pas d'événement à afficher pour le moment!<br>
                         <BoutonGris lien= {"repertoire_evenements/inscription_evenement_gratuit"} texte={"Ajouter un événement"} /></p>
                     {/if}
                     </div>

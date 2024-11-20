@@ -11,21 +11,13 @@ export async function load({params, cookies}){
     const villes = await findAllVilles();
     const regions = await findAllRegions();
 
+     //date actuelle
     let dateDebut = new Date()
-    //date actuelle moins 1 mois
-    dateDebut.setMonth(dateDebut.getMonth() -1);
-
-    //pour mettre le jour au premier du mois pour inclure toutes les dates du mois dans la recherche
-    dateDebut.setDate(1);
     dateDebut = dateDebut.toISOString().split("T")[0]  + " 00:00:00.000 +00:00";
 
     let dateFin = new Date()
-    //date actuelle plus 10 mois
-    dateFin.setMonth(dateFin.getMonth() +10);
-
-    //pour mettre le jour au dernier jour du mois pour inclure toutes les dates du mois dans la recherche
-    //pas parfait car n'inclut pas les 30 et/ou 31 du dernier mois, mais ne plante pas si le dernier mois est février...
-    dateFin.setDate(28);
+    //date actuelle plus 14 jours
+    dateFin.setDate(dateFin.getDate() +14);
     dateFin = dateFin.toISOString().split("T")[0] + " 00:00:00.000 +00:00";
 
    const events = await Evenement.findAll({
@@ -35,15 +27,14 @@ export async function load({params, cookies}){
             //afficher seulement les événements approuvés
              { approuve: 1},
 
-            //dont les dates sont entre 1 mois de moins que le mois actuel et 10 mois de plus que le mois actuel
+            //dont les dates sont entre aujourd'hui et de plus de 14 jours
             {
                 [Op.or]:[
                     { debut_even: { [Op.between]: [dateDebut, dateFin] } }, 
                     { fin_even: { [Op.between]: [dateDebut, dateFin] } } 
-                ]
+                ] 
             }
-        ]
-           
+        ]    
     },
        include: [
            { model: Utilisateur, as: "utilisateur" },

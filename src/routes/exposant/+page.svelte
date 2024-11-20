@@ -38,7 +38,7 @@
 
     <div class="columns is-centered">
         <div class="column is-one-fifth-desktop">
-            <div class="card is-equal-height">
+            <div class="card is-equal-height item">
                     <div class="media px-4 py-4">
                         <div class="media-left">
                             <figure class="is-hidden-tablet-only">

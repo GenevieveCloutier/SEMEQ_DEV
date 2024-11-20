@@ -8,6 +8,7 @@
         
 	import { setContext, getContext } from 'svelte';
 	import { writable } from 'svelte/store';
+    export let fonction = () => {};
 	
 	const key = {};
 	
@@ -46,14 +47,14 @@
 
             <!-- si ouvert, afficher la flèche par en haut -->
             {#if open}
-            <button on:click={handleClick} >
+            <button on:click={handleClick} on:click={fonction} >
                 <slot name="head"></slot>
                 <i class="fa-solid fa-chevron-up"></i>
             </button>
 
             <!-- si fermé, afficher la flèche par en bas -->
             {:else}
-            <button on:click={handleClick} >
+            <button on:click={handleClick}>
                 <slot name="head"></slot>
                 <i class="fa-solid fa-chevron-down"></i>
             </button>

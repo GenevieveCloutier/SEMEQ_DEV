@@ -45,7 +45,7 @@ createAccordionContext();
             <Accordion>
                     <span slot="head">
                         <figure class="image is-128x128">{@html associe.img}</figure>
-                        <p class="">{associe.nom}</p>
+                        <p>{associe.nom}</p>
                     </span>
                     <div slot="details">
                     <p>
