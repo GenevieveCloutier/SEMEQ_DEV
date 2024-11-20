@@ -665,10 +665,10 @@ export const actions = {
 
 	nouveauCodePromo: async ({ request, cookies }) => {
 		const data = await request.formData();
-		
+	
 		const uploadLogo = async (nomFichier) => {
 			const logo = data.get(nomFichier);
-
+	
 			if (logo && logo.name) {
 				const buffer = Buffer.from(await logo.arrayBuffer());
 				const extension = logo.name.substring(logo.name.lastIndexOf("."));
@@ -680,11 +680,17 @@ export const actions = {
 			// si pas de logo, retourne null
 			return null;
 		};
-		const logo = await uploadLogo('logo');
-		if (!logo)
+	
+		let logo = await uploadLogo('logo');
+		if (!logo) {
 			logo = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+		}
+	
+		// Vérifiez si la date d'expiration est vide ou non définie
+		const expiration = data.get('expiration') ? data.get('expiration') : null;
+	
 		try {
-			const res = await nouveauCodePromo(data.get('nom'), data.get('avantage'), data.get('code'), logo, data.get('expiration'));
+			const res = await nouveauCodePromo(data.get('nom'), data.get('avantage'), data.get('code'), logo, expiration);
 			return {
 				status: 200,
 				body: {
@@ -695,7 +701,7 @@ export const actions = {
 		} catch (error) {
 			return fail(401, error);
 		}
-	},
+	},	
 };
 
 /**
