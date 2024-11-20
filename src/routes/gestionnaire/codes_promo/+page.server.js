@@ -5,7 +5,7 @@ export async function load({ params }){
 
     let resultat = codes.map(code => ({
         ...code.dataValues,
-        expiration: code.expiration === null ? "Inconnue" : `${code.expiration.toISOString().split('T')[0]}`,
+        expiration: code.expiration === null ? "Aucune" : `${code.expiration.toISOString().split('T')[0]}`,
     }));
 
     return { codes: resultat }
