@@ -1,2 +1,3 @@
-import { Partenaire } from "$lib/db/models/Partenaire.model";
-
+export async function load({cookies}) {
+    return null;
+}
