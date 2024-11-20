@@ -80,6 +80,25 @@ export async function suppressionBlogue(p_id) {
 	}
 }
 
+export async function suppressionProduit(p_id) {
+	erreur.set('');
+	success.set('');
+	const formData = new FormData();
+	formData.append('id', p_id);
+	const response = await fetch('../../api?/supprimeProduit', {
+		method: 'POST',
+		body: formData
+	});
+	
+	const result = await response.json();
+	if(result.status === 200){
+		success.set(JSON.parse(result.data)[3]);
+		goto(`/gestionnaire/boutique`);
+	}else{
+		erreur.set(JSON.parse(result.data)[0]);
+	}
+}
+
 /**
  * Gère la connexion d'un utilisateur à partir des données du formulaire.
  *

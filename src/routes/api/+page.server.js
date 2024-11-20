@@ -35,6 +35,7 @@ import { randomUUID } from 'crypto';
 import { Utilisateur } from '../../lib/db/models/Utilisateur.model.js';
 import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '../../lib/db/controllers/Blogs.controller.js';
 import { request } from 'http';
+import { findOne as findOneProduit, suppressionProduit } from '../../lib/db/controllers/Produits.controller.js';
 
 //Chemins de base pour stocker les photos
 const cheminPhotosEven = path.join(process.cwd(), 'src/lib/img/app/evenements');
@@ -261,11 +262,19 @@ export const actions = {
 
 	supprimeBillet: async ({ cookies, request }) => {
 		const data = await request.formData();
-		const blogue = await findOneBlogue({ id: data.get('id') });
-		if (cookies.get('id')) {
+		if (cookies.get('id') == 1) {
 			const res = await suppressionBillet(data.get('id'));
 			return res;
 		} else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action');
+	},
+
+	supprimeProduit: async ({cookies, request}) => {
+		const data = await request.formData();
+		console.log(cookies.get('id'));
+		
+		if (cookies.get('id') == 1)
+			return await suppressionProduit(data.get('id'));
+		else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action');
 	},
 
 	/**

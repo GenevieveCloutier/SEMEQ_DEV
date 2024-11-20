@@ -1,3 +1,4 @@
+import { log } from "../../outils/debug.js";
 import { Produit } from "../models/Produit.model.js";
 import { Type } from "../models/Type.model.js";
 import { error } from "@sveltejs/kit";
@@ -56,4 +57,21 @@ export async function findOne(p_where){
     }).catch((error) => {;
         throw error;
     });
+}
+
+export async function suppressionProduit(p_id){
+    try {
+        log('plop',)
+        const produit = await Produit.findByPk(p_id);
+        if(!produit) throw new error ('Produit non trouvé');
+        await produit.destroy();
+        return {
+			status: 200,
+			body: {
+				message: 'Produit supprimé.',
+			}
+		};
+    } catch (error) {
+        
+    }
 }
