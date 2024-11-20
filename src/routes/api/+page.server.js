@@ -34,6 +34,7 @@ import path from 'path';
 import { randomUUID } from 'crypto';
 import { Utilisateur } from '../../lib/db/models/Utilisateur.model.js';
 import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '../../lib/db/controllers/Blogs.controller.js';
+import { nouveauPartenaire, modifPartenaire, findOne as findOnePartenaire, suppressionPartenaire } from '../../lib/db/controllers/Partenaires.controller.js';
 import { request } from 'http';
 
 //Chemins de base pour stocker les photos
@@ -41,6 +42,7 @@ const cheminPhotosEven = path.join(process.cwd(), 'src/lib/img/app/evenements');
 const cheminLogos = path.join(process.cwd(), 'src/lib/img/app/logos');
 const cheminPhotosUtilisateurs = path.join(process.cwd(), 'src/lib/img/app/utilisateurs');
 const cheminPhotosBlog = path.join(process.cwd(), 'src/lib/img/app/blog');
+const cheminPhotosPartenaires = path.join(process.cwd(), 'src/lib/img/app/partenaires');
 
 export const actions = {
 	/**
@@ -659,7 +661,41 @@ export const actions = {
 		} catch (error) {
 			return fail(401, error);
 		}
-	}
+	},
+
+	nouveauCode: async ({ request, cookies }) => {
+		const data = await request.formData();
+		
+		const uploadLogo = async (nomFichier) => {
+			const logo = data.get(nomFichier);
+
+			if (logo && logo.name) {
+				const buffer = Buffer.from(await logo.arrayBuffer());
+				const extension = logo.name.substring(logo.name.lastIndexOf("."));
+				const nomTemporaire = randomUUID() + logo.name.replaceAll(/[\s\W]/g, "_") + extension;
+				const filePath = path.resolve(cheminPhotosPartenaires, nomTemporaire);
+				fs.writeFileSync(filePath, buffer);
+				return path.relative(process.cwd(), filePath);
+			}
+			// si pas de logo, retourne null
+			return null;
+		};
+		const logo = await uploadLogo('logo');
+		if (!logo)
+			logo = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+		try {
+			const res = await nouveauCode(data.get('nom'), data.get('avantage'), data.get('code'), logo, data.get('expiration'));
+			return {
+				status: 200,
+				body: {
+					message: 'Code promo créé avec succès.',
+					article: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
 };
 
 /**

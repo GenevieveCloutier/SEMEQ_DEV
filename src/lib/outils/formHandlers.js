@@ -627,3 +627,25 @@ export async function deleteOnePanier(event){
         erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
     }
 }
+
+export async function creationCode(event) {
+	chargement;
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/nouveauCode', {
+			method: 'POST',
+			enctype: 'multipart/form-data',
+			body: formData
+		});
+		const result = await response.json();
+		if (result.status == 200){
+			goto('/gestionnaire/codes_promo')
+			success.set('Code promo ajouté avec succès!');
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}
