@@ -68,8 +68,8 @@
             <tr>
                 <th>Partenaire <button on:click={event => triage(event, 'partenaire')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
                 <th>Avantage <button on:click={event => triage(event, 'avantage')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
-                <th>Expiration <button on:click={event => triage(event, 'expiration')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
                 <th>Code <button on:click={event => triage(event, 'code')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
+                <th>Expiration <button on:click={event => triage(event, 'expiration')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
             </tr>
         </thead>
         <tbody>
@@ -80,13 +80,13 @@
             <tr on:click={() => window.location = `./codes_promo/${code.id}`}>
                 <td>{code.nom}</td>
                 <td>{code.avantage.slice(0, 100)}...</td>
-                <td>{code.expiration}</td>
                 <td>{code.code}</td>
+                <td>{code.expiration}</td>
             </tr>
             {/each}
         </tbody>
     </table>
-    </div>    
+    </div>
     {/if}
 
 </div>
