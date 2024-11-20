@@ -1,7 +1,7 @@
 <script>
 	import { fly } from 'svelte/transition';
 	import Retour from '../generaux/retour.svelte';
-	import { handleUserDelete, suppressionEvenement } from '../../outils/formHandlers';
+	import { handleUserDelete, suppressionEvenement, suppressionBlogue } from '../../outils/formHandlers';
 
 	export let id, but;
 	let confirmation = false;

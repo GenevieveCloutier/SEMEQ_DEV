@@ -71,7 +71,7 @@
                 <Retour />
             </div>
 			<div class="block has-text-right">
-				<Confirmation but='blog' id={blogue.id} />
+				<Confirmation but='blogue' id={blogue.id} />
 			</div>
 		</div>
 	</div>

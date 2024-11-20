@@ -33,7 +33,7 @@ import fs from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
 import { Utilisateur } from '../../lib/db/models/Utilisateur.model.js';
-import { nouveauBillet, modifBillet } from '../../lib/db/controllers/Blogs.controller.js';
+import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '../../lib/db/controllers/Blogs.controller.js';
 import { request } from 'http';
 
 //Chemins de base pour stocker les photos
@@ -258,6 +258,16 @@ export const actions = {
 			return fail(401, error);
 		}
 	},
+
+	supprimeBillet: async ({ cookies, request }) => {
+		const data = await request.formData();
+		const blogue = await findOneBlogue({ id: data.get('id') });
+		if (cookies.get('id')) {
+			const res = await suppressionBillet(data.get('id'));
+			return res;
+		} else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action');
+	},
+
 	/**
 	 ** Action pour créer un nouvel événement avec données et photos, et gérer l'approbation en fonction de l'abonnement de l'utilisateur.
 	 *

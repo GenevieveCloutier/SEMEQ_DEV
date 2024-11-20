@@ -57,3 +57,19 @@ export async function modifBillet(p_id, p_modifications) {
 		throw error;
 	}
 }
+
+export async function suppressionBillet(p_id) {
+	try {
+		const billet = await Blog.findByPk(p_id);
+		if (!billet) throw new Error('Article non trouvé');
+		await billet.destroy();
+		return {
+			status: 200,
+			body: {
+				message: 'Article supprimé.'
+			}
+		};
+	} catch (error) {
+		throw error;
+	}
+}

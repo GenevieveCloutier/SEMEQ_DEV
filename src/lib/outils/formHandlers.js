@@ -65,7 +65,7 @@ export async function suppressionBlogue(p_id) {
 	success.set('');
 	const formData = new FormData();
 	formData.append('id', p_id);
-	const response = await fetch('../../api?/supprimeBlogue', {
+	const response = await fetch('../../api?/supprimeBillet', {
 		method: 'POST',
 		body: formData
 	});
