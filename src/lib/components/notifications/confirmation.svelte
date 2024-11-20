@@ -1,7 +1,7 @@
 <script>
 	import { fly } from 'svelte/transition';
 	import Retour from '../generaux/retour.svelte';
-	import { handleUserDelete, suppressionEvenement, suppressionBlogue } from '../../outils/formHandlers';
+	import { handleUserDelete, suppressionEvenement, suppressionBlogue, supprimeCodePromo } from '../../outils/formHandlers';
 
 	export let id, but;
 	let confirmation = false;
@@ -12,7 +12,9 @@
 				? 'Supprimer mon compte'
 				: but == 'blogue'
 					? "Supprimer l'article"
-					: null;
+						: but == 'code_promo'
+						? "Supprimer le code promo"
+						: null;
 </script>
 
 <button
@@ -30,7 +32,7 @@
 	>
 		<p>Voulez vous vraiment supprimer votre compte?</p>
 		<p class="help">
-			Cette action est irréversible et entraîneras la suppression de toutes vos données
+			Cette action est irréversible et entraîneras la suppression de toutes vos données.
 		</p>
 		<div class="block">
 			<button
@@ -55,7 +57,7 @@
 		<p>Voulez vous vraiment supprimer votre événement?</p>
 		<p class="help">
 			Cette action est irréversible et entraîneras la suppression de toutes les données liées à
-			cette événement
+			cet événement.
 		</p>
 		<div class="block">
 			<button
@@ -80,7 +82,7 @@
 		<p>Voulez vous vraiment supprimer cet article ?</p>
 		<p class="help">
 			Cette action est irréversible et entraîneras la suppression de toutes les données liées à
-			cet article
+			cet article.
 		</p>
 		<div class="block">
 			<button
@@ -90,6 +92,31 @@
 				}}>Retour</button
 			>
 			<button class="button is-danger" on:click|preventDefault={suppressionBlogue(id)}>
+				Confirmer la suppression</button
+			>
+		</div>
+	</div>
+{/if}
+
+{#if confirmation && but == 'code_promo'}
+	<div
+		class="box has-text-centered popup"
+		in:fly={{ y: 200, duration: 1500 }}
+		out:fly={{ y: -200, duration: 1500 }}
+	>
+		<p>Voulez vous vraiment supprimer le code promo?</p>
+		<p class="help">
+			Cette action est irréversible et entraîneras la suppression de toutes les données liées à
+			ce code promo.
+		</p>
+		<div class="block">
+			<button
+				class="button"
+				on:click|preventDefault={() => {
+					confirmation = !confirmation;
+				}}>Retour</button
+			>
+			<button class="button is-danger" on:click|preventDefault={supprimeCodePromo(id)}>
 				Confirmer la suppression</button
 			>
 		</div>
