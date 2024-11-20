@@ -649,3 +649,45 @@ export async function creationCodePromo(event) {
 		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
 	}
 }
+
+export async function modificationCodePromo(event) {
+	chargement;
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/modificationCodePromo', {
+			method: 'POST',
+			enctype: 'multipart/form-data',
+			body: formData
+		});
+		const result = await response.json();
+		if (result.status == 200){
+			goto('/gestionnaire/codes_promo')
+			success.set('Code promo modifié avec succès!');
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}
+
+export async function supprimeCodePromo(p_id) {
+	erreur.set('');
+	success.set('');
+	const formData = new FormData();
+	formData.append('id', p_id);
+	const response = await fetch('../../api?/supprimeCodePromo', {
+		method: 'POST',
+		body: formData
+	});
+	
+	const result = await response.json();
+	const test = JSON.parse(result.data);
+	if(result.status === 200){
+		success.set(JSON.parse(result.data)[3]);
+		goto(`/gestionnaire/codes_promo`);
+	}else{
+		erreur.set(JSON.parse(result.data)[0]);
+	}
+}

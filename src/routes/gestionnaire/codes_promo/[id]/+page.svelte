@@ -4,7 +4,7 @@
     import Retour from '$lib/components/generaux/retour.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
 	import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
-	//import { modificationCodePromo } from '$lib/outils/formHandlers';
+	import { modificationCodePromo } from '$lib/outils/formHandlers';
 	import Confirmation from '$lib/components/notifications/confirmation.svelte';
 
     export let data;
@@ -15,7 +15,7 @@
 <NotifDanger />
 <NotifSuccess />
 
-<form on:submit> <!-- |preventDefault={modificationCodePromo} -->
+<form on:submit|preventDefault={modificationCodePromo}>
 	<div class="section">
 		<div class="box">
             <input name="id" value="{code.id}" hidden readonly />

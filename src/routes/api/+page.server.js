@@ -680,13 +680,11 @@ export const actions = {
 			// si pas de logo, retourne null
 			return null;
 		};
-	
 		let logo = await uploadLogo('logo');
 		if (!logo) {
 			logo = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
 		}
 	
-		// Vérifiez si la date d'expiration est vide ou non définie
 		const expiration = data.get('expiration') ? data.get('expiration') : null;
 	
 		try {
@@ -701,7 +699,56 @@ export const actions = {
 		} catch (error) {
 			return fail(401, error);
 		}
-	},	
+	},
+
+	modificationCodePromo: async ({request}) => {
+		const data = await request.formData();
+		const uploadLogo = async (nomFichier) => {
+			const logo = data.get(nomFichier);
+	
+			if (logo && logo.name) {
+				const buffer = Buffer.from(await logo.arrayBuffer());
+				const extension = logo.name.substring(logo.name.lastIndexOf("."));
+				const nomTemporaire = randomUUID() + logo.name.replaceAll(/[\s\W]/g, "_") + extension;
+				const filePath = path.resolve(cheminPhotosPartenaires, nomTemporaire);
+				fs.writeFileSync(filePath, buffer);
+				return path.relative(process.cwd(), filePath);
+			}
+			// si pas de logo, retourne null
+			return null;
+		};
+		let logo = await uploadLogo('logo');
+
+		const expiration = data.get('expiration') ? data.get('expiration') : null;
+
+		try {
+			const res = await modifCodePromo(data.get('id'), {
+				nom: data.get('nom'),
+				avantage: data.get('avantage'),
+				code: data.get('code'),
+				logo: logo,
+				expiration: expiration
+		});
+			return {
+				status: 200,
+				body: {
+					message: 'Code promo modifié avec succès',
+					article: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
+
+	supprimeCodePromo: async ({ cookies, request }) => {
+		const data = await request.formData();
+		const code = await findOneCodePromo({ id: data.get('id') });
+		if (cookies.get('id')) {
+			const res = await suppressionCodePromo(data.get('id'));
+			return res;
+		} else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action.');
+	},
 };
 
 /**
