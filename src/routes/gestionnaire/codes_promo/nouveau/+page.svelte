@@ -24,20 +24,21 @@
 	<div class="section">
 		<div class="box">
 			<div class="field">
-				<label class="label" for="partenaire">Partenaire</label>
+				<label class="label" for="nom">Partenaire <span class="rouge">*</span></label>
 				<div class="control">
 					<input
 						class="input"
 						type="text"
-						name="partenaire"
-						id="partenaire"
+						name="nom"
+						id="nom"
 						placeholder="Nom du partenaire"
+                        required
 					/>
 				</div>
 			</div>
 
             <div class="field">
-				<label class="label" for="code">Code</label>
+				<label class="label" for="code">Code <span class="rouge">*</span></label>
 				<div class="control">
 					<input
 						class="input"
@@ -45,18 +46,20 @@
 						name="code"
 						id="code"
 						placeholder="Code"
+                        required
 					/>
 				</div>
 			</div>
 
 			<div class="field">
-                <label class="label" for="avantage">Avantage</label>
+                <label class="label" for="avantage">Avantage <span class="rouge">*</span></label>
 				<textarea
                         class="textarea"
                         name="avantage"
                         id="avantage"
                         placeholder="Description de l'avantage"
                         rows="5"
+                        required
 				></textarea>
             </div>
 
@@ -70,7 +73,13 @@
             <div class="field">
                 <label class="label" for="logo">Logo</label>
 					<div class="control">
-						<input class="input" type="file" name="logo" id="logo" />
+						<input
+							class="input"
+							type="file"
+							accept="image/png, image/jpeg, image/svg"
+							name="logo"
+							id="logo"
+						/>
 					</div>
 			</div>
             <div class="block has-text-right">
