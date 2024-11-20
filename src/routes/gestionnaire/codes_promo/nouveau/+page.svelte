@@ -4,7 +4,7 @@
     import Retour from '$lib/components/generaux/retour.svelte';
     import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
 	import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
-	import { creationCode } from '$lib/outils/formHandlers';
+	import { creationCodePromo } from '$lib/outils/formHandlers';
 
     // Mettre en évidence le lien actif dans menu latéral gestionnaire
     import { onMount } from "svelte";
@@ -20,7 +20,7 @@
 <NotifDanger />
 <NotifSuccess />
 
-<form on:submit|preventDefault={creationCode}>
+<form on:submit|preventDefault={creationCodePromo}>
 	<div class="section">
 		<div class="box">
 			<div class="field">

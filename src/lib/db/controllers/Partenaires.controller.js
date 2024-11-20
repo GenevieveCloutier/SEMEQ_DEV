@@ -28,7 +28,7 @@ export async function findOne(p_where) {
 		});
 }
 
-export async function nouveauPartenaire(p_nom, p_avantage, p_code, p_logo, p_expiration) {
+export async function nouveauCodePromo(p_nom, p_avantage, p_code, p_logo, p_expiration) {
 	try {
         const doublon = await findOne({code: p_code});
         if (doublon) throw "Ce code promo existe déjà.";
@@ -45,7 +45,7 @@ export async function nouveauPartenaire(p_nom, p_avantage, p_code, p_logo, p_exp
 	}
 }
 
-export async function modifPartenaire(p_id, p_modifications) {
+export async function modifCodePromo(p_id, p_modifications) {
 	try {
 		const partenaire = await Partenaire.findByPk(p_id);
 		await partenaire.update({
@@ -61,7 +61,7 @@ export async function modifPartenaire(p_id, p_modifications) {
 	}
 }
 
-export async function suppressionPartenaire(p_id) {
+export async function suppressionCodePromo(p_id) {
 	try {
 		const partenaire = await Partenaire.findByPk(p_id);
 		if (!partenaire) throw new Error('Code promo non trouvé.');

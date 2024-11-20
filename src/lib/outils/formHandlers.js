@@ -628,12 +628,12 @@ export async function deleteOnePanier(event){
     }
 }
 
-export async function creationCode(event) {
+export async function creationCodePromo(event) {
 	chargement;
 	erreur.set('');
 	try {
 		const formData = new FormData(event.target);
-		const response = await fetch('/api?/nouveauCode', {
+		const response = await fetch('/api?/nouveauCodePromo', {
 			method: 'POST',
 			enctype: 'multipart/form-data',
 			body: formData

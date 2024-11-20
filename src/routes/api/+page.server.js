@@ -34,7 +34,7 @@ import path from 'path';
 import { randomUUID } from 'crypto';
 import { Utilisateur } from '../../lib/db/models/Utilisateur.model.js';
 import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '../../lib/db/controllers/Blogs.controller.js';
-import { nouveauPartenaire, modifPartenaire, findOne as findOnePartenaire, suppressionPartenaire } from '../../lib/db/controllers/Partenaires.controller.js';
+import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '../../lib/db/controllers/Partenaires.controller.js';
 import { request } from 'http';
 
 //Chemins de base pour stocker les photos
@@ -663,7 +663,7 @@ export const actions = {
 		}
 	},
 
-	nouveauCode: async ({ request, cookies }) => {
+	nouveauCodePromo: async ({ request, cookies }) => {
 		const data = await request.formData();
 		
 		const uploadLogo = async (nomFichier) => {
@@ -684,7 +684,7 @@ export const actions = {
 		if (!logo)
 			logo = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
 		try {
-			const res = await nouveauCode(data.get('nom'), data.get('avantage'), data.get('code'), logo, data.get('expiration'));
+			const res = await nouveauCodePromo(data.get('nom'), data.get('avantage'), data.get('code'), logo, data.get('expiration'));
 			return {
 				status: 200,
 				body: {
