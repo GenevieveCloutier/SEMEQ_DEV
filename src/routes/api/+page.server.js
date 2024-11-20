@@ -354,6 +354,16 @@ export const actions = {
 		}
 	},
 
+	supprimeEvenement: async ({ cookies, request }) => {
+		const data = await request.formData();
+		const utilisateur = await findOne({ id: cookies.get('id') });
+		const evenement = await findEvenement({ id: data.get('id') });
+		if (utilisateur.role_id == 1 || utilisateur.id == evenement.utilisateur_id) {
+			const res = await suppressionEvenement(data.get('id'));
+			return res;
+		} else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action');
+	},
+
 	/**
 	 ** Action pour initier la récupération de mot de passe en envoyant un courriel de réinitialisation.
 	 *
