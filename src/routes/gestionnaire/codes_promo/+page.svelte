@@ -43,12 +43,19 @@
     }
 </script>
 
-<H1Title title={"Liste des codes promo"} />
+<H1Title title={"Tous les codes promo"} />
 
-<div class="block">
-
-    <Recherche bind:searchQuery typeRecherche="un code promotionnel" />
-
+<div class="section">
+	<div class="columns is-align-content-center">
+		<div class="column">
+			<Recherche bind:searchQuery typeRecherche="un code promotionnel" />
+		</div>
+		<div class="column is-narrow">
+			<div class="control block">
+				<BoutonBleu texte={"Ajouter un code"} lien={`./codes_promo/nouveau`}></BoutonBleu>
+			</div>
+		</div>
+	</div>
     {#if codes.filter(x => {
         const recherche = searchQuery.toLowerCase();
         return x.nom.toLowerCase().includes(recherche) || x.avantage.toLowerCase().includes(recherche)
@@ -73,7 +80,7 @@
               }) as code}
             <tr on:click={() => window.location = `./codes_promo/${code.id}`}>
                 <td>{code.nom}</td>
-                <td>{code.avantage}</td>
+                <td>{code.avantage.slice(0, 100)}...</td>
                 <td>{code.expiration}</td>
                 <td>{code.code}</td>
             </tr>
@@ -83,8 +90,4 @@
     </div>    
     {/if}
 
-</div>
-
-<div class="block has-text-right">
-    <BoutonBleu texte={"Ajouter un code"} lien={`./codes_promo/nouveau`}></BoutonBleu>
 </div>
