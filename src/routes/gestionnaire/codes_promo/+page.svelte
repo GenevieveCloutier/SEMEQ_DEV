@@ -29,7 +29,7 @@
     * @param {string} champ - Le nom du champ selon lequel trier les codes promos.
     */
     function triage(event, champ){
-    codes.sort((a, b) => {
+        codes.sort((a, b) => {
           return    (a[champ]?.toUpperCase() < b[champ]?.toUpperCase()) ? -1*orientation :
                     (a[champ]?.toUpperCase() > b[champ]?.toUpperCase()) ? +1*orientation :
                      0;
@@ -79,7 +79,7 @@
             ) as code}
             <tr on:click={() => window.location = `./codes_promo/${code.id}`}>
                 <td>{code.nom}</td>
-                <td>{code.avantage.slice(0, 100)}...</td>
+                <td>{code.avantage}</td>
                 <td>{code.code}</td>
                 <td>{code.expiration}</td>
             </tr>
