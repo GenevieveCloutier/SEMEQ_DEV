@@ -1,6 +1,7 @@
 <script>
     import H1Title from "$lib/components/titres/h1Title.svelte";
     import H2Title from "$lib/components/titres/h2Title.svelte";
+    import PartenaireAvantage from "$lib/components/boites/partenaireAvantage.svelte";
 
     export let data;
     const partenaires = data.partenaires;
@@ -19,59 +20,113 @@
 
 <div class="block">
 
-    <H2Title title={"Marketing web"} />
+    <H2Title title={"Décoration / Design / Accessoires"} />
 
     <div class="fixed-grid is-col-min-10 has-1-cols-mobile has-2-cols-tablet has-3-cols-desktop has-4-cols-widescreen has-4-cols-fullhd">
         <div class="grid">
         {#each partenaires as partenaire}    
-            <div class="cell">
-                <div class="card">
-                    <div class="card-image">
-                    <figure class="image is-1by1">
-                            <img src="{`/${partenaire.logo}`}" alt="{partenaire.nom}"/>
-                    </figure>
-                    </div>
-            
-                    <div class="card-content">
-                        <div class="content has-text-centered">
-                            <div>{partenaire.avantage}</div>
-                        </div>
-                    </div>
-            
-                    <footer class="card-footer">
-                        <div class="content has-text-centered">
-                            Code promo : <b>{partenaire.code}</b><br>
-                            {#if partenaire.expiration != "Aucune"}
-                                Date d'expiration : <b>{partenaire.expiration}</b>
-                            {:else}
-                                Aucune date d'expiration
-                            {/if}
-                        </div>
-                    </footer>
-                </div>
-            </div>
+            <PartenaireAvantage logo={`/${partenaire.logo}`} nom={partenaire.nom} avantage={partenaire.avantage} code={partenaire.code} expiration={partenaire.expiration}></PartenaireAvantage>
         {/each}
         </div>
     </div>
 
 </div>
 
-<style>
-    .cell {
-        display: flex;          /* Égaliser la hauteur des cell d'une même ligne */
-        flex-direction: column; /* Égaliser la hauteur des cell d'une même ligne */
-    }
-    
-    .card {
-        height: 100%;           /* Égaliser la hauteur des card d'une même ligne */
-        display: flex;          /* Égaliser la hauteur des card d'une même ligne */
-        flex-direction: column; /* Égaliser la hauteur des card d'une même ligne */
-    }
+<div class="block">
 
-    .card-footer {
-        margin-top: auto; /* Coller en bas de card */
-        padding: 0.75rem;
-        padding-top: 0rem;
-        justify-content: center;
-    }
-</style>
+    <H2Title title={"Emballages / Packaging / Sacs"} />
+
+    <div class="fixed-grid is-col-min-10 has-1-cols-mobile has-2-cols-tablet has-3-cols-desktop has-4-cols-widescreen has-4-cols-fullhd">
+        <div class="grid">
+        {#each partenaires as partenaire}    
+            <PartenaireAvantage logo={`/${partenaire.logo}`} nom={partenaire.nom} avantage={partenaire.avantage} code={partenaire.code} expiration={partenaire.expiration}></PartenaireAvantage>
+        {/each}
+        </div>
+    </div>
+
+</div>
+
+<div class="block">
+
+    <H2Title title={"Graphisme"} />
+
+    <div class="fixed-grid is-col-min-10 has-1-cols-mobile has-2-cols-tablet has-3-cols-desktop has-4-cols-widescreen has-4-cols-fullhd">
+        <div class="grid">
+        {#each partenaires as partenaire}    
+            <PartenaireAvantage logo={`/${partenaire.logo}`} nom={partenaire.nom} avantage={partenaire.avantage} code={partenaire.code} expiration={partenaire.expiration}></PartenaireAvantage>
+        {/each}
+        </div>
+    </div>
+
+</div>
+
+<div class="block">
+
+    <H2Title title={"Impressions - Produits et services"} />
+
+    <div class="fixed-grid is-col-min-10 has-1-cols-mobile has-2-cols-tablet has-3-cols-desktop has-4-cols-widescreen has-4-cols-fullhd">
+        <div class="grid">
+        {#each partenaires as partenaire}    
+            <PartenaireAvantage logo={`/${partenaire.logo}`} nom={partenaire.nom} avantage={partenaire.avantage} code={partenaire.code} expiration={partenaire.expiration}></PartenaireAvantage>
+        {/each}
+        </div>
+    </div>
+
+</div>
+
+<div class="block">
+
+    <H2Title title={"Maquillages"} />
+
+    <div class="fixed-grid is-col-min-10 has-1-cols-mobile has-2-cols-tablet has-3-cols-desktop has-4-cols-widescreen has-4-cols-fullhd">
+        <div class="grid">
+        {#each partenaires as partenaire}    
+            <PartenaireAvantage logo={`/${partenaire.logo}`} nom={partenaire.nom} avantage={partenaire.avantage} code={partenaire.code} expiration={partenaire.expiration}></PartenaireAvantage>
+        {/each}
+        </div>
+    </div>
+
+</div>
+
+<div class="block">
+
+    <H2Title title={"Marketing web"} />
+
+    <div class="fixed-grid is-col-min-10 has-1-cols-mobile has-2-cols-tablet has-3-cols-desktop has-4-cols-widescreen has-4-cols-fullhd">
+        <div class="grid">
+        {#each partenaires as partenaire}    
+            <PartenaireAvantage logo={`/${partenaire.logo}`} nom={partenaire.nom} avantage={partenaire.avantage} code={partenaire.code} expiration={partenaire.expiration}></PartenaireAvantage>
+        {/each}
+        </div>
+    </div>
+
+</div>
+
+<div class="block">
+
+    <H2Title title={"Présentoirs / Ébénisterie"} />
+
+    <div class="fixed-grid is-col-min-10 has-1-cols-mobile has-2-cols-tablet has-3-cols-desktop has-4-cols-widescreen has-4-cols-fullhd">
+        <div class="grid">
+        {#each partenaires as partenaire}    
+            <PartenaireAvantage logo={`/${partenaire.logo}`} nom={partenaire.nom} avantage={partenaire.avantage} code={partenaire.code} expiration={partenaire.expiration}></PartenaireAvantage>
+        {/each}
+        </div>
+    </div>
+
+</div>
+
+<div class="block">
+
+    <H2Title title={"Vidéos et montage - Création de contenu"} />
+
+    <div class="fixed-grid is-col-min-10 has-1-cols-mobile has-2-cols-tablet has-3-cols-desktop has-4-cols-widescreen has-4-cols-fullhd">
+        <div class="grid">
+        {#each partenaires as partenaire}    
+            <PartenaireAvantage logo={`/${partenaire.logo}`} nom={partenaire.nom} avantage={partenaire.avantage} code={partenaire.code} expiration={partenaire.expiration}></PartenaireAvantage>
+        {/each}
+        </div>
+    </div>
+
+</div>
+
