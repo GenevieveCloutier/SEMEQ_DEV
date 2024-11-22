@@ -1,7 +1,7 @@
 import { Partenaire } from "$lib/db/models/Partenaire.model";
 
 export async function load({ params }){
-    const codes = await Partenaire.findAll();
+    let codes = await Partenaire.findAll();
 
     let aujourdhui = new Date().toLocaleDateString('fr-CA', {timeZone: 'America/Montreal'});
 
@@ -14,5 +14,5 @@ export async function load({ params }){
                 : code.expiration.toLocaleDateString('fr-CA', {timeZone: 'America/Montreal'}),
     }));
 
-    return { codes: resultat }
+    return { resultat }
 }

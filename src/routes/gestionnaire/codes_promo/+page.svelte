@@ -5,7 +5,8 @@
     import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
 
     export let data;
-    const codes = data.codes;
+    //let codes = data.codes;
+    let { resultat : codes } = data;
 
     // Mettre en évidence le lien actif dans menu latéral gestionnaire
     import { onMount } from "svelte";
@@ -34,7 +35,7 @@
                     (a[champ]?.toUpperCase() > b[champ]?.toUpperCase()) ? +1*orientation :
                      0;
         });
-        //codes = codes; //Pour bind le tableau
+        codes = codes; //Pour bind le tableau
         orientation *= -1;
         if(orientation == 1) //pour changer l'icon
             event.target.classList.replace('fa-arrow-down-short-wide', 'fa-arrow-up-short-wide');
@@ -66,7 +67,7 @@
     <table class="table is-hoverable is-striped is-fullwidth ">
         <thead class="has-text-centered">
             <tr>
-                <th>Partenaire <button on:click={event => triage(event, 'partenaire')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
+                <th>Partenaire <button on:click={event => triage(event, 'nom')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
                 <th>Avantage <button on:click={event => triage(event, 'avantage')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
                 <th>Code <button on:click={event => triage(event, 'code')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
                 <th>Expiration <button on:click={event => triage(event, 'expiration')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
