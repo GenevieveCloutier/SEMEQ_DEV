@@ -679,7 +679,7 @@ export async function codePromoPanier(event) {
 		const result = await response.json();
 		if (result.status == 200){
 			window.location.reload();
-			success.set('Code promo ajouté sur ton panier.');
+			success.set('Code promo accepté.');
 		}
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {

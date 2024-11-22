@@ -52,14 +52,14 @@
             });
           },
           onApprove: function (data, actions) {
-            //<!--! Ca c'est ce qui est declenché en retour si le paiement est valider
+            //<!--! Ça c'est ce qui est declenché en retour si le paiement est validé
             return actions.order.capture().then(function (details) {
               alert("Paiement validé");
-              //<!--!Ajouter un actions.redirect() pour changer de page
+              actions.redirect(`/panier/paiement/confirmation`)
             });
           },
           onError: function (err) {
-            //<!--! Et ca c'est quand ca a merdé
+            //<!--! Et ça c'est quand ça a merdé
             alert("Quelque chose s'est mal passé");
             console.log("Quelque chose s'est mal passé", err);
           },

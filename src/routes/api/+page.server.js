@@ -738,6 +738,31 @@ export const actions = {
 		}
 	},
 
+	codePromoPanier: async ({request}) => {
+		const data = await request.formData();
+
+		// Date du jour au format ISO avec l'heure 00:00:00 pour comparer avec dates dans BD
+		let aujourdhui = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+		
+		const code = await findOneCodePromo({ code: data.get('code') });
+		if (code.expiration < aujourdhui) {
+			return {
+				status: 200,
+				body: {
+					message: 'Code promo accepté.',
+					article: res
+				}
+			};
+		} else {
+			return {
+				status: 404,
+				body: {
+					message: 'Ce code promo n\'est pas valide ou a expiré.'
+				}
+			};
+		}
+	},
+
 	deleteOnePanier: async ({ request }) => {
 		const data = await request.formData();
 
