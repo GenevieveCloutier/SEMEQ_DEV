@@ -80,6 +80,25 @@ export async function suppressionBlogue(p_id) {
 	}
 }
 
+export async function suppressionProduit(p_id) {
+	erreur.set('');
+	success.set('');
+	const formData = new FormData();
+	formData.append('id', p_id);
+	const response = await fetch('../../api?/supprimeProduit', {
+		method: 'POST',
+		body: formData
+	});
+	
+	const result = await response.json();
+	if(result.status === 200){
+		success.set(JSON.parse(result.data)[3]);
+		goto(`/gestionnaire/boutique`);
+	}else{
+		erreur.set(JSON.parse(result.data)[0]);
+	}
+}
+
 /**
  * Gère la connexion d'un utilisateur à partir des données du formulaire.
  *
@@ -237,6 +256,28 @@ export async function creationBillet(event) {
 	}
 }
 
+export async function creationProduit(event) {
+	chargement;
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/nouveauProduit', {
+			method: 'POST',
+			enctype: 'multipart/form-data',
+			body: formData
+		});
+		const result = await response.json();
+		if (result.status == 200){
+			goto('/gestionnaire/boutique')
+			success.set('Produit ajouté avec succès!');
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}
+
 export async function modificationBillet(event) {
 	chargement;
 	erreur.set('');
@@ -251,6 +292,29 @@ export async function modificationBillet(event) {
 		if (result.status == 200){
 			goto('/gestionnaire/blogue')
 			success.set('Article modifié avec succès!');
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}
+
+export async function modificationProduit(event) {
+	chargement;
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/modificationProduit', {
+			method: 'POST',
+			enctype: 'multipart/form-data',
+			body: formData
+		});
+		const result = await response.json();
+		log('handler = ', result)
+		if (result.status == 200){
+			goto('/gestionnaire/boutique')
+			success.set('Produit modifié avec succès!');
 		}
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {

@@ -36,12 +36,14 @@ import { Utilisateur } from '../../lib/db/models/Utilisateur.model.js';
 import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '../../lib/db/controllers/Blogs.controller.js';
 import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '../../lib/db/controllers/Partenaires.controller.js';
 import { request } from 'http';
+import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifProduit } from '../../lib/db/controllers/Produits.controller.js';
 
 //Chemins de base pour stocker les photos
 const cheminPhotosEven = path.join(process.cwd(), 'src/lib/img/app/evenements');
 const cheminLogos = path.join(process.cwd(), 'src/lib/img/app/logos');
 const cheminPhotosUtilisateurs = path.join(process.cwd(), 'src/lib/img/app/utilisateurs');
 const cheminPhotosBlog = path.join(process.cwd(), 'src/lib/img/app/blog');
+const cheminPhotosProduits = path.join(process.cwd(), 'src/lib/img/app/produits');
 const cheminPhotosPartenaires = path.join(process.cwd(), 'src/lib/img/app/partenaires');
 
 export const actions = {
@@ -223,6 +225,88 @@ export const actions = {
 		}
 	},
 
+	nouveauProduit: async ({ request, cookies }) => {
+		const data = await request.formData();
+		//J'ai mis la fonction de photo en dehors des actions pour qu'elle puisse etre utilisé sans la répéter
+		const uploadPhoto = async (nomFichier) => {
+			const photo = data.get(nomFichier);
+
+			if (photo && photo.name) {
+				const buffer = Buffer.from(await photo.arrayBuffer());
+				const extension = photo.name.substring(photo.name.lastIndexOf("."));
+				const nomTemporaire = randomUUID() + photo.name.replaceAll(/[\s\W]/g, "_") + extension;
+				const filePath = path.resolve(cheminPhotosProduits, nomTemporaire);
+				fs.writeFileSync(filePath, buffer);
+				return path.relative(process.cwd(), filePath);
+			}
+			// si pas de photo, retourne null
+			return null;
+		};
+		let photo = await uploadPhoto('photo');
+		if (!photo)
+			photo = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+		try {
+			const res = await nouveauProduit(
+				data.get('nom'),
+				data.get('type_id'),
+				data.get('desc'),
+				data.get('prix_v'),
+				data.get('prix_a'),
+				photo,
+				data.get('dispo') == 'on' ? true : false
+			);
+			return {
+				status: 200,
+				body: {
+					message: 'Produit créé avec succès',
+					produit: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
+
+	modificationProduit: async ({request}) => {
+		const data = await request.formData();
+		//J'ai mis la fonction de photo en dehors des actions pour qu'elle puisse etre utilisé sans la répéter
+		const uploadPhoto = async (nomFichier) => {
+			const photo = data.get(nomFichier);
+
+			if (photo && photo.name) {
+				const buffer = Buffer.from(await photo.arrayBuffer());
+				const extension = photo.name.substring(photo.name.lastIndexOf("."));
+				const nomTemporaire = randomUUID() + photo.name.replaceAll(/[\s\W]/g, "_") + extension;
+				const filePath = path.resolve(cheminPhotosProduits, nomTemporaire);
+				fs.writeFileSync(filePath, buffer);
+				return path.relative(process.cwd(), filePath);
+			}
+			// si pas de photo, retourne null
+			return null;
+		};
+		let photo = await uploadPhoto('photo');
+		try {
+			const res = await modifProduit(data.get('id'), {
+				nom: data.get('nom'),
+				type_id: data.get('type_id'),
+				desc: data.get('desc'),
+				prix_v: data.get('prix_v'),
+				prix_a: data.get('prix_a'),
+				photo: photo,
+				dispo: data.get('dispo') == 'on' ? true : false
+		});
+			return {
+				status: 200,
+				body: {
+					message: 'Produit modifié avec succès',
+					produit: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
+
 	modificationBillet: async ({request}) => {
 		const data = await request.formData();
 		//J'ai mis la fonction de photo en dehors des actions pour qu'elle puisse etre utilisé sans la répéter
@@ -263,11 +347,19 @@ export const actions = {
 
 	supprimeBillet: async ({ cookies, request }) => {
 		const data = await request.formData();
-		const blogue = await findOneBlogue({ id: data.get('id') });
-		if (cookies.get('id')) {
+		if (cookies.get('id') == 1) {
 			const res = await suppressionBillet(data.get('id'));
 			return res;
 		} else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action');
+	},
+
+	supprimeProduit: async ({cookies, request}) => {
+		const data = await request.formData();
+		console.log(cookies.get('id'));
+		
+		if (cookies.get('id') == 1)
+			return await suppressionProduit(data.get('id'));
+		else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action');
 	},
 
 	/**

@@ -1,7 +1,7 @@
 <script>
 	import { fly } from 'svelte/transition';
 	import Retour from '../generaux/retour.svelte';
-	import { handleUserDelete, suppressionEvenement, suppressionBlogue, supprimeCodePromo } from '../../outils/formHandlers';
+	import { handleUserDelete, suppressionEvenement, suppressionBlogue, suppressionProduit, supprimeCodePromo } from '../../outils/formHandlers';
 
 	export let id, but;
 	let confirmation = false;
@@ -12,9 +12,11 @@
 				? 'Supprimer mon compte'
 				: but == 'blogue'
 					? "Supprimer l'article"
-						: but == 'code_promo'
-						? "Supprimer le code promo"
-						: null;
+					: but == 'produit'
+						? "Supprimer le produit"
+							: but == 'code_promo'
+							? "Supprimer le code promo"
+							: null;
 </script>
 
 <button
@@ -92,6 +94,31 @@
 				}}>Retour</button
 			>
 			<button class="button is-danger" on:click|preventDefault={suppressionBlogue(id)}>
+				Confirmer la suppression</button
+			>
+		</div>
+	</div>
+{/if}
+
+{#if confirmation && but == 'produit'}
+	<div
+		class="box has-text-centered popup"
+		in:fly={{ y: 200, duration: 1500 }}
+		out:fly={{ y: -200, duration: 1500 }}
+	>
+		<p>Voulez vous vraiment supprimer ce produit ?</p>
+		<p class="help">
+			Cette action est irréversible et entraîneras la suppression de toutes les données liées à
+			ce produit.
+		</p>
+		<div class="block">
+			<button
+				class="button"
+				on:click|preventDefault={() => {
+					confirmation = !confirmation;
+				}}>Retour</button
+			>
+			<button class="button is-danger" on:click|preventDefault={suppressionProduit(id)}>
 				Confirmer la suppression</button
 			>
 		</div>
