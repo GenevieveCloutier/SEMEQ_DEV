@@ -6,6 +6,7 @@
 	import Annonce from '../../lib/components/notifications/annonce.svelte';
     import NotifSuccess from '../../lib/components/notifications/notifSuccess.svelte';
     import NotifDanger from '../../lib/components/notifications/notifDanger.svelte';
+    import Turnstile from '$lib/components/turnstile.svelte';
     function contact(){}
     </script>
 
@@ -37,9 +38,9 @@
 						    </div>
 					    </div>
                         <div class="block has-text-centered">
-                            <div class="skeleton-block"></div>
+                            <Turnstile siteKey="{import.meta.env.VITE_TURNSTILE_SITE_KEY}" />
                             <!-- Valider si SubmitButon fait la bonne action! -->
-                            <SubmitButon texte={'Se connecter'}></SubmitButon>
+                            <SubmitButon texte={'Envoyer'}></SubmitButon>
                             <Retour />
                         </div>
                         <a href="/creation_compte" class="help has-text-centered">Tu n’as pas encore de compte? Clique ici.</a>
