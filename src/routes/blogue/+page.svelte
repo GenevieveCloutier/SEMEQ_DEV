@@ -2,6 +2,7 @@
 	import H1Title from '$lib/components/titres/h1Title.svelte';
 	import Recherche from '$lib/components/generaux/recherche.svelte';
 	import RechercheNoResult from '$lib/components/generaux/rechercheNoResult.svelte';
+	import { log } from '../../lib/outils/debug.js';
 
 	export let data;
 	let { blogues } = data;
@@ -23,7 +24,10 @@
 	{:else}
 		<div class="fixed-grid has-4-cols has-1-cols-mobile">
 			<div class="grid block is-col-min-14">
-				{#each blogues as blogue}
+				{#each blogues.filter(x => {
+					const recherche = searchQuery.toLowerCase();
+					return x.titre.toLowerCase().includes(recherche);
+				  }) as blogue}
 					<div class="cell">
 						<div
 							class="card"
@@ -42,7 +46,7 @@
 							</div>
 							<footer class="card-footer blog-element is-flex is-justify-content-space-between">
 								<p class="m-2">
-									{blogue.date.toLocaleDateString('fr-CA')}
+									{blogue.createdAt.toLocaleDateString('fr-CA')}
 								</p>
 								<p class="m-2 has-text-right">
 									<a href="blogue/{blogue.id}">Lire la suite...</a>

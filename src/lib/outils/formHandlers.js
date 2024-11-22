@@ -5,8 +5,10 @@ import { goto } from '$app/navigation';
 
 export const erreur = writable(null);
 export const success = writable(null);
+export const annonce = writable(null);
 erreur.set('');
 success.set('');
+annonce.set('');
 
 /**
  * Ajoute la classe 'is-loading' à l'élément déclencheur de l'événement.
@@ -58,6 +60,45 @@ export async function suppressionEvenement(p_id) {
 	}
 }
 
+export async function suppressionBlogue(p_id) {
+	erreur.set('');
+	success.set('');
+	const formData = new FormData();
+	formData.append('id', p_id);
+	const response = await fetch('../../api?/supprimeBillet', {
+		method: 'POST',
+		body: formData
+	});
+	
+	const result = await response.json();
+	const test = JSON.parse(result.data);
+	if(result.status === 200){
+		success.set(JSON.parse(result.data)[3]);
+		goto(`/gestionnaire/blogue`);
+	}else{
+		erreur.set(JSON.parse(result.data)[0]);
+	}
+}
+
+export async function suppressionProduit(p_id) {
+	erreur.set('');
+	success.set('');
+	const formData = new FormData();
+	formData.append('id', p_id);
+	const response = await fetch('../../api?/supprimeProduit', {
+		method: 'POST',
+		body: formData
+	});
+	
+	const result = await response.json();
+	if(result.status === 200){
+		success.set(JSON.parse(result.data)[3]);
+		goto(`/gestionnaire/boutique`);
+	}else{
+		erreur.set(JSON.parse(result.data)[0]);
+	}
+}
+
 /**
  * Gère la connexion d'un utilisateur à partir des données du formulaire.
  *
@@ -72,20 +113,25 @@ export async function suppressionEvenement(p_id) {
 export async function connexion(event) {
 	chargement();
 	erreur.set('');
+	annonce.set('');
 	const formData = new FormData(event.target);
 	const response = await fetch('./api?/connexionUtilisateur', {
 		method: 'POST',
 		body: formData
 	});
 	const result = await response.json();
-	//*initialise la variable pour le chemin
-	let origine = '/';
+	//*initialise la variable pour le chemin, renvoie a Mon compte par défaut ou a la page gestionnaire
+	let origine = '/' + (JSON.parse(result.data)[3] == 1 ? 'gestionnaire': JSON.parse(result.data)[3]) ;
+
 	//*Si le cookie origine existe
 	if (document.cookie.includes('origine'))
 		origine = document.cookie.replaceAll('%2F', '/').slice(8); //*Remplace les '%2F' par des '/' et enlève les 8 premier caractères (origine=)
 	//!Cette solution ne fonctionne que si il n'y as qu'un seul cookie http:false
+	//*Envoie la notif de fin d'abonnement
+	log('result = ', JSON.parse(result.data))
+	annonce.set((JSON.parse(result.data)[(JSON.parse(result.data)[0].finAbonnement)]));
 	if (result.type === 'success') {
-		window.location.href = origine;
+		goto(origine);
 	} else if (result.type === 'failure') {
 		erreur.set(JSON.parse(result.data)[1]);
 	}
@@ -181,6 +227,95 @@ export async function creationOrganisateur(event) {
 		if (result.status == 200)
 			//lien vers où ça doit aller après avoir envoyé le form
 			window.location.href = '/[id]/mes_evenements/inscription_evenement_abonne';
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}
+
+export async function creationBillet(event) {
+	chargement;
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/nouveauBillet', {
+			method: 'POST',
+			enctype: 'multipart/form-data',
+			body: formData
+		});
+		const result = await response.json();
+		if (result.status == 200){
+			goto('/gestionnaire/blogue')
+			success.set('Article ajouté avec succès!');
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}
+
+export async function creationProduit(event) {
+	chargement;
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/nouveauProduit', {
+			method: 'POST',
+			enctype: 'multipart/form-data',
+			body: formData
+		});
+		const result = await response.json();
+		if (result.status == 200){
+			goto('/gestionnaire/boutique')
+			success.set('Produit ajouté avec succès!');
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}
+
+export async function modificationBillet(event) {
+	chargement;
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/modificationBillet', {
+			method: 'POST',
+			enctype: 'multipart/form-data',
+			body: formData
+		});
+		const result = await response.json();
+		if (result.status == 200){
+			goto('/gestionnaire/blogue')
+			success.set('Article modifié avec succès!');
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}
+
+export async function modificationProduit(event) {
+	chargement;
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/modificationProduit', {
+			method: 'POST',
+			enctype: 'multipart/form-data',
+			body: formData
+		});
+		const result = await response.json();
+		log('handler = ', result)
+		if (result.status == 200){
+			goto('/gestionnaire/boutique')
+			success.set('Produit modifié avec succès!');
+		}
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {
 		console.error('erreur inattendue : ', error);
@@ -555,4 +690,68 @@ export async function deleteOnePanier(event){
         console.error("erreur inattendue : ", error);
         erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
     }
+}
+
+export async function creationCodePromo(event) {
+	chargement;
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/nouveauCodePromo', {
+			method: 'POST',
+			enctype: 'multipart/form-data',
+			body: formData
+		});
+		const result = await response.json();
+		if (result.status == 200){
+			goto('/gestionnaire/codes_promo')
+			success.set('Code promo ajouté avec succès!');
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}
+
+export async function modificationCodePromo(event) {
+	chargement;
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/modificationCodePromo', {
+			method: 'POST',
+			enctype: 'multipart/form-data',
+			body: formData
+		});
+		const result = await response.json();
+		if (result.status == 200){
+			goto('/gestionnaire/codes_promo')
+			success.set('Code promo modifié avec succès!');
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}
+
+export async function supprimeCodePromo(p_id) {
+	erreur.set('');
+	success.set('');
+	const formData = new FormData();
+	formData.append('id', p_id);
+	const response = await fetch('../../api?/supprimeCodePromo', {
+		method: 'POST',
+		body: formData
+	});
+	
+	const result = await response.json();
+	const test = JSON.parse(result.data);
+	if(result.status === 200){
+		success.set(JSON.parse(result.data)[3]);
+		goto(`/gestionnaire/codes_promo`);
+	}else{
+		erreur.set(JSON.parse(result.data)[0]);
+	}
 }

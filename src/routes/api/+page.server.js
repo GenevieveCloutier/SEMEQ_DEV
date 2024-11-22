@@ -10,8 +10,8 @@ import {
 	newUser,
 	recuperationMDP,
 	deleteUser,
-	findOne
-as findOneUser} from '../../lib/db/controllers/Utilisateurs.controller.js';
+	findOne as findOneUser
+} from '../../lib/db/controllers/Utilisateurs.controller.js';
 import {
 	domaines,
 	emplacements,
@@ -33,11 +33,18 @@ import fs from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
 import { Utilisateur } from '../../lib/db/models/Utilisateur.model.js';
+import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '../../lib/db/controllers/Blogs.controller.js';
+import { request } from 'http';
+import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifProduit } from '../../lib/db/controllers/Produits.controller.js';
+import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '../../lib/db/controllers/Partenaires.controller.js';
 
 //Chemins de base pour stocker les photos
-const cheminPhotosEven = path.join(process.cwd(), 'src/lib/img/app/evenements'); 
+const cheminPhotosEven = path.join(process.cwd(), 'src/lib/img/app/evenements');
 const cheminLogos = path.join(process.cwd(), 'src/lib/img/app/logos');
 const cheminPhotosUtilisateurs = path.join(process.cwd(), 'src/lib/img/app/utilisateurs');
+const cheminPhotosBlog = path.join(process.cwd(), 'src/lib/img/app/blog');
+const cheminPhotosProduits = path.join(process.cwd(), 'src/lib/img/app/produits');
+const cheminPhotosPartenaires = path.join(process.cwd(), 'src/lib/img/app/partenaires');
 
 export const actions = {
 	/**
@@ -69,7 +76,20 @@ export const actions = {
 		try {
 			let res = await authenticate(data.get('courriel'), data.get('pwd'));
 			createCookie(res.id, cookies, res.role_id);
-			return { success: true, session: cookies.get('session'), res: res.id };
+
+			//*Enlève l'abonnement si la date est dépassée au moment de la connexion.
+			let finAbonnement = false;
+			if (res.abonne && res.fin_abo < new Date()) {
+				finAbonnement = true;
+				try {
+					const utilisateur = await Utilisateur.findByPk(res.id);
+					await utilisateur.update({ abonne: false, fin_abo: null });
+				} catch (error) {
+					log('erreur = ', error);
+				}
+			}
+
+			return { success: true, session: cookies.get('session'), res: res.id, finAbonnement };
 		} catch (error) {
 			return fail(401, error);
 		}
@@ -129,33 +149,33 @@ export const actions = {
 		const photo_2 = await uploadPhotoUtilisateur('photo_2');
 		const photo_3 = await uploadPhotoUtilisateur('photo_3');
 
-        try {
-            let res = await newUser(
-                data.get("nom"),
-                data.get("prenom"),
-                role,
-                data.get("entreprise"),
-                data.get("neq"),
-                data.get("courriel"),    
-                data.get("pwd"),
-                data.get("site"),
-                data.get("facebook"),
-                data.get("insta"),
-                data.get("tiktok"),
-                domaine,
-                data.get("ville_id"),
-                data.get("partage") == 'on' ? 1 : 0,
-                data.get("affichage") == 'on' ? 1 : 0,
-                data.get("abonne") == 'on' ? 1 : 0,
-                finAbo,
-                data.get("description"),
-                data.get("adresse"),
-                data.get("publique") == 'on' ? 1 : 0,
-                photo_1,
-                photo_2,
-                photo_3,
-                logo
-            );
+		try {
+			let res = await newUser(
+				data.get('nom'),
+				data.get('prenom'),
+				role,
+				data.get('entreprise'),
+				data.get('neq'),
+				data.get('courriel'),
+				data.get('pwd'),
+				data.get('site'),
+				data.get('facebook'),
+				data.get('insta'),
+				data.get('tiktok'),
+				domaine,
+				data.get('ville_id'),
+				data.get('partage') == 'on' ? 1 : 0,
+				data.get('affichage') == 'on' ? 1 : 0,
+				data.get('abonne') == 'on' ? 1 : 0,
+				finAbo,
+				data.get('description'),
+				data.get('adresse'),
+				data.get('publique') == 'on' ? 1 : 0,
+				photo_1,
+				photo_2,
+				photo_3,
+				logo
+			);
 
 			createCookie(res.id, cookies, res.role_id);
 			return {
@@ -168,6 +188,178 @@ export const actions = {
 		} catch (error) {
 			return fail(401, error);
 		}
+	},
+
+	nouveauBillet: async ({ request, cookies }) => {
+		const data = await request.formData();
+		//J'ai mis la fonction de photo en dehors des actions pour qu'elle puisse etre utilisé sans la répéter
+		const uploadPhoto = async (nomFichier) => {
+			const photo = data.get(nomFichier);
+
+			if (photo && photo.name) {
+				const buffer = Buffer.from(await photo.arrayBuffer());
+				const extension = photo.name.substring(photo.name.lastIndexOf("."));
+				const nomTemporaire = randomUUID() + photo.name.replaceAll(/[\s\W]/g, "_") + extension;
+				const filePath = path.resolve(cheminPhotosBlog, nomTemporaire);
+				fs.writeFileSync(filePath, buffer);
+				return path.relative(process.cwd(), filePath);
+			}
+			// si pas de photo, retourne null
+			return null;
+		};
+		let photo_1 = await uploadPhoto('photo_1');
+		const photo_2 = await uploadPhoto('photo_2');
+		if (!photo_1)
+			photo_1 = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+		try {
+			const res = await nouveauBillet(data.get('titre'), data.get('article'), photo_1, photo_2);
+			return {
+				status: 200,
+				body: {
+					message: 'Article créé avec succès',
+					article: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
+
+	nouveauProduit: async ({ request, cookies }) => {
+		const data = await request.formData();
+		//J'ai mis la fonction de photo en dehors des actions pour qu'elle puisse etre utilisé sans la répéter
+		const uploadPhoto = async (nomFichier) => {
+			const photo = data.get(nomFichier);
+
+			if (photo && photo.name) {
+				const buffer = Buffer.from(await photo.arrayBuffer());
+				const extension = photo.name.substring(photo.name.lastIndexOf("."));
+				const nomTemporaire = randomUUID() + photo.name.replaceAll(/[\s\W]/g, "_") + extension;
+				const filePath = path.resolve(cheminPhotosProduits, nomTemporaire);
+				fs.writeFileSync(filePath, buffer);
+				return path.relative(process.cwd(), filePath);
+			}
+			// si pas de photo, retourne null
+			return null;
+		};
+		let photo = await uploadPhoto('photo');
+		if (!photo)
+			photo = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+		try {
+			const res = await nouveauProduit(
+				data.get('nom'),
+				data.get('type_id'),
+				data.get('desc'),
+				data.get('prix_v'),
+				data.get('prix_a'),
+				photo,
+				data.get('dispo') == 'on' ? true : false
+			);
+			return {
+				status: 200,
+				body: {
+					message: 'Produit créé avec succès',
+					produit: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
+
+	modificationProduit: async ({request}) => {
+		const data = await request.formData();
+		//J'ai mis la fonction de photo en dehors des actions pour qu'elle puisse etre utilisé sans la répéter
+		const uploadPhoto = async (nomFichier) => {
+			const photo = data.get(nomFichier);
+
+			if (photo && photo.name) {
+				const buffer = Buffer.from(await photo.arrayBuffer());
+				const extension = photo.name.substring(photo.name.lastIndexOf("."));
+				const nomTemporaire = randomUUID() + photo.name.replaceAll(/[\s\W]/g, "_") + extension;
+				const filePath = path.resolve(cheminPhotosProduits, nomTemporaire);
+				fs.writeFileSync(filePath, buffer);
+				return path.relative(process.cwd(), filePath);
+			}
+			// si pas de photo, retourne null
+			return null;
+		};
+		let photo = await uploadPhoto('photo');
+		try {
+			const res = await modifProduit(data.get('id'), {
+				nom: data.get('nom'),
+				type_id: data.get('type_id'),
+				desc: data.get('desc'),
+				prix_v: data.get('prix_v'),
+				prix_a: data.get('prix_a'),
+				photo: photo,
+				dispo: data.get('dispo') == 'on' ? true : false
+		});
+			return {
+				status: 200,
+				body: {
+					message: 'Produit modifié avec succès',
+					produit: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
+
+	modificationBillet: async ({request}) => {
+		const data = await request.formData();
+		//J'ai mis la fonction de photo en dehors des actions pour qu'elle puisse etre utilisé sans la répéter
+		const uploadPhoto = async (nomFichier) => {
+			const photo = data.get(nomFichier);
+
+			if (photo && photo.name) {
+				const buffer = Buffer.from(await photo.arrayBuffer());
+				const extension = photo.name.substring(photo.name.lastIndexOf("."));
+				const nomTemporaire = randomUUID() + photo.name.replaceAll(/[\s\W]/g, "_") + extension;
+				const filePath = path.resolve(cheminPhotosBlog, nomTemporaire);
+				fs.writeFileSync(filePath, buffer);
+				return path.relative(process.cwd(), filePath);
+			}
+			// si pas de photo, retourne null
+			return null;
+		};
+		let photo_1 = await uploadPhoto('photo_1');
+		const photo_2 = await uploadPhoto('photo_2');
+		try {
+			const res = await modifBillet(data.get('id'), {
+				titre: data.get('titre'),
+				article: data.get('article'),
+				image_1: photo_1,
+				image_2: photo_2
+		});
+			return {
+				status: 200,
+				body: {
+					message: 'Article modifié avec succès',
+					article: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
+
+	supprimeBillet: async ({ cookies, request }) => {
+		const data = await request.formData();
+		if (cookies.get('id') == 1) {
+			const res = await suppressionBillet(data.get('id'));
+			return res;
+		} else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action');
+	},
+
+	supprimeProduit: async ({cookies, request}) => {
+		const data = await request.formData();
+		console.log(cookies.get('id'));
+		
+		if (cookies.get('id') == 1)
+			return await suppressionProduit(data.get('id'));
+		else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action');
 	},
 
 	/**
@@ -188,82 +380,93 @@ export const actions = {
 		const verif = envoieMappage(data, verifs);
 		const emplacement = envoieMappage(data, emplacements);
 
-        //pour uploader et stocker les photos 
+		//pour uploader et stocker les photos
 
-        const uploadPhoto = async (nomFichier) => {
-            const photo = data.get(nomFichier);
+		const uploadPhoto = async (nomFichier) => {
+			const photo = data.get(nomFichier);
 
-            if (photo && photo.name) { 
-            const buffer = Buffer.from(await photo.arrayBuffer());
-            const nomTemporaire = (randomUUID() + photo.name)
-            const filePath = path.resolve(cheminPhotosEven, nomTemporaire);
-            fs.writeFileSync(filePath, buffer);
-            return path.relative(process.cwd(), filePath);
-            };
-            // si pas de photo, retourne null
-            return null;
-        };
+			if (photo && photo.name) {
+				const buffer = Buffer.from(await photo.arrayBuffer());
+				const nomTemporaire = randomUUID() + photo.name;
+				const filePath = path.resolve(cheminPhotosEven, nomTemporaire);
+				fs.writeFileSync(filePath, buffer);
+				return path.relative(process.cwd(), filePath);
+			}
+			// si pas de photo, retourne null
+			return null;
+		};
 
 		let photo_1 = await uploadPhoto('photo_1');
 		const photo_2 = await uploadPhoto('photo_2');
 		const photo_3 = await uploadPhoto('photo_3');
-		
-		if (!photo_1) photo_1 = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
 
-        let session;
-        try{
-            session = await findOneSession({uuid: cookies.get('session')});//ça fonctionne :D
-            //log("session dans api = ", session.utilisateur.abonne);
-        }catch(error){
-            throw (error);
-        }
-        try{
-            let res = await creationEvenement(
-                data.get('nom'),
-                session.utilisateur.id,
-                data.get('contact'),
-                data.get('entreprise'),
-                data.get('debut_even'),
-                data.get('fin_even'),
-                data.get('horaire_even'),
-                data.get('debut_cand'),
-                data.get('fin_cand'),
-                data.get('fondation'),
-                data.get('nb_visiteur'),
-                data.get('nb_expo'),
-                data.get('profil'),
-                data.get('site'), 
-                data.get('fb_even'),
-                data.get('insta_even'),
-                data.get('tiktok_even'),
-                data.get('courriel'),
-                data.get('ville_id'),
-                data.get('adresse'),
-                emplacement,
-                type,
-                data.get('type_autre'),
-                data.get('form_cand'),
-                verif,
-                data.get('verification_autre'),
-                data.get('selection') == 'on' ? 1 : 0,
-                data.get('limite') == 'on' ? 1 : 0,
-                data.get('description'),
-                photo_1,
-                photo_2,
-                photo_3,
-                session.utilisateur.abonne,
-            )
-            return {
-                status: 200,
-                body: {
-                    message: 'Evénement créé avec succès',
-                    evenement: res
-                }
-            };
-            }catch(error){
-                return fail(401, error);
-            }
-    },
+		if (!photo_1)
+			photo_1 = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+
+		let session;
+		try {
+			session = await findOneSession({ uuid: cookies.get('session') }); //ça fonctionne :D
+			//log("session dans api = ", session.utilisateur.abonne);
+		} catch (error) {
+			throw error;
+		}
+		try {
+			let res = await creationEvenement(
+				data.get('nom'),
+				session.utilisateur.id,
+				data.get('contact'),
+				data.get('entreprise'),
+				data.get('debut_even'),
+				data.get('fin_even'),
+				data.get('horaire_even'),
+				data.get('debut_cand'),
+				data.get('fin_cand'),
+				data.get('fondation'),
+				data.get('nb_visiteur'),
+				data.get('nb_expo'),
+				data.get('profil'),
+				data.get('site'),
+				data.get('fb_even'),
+				data.get('insta_even'),
+				data.get('tiktok_even'),
+				data.get('courriel'),
+				data.get('ville_id'),
+				data.get('adresse'),
+				emplacement,
+				type,
+				data.get('type_autre'),
+				data.get('form_cand'),
+				verif,
+				data.get('verification_autre'),
+				data.get('selection') == 'on' ? 1 : 0,
+				data.get('limite') == 'on' ? 1 : 0,
+				data.get('description'),
+				photo_1,
+				photo_2,
+				photo_3,
+				session.utilisateur.abonne
+			);
+			return {
+				status: 200,
+				body: {
+					message: 'Evénement créé avec succès',
+					evenement: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
+
+	supprimeEvenement: async ({ cookies, request }) => {
+		const data = await request.formData();
+		const utilisateur = await findOne({ id: cookies.get('id') });
+		const evenement = await findEvenement({ id: data.get('id') });
+		if (utilisateur.role_id == 1 || utilisateur.id == evenement.utilisateur_id) {
+			const res = await suppressionEvenement(data.get('id'));
+			return res;
+		} else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action');
+	},
 
 	/**
 	 ** Action pour initier la récupération de mot de passe en envoyant un courriel de réinitialisation.
@@ -294,7 +497,6 @@ export const actions = {
 				}
 			};
 		} catch (error) {
-
 			return fail(401, error);
 		}
 	},
@@ -344,7 +546,6 @@ export const actions = {
 					courriel: data.get('courriel'),
 					ville_id: data.get('ville_id')
 				});
-
 			} else if (cookies.get('role') == 3 && !data.get('role_id')) {
 				const domaine = envoieMappage(data, domaines);
 				//*Reprise du code de Gen pour les upload d'image
@@ -443,13 +644,13 @@ export const actions = {
 	modifEvenement: async ({ cookies, request }) => {
 		try {
 			const data = await request.formData();
-            const toujours = await Utilisateur.findOne({
-                where: {id: cookies.get('id')},
-                attributes: ['abonne']
-            });
+			const toujours = await Utilisateur.findOne({
+				where: { id: cookies.get('id') },
+				attributes: ['abonne']
+			});
 			const type = envoieMappage(data, types);
 			const verif = envoieMappage(data, verifs);
-			log("api les verifs = ", verif)
+			log('api les verifs = ', verif);
 			const emplacement = envoieMappage(data, emplacements);
 			const uploadPhoto = async (nomFichier) => {
 				const photo = data.get(nomFichier);
@@ -463,13 +664,13 @@ export const actions = {
 				// si pas de photo, retourne null
 				return null;
 			};
-			log("api date debut = ", data.get('debut_even'));
-			log("api id evenement = ", data.get('id'));
+			log('api date debut = ', data.get('debut_even'));
+			log('api id evenement = ', data.get('id'));
 
 			const photo_1 = await uploadPhoto('photo_1');
 			const photo_2 = await uploadPhoto('photo_2');
 			const photo_3 = await uploadPhoto('photo_3');
-            let res = await modificationEvenement(data.get('id'), {
+			let res = await modificationEvenement(data.get('id'), {
 				nom: data.get('nom'),
 				contact: data.get('contact'),
 				entreprise: data.get('entreprise'),
@@ -499,8 +700,8 @@ export const actions = {
 				photo_1: photo_1,
 				photo_2: photo_2,
 				photo_3: photo_3,
-                approuve: toujours.abonne || cookies.get('role_id') === 1
-            });
+				approuve: toujours.abonne || cookies.get('role_id') === 1
+			});
 			return {
 				status: 200,
 				body: {
@@ -517,46 +718,130 @@ export const actions = {
 	ajouterPanier: async ({ cookies, request }) => {
 		const data = await request.formData();
 
-        let session;
-        try{
-            session = await findOneSession({uuid: cookies.get('session')});
-        }catch(error){
-            throw (error);
-        }
-        try{
-            let res = await ajoutProduitPanier(
-                session.utilisateur.id,
-                data.get('produit_id'),
-            )
-            return {
-                status: 200,
-                body: {
-                    message: 'Produit ajouté au panier avec succès',
-                    evenement: res
-                }
-            };
-        }catch(error){
-            return fail(401, error);
-        }
-    },
+		let session;
+		try {
+			session = await findOneSession({ uuid: cookies.get('session') });
+		} catch (error) {
+			throw error;
+		}
+		try {
+			let res = await ajoutProduitPanier(session.utilisateur.id, data.get('produit_id'));
+			return {
+				status: 200,
+				body: {
+					message: 'Produit ajouté au panier avec succès',
+					evenement: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
 
-    deleteOnePanier: async({request})=>{        
-        const data = await request.formData();
-        
-        try{
-            let res = await deleteCart({ id: data.get('panier_id')});
-            return {
-                status: 200,
-                body: {
-                    message: 'Produit retiré du panier avec succès',
-                    evenement: res
-                }
-            };
-            }catch(error){
-                return fail(401, error);
-            }
-    },
-}
+	deleteOnePanier: async ({ request }) => {
+		const data = await request.formData();
+
+		try {
+			let res = await deleteCart({ id: data.get('panier_id') });
+			return {
+				status: 200,
+				body: {
+					message: 'Produit retiré du panier avec succès',
+					evenement: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
+
+	nouveauCodePromo: async ({ request, cookies }) => {
+		const data = await request.formData();
+	
+		const uploadLogo = async (nomFichier) => {
+			const logo = data.get(nomFichier);
+	
+			if (logo && logo.name) {
+				const buffer = Buffer.from(await logo.arrayBuffer());
+				const extension = logo.name.substring(logo.name.lastIndexOf("."));
+				const nomTemporaire = randomUUID() + logo.name.replaceAll(/[\s\W]/g, "_") + extension;
+				const filePath = path.resolve(cheminPhotosPartenaires, nomTemporaire);
+				fs.writeFileSync(filePath, buffer);
+				return path.relative(process.cwd(), filePath);
+			}
+			// si pas de logo, retourne null
+			return null;
+		};
+		let logo = await uploadLogo('logo');
+		if (!logo) {
+			logo = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+		}
+	
+		const expiration = data.get('expiration') ? data.get('expiration') : null;
+	
+		try {
+			const res = await nouveauCodePromo(data.get('nom'), data.get('avantage'), data.get('code'), logo, expiration);
+			return {
+				status: 200,
+				body: {
+					message: 'Code promo créé avec succès.',
+					article: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
+
+	modificationCodePromo: async ({request}) => {
+		const data = await request.formData();
+		const uploadLogo = async (nomFichier) => {
+			const logo = data.get(nomFichier);
+	
+			if (logo && logo.name) {
+				const buffer = Buffer.from(await logo.arrayBuffer());
+				const extension = logo.name.substring(logo.name.lastIndexOf("."));
+				const nomTemporaire = randomUUID() + logo.name.replaceAll(/[\s\W]/g, "_") + extension;
+				const filePath = path.resolve(cheminPhotosPartenaires, nomTemporaire);
+				fs.writeFileSync(filePath, buffer);
+				return path.relative(process.cwd(), filePath);
+			}
+			// si pas de logo, retourne null
+			return null;
+		};
+		let logo = await uploadLogo('logo');
+
+		const expiration = data.get('expiration') ? data.get('expiration') : null;
+
+		try {
+			const res = await modifCodePromo(data.get('id'), {
+				nom: data.get('nom'),
+				avantage: data.get('avantage'),
+				code: data.get('code'),
+				logo: logo,
+				expiration: expiration
+		});
+			return {
+				status: 200,
+				body: {
+					message: 'Code promo modifié avec succès',
+					article: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
+
+	supprimeCodePromo: async ({ cookies, request }) => {
+		const data = await request.formData();
+		const code = await findOneCodePromo({ id: data.get('id') });
+		if (cookies.get('id')) {
+			const res = await suppressionCodePromo(data.get('id'));
+			return res;
+		} else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action.');
+	},
+};
 
 /**
  ** Génère un template HTML pour un courriel de réinitialisation de mot de passe.
