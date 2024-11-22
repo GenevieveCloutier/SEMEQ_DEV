@@ -46,6 +46,7 @@ const cheminPhotosProduits = path.join(process.cwd(), 'src/lib/img/app/produits'
 
 //*Import de la clé secrete stocké dans .env
 import { TURNSTILE_SECRET_KEY } from '$env/static/private';
+import { COURRIEL_GESTIONNAIRE } from '$env/static/private';
 
 export const actions = {
 	/**
@@ -754,8 +755,59 @@ export const actions = {
 		} catch (error) {
 			return fail(401, error);
 		}
+	},
+
+	contactMessage: async ({request}) => {
+		const data = await request.formData();
+		try {
+			const captcha = await verifCloudflare(data.get('cf-turnstile-response'));
+			if(!captcha) return fail(401,{message: "Le captcha n'est pas valide."});
+			const messageContact = redacteurContact(data.get('nom'), data.get('courriel'), data.get('message'));
+			await envoieCourriel(
+				COURRIEL_GESTIONNAIRE,
+				'Contacte du SEMEQ',
+				messageContact
+			);
+			return {
+				status: 200,
+				body: {
+					message: 'Message envoyé avec succès'
+				}
+			};
+			
+		} catch (error) {
+			return fail(401, error);
+		}
 	}
 };
+
+async function verifCloudflare(token){
+		const verifyUrl = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'; //*L'url de l'api de verification de token chez cloudflare
+		const response = await fetch(verifyUrl, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			body: `secret=${TURNSTILE_SECRET_KEY}&response=${token}` //*On envoie notre cle secrete turnstile avec le token
+		});
+		const cloudflare = await response.json();
+		if (cloudflare.success) {
+			//*Token validé, continue avec le traitement
+			return true;
+		} else {
+			//*Si le captcha ne renvoie pas de succcess, on envoie une erreur
+			return false;
+		} //*L'objet renvoyé par l'api
+		return cloudflare;
+}
+
+
+
+
+
+
+
+
+
+
 
 /**
  ** Génère un template HTML pour un courriel de réinitialisation de mot de passe.
@@ -848,6 +900,96 @@ function redacteurCourriel(prenom, lien) {
                 <footer class="footer">
                     <p>Si vous rencontrez un problème avec le bouton, vous pouvez aussi copier/coller cette adresse dans votre navigateur :</p>
                     <p>${lien}</p>
+                    <p>© 2024 Répertoire SEMEQ - Tous droits réservés</p>
+                </footer>
+            </div>
+        </body>
+    </html>
+    `;
+}
+
+function redacteurContact(nom, courriel, message) {
+	return `
+    <!doctype html>
+    <html lang="fr-CA">
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <style>
+                body {
+                    font-family: 'Poppins', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+                    background-color: #f4f4f4;
+                    margin: 0;
+                    padding: 0;
+                }
+                .container {
+                    width: 100%;
+                    max-width: 600px;
+                    margin: 0 auto;
+                    background-color: #ffffff;
+                    padding: 20px;
+                    border-radius: 10px;
+                }
+                .header {
+                    text-align: center;
+                    background-color: #f4f4f4;
+                    padding: 20px;
+                    border-radius: 10px 10px 0 0;
+                }
+                .header img {
+                    max-width: 150px;
+                }
+                .header p {
+                    font-size: 16px;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                    text-align: left;
+                    margin-top: 10px;
+                }
+                h1 {
+                    font-size: 24px;
+                    color: #184287;
+                }
+                .button {
+                    background-color: #184287;
+                    color: white;
+                    padding: 10px 20px;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    display: inline-block;
+                    margin-top: 20px;
+                }
+                .footer {
+                    margin-top: 30px;
+                    font-size: 10px; /* Réduis cette valeur pour que le texte soit plus petit */
+                    color: #666666;
+                    text-align: center;
+                }
+                p {
+                    font-size: 14px;
+                    color: #333333;
+                    line-height: 1.5;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <figure>
+                        <a href="/">
+                            <img src="/src/lib/img/app/logo.png" alt="logo SEMEQ" /> 
+                        </a>
+                    </figure>
+                    <p>Le répertoire des salons, événements, marchés et expositions du Québec</p>
+                </div>
+                <h1>Message du formulaire de contact</h1>
+                <p>Bonjour Nancy.</p>
+                <p>Une demande de contacte a été faite sur le site du répertoire SEMEQ</p>
+                <p>Nom de l’expéditeur: ${nom}</p>
+                <p>Courriel de l'expéditeur: ${courriel}</p>
+                <p>Message:</p>
+				<p style="border: solid 1px black;">${message}</p>
+                <footer class="footer">
                     <p>© 2024 Répertoire SEMEQ - Tous droits réservés</p>
                 </footer>
             </div>

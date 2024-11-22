@@ -1,5 +1,5 @@
 <script>
-    import { connexion, erreur } from '../../lib/outils/formHandlers';
+    import { connexion, contact, erreur } from '../../lib/outils/formHandlers';
     import H1Title from '$lib/components/titres/h1Title.svelte';
     import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
     import Retour from '$lib/components/generaux/retour.svelte';
@@ -7,7 +7,7 @@
     import NotifSuccess from '../../lib/components/notifications/notifSuccess.svelte';
     import NotifDanger from '../../lib/components/notifications/notifDanger.svelte';
     import Turnstile from '$lib/components/turnstile.svelte';
-    function contact(){}
+    
     </script>
 
 <!--! Faut revoir le system de notification ici, c'etait la premiere version avant les components -->
@@ -28,7 +28,7 @@
                         <div class="field">
 						    <label class="label" for="courriel">Courriel</label>
 						    <div class="control">
-							    <input class="input" type="text" name="courriel" placeholder="" required/>
+							    <input class="input" type="mail" name="courriel" placeholder="" required/>
 						    </div>
 					    </div>
                         <div class="field">
