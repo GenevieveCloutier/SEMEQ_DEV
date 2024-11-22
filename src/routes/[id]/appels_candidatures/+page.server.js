@@ -30,6 +30,8 @@ export async function load({ cookies, params }){
     const regions = await findAllRegions();
     const villes = await findAllVilles();
 
+    // Date du jour au format ISO avec l'heure 00:00:00 pour comparer avec dates dans BD
+    //let aujourdhui = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let aujourdhui = new Date().toLocaleDateString('fr-CA', {timeZone: 'America/Montreal'});
 
     const events = await Evenement.findAll({
