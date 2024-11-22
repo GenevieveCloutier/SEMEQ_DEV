@@ -542,15 +542,16 @@ export const actions = {
 	 */
 	modifUtilisateur: async ({ cookies, request }) => {
 		const data = await request.formData();
+		log("dans l'api data = ", data)
 		try {
-			if (cookies.get('role') == 4 && !data.get('role_id')) {
-				let res = await modificationUtilisateur(cookies.get('id'), {
+			if (cookies.get('role') == 4 || data.get('gestionnaire') == 4) {
+				let res = await modificationUtilisateur(data.get('user_id') ?? cookies.get('id'), {
 					nom: data.get('nom'),
 					prenom: data.get('prenom'),
 					courriel: data.get('courriel'),
 					ville_id: data.get('ville_id')
 				});
-			} else if (cookies.get('role') == 3 && !data.get('role_id')) {
+			} else if (cookies.get('role') == 3 || data.get('gestionnaire') == 3) {
 				const domaine = envoieMappage(data, domaines);
 				//*Reprise du code de Gen pour les upload d'image
 				// Pour uploader et stocker les logos
@@ -584,7 +585,7 @@ export const actions = {
 				const photo_1 = await uploadPhotoUtilisateur('photo_1');
 				const photo_2 = await uploadPhotoUtilisateur('photo_2');
 				const photo_3 = await uploadPhotoUtilisateur('photo_3');
-				let res = await modificationUtilisateur(cookies.get('id'), {
+				let res = await modificationUtilisateur(data.get('user_id') ?? cookies.get('id'), {
 					nom: data.get('nom'),
 					prenom: data.get('prenom'),
 					entreprise: data.get('entreprise'),
@@ -605,7 +606,7 @@ export const actions = {
 					photo_3: photo_3,
 					log: logo
 				});
-			} else if (cookies.get('role') == 2 && !data.get('role_id')) {
+			} else if (cookies.get('role') == 2 || data.get('gestionnaire') == 2) {
 				// Pour uploader et stocker les logos
 				const uploadLogo = async (nomFichier) => {
 					const logo = data.get(nomFichier);
@@ -620,7 +621,7 @@ export const actions = {
 					return null;
 				};
 				const logo = await uploadLogo('logo');
-				let res = await modificationUtilisateur(cookies.get('id'), {
+				let res = await modificationUtilisateur(data.get('user_id') ?? cookies.get('id'), {
 					nom: data.get('nom'),
 					prenom: data.get('prenom'),
 					entreprise: data.get('entreprise'),

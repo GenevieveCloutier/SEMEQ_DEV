@@ -358,6 +358,7 @@ export async function changementMDP(p_utilisateur_id, p_nouveau_pwd) {
 
 export async function modificationUtilisateur(p_utilisateur_id, p_modifications) {
 	try {
+		log("dans le controller = ", p_utilisateur_id)
 		const courrielUtilise = await findOne({
 			courriel: p_modifications.courriel,
 			id: { [Op.ne]: p_utilisateur_id } //*l'operateur [Op.ne] pour dire "different de"

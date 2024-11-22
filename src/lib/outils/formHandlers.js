@@ -26,7 +26,8 @@ export async function handleUserDelete(p_id) {
 	//mettre un premier niveau de securite ici pour verifier les droits
 	const formData = new FormData();
 	formData.append('id', p_id);
-	const response = await fetch('./api?/supprimeUtilisateur', {
+	const etapesArriere = window.location.pathname.split('/')[1] == 'gestionnaire' ? "../../" : "./";
+	const response = await fetch(etapesArriere + 'api?/supprimeUtilisateur', {
 		method: 'POST',
 		body: formData
 	});
@@ -34,7 +35,10 @@ export async function handleUserDelete(p_id) {
 	const result = await response.json();
 
 	if (result.type === 'success') {
-		goto('/deconnexion');
+		if( etapesArriere === "../../")
+			goto('/gestionnaire/utilisateurs');
+		else
+			goto('/deconnexion');
 	} else {
 		'Erreur : ' + JSON.parse(result.data)[0];
 	}
@@ -610,7 +614,8 @@ export async function modifUtilisateur(event) {
 			}
             
 		}
-		const response = await fetch('../api?/modifUtilisateur', {
+		const etapesArriere = window.location.pathname.split('/')[1] == 'gestionnaire' ? "../../" : "../";
+		const response = await fetch(etapesArriere + 'api?/modifUtilisateur', {
 			method: 'POST',
 			body: formData
 		});
