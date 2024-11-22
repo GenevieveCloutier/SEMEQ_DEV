@@ -34,9 +34,9 @@ import path from 'path';
 import { randomUUID } from 'crypto';
 import { Utilisateur } from '../../lib/db/models/Utilisateur.model.js';
 import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '../../lib/db/controllers/Blogs.controller.js';
-import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '../../lib/db/controllers/Partenaires.controller.js';
 import { request } from 'http';
 import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifProduit } from '../../lib/db/controllers/Produits.controller.js';
+import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '../../lib/db/controllers/Partenaires.controller.js';
 
 //Chemins de base pour stocker les photos
 const cheminPhotosEven = path.join(process.cwd(), 'src/lib/img/app/evenements');
