@@ -1,3 +1,4 @@
+import { error } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
 import { Panier } from '$lib/db/models/Panier.model';
 import { Utilisateur } from "$lib/db/models/Utilisateur.model";
