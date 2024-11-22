@@ -44,6 +44,9 @@ const cheminPhotosUtilisateurs = path.join(process.cwd(), 'src/lib/img/app/utili
 const cheminPhotosBlog = path.join(process.cwd(), 'src/lib/img/app/blog');
 const cheminPhotosProduits = path.join(process.cwd(), 'src/lib/img/app/produits');
 
+//*Import de la clé secrete stocké dans .env
+import { TURNSTILE_SECRET_KEY } from '$env/static/private';
+
 export const actions = {
 	/**
 	 ** Action pour supprimer un utilisateur à partir de son identifiant, avec option de redirection.

@@ -14,10 +14,10 @@
 
     <H1Title title={'Formulaire de contact'}></H1Title>
         <div class="columns is-centered">
-            <div class="column is-4 ">
+            <div class="column is-5 ">
                 <NotifSuccess />
                 <NotifDanger />
-                <div class="box is-3">
+                <div class="box">
                     <form on:submit|preventDefault={contact}>
                         <div class="field">
 						    <label class="label" for="nom">Nom</label>
@@ -34,7 +34,7 @@
                         <div class="field">
 						    <label class="label" for="message">Message</label>
 						    <div class="control">
-							   <textarea name="message" class="textarea"></textarea>
+							   <textarea name="message" class="textarea" rows="10"></textarea>
 						    </div>
 					    </div>
                         <div class="block has-text-centered">
@@ -43,7 +43,6 @@
                             <SubmitButon texte={'Envoyer'}></SubmitButon>
                             <Retour />
                         </div>
-                        <a href="/creation_compte" class="help has-text-centered">Tu n’as pas encore de compte? Clique ici.</a>
                     </form>
                 </div>
             </div>
