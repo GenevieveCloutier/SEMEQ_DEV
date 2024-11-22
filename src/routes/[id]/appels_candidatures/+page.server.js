@@ -30,7 +30,7 @@ export async function load({ cookies, params }){
     const regions = await findAllRegions();
     const villes = await findAllVilles();
 
-    let aujourdhui = new Date().toLocaleDateString('fr-CA', {timeZone: 'UTC'});
+    let aujourdhui = new Date().toLocaleDateString('fr-CA', {timeZone: 'America/Montreal'});
 
     const events = await Evenement.findAll({
         order: [
@@ -55,9 +55,9 @@ export async function load({ cookies, params }){
 
     let resultat = events.map(evenement => ({
         ...evenement.dataValues,
-        debut_even: evenement.debut_even === null ? "Inconnue" : `${evenement.debut_even.toLocaleDateString('fr-CA', {timeZone: 'UTC'})}`,
-        fin_even: evenement.fin_even === null ? "Inconnue" : `${evenement.fin_even.toLocaleDateString('fr-CA', {timeZone: 'UTC'})}`,
-        fin_cand: `${evenement.fin_cand.toLocaleDateString('fr-CA', {timeZone: 'UTC'})}`,
+        debut_even: evenement.debut_even === null ? "Inconnue" : `${evenement.debut_even.toLocaleDateString('fr-CA', {timeZone: 'America/Montreal'})}`,
+        fin_even: evenement.fin_even === null ? "Inconnue" : `${evenement.fin_even.toLocaleDateString('fr-CA', {timeZone: 'America/Montreal'})}`,
+        fin_cand: `${evenement.fin_cand.toLocaleDateString('fr-CA', {timeZone: 'America/Montreal'})}`,
         utilisateur: evenement.utilisateur ? evenement.utilisateur.dataValues : null,
         ville: evenement.ville ? {
             ...evenement.ville.dataValues,
