@@ -184,7 +184,7 @@
 
                     <tr>
                         <td class="has-text-centered">Gratuit</td>
-                        <td class="has-text-centered"><a href='/boutique/abonnement_organisateur'><BoutonGris texte={"Je m'inscris!"} /></a></td>
+                        <td class="has-text-centered"><BoutonGris texte={"Je m'inscris!"} lien={"/boutique/abonnement_exposant"} /></td>
                         <td></td>
                     </tr>
                 </tbody>

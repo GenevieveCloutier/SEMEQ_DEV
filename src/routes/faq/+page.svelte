@@ -18,7 +18,7 @@ createAccordionContext();
         {#each questions as question}
         <hr class="my-1">
         <Accordion>
-                <span slot="head">
+                <span slot="head" class="mx-4">
                     {question.question}
                 </span>
                 <div slot="details">

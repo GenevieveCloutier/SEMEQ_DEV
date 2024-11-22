@@ -2,10 +2,11 @@
 <script>
     import H1Title from "$lib/components/titres/h1Title.svelte";
     import H2Title from "$lib/components/titres/h2Title.svelte";
+    import H2AvecSousTitre from "$lib/components/titres/h2AvecSousTitre.svelte";
     import BoutonGris from "$lib/components/boutons/boutonGris.svelte";
     import BoutonBleu from "$lib/components/boutons/boutonBleu.svelte";
     import UnEvenement from "$lib/components/repertoires/unEvenement.svelte";
-    import Accordion, { createAccordionContext } from "$lib/components/generaux/accordion.svelte";
+    import AccordionEvenement, { createAccordionContext } from "$lib/components/generaux/accordionEvenement.svelte";
 	import { Cookies } from "nodemailer/lib/fetch";
     import { onMount } from "svelte";
     import Recherche from '$lib/components/generaux/recherche.svelte';
@@ -99,6 +100,10 @@ function filtreRegionDate(){
     }
     if(valeurRegion == "Gaspésie-Îles-de-la-Madeleine"){
         valeurRegion = "Gaspésie--Îles-de-la-Madeleine"
+    };
+        //pour descendre à la section des mois sur mobile
+        if (window.innerWidth <= 767) {
+        window.location.href="/repertoire_evenements#tableauMois"
     }
 
     filtreRegionDate()
@@ -176,14 +181,6 @@ function filtreRegionDate(){
 </div>
 
 <div id="repertoireEntier" class="container">
-    <!-- pour ajouter des explications sur l'utilisation sur un mobile -->
-    <div class=" content has-background-light is-hidden-desktop is-hidden-tablet-only">
-        <ol type="1">
-            <li>Clique sur une <strong>région</strong> ci-dessous</li>
-            <li>Clique ensuite sur le <strong>mois</strong> pour lequel tu voudrais voir les événements enregistrés
-            (sous la liste des régions)</li>
-        </ol>
-    </div>
     <div class="columns">
 
         <div class="column texte-bleu is-one-quarter">
@@ -200,9 +197,11 @@ function filtreRegionDate(){
         </div>
 
         <div id="tableauMois" class="box column">
+            
             {#if evenementsFiltre}
+            <H2AvecSousTitre title={"Liste des mois"} subtitle={"Clique sur un mois pour afficher les événements."} />
                 {#each tousLesMois as unMois}
-                <Accordion>
+                <AccordionEvenement>
 
                     <span  slot="head">
                         <input readonly bind:value={unMois}
@@ -225,8 +224,11 @@ function filtreRegionDate(){
                     {/if}
                     </div>
                 </div>
-                </Accordion>
+                </AccordionEvenement>
                 {/each}
+                <div class="is-hidden-desktop is-hidden-tablet mt-4 has-text-centered">
+                    <BoutonBleu lien={"/repertoire_evenements#repertoireEntier"} texte={"Retour à la liste des régions"}/>
+                </div>
                 {:else}
                 <p class="px-4 py-4 has-text-centered is-size-5 has-background-info-light">Pour voir les événements, clique sur une région</p>
             {/if}

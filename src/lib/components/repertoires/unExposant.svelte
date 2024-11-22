@@ -27,15 +27,12 @@
             <p class="mt-3">{exposant.ville.nom}</p>
             {:else}<p class="has-text-weight-bold">Non disponible</p>
             {/if}
-
-            <!-- enlever cette ligne après la démo -->
-            <p>{recupMappage(exposant.domaine, domaines)}</p>
             
             <!-- si l'utilisateur a un abonnement actif, afficher le bouton pour la fiche, sinon afficher l'icone -->
              {#if exposant.abonne == 1}
 
                 <div class="has-text-centered mt-2">
-                    <BoutonMince lien={'/repertoire_exposants/id'} texte={"Voir la fiche"} />
+                    <BoutonMince lien={`/repertoire_exposants/${exposant.id}`} texte={"Voir la fiche"} />
                 </div>
             
             {:else if exposant.site}

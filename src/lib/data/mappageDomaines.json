@@ -1,0 +1,82 @@
+{
+    "accessoires_sacs" : {
+        "nom": "Accessoires et sacs",
+        "valeur": "1"
+    },
+    "agro-alimentaire" : {
+        "nom": "Agro-Alimentaire",
+        "valeur": "2"
+    },
+    "animaux" : {
+        "nom": "Animaux",
+        "valeur":"4"
+    },
+    "arts_visuels" : {
+        "nom": "Arts visuels",
+        "valeur":"8"
+    },
+    "bijoux_joaillerie" : {
+        "nom": "Bijoux et joaillerie",
+        "valeur":"16"
+    },
+    "ceramique_poterie" : {
+        "nom": "Céramique et poterie",
+        "valeur":"32"
+    },
+    "decoration_interieure" : {
+        "nom": "Décoration intérieure",
+        "valeur":"64"
+    },
+    "ebenisterie" : {
+        "nom": "Ébenisterie",
+        "valeur":"128"
+    },
+    "forgerie" : {
+        "nom": "Forgerie",
+        "valeur":"256"
+    },
+    "jouets_loisirs" : {
+        "nom": "Jouets et loisirs",
+        "valeur":"512"
+    },
+    "papeteries_livres" : {
+        "nom": "Papeterie et livres",
+        "valeur":"1024"
+    },
+    "photographies" : {
+        "nom": "Photographies",
+        "valeur":"2048"
+    },
+    "produits_corporels" : {
+        "nom": "Produits corporels",
+        "valeur":"4096"
+    },
+    "sculpture" : {
+        "nom": "Sculpture",
+        "valeur":"8192"
+    },
+    "tricots_crochets" : {
+        "nom": "Tricots et crochet",
+        "valeur":"16384"
+    },
+    "verre_vitrail" : {
+        "nom": "Verre et vitrail",
+        "valeur":"32768"
+    },
+    "vetements_tous" : {
+        "nom": "Vêtements (tous)",
+        "valeur":"65536"
+    },
+    "vetements_enfants" : {
+        "nom": "Vêtements pour enfants",
+        "valeur":"131072"
+    },
+    "zero_dechet" : {
+        "nom": "Zéro déchet",
+        "valeur":"262144"
+    },
+    "autres" : {
+        "nom": "Autres",
+        "valeur":"524288"
+    }
+  }

@@ -43,10 +43,11 @@ createAccordionContext();
         <!-- les informations sont dans le fichier /data/associes.json -->
             {#each associes as associe}
             <Accordion>
-                    <span slot="head">
+                    <span slot="head"  class="is-flex is-align-items-center">
                         <figure class="image is-128x128">{@html associe.img}</figure>
-                        <p>{associe.nom}</p>
+                        <p class="mx-4 ">{associe.nom}</p>
                     </span>
+
                     <div slot="details">
                     <p>
                         {@html associe.parcours}

@@ -2,11 +2,12 @@
 <script>
     import H1Title from "$lib/components/titres/h1Title.svelte";
     import H2Title from "$lib/components/titres/h2Title.svelte";
+    import H2AvecSousTitre from "$lib/components/titres/h2AvecSousTitre.svelte";
     import H3Title from "$lib/components/titres/h3Title.svelte";
     import BoutonGris from "$lib/components/boutons/boutonGris.svelte";
     import BoutonBleu from "$lib/components/boutons/boutonBleu.svelte";
     import UnEvenement from "$lib/components/repertoires/unEvenement.svelte";
-    import Accordion, { createAccordionContext } from "$lib/components/generaux/accordion.svelte";
+    import AccordionVisiteur, { createAccordionContext } from "$lib/components/generaux/accordionVisiteur.svelte";
 	import { Cookies } from "nodemailer/lib/fetch";
     import { onMount } from "svelte";
     import Recherche from '$lib/components/generaux/recherche.svelte';
@@ -14,19 +15,10 @@
 
 	export let data;
 	const { villes, regions, evenements, utilisateurs } = data;
+    console.log(evenements)
 
 //pour créer le contexte pour que les sections d'accordéon se referment quand on clique sur une autre
-    createAccordionContext();
-
-
-//afficher la flèche bleue quand une région est sélectionnée
-  function afficherFleche(){
-    resetCouleur()
-    this.style.backgroundImage="url('/src/lib/img/app/fleche.png')";
-    this.style.color="white";
-    this.style.fontWeight="bold";
-    //document.getElementById('tableauMois').scrollIntoView()
-    };
+    createAccordionContext(); 
 
 //pour la recherche de région
     let evenementsFiltre ="" 
@@ -44,14 +36,33 @@ function filtreRegionDate(){
         evenement => 
         evenement.ville.region.nom.split(" ")[0] == valeurRegion
         && (
-            ((evenement.debut_even >= valeurJour) && (evenement.debut_even <= date7))
-            ||  ((evenement.fin_even >= valeurJour) && (evenement.fin_even <= date7))
-            )
+            (evenement.debut_even <= date7) || (evenement.fin_even <= date7))
         ); 
+        console.log(evenementsFiltre)
+        return evenementsFiltre
 }
 
+//pour afficher seulement les régions qui ont un marché cette semaine
+function tableauRegions(){
+    
+    let regionsAvecMarche = new Set();
+
+    for(let x=0; x<evenements.length; x++){
+        let chaqueRegion = evenements[x].ville.region.nom.split(" ")[0]
+        regionsAvecMarche.add(chaqueRegion)
+        }
+        regionsAvecMarche=[...regionsAvecMarche].sort((a, b) => a.localeCompare(b)) 
+    return [...regionsAvecMarche]
+}
+
+//sert à afficher les régions aux visieurs (et à appeler la fonction)
+let afficherRegions = tableauRegions()
+
+let regionActive = null;
+
+
 //aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDate()
-  function chercherValeurRegion(){
+  function chercherValeurRegion(event){
     valeurRegion = this.value;
 
     //exceptions pour les 2 regions à double tiret
@@ -62,20 +73,16 @@ function filtreRegionDate(){
         valeurRegion = "Gaspésie--Îles-de-la-Madeleine"
     }
 
+    const regionCliquee = event.target.value;
+
+    if (regionActive === regionCliquee) {
+            regionActive = null; // Désactiver si déjà active
+        } else {
+            regionActive = regionCliquee; // Activer sinon
+        }
     filtreRegionDate()
     return valeurRegion
   }
-
-
-//pour enlever la flèche bleue quand une autre région est sélectionnée
-  function resetCouleur(){
-    let boutons = document.getElementsByName('region');
-    for (let x=0; x<boutons.length; x++){
-        boutons[x].style.backgroundImage="none";
-        boutons[x].style.color="#184287";
-        boutons[x].style.fontWeight="normal"
-    }
-  };
   
   </script>
 
@@ -146,77 +153,71 @@ de chez-toi, tu pourras, grâce à notre <a href="repertoire_evenements">répert
 </div>
 
 <div class="container mt-6">
-    <H2Title title={"En vedette"} />
+    <H2Title title={"Marchés en vedette"} />
     <div class="columns is-multiline">
-        {#if evenements}
-        {#each evenements as evenement}
-        <!-- pour n'afficher que les événements qui ont un abonnement actif -->
-            {#if evenement.utilisateur.abonne}
-                    <UnEvenement evenement={evenement} />
-            {/if}
-        {/each}
+        {#if evenements.length > 0}
+            {#each evenements as evenement}
+            <!-- pour n'afficher que les événements qui ont un abonnement actif -->
+                {#if evenement.utilisateur.abonne}
+                <div class="column is-one-fifth">
+                        <UnEvenement evenement={evenement} />
+                </div>
+                {/if}
+            
+            {/each}
+        {:else}
+            <p>Aucun événement en vedette semaine!</p>
         {/if}
     </div>
 
 </div>
 
-<div id="repertoireEntier" class="container mt-6">
-    <!-- pour ajouter des explications sur l'utilisation sur un mobile -->
-    <div class=" content has-background-light is-hidden-desktop is-hidden-tablet-only">
-        <ol>
-            <li>Clique sur une <strong>région</strong> ci-dessous</li>
-            <li>Les événements seront affiché plus bas</li>
-        </ol>
-    </div>
+<div class="container mt-6">
     <hr class="mb-6">
-    <div class="columns">
-        <div class="column texte-bleu is-one-quarter">
-            <H2Title title={"Marchés par région"} />
+            <H2AvecSousTitre title={"Tous les marchés de la semaine:"} 
+            subtitle={"(Clique sur une région pour afficher les marchés)"} />
+            <div class="container is-fluid">
+            
+            
             <div>
-                {#each regions as region}
-                    <input readonly bind:value={region.nom}
-                        class="is-uppercase has-text-left bouton" 
-                        on:click={afficherFleche} 
-                        on:click={chercherValeurRegion}
-                        name="region">
-                    <br>
-                {/each}
+                {#if [...afficherRegions].length > 0}
+                    {#each afficherRegions as region}
+                <AccordionVisiteur >
+                    <span slot="head">
+                        <input readonly bind:value={region}
+                            class="is-uppercase has-text-left bouton {region === regionActive ? 'active' : ''}" 
+                            on:click={chercherValeurRegion}
+                            name="region">
+                    </span>
+
+                    <div slot="details">
+                        {#if evenementsFiltre}
+                            <div class="columns is-multiline box">
+                        {#if evenementsFiltre.length > 0}
+                            {#each evenementsFiltre as evenement}
+                                <div class="column is-one-fifth">
+                                    <UnEvenement evenement={evenement} />
+                                </div>
+                            {/each}
+                        {:else}
+                            <p class=" box bordure px-3 py-3 mx-3 my-3 has-text-centered ">Pas d'événement à afficher dans cette région cette semaine!<br>
+                            <BoutonGris lien= {"repertoire_evenements/inscription_evenement_gratuit"} texte={"Ajouter un événement"} /></p>
+                        {/if}
+                            </div>
+                        {/if}
+                    </div>
+                </AccordionVisiteur>
+                    {/each}
+                {:else}
+                    <p>Aucun marché trouvé pour cette semaine!</p>
+                {/if}
             </div>
         </div>
 
-        <div id="tableauMois" class="box column">
-            {#if evenementsFiltre}
-                        <div class="columns is-multiline">
-                    {#if evenementsFiltre.length > 0}
-                         {#each evenementsFiltre as evenement}
-                            <div class="column is-one-quarter">
-                                <UnEvenement evenement={evenement} />
-                            </div>
-                        {/each}
-                        {:else}
-                        <p class=" box bordure px-3 py-3 mx-3 my-3 has-text-centered ">Pas d'événement à afficher dans cette région cette semaine!<br>
-                        <BoutonGris lien= {"repertoire_evenements/inscription_evenement_gratuit"} texte={"Ajouter un événement"} /></p>
-                    {/if}
-                    </div>
-                
-                {:else}
-                <p class="px-4 py-4 has-text-centered is-size-6 has-background-info-light">Pour voir les événements qui ont lieu cette semaine, clique sur une région</p>
-            {/if}
-        </div>
-    </div>
 
     <div class="has-text-right">
         <a href = '/repertoire_evenements'>Voir tous les événements (par mois)</a>
     </div>
-        <!-- Bouton pour ajouter un événement gratuit -->
-        <div class="my-6">
-        <p class="has-text-centered">
-            <BoutonGris 
-            lien={"repertoire_evenements/inscription_evenement_gratuit"}    
-            texte={"Ajouter un événement"} /> <br>
-            <span class="has-text-grey">Un compte est requis pour ajouter un événement. <br>
-                Tu seras redirigé si tu n'as pas de compte ou si tu n'es pas connecté.</span>
-        </div>
 </div>
 
 
@@ -228,6 +229,8 @@ de chez-toi, tu pourras, grâce à notre <a href="repertoire_evenements">répert
 
     .bordure{
         border:1px solid lightgray;
+        padding:1em;
+        border-radius: 5px;
     } 
 
     .bouton{
@@ -247,6 +250,14 @@ de chez-toi, tu pourras, grâce à notre <a href="repertoire_evenements">répert
     .centerImage{
         justify-content: center;
     }
+
+    /* pour afficher la région sélectionnée avec la flèche */
+    .active {
+        color: #ffffff;
+        background-color: #184287;
+        padding: 0.5rem;
+        font-weight: bold;
+        }
 
 
 

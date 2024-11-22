@@ -75,6 +75,13 @@
           </div>
 
           <div class="field">
+            <label class="label" for="code_postal">Code postal <span class="rouge">*</span></label>
+            <div class="control">
+              <input class="input" type="text" name="code_postal" id="adresse" required placeholder="J0A 1A0" >
+            </div>
+          </div>
+
+          <div class="field">
             <label class="label" for="facebook">Page Facebook de l'entreprise</label>
             <div class="control">
               <input class="input" type="url" name="facebook" id="facebook" placeholder="https://www.facebook.com/entreprise">
@@ -116,6 +123,14 @@
             </div>
           </div>
 
+          
+          <div class="field">
+            <label class="label" for="telephone">Numéro de téléphone</label>
+            <div class="control">
+              <input class="input" type="tel" pattern={"[0-9]{3}-[0-9]{3}-[0-9]{4}"} name="telephone" id="telephone" placeholder="123-456-7890">
+            </div>
+          </div>
+
           <div class="field">
             <label class="label" for="site">Site internet de l'entreprise</label>
             <div class="control">
@@ -140,7 +155,7 @@
         <!-- Première colonne -->
         <div class="column">
           <div class="field">
-            <label class="label" for="photo_1">Photo 1</label>
+            <label class="label" for="photo_1">Photo 1 (le format carré est préférable)</label>
             <div class="control">
               <input class="input" type="file" accept="image/png, image/jpeg, image/svg" name="photo_1" id="photo_1">
             </div>
@@ -150,7 +165,7 @@
         <!-- Deuxième colonne -->
         <div class="column">
           <div class="field">
-            <label class="label" for="photo_2">Photo 2</label>
+            <label class="label" for="photo_2">Photo 2 (le format carré est préférable)</label>
             <div class="control">
               <input class="input" type="file" accept="image/png, image/jpeg, image/svg" name="photo_2" id="photo_2">
             </div>
@@ -160,7 +175,7 @@
         <!-- Troisième colonne -->
         <div class="column">
           <div class="field">
-            <label class="label" for="photo_3">Photo 3</label>
+            <label class="label" for="photo_3">Photo 3 (le format carré est préférable)</label>
             <div class="control">
               <input class="input" type="file" accept="image/png, image/jpeg, image/svg" name="photo_3" id="photo_3">
             </div>
@@ -180,10 +195,19 @@
         <!-- Première colonne -->
         <div class="column">
           <label class="checkbox">
-            Être affiché sur le site de Répertoire SÉMEQ dans l’onglet Répertoire exposants (nom + lien cliquable)?<br>
+            As-tu une boutique / atelier ouvert au public?<br>
             <input type="checkbox" class="toggle exclus" name="affichage" id="affichage" >
           </label>
+  
+
+        <div class="field">
+          <label class="checkbox">
+            Afficher l'adresse dans la fiche détaillée de l'exposant (fiche de l'entreprise)?<br>
+            <input type="checkbox" class="toggle exclus" name="publique" id="publique" >
+          </label>
         </div>
+
+    </div>
 
         <!-- Deuxième colonne -->
         <div class="column">

@@ -13,11 +13,12 @@ export async function load({params, cookies}){
 
      //date actuelle
     let dateDebut = new Date()
+    dateDebut.setDate(dateDebut.getDate() -1);
     dateDebut = dateDebut.toISOString().split("T")[0]  + " 00:00:00.000 +00:00";
 
     let dateFin = new Date()
     //date actuelle plus 14 jours
-    dateFin.setDate(dateFin.getDate() +14);
+    dateFin.setDate(dateFin.getDate() +15);
     dateFin = dateFin.toISOString().split("T")[0] + " 00:00:00.000 +00:00";
 
    const events = await Evenement.findAll({
@@ -59,5 +60,8 @@ export async function load({params, cookies}){
 
    const session = cookies.get('session');
    const role = cookies.get('role');
+
    return {villes:villes, regions:regions, evenements:resultat, session: session, role:role};
 }
+
+

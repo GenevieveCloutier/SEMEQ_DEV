@@ -143,7 +143,7 @@
 
                     <tr>
                         <td class="has-text-centered">Gratuit</td>
-                        <td class="has-text-centered"><a href='/boutique/abonnement_organisateur'><BoutonGris texte={"Je passe PRO!"} /></a></td>
+                        <td class="has-text-centered"><BoutonGris texte={"Je passe PRO!"} lien={"/boutique/abonnement_organisateur"} /></td>
                         <td></td>
                     </tr>
                 </tbody>
@@ -157,7 +157,7 @@
             <p>Tu peux aussi nous contacter en remplissant <a href="/contact">ce formulaire</a>.</p>
         </div>
         <div class="block">
-            <figure class=" image is-320x480 is-hidden-tablet-only">
+            <figure class=" image is-320-320 is-hidden-tablet-only">
                 <img src="https://bulma.io/assets/images/placeholders/320x480.png" alt="photo de marche"/>
             </figure>
         </div>

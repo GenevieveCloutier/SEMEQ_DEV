@@ -99,6 +99,7 @@ export async function findOne(p_where) {
  * @param {string} p_tiktok - Compte TikTok de l'utilisateur (facultatif).
  * @param {string} p_domaine - Domaine de travail de l'utilisateur (facultatif).
  * @param {number} p_ville_id - ID de la ville de l'utilisateur.
+ * @param {number} code_postal - Code postal de l'utilisateur.
  * @param {boolean} p_partage - Partage des informations autorisé ou non.
  * @param {boolean} p_affichage - Affichage des informations autorisé ou non.
  * @param {boolean} p_abonne - L'utilisateur est abonné ou non.
@@ -110,6 +111,7 @@ export async function findOne(p_where) {
  * @param {string} p_photo_2 - Photo 2 de l'utilisateur (facultatif).
  * @param {string} p_photo_3 - Photo 3 de l'utilisateur (facultatif).
  * @param {string} p_logo - Logo de l'entreprise de l'utilisateur (facultatif).
+ * @param {number} p_telephone - Numéro de téléphone de l'utilisateur (facultatif).
  *
  * @return {Object} resultat - Les données de l'utilisateur nouvellement créé.
  *
@@ -130,6 +132,7 @@ export async function newUser(
 	p_tiktok,
 	p_domaine,
 	p_ville_id,
+	p_code_postal,
 	p_partage,
 	p_affichage,
 	p_abonne,
@@ -140,7 +143,8 @@ export async function newUser(
 	p_photo_1,
 	p_photo_2,
 	p_photo_3,
-	p_logo
+	p_logo,
+	p_telephone
 ) {
 	try {
 		const mail = await Utilisateur.findOne({ where: { courriel: p_courriel } });
@@ -162,6 +166,7 @@ export async function newUser(
 			tiktok: p_tiktok,
 			domaine: p_domaine,
 			ville_id: p_ville_id,
+			code_postal: p_code_postal,
 			partage: p_partage,
 			affichage: p_affichage,
 			abonne: p_abonne,
@@ -172,7 +177,8 @@ export async function newUser(
 			photo_1: p_photo_1,
 			photo_2: p_photo_2,
 			photo_3: p_photo_3,
-			logo: p_logo
+			logo: p_logo,
+			telephone: p_telephone
 		});
 		return resultat.dataValues;
 	} catch (error) {
@@ -200,8 +206,6 @@ export async function adminCreation() {
 			role_id: 1,
 			courriel: 'admin@admin',
 			pwd: 'admin',
-			ville_id: 1166,
-			domaine:1,
 			abonne: true
 		});
 		console.log('Admin créé');

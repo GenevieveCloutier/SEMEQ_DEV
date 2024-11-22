@@ -261,7 +261,7 @@ function section3(event){
                 <div class="column is-one-third">
 
                     <div class="field my-5">
-                        <label class="label" for="photo_1">Photo 1</label>
+                        <label class="label" for="photo_1">Photo 1 (le format carré est préférable)</label>
                         <div class="control">
                           <input class="input" type="file" accept="image/*" name="photo_1" id="photo_1">
                         </div>
@@ -271,7 +271,7 @@ function section3(event){
 
                 <div class="column is-one-third">
                     <div class="field my-5">
-                        <label class="label" for="photo_2">Photo 2</label>
+                        <label class="label" for="photo_2">Photo 2 (le format carré est préférable)</label>
                         <div class="control">
                           <input class="input" type="file" name="photo_2" id="photo_2">
                         </div>
@@ -280,7 +280,7 @@ function section3(event){
 
                 <div class="column is-one-third">
                     <div class="field my-5">
-                        <label class="label" for="photo_3">Photo 3</label>
+                        <label class="label" for="photo_3">Photo 3 (le format carré est préférable)</label>
                         <div class="control">
                           <input class="input" type="file" name="photo_3" id="photo_3">
                         </div>
