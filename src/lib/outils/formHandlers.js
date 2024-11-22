@@ -755,3 +755,26 @@ export async function supprimeCodePromo(p_id) {
 		erreur.set(JSON.parse(result.data)[0]);
 	}
 }
+
+export async function contact(event) {
+	chargement();
+    erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+        const response = await fetch('../api?/contactMessage', {
+            method: 'POST',
+            body: formData
+        });
+		const result = await response.json();
+		if(result.status == 200){
+            // window.location.reload();
+			success.set("Votre message a bien été envoyé.");
+		}
+		if (result.status == 401){
+            erreur.set(JSON.parse(result.data)[1]);
+        }
+	} catch (error) {
+		console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}

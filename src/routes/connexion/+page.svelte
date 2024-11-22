@@ -5,6 +5,9 @@
     import Retour from '$lib/components/generaux/retour.svelte';
 	import Annonce from '../../lib/components/notifications/annonce.svelte';
     </script>
+
+<!--! Faut revoir le system de notification ici, c'etait la premiere version avant les components -->
+
     <H1Title title={'Connexion'}></H1Title>
         <div class="columns is-centered">
             <div class="column is-4 ">
