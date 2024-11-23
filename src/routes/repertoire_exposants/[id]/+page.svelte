@@ -29,9 +29,12 @@ let affichersite = siteweb();
 </script>
 
 <div class="container is-fluid">
+        <!-- pour donner une marge autour de la boite -->
+        <div class="columns">
+            <div class="column is-1"></div>
+    
+    <div class="box pb-6">
     <div class="columns is-vcentered">
-        <div class="column is-1">
-        </div>
 
         <div class="column is-1">
         {#if exposant.logo}
@@ -50,7 +53,7 @@ let affichersite = siteweb();
         {/if}
     </div>
     </div>
-    <div class="columns mt-6 has-text-centered is-mobile">
+    <div class="columns mt-6 has-text-centered">
         <div class="column is-hidden-mobile">
         </div>
 
@@ -87,7 +90,7 @@ let affichersite = siteweb();
         </div>
 
         <!-- encadré à gauche -->
-        <div class="column px-5 py-5 bordure is-one-third">
+        <div class="column px-5 py-5 bordure">
 
             <div class="columns">
                 <!-- colone de gauche de l'encadré -->
@@ -185,9 +188,11 @@ let affichersite = siteweb();
                 <p>Aucune description de l'entreprise n'a été fournie par l'exposant</p>
             {/if}
         </div>
+        <div class="column is-1"></div>
     </div>
-
-
+    </div>
+    <div class="column is-1"></div>
+</div>
 </div>
 
 <style>
@@ -209,6 +214,9 @@ let affichersite = siteweb();
     .rose{
         color: #c2108a;
     }
-
+    
+.box{
+    width: 100%;
+}
     
 </style>

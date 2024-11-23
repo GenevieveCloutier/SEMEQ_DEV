@@ -75,7 +75,7 @@
           </div>
 
           <div class="field">
-            <label class="label" for="code_postal">Code postal <span class="rouge">*</span></label>
+            <label class="label" for="code_postal">Code postal (format: J0A 1A0)<span class="rouge">*</span></label>
             <div class="control">
               <input class="input" type="text" name="code_postal" id="adresse" required placeholder="J0A 1A0" >
             </div>
@@ -125,9 +125,9 @@
 
           
           <div class="field">
-            <label class="label" for="telephone">Numéro de téléphone</label>
+            <label class="label" for="telephone">Numéro de téléphone (format: 123 456-7890)</label>
             <div class="control">
-              <input class="input" type="tel" pattern={"[0-9]{3}-[0-9]{3}-[0-9]{4}"} name="telephone" id="telephone" placeholder="123-456-7890">
+              <input class="input" type="tel" pattern={"[0-9]{3} [0-9]{3}-[0-9]{4}"} name="telephone" id="telephone" placeholder="123 456-7890">
             </div>
           </div>
 

@@ -133,6 +133,16 @@ function section3(event){
                     </div>
                 </div>
             </div>
+
+            <div class="my-5">
+                <div class="field">
+                    <label class="label" for="code_postal">Code postal (format: J0A 1A0)<span class="rouge">*</span></label>
+                    <div class="control">
+                        <input class="input" type="text" name="code_postal" placeholder="J0A 1A0" required/>
+                    </div>
+                </div>
+            </div>
+
             <div class="my-5">
                 <div class="field">
                     <label class="label" for="ville_id">Ville <span class="rouge">*</span></label>
@@ -155,6 +165,15 @@ function section3(event){
             <div class="column is-half">
 
                 <div>
+                    <div class="field">
+                        <label class="label" for="telephone">Numéro de téléphone (format: 123 456-7890)</label>
+                        <div class="control">
+                            <input class="input" type="tel" name="telephone" pattern={"[0-9]{3} [0-9]{3}-[0-9]{4}"} placeholder="123 456-7890"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-5">
                     <div class="field">
                         <label class="label" for="horaire_even">Heures d'ouverture (au public)</label>
                         <div class="control">

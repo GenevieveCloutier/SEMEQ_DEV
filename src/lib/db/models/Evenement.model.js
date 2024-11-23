@@ -92,6 +92,14 @@ export const Evenement = sequelize.define("evenement", {
         type: DataTypes.STRING,
         allowNull: true
     },
+    code_postal: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    telephone: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     emplacement: {
         type: DataTypes.INTEGER,
         allowNull: true

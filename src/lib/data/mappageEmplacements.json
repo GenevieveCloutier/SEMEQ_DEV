@@ -1,0 +1,22 @@
+{
+    "emplacementInterieur" : {
+        "nom": "À l'intérieur",
+        "valeur": "1"
+    },
+    "emplacementExterieur" : {
+        "nom": "À l'extérieur",
+        "valeur": "2"
+    },
+    "emplacementChapiteau" : {
+        "nom": "Sous un grand chapiteau",
+        "valeur": "4"
+    },
+    "emplacementAbri" : {
+        "nom": "À l'extérieur, petits abris fournis",
+        "valeur": "8"
+    },
+    "emplacementSansAbri" : {
+        "nom": "À l'extérieur, apportez votre abri",
+        "valeur": "16"
+    }
+}

@@ -225,6 +225,8 @@ export const actions = {
                 data.get('courriel'),
                 data.get('ville_id'),
                 data.get('adresse'),
+                data.get('code_postal'),
+                data.get('telephone'),
                 emplacement,
                 type,
                 data.get('type_autre'),
