@@ -15,7 +15,6 @@
 
 	export let data;
 	const { villes, regions, evenements, utilisateurs } = data;
-    console.log(evenements)
 
 //pour créer le contexte pour que les sections d'accordéon se referment quand on clique sur une autre
     createAccordionContext(); 
@@ -38,7 +37,6 @@ function filtreRegionDate(){
         && (
             (evenement.debut_even <= date7) || (evenement.fin_even <= date7))
         ); 
-        console.log(evenementsFiltre)
         return evenementsFiltre
 }
 

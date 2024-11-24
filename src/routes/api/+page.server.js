@@ -198,7 +198,7 @@ export const actions = {
 
         let session;
         try{
-            session = await findOneSession({uuid: cookies.get('session')});//ça fonctionne :D
+            session = await findOneSession({uuid: cookies.get('session')});
             //log("session dans api = ", session.utilisateur.abonne);
         }catch(error){
             throw (error);
