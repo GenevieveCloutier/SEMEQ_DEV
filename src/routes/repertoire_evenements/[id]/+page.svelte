@@ -379,7 +379,7 @@ let affichersite = siteweb();
                             {/if}
                             </ul><br>
  
-                            {:else}Inconnu <br>
+                            {:else}Inconnu / Aucune vérification <br>
                             {/if}
                         </span>
                     </div>

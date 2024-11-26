@@ -1,6 +1,8 @@
 <script>
       import H3Title from "$lib/components/titres/h3Title.svelte";
       import BoutonBleuHover from "$lib/components/boutons/boutonBleuHover.svelte";
+      import { onMount } from "svelte";
+
 </script>
 
 <div class="container">

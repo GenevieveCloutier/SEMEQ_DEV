@@ -1,20 +1,24 @@
 import { findAll } from '$lib/db/controllers/Villes.controller.js';
-import { redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
+import { findOne } from '$lib/db/controllers/Utilisateurs.controller';
 
 export async function load({cookies}){
     const villes = await findAll();
 
-    //pour envoyer sur le formulaire de connexion si l'utilisateur n'a pas de rôle, ou si le rôle est 
-    //compte gratuit ou compte exposant (laisser passer gestionnaire et organisateur)
-    //ajouter l'autorisation pour l'abonnement si il est actif ou non
     const session = cookies.get('session');
     const role = cookies.get('role');
+    const cookiesId = cookies.get('id');
+    const utilisateur = await findOne({ id: cookiesId });
 
-    
+    // ne laisser passer que les organisateurs abonnés ou admin
    
     if (!role || role == 3 || role == 4){
-        redirect(302, '/connexion');
+        throw error(403, 'Seuls les membres organisateur abonnés peuvent accéder à cette page.');
     }
- 
-    return {session: session, role:role, villes:villes}; //tous les utilisateurs
+
+    if(role == 2 && utilisateur.abonne != true){
+        throw error(403, 'Seuls les organisateur abonnés peuvent accéder à cette page.');
+    }
+
+    return {session: session, role:role, villes:villes, utilisateur:utilisateur}; //tous les utilisateurs
 }
