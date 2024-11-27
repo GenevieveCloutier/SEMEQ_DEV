@@ -17,7 +17,7 @@ export async function load({ params }){
     
     let resultat = {
         ...code.dataValues,
-        expiration: code.expiration.toLocaleDateString('fr-CA', {timeZone: 'America/Montreal'}),
+        expiration: code.expiration.toLocaleDateString('fr-CA', {timeZone: 'UTC'}),
         categorie: code.categorie ? code.categorie.dataValues : null,
     };
 

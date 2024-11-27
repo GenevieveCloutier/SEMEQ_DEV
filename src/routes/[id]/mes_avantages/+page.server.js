@@ -14,7 +14,8 @@ export async function load({ cookies, params }){
         throw error(403, 'Seuls les abonnés peuvent accéder à cette page.');
     }
 
-    let aujourdhui = new Date().toLocaleDateString('fr-CA', {timeZone: 'America/Montreal'});
+    // Date du jour au format ISO avec l'heure 00:00:00 +00:00 pour comparer avec dates dans BD
+    let aujourdhui = new Date().toISOString().split("T")[0]  + " 00:00:00.000 +00:00";
 
     let partenaires = await Partenaire.findAll({
         order: [
@@ -34,7 +35,7 @@ export async function load({ cookies, params }){
     let resultat = partenaires.map(partenaire => ({
         ...partenaire.dataValues,
         expiration: partenaire.expiration === null ? "Aucune"
-            : partenaire.expiration.toLocaleDateString('fr-CA', {timeZone: 'America/Montreal'}),
+            : partenaire.expiration.toLocaleDateString('fr-CA', {timeZone: 'UTC'}),
         categorie: partenaire.categorie ? partenaire.categorie.dataValues : null,
     }));
 
