@@ -8,7 +8,8 @@
 	import Confirmation from '$lib/components/notifications/confirmation.svelte';
 
     export let data;
-	const { code, categories } = data;
+    const code = data.code;
+    const categories = data.categories;
 </script>
 
 <H1Title title={"Modification d'un code promo"} />

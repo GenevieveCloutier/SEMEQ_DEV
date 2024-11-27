@@ -17,6 +17,9 @@ export async function load({ cookies, params }){
     let aujourdhui = new Date().toLocaleDateString('fr-CA', {timeZone: 'America/Montreal'});
 
     let partenaires = await Partenaire.findAll({
+        order: [
+            ['categorie_id', 'ASC']
+          ],
         where: {
             [Op.or]: [
                 { expiration: { [Op.gte]: aujourdhui } },  // Date supérieure (après) ou égale à aujourd'hui
