@@ -357,7 +357,8 @@ export async function modificationProduit(event) {
 			goto('/gestionnaire/boutique')
 			success.set('Produit modifié avec succès!');
 		}
-		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+		log("formhandler result = ", result)
+		// if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {
 		console.error('erreur inattendue : ', error);
 		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");

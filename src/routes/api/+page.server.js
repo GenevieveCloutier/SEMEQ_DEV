@@ -260,6 +260,7 @@ export const actions = {
 				data.get('nom'),
 				data.get('type_id'),
 				data.get('desc'),
+				data.get('url'),
 				data.get('prix_v'),
 				data.get('prix_a'),
 				photo,
@@ -295,16 +296,19 @@ export const actions = {
 			return null;
 		};
 		let photo = await uploadPhoto('photo');
+		log("api data = ", data);
 		try {
 			const res = await modifProduit(data.get('id'), {
 				nom: data.get('nom'),
 				type_id: data.get('type_id'),
 				desc: data.get('desc'),
+				url: data.get('url'),
 				prix_v: data.get('prix_v'),
 				prix_a: data.get('prix_a'),
 				photo: photo,
 				dispo: data.get('dispo') == 'on' ? true : false
 		});
+		log("api res = ", res)
 			return {
 				status: 200,
 				body: {
