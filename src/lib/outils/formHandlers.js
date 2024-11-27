@@ -1,7 +1,7 @@
 import { get, writable } from 'svelte/store';
 import { log } from './debug';
 import { redirect } from '@sveltejs/kit';
-import { goto } from '$app/navigation';
+import { goto, invalidateAll } from '$app/navigation';
 
 export const erreur = writable(null);
 export const success = writable(null);
@@ -131,11 +131,9 @@ export async function connexion(event) {
 	if (document.cookie.includes('origine'))
 		origine = document.cookie.replaceAll('%2F', '/').slice(8); //*Remplace les '%2F' par des '/' et enlève les 8 premier caractères (origine=)
 	//!Cette solution ne fonctionne que si il n'y as qu'un seul cookie http:false
-	//*Envoie la notif de fin d'abonnement
-	log('result = ', JSON.parse(result.data))
 	annonce.set((JSON.parse(result.data)[(JSON.parse(result.data)[0].finAbonnement)]));
 	if (result.type === 'success') {
-		goto(origine);
+		window.location.href = origine; //! Ne pas utiliser goto pour recharger l'entête
 	} else if (result.type === 'failure') {
 		erreur.set(JSON.parse(result.data)[1]);
 	}
@@ -357,7 +355,8 @@ export async function modificationProduit(event) {
 			goto('/gestionnaire/boutique')
 			success.set('Produit modifié avec succès!');
 		}
-		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+		log("formhandler result = ", result)
+		// if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {
 		console.error('erreur inattendue : ', error);
 		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
