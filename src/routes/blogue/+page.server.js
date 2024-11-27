@@ -4,11 +4,9 @@ import { log } from "$lib/outils/debug.js";
 export async function load({cookies, params}){
 
     let blogues = await findAll();
-    
     blogues.forEach(x => {
         x.image_1 = x.image_1.replace(/\\/g, '/');
       });
-   // log("blogues = ", blogues);
     return { blogues };
 }
 

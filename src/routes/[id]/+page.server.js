@@ -6,6 +6,7 @@ import { log } from '../../lib/outils/debug.js';
 export async function load({ cookies, params }){
     // Récupérer user_id de la session
     const cookiesId = cookies.get('id');
+    log("les cookies = ", cookies.getAll());
     if (!cookiesId) {
         throw redirect(307, '/connexion');
     }
@@ -20,6 +21,5 @@ export async function load({ cookies, params }){
     if (paramId != cookiesId)
         redirect(307, '/');
     const villes = await findAllVilles();
-    log("load rerun ", null)
     return { user:user, villes };
 }

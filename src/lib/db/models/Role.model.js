@@ -7,9 +7,3 @@ export const Role = sequelize.define("role", {
         allowNull: true
     }
 });
-
-// sequelize.sync().then(() => {
-//     console.log('Roles table created successfully!');
-// }).catch((error) => {
-//     console.error('Unable to create table : roles ', error);
-// });

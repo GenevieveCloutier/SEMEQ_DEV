@@ -14,7 +14,6 @@
 
     export let data;
     let { evenements } = data;
-    console.log(evenements);
     
     let searchQuery = '';
     let orientation = 1; //Variable pour gérer le sens de triage

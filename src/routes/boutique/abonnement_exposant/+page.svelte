@@ -1,11 +1,11 @@
 <script>
     import H1Title from "$lib/components/titres/h1Title.svelte";
     import H2Title from "$lib/components/titres/h2Title.svelte";
-    import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
+    import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
     import Retour from "$lib/components/generaux/retour.svelte";
     import AvantagesExposant from "$lib/components/generaux/avantagesExposant.svelte";
     import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
-    import { ajouterPanier, erreur } from '$lib/outils/formHandlers';
+    import { erreur } from '$lib/outils/formHandlers';
 
     export let data;
     const abonnementsExpo = data.abonnementsExpo;
@@ -43,24 +43,22 @@
             <H2Title title={"Avantages :"} />
             <AvantagesExposant /><br>
 
-            <form on:submit|preventDefault={ajouterPanier}>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="controle">
-                            <div class="select">
-                                <select id="selectionAbonnement" name="produit_id">
-                                    {#each abonnementsExpo as abonnement}
-                                        <option value={abonnement.id}>{abonnement.desc} {abonnement.prix_v}</option>
-                                    {/each}
-                                </select>
-                            </div>
+            <div class="field-body">
+                <div class="field">
+                    <div class="controle">
+                        <div class="select">
+                            <select id="selectionAbonnement" name="produit_id">
+                                {#each abonnementsExpo as abonnement}
+                                    <option value={abonnement.id}>{abonnement.desc} {abonnement.prix_v}</option>
+                                {/each}
+                            </select>
                         </div>
                     </div>
-                </div><br>
+                </div>
+            </div><br>
 
-                <SubmitButon texte={'Acheter'} />
-                <Retour />
-            </form>
+            <BoutonBleu lien={'/creation_compte/exposant'} texte={'Acheter'} />
+            <Retour />
         </div>
     </div>
 

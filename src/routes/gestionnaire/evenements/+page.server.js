@@ -1,8 +1,9 @@
 import { findAll } from '$lib/db/controllers/Evenements.controller.js';
+import { findAllWhere } from '../../../lib/db/controllers/Evenements.controller.js';
 import { log } from '../../../lib/outils/debug.js';
 
 export async function load({ cookies, params,}){
-    let evenements = await findAll();
+    let evenements = await findAllWhere({approuve: true});
     evenements.map((x)=> {   
         x.debut_even = x.debut_even.toLocaleDateString('fr-CA');
         x.fin_even = x.fin_even.toLocaleDateString('fr-CA');
@@ -10,7 +11,5 @@ export async function load({ cookies, params,}){
         x.utilisateur_nom = x.utilisateur.nom;
             return x;});
 
-
-    // log("Load evenement = ", evenements)
     return {evenements};
 }

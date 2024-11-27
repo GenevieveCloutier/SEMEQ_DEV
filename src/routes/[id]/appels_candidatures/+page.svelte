@@ -96,32 +96,56 @@
                 <th>VILLE</th>
                 <th>DATE DE DÉBUT</th>
                 <th>DATE DE FIN</th>
-                <th>POSTULER</th>
+                <th class="has-text-centered">POSTULER</th>
                 <th>LIMITE POUR POSTULER</th>
+                <th class="has-text-centered">DÉTAILS</th>
             </tr>
         </thead>
         <tbody>
             {#each filteredEvents.filter(event => event.nom.toLowerCase().includes(searchQuery.toLowerCase())) as event}
-            <tr>
+            <tr >
                 <td>{event.nom}</td>
                 <td>{event.ville.region.nom || "Inconnue"}</td>
                 <td>{event.ville.nom || "Inconnue"}</td>
                 <td>{event.debut_even}</td>
                 <td>{event.fin_even}</td>
-                <td>
+                <td class="has-text-centered">
                     {#if event.form_cand}   <!-- Formulaire appel de candidatures -->
                         <a href="{event.form_cand}" target="_blank" class="button is-small" style="background-color: #053682; color:white">Postuler</a>
                     {:else if event.courriel}   <!-- Courriel pour information ou inscription -->
                         <a href="mailto:{event.courriel}" class="button is-small" style="background-color: #053682; color:white">Postuler</a>
-                    {:else if event.fb_even}    <!-- Événement Facebook -->
-                        <a href="{event.fb_even}" target="_blank" class="button is-small" style="background-color: #053682; color:white">Postuler</a>
-                    {:else if event.site}   <!-- Site Web ou page Facebook événement -->
-                        <a href="{event.site}" target="_blank" class="button is-small" style="background-color: #053682; color:white">Postuler</a>
-                    {:else}     <!-- Aucune information -->
+                    {:else}
                         <p>Méthode inconnue</p>
                     {/if}
                 </td>
                 <td>{event.fin_cand}</td>
+                <td class="is-flex is-justify-content-center has-text-centered">
+                    {#if event.utilisateur.abonne}
+                        <button on:click={() => window.location = `./repertoire_evenements/${event.id}`} alt="Détails de l'événement">
+                            <span class="icon"><i class="button fa-solid fa-magnifying-glass"></i></span>
+                        </button>
+                    {:else if event.site}
+                        <figure class="image is-32x32">
+                            <a href="{event.site}" target="blank"><img src="/src/lib/img/app/site_web.svg" alt="Site web de l'événement"></a>
+                        </figure>
+                    {:else if event.fb_even}
+                        <figure class=" image is-32x32">
+                            <a href="{event.fb_even}" target="blank"><img src="/src/lib/img/app/facebook.svg" alt="Page facebook de l'événement"></a>
+                        </figure>
+                    {:else if event.insta_even}
+                        <figure class=" image is-32x32">
+                            <a href="{event.insta_even}" target="blank"><img src="/src/lib/img/app/insta.svg" alt="Compte Instagram"></a>
+                        </figure>
+                    {:else if event.tiktok_even}
+                        <figure class=" image is-32x32">
+                            <a href="{event.tiktok_even}" target="blank"><img src="/src/lib/img/app/tiktok.svg" alt="Compte Tiktok"></a>
+                        </figure>
+                    {:else}
+                        <figure class=" image is-32x32">
+                            <img src="/src/lib/img/app/non_disponible.svg" alt="Aucun lien disponible">
+                        </figure>
+                    {/if}
+                </td>
             </tr>
             {/each}
         </tbody>

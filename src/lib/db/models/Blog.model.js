@@ -10,10 +10,7 @@ export const Blog = sequelize.define("blog", {
         type: DataTypes.STRING,
         allowNull: true
     },
-    date: {
-        type: DataTypes.DATE,
-        allowNull: true
-    },
+    //J'ai enlevé le champ date parceque Sequelize ajoute déjà automatiquement un champ date de création.
     image_1: {
         type: DataTypes.STRING,
         allowNull: true
@@ -24,9 +21,3 @@ export const Blog = sequelize.define("blog", {
         allowNull: true
     },
 });
-
-// sequelize.sync().then(() => {
-//     console.log('Blogs table created successfully!');
-// }).catch((error) => {
-//     console.error('Unable to create table : blogs ', error);
-// });

@@ -23,14 +23,15 @@
 
     <Recherche bind:searchQuery typeRecherche="une formation, un outil ou une ressource" />
 
-    {#if produits.filter(produit =>
-        produit.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        produit.desc.toLowerCase().includes(searchQuery.toLowerCase())
-    ).length === 0}
-        <RechercheNoResult />
-    {/if}
-
     {#if searchQuery != ""} <!-- Affichage uniquement résultats de recherche -->
+
+        {#if produits.filter(produit =>
+            produit.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            produit.desc.toLowerCase().includes(searchQuery.toLowerCase())
+        ).length === 0}
+            <RechercheNoResult />
+        {/if}
+
         <div class="fixed-grid is-col-min-10 has-2-cols-mobile has-3-cols-tablet has-4-cols-desktop has-4-cols-widescreen has-5-cols-fullhd">
             <div class="grid">
                 {#each produits.filter(produit =>

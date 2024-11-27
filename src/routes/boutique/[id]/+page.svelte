@@ -40,40 +40,35 @@
                 Prix non-abonné: {produit.prix_v}
             </p><br><br>
            
-            <form on:submit|preventDefault={ajouterPanier}>
-                <input type="hidden" name="produit_id" value={produit.id} />
-                <SubmitButon texte={'Acheter'} />
-                <Retour />
-            </form>
+            <div class="columns is-1">
+                <div class="column is-narrow">
+                    <form on:submit|preventDefault={ajouterPanier}>
+                        <input type="hidden" name="produit_id" value={produit.id} />
+                        <SubmitButon texte={'Acheter'} />
+                    </form>
+                </div>
+                <div class="column">
+                    <Retour />
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- Afficher l'économie si prix_v et prix_a ne sont pas null ("Non défini") ET qu'il y a une différence entre les prix. -->
-    {#if produit.prix_v !== "Non défini" && produit.prix_a !== "Non défini" && produit.prix_v !== produit.prix_a}
+    
     <div class="block">
-        {#if utilisateur.abonne !== true}
-            <H2Title title={"Abonnements"} />
-            En étant membre, tu économiserais <b>{economie} $</b> en plus de profiter de plusieurs avantages exclusifs!<br><br>
-            <div class="container-fluid">
-                <div class="columns mx-4 is-centered">
-            
-                    <div class="column is-two-fifths">
-                        <AbonnementExposant />
-                    </div>
-            
-                    <div class="column is-two-fifths">
-                        <AbonnementEven />
-                    </div>
-                </div>
-            </div>
-        {:else}
-            En étant membre, tu économises <b>{economie} $</b> en plus de profiter de plusieurs avantages exclusifs!<br>
-        {/if}
-    </div>
-    {:else} <!-- Si PAS de différence entre les prix, mais non-abonné -->
-        {#if utilisateur.abonne !== true}
-            <div class="block">
+        {#if utilisateur}
+            {#if utilisateur.abonne === true}
+                <!-- Afficher l'économie si prix_v et prix_a ne sont pas null ("Non défini") ET qu'il y a une différence entre les prix. -->
+                {#if produit.prix_v !== "Non défini" && produit.prix_a !== "Non défini" && produit.prix_v !== produit.prix_a}    
+                En étant membre, tu économises <b>{economie} $</b> en plus de profiter de plusieurs avantages exclusifs!<br>
+                {/if}
+            {:else}
                 <H2Title title={"Abonnements"} />
+                <!-- Afficher l'économie si prix_v et prix_a ne sont pas null ("Non défini") ET qu'il y a une différence entre les prix. -->
+                {#if produit.prix_v !== "Non défini" && produit.prix_a !== "Non défini" && produit.prix_v !== produit.prix_a}
+                    En étant membre, tu économiserais <b>{economie} $</b> en plus de profiter de plusieurs avantages exclusifs!<br><br>
+                {/if}
                 <div class="container-fluid">
                     <div class="columns mx-4 is-centered">
                 
@@ -86,8 +81,26 @@
                         </div>
                     </div>
                 </div>
+            {/if}
+        {:else}
+            <H2Title title={"Abonnements"} />
+            <!-- Afficher l'économie si prix_v et prix_a ne sont pas null ("Non défini") ET qu'il y a une différence entre les prix. -->
+            {#if produit.prix_v !== "Non défini" && produit.prix_a !== "Non défini" && produit.prix_v !== produit.prix_a}
+                En étant membre, tu économiserais <b>{economie} $</b> en plus de profiter de plusieurs avantages exclusifs!<br><br>
+            {/if}
+            <div class="container-fluid">
+                <div class="columns mx-4 is-centered">
+            
+                    <div class="column is-two-fifths">
+                        <AbonnementExposant />
+                    </div>
+            
+                    <div class="column is-two-fifths">
+                        <AbonnementEven />
+                    </div>
+                </div>
             </div>
         {/if}
-    {/if}
+    </div>
 
 </div>
