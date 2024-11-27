@@ -6,7 +6,7 @@ import BoutonMince from "$lib/components/boutons/boutonMince.svelte";
 //pour afficher seulement le jour, le mois et l'année sur les vignettes d'événements
   function formaterDate(dateStr) {
         const date = new Date(dateStr);
-        return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' ,year:'numeric'});
+        return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' ,year:'numeric', timeZone: 'UTC'} );
     }
 
 
@@ -24,7 +24,7 @@ import BoutonMince from "$lib/components/boutons/boutonMince.svelte";
         <!-- si l'utilisateur est abonné, afficher le bouton pour la fiche, sinon afficher l'icone -->
          {#if evenement.utilisateur.abonne}
             <div class="has-text-centered mt-2">
-                <BoutonMince lien={'/repertoire_evenements/id'} texte={"Voir la fiche"} />
+                <BoutonMince lien={`/repertoire_evenements/${evenement.id}`} texte={"Voir la fiche"} />
             </div>
 
         {:else if evenement.site}

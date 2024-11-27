@@ -5,11 +5,35 @@
     import Retour from '../../../../lib/components/generaux/retour.svelte';
     import Confirmation from '../../../../lib/components/notifications/confirmation.svelte';
 	import { modificationProduit } from '../../../../lib/outils/formHandlers';
+	import { log } from '../../../../lib/outils/debug';
 	export let data;
 	const { produit, types } = data;
+	let prix_1 = "Prix visiteur";
+	let prix_2 = "Prix abonné";
 	onMount(() => {
 		document.getElementById('dispo').checked = produit.dispo;
+		if (produit.type_id == 1){
+			prix_1 = "Prix de base";
+			prix_2 = "Prix par suplément";
+		}
+		else{
+			prix_1 = "Prix visiteur";
+			prix_2 = "Prix abonné";
+		}
 	});
+	
+
+	function changePrix(event){
+		log("changePrix event = ", event.target.value)
+		if (event.target.value == 1){
+			prix_1 = "Prix de base";
+			prix_2 = "Prix par suplément";
+		}
+		else{
+			prix_1 = "Prix visiteur";
+			prix_2 = "Prix abonné";
+		}
+	}
 </script>
 
 <H1Title title={"Détail d'un item (modifiable)"} />
@@ -27,7 +51,7 @@
 					<label for="type" class="label">Type</label>
 					<div class="control">
 						<div class="select is-fullwidth">
-							<select name="type_id" id="type">
+							<select name="type_id" id="type" on:change={changePrix}>
 								<option value={produit.type_id} disabled selected>{produit.type.nom}</option>
 								{#each types as type}
 									<option value={type.id}>{type.nom}</option>
@@ -42,16 +66,22 @@
 						<textarea name="desc" id="desc" class="textarea">{produit.desc}</textarea>
 					</div>
 				</div>
+				<div class="field">
+					<label for="url" class="label">url</label>
+					<div class="control">
+						<input type="text" class="input" name="url" value="{produit.url}">
+					</div>
+				</div>
 			</div>
 			<div class="column is-half">
 				<div class="field">
-					<label for="prix_v" class="label">Prix visiteur</label>
+					<label for="prix_v" class="label">{prix_1}</label>
 					<div class="control">
 						<input type="text" class="input" value={produit.prix_v} name="prix_v" />
 					</div>
 				</div>
 				<div class="field">
-					<label for="prix_a" class="label">Prix abonné</label>
+					<label for="prix_a" class="label">{prix_2}</label>
 					<div class="control">
 						<input type="text" class="input" value={produit.prix_a} name="prix_a" />
 					</div>

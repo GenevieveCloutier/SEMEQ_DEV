@@ -46,6 +46,10 @@ const cheminPhotosBlog = path.join(process.cwd(), 'src/lib/img/app/blog');
 const cheminPhotosProduits = path.join(process.cwd(), 'src/lib/img/app/produits');
 const cheminPhotosPartenaires = path.join(process.cwd(), 'src/lib/img/app/partenaires');
 
+//*Import de la clé secrete stocké dans .env
+import { TURNSTILE_SECRET_KEY } from '$env/static/private';
+import { COURRIEL_GESTIONNAIRE } from '$env/static/private';
+
 export const actions = {
 	/**
 	 ** Action pour supprimer un utilisateur à partir de son identifiant, avec option de redirection.
@@ -121,7 +125,9 @@ export const actions = {
 
 			if (logo && logo.name) {
 				const buffer = Buffer.from(await logo.arrayBuffer());
-				const nomTemporaire = randomUUID() + logo.name;
+            const extension = logo.name.substring(logo.name.lastIndexOf("."));
+            
+				const nomTemporaire = randomUUID() +  logo.name.replaceAll(/[\s\W]/g, "_") + extension;
 				const filePath = path.resolve(cheminLogos, nomTemporaire);
 				fs.writeFileSync(filePath, buffer);
 				return path.relative(process.cwd(), filePath);
@@ -137,7 +143,9 @@ export const actions = {
 
 			if (photo && photo.name) {
 				const buffer = Buffer.from(await photo.arrayBuffer());
-				const nomTemporaire = randomUUID() + photo.name;
+            const extension = photo.name.substring(photo.name.lastIndexOf("."));
+
+				const nomTemporaire = randomUUID() +  photo.name.replaceAll(/[\s\W]/g, "_") + extension;
 				const filePath = path.resolve(cheminPhotosUtilisateurs, nomTemporaire);
 				fs.writeFileSync(filePath, buffer);
 				return path.relative(process.cwd(), filePath);
@@ -164,6 +172,7 @@ export const actions = {
 				data.get('tiktok'),
 				domaine,
 				data.get('ville_id'),
+                data.get("code_postal"),
 				data.get('partage') == 'on' ? 1 : 0,
 				data.get('affichage') == 'on' ? 1 : 0,
 				data.get('abonne') == 'on' ? 1 : 0,
@@ -174,7 +183,8 @@ export const actions = {
 				photo_1,
 				photo_2,
 				photo_3,
-				logo
+				logo,
+                data.get("telephone")
 			);
 
 			createCookie(res.id, cookies, res.role_id);
@@ -250,6 +260,7 @@ export const actions = {
 				data.get('nom'),
 				data.get('type_id'),
 				data.get('desc'),
+				data.get('url'),
 				data.get('prix_v'),
 				data.get('prix_a'),
 				photo,
@@ -285,16 +296,19 @@ export const actions = {
 			return null;
 		};
 		let photo = await uploadPhoto('photo');
+		log("api data = ", data);
 		try {
 			const res = await modifProduit(data.get('id'), {
 				nom: data.get('nom'),
 				type_id: data.get('type_id'),
 				desc: data.get('desc'),
+				url: data.get('url'),
 				prix_v: data.get('prix_v'),
 				prix_a: data.get('prix_a'),
 				photo: photo,
 				dispo: data.get('dispo') == 'on' ? true : false
 		});
+		log("api res = ", res)
 			return {
 				status: 200,
 				body: {
@@ -387,7 +401,9 @@ export const actions = {
 
 			if (photo && photo.name) {
 				const buffer = Buffer.from(await photo.arrayBuffer());
-				const nomTemporaire = randomUUID() + photo.name;
+            const extension = photo.name.substring(photo.name.lastIndexOf("."));
+
+				const nomTemporaire = randomUUID() +  photo.name.replaceAll(/[\s\W]/g, "_") + extension;
 				const filePath = path.resolve(cheminPhotosEven, nomTemporaire);
 				fs.writeFileSync(filePath, buffer);
 				return path.relative(process.cwd(), filePath);
@@ -405,7 +421,7 @@ export const actions = {
 
 		let session;
 		try {
-			session = await findOneSession({ uuid: cookies.get('session') }); //ça fonctionne :D
+			session = await findOneSession({ uuid: cookies.get('session') }); 
 			//log("session dans api = ", session.utilisateur.abonne);
 		} catch (error) {
 			throw error;
@@ -432,6 +448,8 @@ export const actions = {
 				data.get('courriel'),
 				data.get('ville_id'),
 				data.get('adresse'),
+                data.get('code_postal'),
+                data.get('telephone'),
 				emplacement,
 				type,
 				data.get('type_autre'),
@@ -538,15 +556,16 @@ export const actions = {
 	 */
 	modifUtilisateur: async ({ cookies, request }) => {
 		const data = await request.formData();
+		log("dans l'api data = ", data)
 		try {
-			if (cookies.get('role') == 4 && !data.get('role_id')) {
-				let res = await modificationUtilisateur(cookies.get('id'), {
+			if (cookies.get('role') == 4 || data.get('gestionnaire') == 4) {
+				let res = await modificationUtilisateur(data.get('user_id') ?? cookies.get('id'), {
 					nom: data.get('nom'),
 					prenom: data.get('prenom'),
 					courriel: data.get('courriel'),
 					ville_id: data.get('ville_id')
 				});
-			} else if (cookies.get('role') == 3 && !data.get('role_id')) {
+			} else if (cookies.get('role') == 3 || data.get('gestionnaire') == 3) {
 				const domaine = envoieMappage(data, domaines);
 				//*Reprise du code de Gen pour les upload d'image
 				// Pour uploader et stocker les logos
@@ -580,7 +599,7 @@ export const actions = {
 				const photo_1 = await uploadPhotoUtilisateur('photo_1');
 				const photo_2 = await uploadPhotoUtilisateur('photo_2');
 				const photo_3 = await uploadPhotoUtilisateur('photo_3');
-				let res = await modificationUtilisateur(cookies.get('id'), {
+				let res = await modificationUtilisateur(data.get('user_id') ?? cookies.get('id'), {
 					nom: data.get('nom'),
 					prenom: data.get('prenom'),
 					entreprise: data.get('entreprise'),
@@ -601,7 +620,7 @@ export const actions = {
 					photo_3: photo_3,
 					log: logo
 				});
-			} else if (cookies.get('role') == 2 && !data.get('role_id')) {
+			} else if (cookies.get('role') == 2 || data.get('gestionnaire') == 2) {
 				// Pour uploader et stocker les logos
 				const uploadLogo = async (nomFichier) => {
 					const logo = data.get(nomFichier);
@@ -616,7 +635,7 @@ export const actions = {
 					return null;
 				};
 				const logo = await uploadLogo('logo');
-				let res = await modificationUtilisateur(cookies.get('id'), {
+				let res = await modificationUtilisateur(data.get('user_id') ?? cookies.get('id'), {
 					nom: data.get('nom'),
 					prenom: data.get('prenom'),
 					entreprise: data.get('entreprise'),
@@ -866,6 +885,47 @@ export const actions = {
 			return res;
 		} else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action.');
 	},
+	
+	contactMessage: async ({request}) => {
+		const data = await request.formData();
+		try {
+			const captcha = await verifCloudflare(data.get('cf-turnstile-response'));
+			if(!captcha) return fail(401,{message: "Le captcha n'est pas valide."});
+			const messageContact = redacteurContact(data.get('nom'), data.get('courriel'), data.get('message'));
+			await envoieCourriel(
+				COURRIEL_GESTIONNAIRE,
+				'Contacte du SEMEQ',
+				messageContact
+			);
+			return {
+				status: 200,
+				body: {
+					message: 'Message envoyé avec succès'
+				}
+			};
+			
+		} catch (error) {
+			return fail(401, error);
+		}
+	}
+};
+
+async function verifCloudflare(token){
+		const verifyUrl = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'; //*L'url de l'api de verification de token chez cloudflare
+		const response = await fetch(verifyUrl, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			body: `secret=${TURNSTILE_SECRET_KEY}&response=${token}` //*On envoie notre cle secrete turnstile avec le token
+		});
+		const cloudflare = await response.json();
+		if (cloudflare.success) {
+			//*Token validé, continue avec le traitement
+			return true;
+		} else {
+			//*Si le captcha ne renvoie pas de succcess, on envoie une erreur
+			return false;
+		} //*L'objet renvoyé par l'api
+		return cloudflare;
 };
 
 /**
@@ -959,6 +1019,96 @@ function redacteurCourriel(prenom, lien) {
                 <footer class="footer">
                     <p>Si vous rencontrez un problème avec le bouton, vous pouvez aussi copier/coller cette adresse dans votre navigateur :</p>
                     <p>${lien}</p>
+                    <p>© 2024 Répertoire SEMEQ - Tous droits réservés</p>
+                </footer>
+            </div>
+        </body>
+    </html>
+    `;
+}
+
+function redacteurContact(nom, courriel, message) {
+	return `
+    <!doctype html>
+    <html lang="fr-CA">
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <style>
+                body {
+                    font-family: 'Poppins', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+                    background-color: #f4f4f4;
+                    margin: 0;
+                    padding: 0;
+                }
+                .container {
+                    width: 100%;
+                    max-width: 600px;
+                    margin: 0 auto;
+                    background-color: #ffffff;
+                    padding: 20px;
+                    border-radius: 10px;
+                }
+                .header {
+                    text-align: center;
+                    background-color: #f4f4f4;
+                    padding: 20px;
+                    border-radius: 10px 10px 0 0;
+                }
+                .header img {
+                    max-width: 150px;
+                }
+                .header p {
+                    font-size: 16px;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                    text-align: left;
+                    margin-top: 10px;
+                }
+                h1 {
+                    font-size: 24px;
+                    color: #184287;
+                }
+                .button {
+                    background-color: #184287;
+                    color: white;
+                    padding: 10px 20px;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    display: inline-block;
+                    margin-top: 20px;
+                }
+                .footer {
+                    margin-top: 30px;
+                    font-size: 10px; /* Réduis cette valeur pour que le texte soit plus petit */
+                    color: #666666;
+                    text-align: center;
+                }
+                p {
+                    font-size: 14px;
+                    color: #333333;
+                    line-height: 1.5;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <figure>
+                        <a href="/">
+                            <img src="/src/lib/img/app/logo.png" alt="logo SEMEQ" /> 
+                        </a>
+                    </figure>
+                    <p>Le répertoire des salons, événements, marchés et expositions du Québec</p>
+                </div>
+                <h1>Message du formulaire de contact</h1>
+                <p>Bonjour Nancy.</p>
+                <p>Une demande de contacte a été faite sur le site du répertoire SEMEQ</p>
+                <p>Nom de l’expéditeur: ${nom}</p>
+                <p>Courriel de l'expéditeur: ${courriel}</p>
+                <p>Message:</p>
+				<p style="border: solid 1px black;">${message}</p>
+                <footer class="footer">
                     <p>© 2024 Répertoire SEMEQ - Tous droits réservés</p>
                 </footer>
             </div>

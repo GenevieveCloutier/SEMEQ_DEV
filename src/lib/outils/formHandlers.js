@@ -26,7 +26,8 @@ export async function handleUserDelete(p_id) {
 	//mettre un premier niveau de securite ici pour verifier les droits
 	const formData = new FormData();
 	formData.append('id', p_id);
-	const response = await fetch('./api?/supprimeUtilisateur', {
+	const etapesArriere = window.location.pathname.split('/')[1] == 'gestionnaire' ? "../../" : "./";
+	const response = await fetch(etapesArriere + 'api?/supprimeUtilisateur', {
 		method: 'POST',
 		body: formData
 	});
@@ -34,7 +35,10 @@ export async function handleUserDelete(p_id) {
 	const result = await response.json();
 
 	if (result.type === 'success') {
-		goto('/deconnexion');
+		if( etapesArriere === "../../")
+			goto('/gestionnaire/utilisateurs');
+		else
+			goto('/deconnexion');
 	} else {
 		'Erreur : ' + JSON.parse(result.data)[0];
 	}
@@ -176,6 +180,25 @@ export async function creationExposant(event) {
 			erreur.set('Merci de remplir le champ NEQ ou cocher la case "Je n\'ai pas de NEQ".');
 			return;
 		}
+
+			//limiter la taille à 5 mo
+			const formatMax = 5 * 1024 * 1024; 
+			const fichierSoumis = event.target.querySelectorAll(
+				'input[type="file"]'
+			);
+	
+			for (const x of fichierSoumis) {
+				const tableauFichiers = x.files; 
+				if (tableauFichiers.length > 0) {
+					for (const fichier of tableauFichiers) {
+						if (fichier.size > formatMax) {
+							erreur.set(`Le fichier ${fichier.name} dépasse la taille maximale autorisée de  Mo. Sélectionner un autre fichier.`);
+							return;
+						}
+					}
+				}
+			}
+			
 		const response = await fetch('../api?/nouvelUtilisateur', {
 			method: 'POST',
 			body: formData
@@ -216,6 +239,24 @@ export async function creationOrganisateur(event) {
 		if (!neqInput.value && !noNeqCheckbox.checked) {
 			erreur.set('Merci de remplir le champ NEQ ou cocher la case "Je n\'ai pas de NEQ".');
 			return;
+		}
+
+		//limiter la taille à 5 mo
+		const formatMax = 5 * 1024 * 1024; 
+		const fichierSoumis = event.target.querySelectorAll(
+			'input[type="file"]'
+		);
+
+		for (const x of fichierSoumis) {
+			const tableauFichiers = x.files; 
+			if (tableauFichiers.length > 0) {
+				for (const fichier of tableauFichiers) {
+					if (fichier.size > formatMax) {
+						erreur.set(`Le fichier ${fichier.name} dépasse la taille maximale autorisée de  Mo. Sélectionner un autre fichier.`);
+						return;
+					}
+				}
+			}
 		}
 
 		const response = await fetch('../api?/nouvelUtilisateur', {
@@ -316,7 +357,8 @@ export async function modificationProduit(event) {
 			goto('/gestionnaire/boutique')
 			success.set('Produit modifié avec succès!');
 		}
-		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+		log("formhandler result = ", result)
+		// if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {
 		console.error('erreur inattendue : ', error);
 		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
@@ -421,6 +463,25 @@ export async function creationEvenementPayant(event) {
 			erreur.set("Merci de sélectionner au moins un type d'exposant.");
 			return;
 		}
+
+		//limiter la taille à 5 mo
+		const formatMax = 5 * 1024 * 1024; 
+		const fichierSoumis = event.target.querySelectorAll(
+			'input[type="file"]'
+		);
+
+		for (const x of fichierSoumis) {
+			const tableauFichiers = x.files; 
+			if (tableauFichiers.length > 0) {
+				for (const fichier of tableauFichiers) {
+					if (fichier.size > formatMax) {
+						erreur.set(`Le fichier ${fichier.name} dépasse la taille maximale autorisée de  Mo. Sélectionner un autre fichier.`);
+						return;
+					}
+				}
+			}
+		}
+
 
 		const response = await fetch('../../api?/nouvelEvenement', {
 			method: 'POST',
@@ -610,7 +671,8 @@ export async function modifUtilisateur(event) {
 			}
             
 		}
-		const response = await fetch('../api?/modifUtilisateur', {
+		const etapesArriere = window.location.pathname.split('/')[1] == 'gestionnaire' ? "../../" : "../";
+		const response = await fetch(etapesArriere + 'api?/modifUtilisateur', {
 			method: 'POST',
 			body: formData
 		});
@@ -775,5 +837,28 @@ export async function supprimeCodePromo(p_id) {
 		goto(`/gestionnaire/codes_promo`);
 	}else{
 		erreur.set(JSON.parse(result.data)[0]);
+	}
+}
+
+export async function contact(event) {
+	chargement();
+    erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+        const response = await fetch('../api?/contactMessage', {
+            method: 'POST',
+            body: formData
+        });
+		const result = await response.json();
+		if(result.status == 200){
+            // window.location.reload();
+			success.set("Votre message a bien été envoyé.");
+		}
+		if (result.status == 401){
+            erreur.set(JSON.parse(result.data)[1]);
+        }
+	} catch (error) {
+		console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
 	}
 }

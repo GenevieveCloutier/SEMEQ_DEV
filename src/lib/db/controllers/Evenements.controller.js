@@ -124,6 +124,8 @@ export async function findOne(p_where) {
  * @param {string} p_courriel - L'adresse courriel de l'événement.
  * @param {number} p_ville_id - L'ID de la ville de l'événement.
  * @param {string} p_adresse - L'adresse de l'événement.
+ * @param {string} p_code_postal - Le code postal de l'événement.
+ * @param {string} p_telephone - Le numéro de téléphone de l'événement.
  * @param {string} p_emplacement - L'emplacement spécifique de l'événement.
  * @param {string} p_type - Le type de l'événement.
  * @param {string} p_type_autre - Autre type d'événement, si applicable.
@@ -161,6 +163,8 @@ export async function creationEvenement(
 	p_courriel,
 	p_ville_id,
 	p_adresse,
+	p_code_postal,
+	p_telephone,
 	p_emplacement,
 	p_type,
 	p_type_autre,
@@ -211,6 +215,8 @@ export async function creationEvenement(
 			courriel: p_courriel,
 			ville_id: p_ville_id,
 			adresse: p_adresse,
+			code_postal: p_code_postal,
+			telephone: p_telephone,
 			emplacement: p_emplacement,
 			type: p_type,
 			type_autre: p_type_autre,

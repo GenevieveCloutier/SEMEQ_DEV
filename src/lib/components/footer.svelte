@@ -14,23 +14,24 @@
 				<h3 class="is-size-5 mb-3">Contact</h3>
 				<a class="is-size-7 has-text-link" href="/a_propos">À propos</a><br />
 				<a class="is-size-7 has-text-link" href="/contact">Nous joindre</a><br />
+				<a class="is-size-7 has-text-link" href="/faq">F.A.Q.</a><br />
 			</div>
 
 			<div class="column has-text-centered is-full-mobile is-full-tablet is-one-quarter-desktop">
 				<h3 class="is-size-5 mb-3 ">Partenaires</h3>
 
-				<div class="columns media">
-					<div class="column is-one-third media-left">
+				<div class="columns is-one-third media is-mobile">
+					<div class="column is-one-third media-left is-mobile">
 						<figure class="image is-96x96 ">
 							<a href="/partenaires"><img src="/src/lib/img/app/vague_de_concours.png"alt="Logo de la Vague de Concours"/></a>
 						</figure>
 					</div>
-					<div class="column is-one-third media-content">
+					<div class="column is-one-third media-content is-mobile">
 						<figure class="image is-96x96">
 							<a href="/partenaires"><img src="/src/lib/img/app/cyberimpact.png" alt="Logo de Cyberimpact" /></a>
 						</figure>
 					</div>
-					<div class="column is-one-third is-hidden-mobile">
+					<div class="column is-one-third is-mobile">
 						<figure class="image is-96x96"><a href="/partenaires"><img src="/src/lib/img/app/votre_pub.svg" alt="Affichez votre pub ici" /></a>
 						</figure>
 					</div>

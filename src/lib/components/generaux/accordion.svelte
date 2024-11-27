@@ -8,6 +8,7 @@
         
 	import { setContext, getContext } from 'svelte';
 	import { writable } from 'svelte/store';
+    export let fonction = () => {};
 	
 	const key = {};
 	
@@ -41,20 +42,23 @@
 			open = false;
 </script>
   
-  <div class="accordion">
+  <div class="accordion ">
       <div class="header">
 
             <!-- si ouvert, afficher la flèche par en haut -->
             {#if open}
-            <button on:click={handleClick} >
-                <slot name="head"></slot>
+            <button class="is-flex is-align-items-center is-justify-content-space-between"
+                on:click={handleClick} 
+                on:click={fonction} >
+            <slot name="head"></slot>
                 <i class="fa-solid fa-chevron-up"></i>
             </button>
 
             <!-- si fermé, afficher la flèche par en bas -->
             {:else}
-            <button on:click={handleClick} >
-                <slot name="head"></slot>
+            <button class="is-flex is-align-items-center is-justify-content-space-between"
+                on:click={handleClick}>
+            <slot name="head"></slot>
                 <i class="fa-solid fa-chevron-down"></i>
             </button>
             {/if}

@@ -8,7 +8,8 @@
 	import Confirmation from '$lib/components/notifications/confirmation.svelte';
 
     export let data;
-    const { code } = data;
+    const code = data.code;
+    const categories = data.categories;
 </script>
 
 <H1Title title={"Modification d'un code promo"} />
@@ -61,6 +62,20 @@
                         value="{code.avantage}"
                         required
 				></textarea>
+            </div>
+
+            <div class="field">
+                <label for="categorie_id" class="label">Catégorie <span class="rouge">*</span></label>
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select name="categorie_id" id="type">
+                            <option value={code.categorie_id} disabled selected required>{code.categorie.nom}</option>
+                            {#each categories as categorie}
+                                <option value={categorie.id}>{categorie.nom}</option>
+                            {/each}
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div class="field">

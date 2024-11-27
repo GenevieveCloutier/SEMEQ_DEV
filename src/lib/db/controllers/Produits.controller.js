@@ -78,7 +78,7 @@ export async function suppressionProduit(p_id){
 }
 
 
-export async function nouveauProduit(p_nom, p_type_id, p_desc, p_prix_v, p_prix_a, p_photo, p_dispo) {
+export async function nouveauProduit(p_nom, p_type_id, p_desc, p_url, p_prix_v, p_prix_a, p_photo, p_dispo) {
 	try {
         const doublon = await findOne({nom: p_nom});
         if (doublon) throw "Un produit avec ce nom éxiste déjà";
@@ -86,6 +86,7 @@ export async function nouveauProduit(p_nom, p_type_id, p_desc, p_prix_v, p_prix_
 			nom: p_nom,
 			type_id: p_type_id,
 			desc: p_desc,
+            url: p_url,
 			prix_v: p_prix_v,
             prix_a: p_prix_a,
             photo: p_photo,
@@ -105,13 +106,15 @@ export async function modifProduit(p_id, p_modifications) {
 			nom: p_modifications.nom ?? produit.nom,
 			type_id: p_modifications.type_id ?? produit.type_id,
 			desc: p_modifications.desc ?? produit.desc,
+            url: p_modifications.url ?? produit.url,
 			prix_v: p_modifications.prix_v ?? produit.prix_v,
-			prix_a: p_modifications.prix_a ?? produit.prix_v,
-			photo: p_modifications.photo ?? produit.prix_v,
+			prix_a: p_modifications.prix_a ?? produit.prix_a,
+			photo: p_modifications.photo ?? produit.photo,
 			dispo: p_modifications.dispo,
 		});
 		return produit.dataValue
 	} catch (error) {
+        log("erreur dans le controler = ", error)
 		throw error;
 	}
 }
