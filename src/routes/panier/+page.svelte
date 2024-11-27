@@ -1,3 +1,4 @@
+
 <script>
     import H1Title from "$lib/components/titres/h1Title.svelte";
     import H2Title from "$lib/components/titres/h2Title.svelte";
@@ -6,10 +7,10 @@
     import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
     import AbonnementEven from '$lib/components/boites/abonnementEven.svelte';
     import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
-    import { deleteOnePanier } from '$lib/outils/formHandlers';
     import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
-    import ViderPanier from '$lib/components/notifications/viderPanier.svelte';
+    import { deleteOnePanier } from '$lib/outils/formHandlers';
+    import confirmation from '$lib/components/notifications/confirmation.svelte';
 
     export let data;
     const paniers = data.paniers;
@@ -69,7 +70,7 @@
             {/if}
         </section>
 
-    {:else}
+        {:else}
         <!-- Boutons supprimer produits/vider panier -->
         <div class="columns is-1">
             <div class="column is-narrow">
@@ -79,10 +80,10 @@
                 </form>
             </div>
             <!--<div class="column">
-                <ViderPanier utilisateur_id={utilisateur.id} />
+                <Confirmation utilisateur_id={utilisateur.id} />
             </div>-->
         </div>
-    
+
         <div class="columns">
             <div class="column is-three-quarters">
                 <table class="table is-striped is-fullwidth">
@@ -189,7 +190,7 @@
 
         <div class="block has-text-right">
             <Retour />
-        </div>        
+        </div>
     {/if}
 
 </div>
