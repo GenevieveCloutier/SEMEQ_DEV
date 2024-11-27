@@ -42,6 +42,12 @@
 						<textarea name="desc" id="desc" class="textarea">{produit.desc}</textarea>
 					</div>
 				</div>
+				<div class="field">
+					<label for="url" class="label">url</label>
+					<div class="control">
+						<input type="text" class="input" name="url" value="{produit.url}">
+					</div>
+				</div>
 			</div>
 			<div class="column is-half">
 				<div class="field">

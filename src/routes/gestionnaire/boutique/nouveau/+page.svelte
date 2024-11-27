@@ -37,6 +37,12 @@
 						<textarea name="desc" id="desc" class="textarea" placeholder="Description du produit"></textarea>
 					</div>
 				</div>
+				<div class="field">
+					<label for="url" class="label">url</label>
+					<div class="control">
+						<input type="text" class="input" name="url">
+					</div>
+				</div>
 			</div>
 			<div class="column is-half">
 				<div class="field">
