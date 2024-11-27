@@ -26,7 +26,7 @@ export async function load({ cookies, params }){
     let resultat = achats.map(achat => ({
         ...achat.dataValues,
         prix: achat.prix === null ? "Non défini" : achat.prix === 0 ? "Gratuit" : `${achat.prix.toFixed(2)} $`,
-        date: achat.date.toLocaleDateString('fr-CA', {timeZone: 'America/Montreal'}),
+        date: achat.date.toLocaleDateString('fr-CA', {timeZone: 'UTC'}),
         utilisateur: achat.utilisateur ? achat.utilisateur.dataValues : null,
         produit: achat.produit ? {
             ...achat.produit.dataValues,
