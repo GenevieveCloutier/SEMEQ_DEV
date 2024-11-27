@@ -199,8 +199,9 @@
         </div>
         <div class="block">
             <figure class=" image is-320x480 is-hidden-tablet-only">
-                <img src="https://bulma.io/assets/images/placeholders/320x480.png" alt="photo de marche"/>
+                <img src="/src/lib/img/app/accueil/image_accueil_exposant.jpg" alt="kiosque en marche"/>
             </figure>
+            <a class="is-size-7" href="https://la-vitrine-vaudreuil-soulanges.odoo.com/" target="blank">Crédit photo: La Vitrine Vaudreuil Soulanges</a>
         </div>
     </div>
 </div>   

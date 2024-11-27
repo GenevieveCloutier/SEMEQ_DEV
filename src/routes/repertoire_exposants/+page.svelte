@@ -51,32 +51,10 @@
         repertoireEntier.hidden = false; 
     }
 
-//afficher la flèche bleue quand une région est sélectionnée
-  function afficherFleche(){
-    resetCouleur()
-    this.style.backgroundImage="url('/src/lib/img/app/fleche.png')";
-    this.style.color="white";
-    this.style.fontWeight="bold";
-    };
-
-    let exposantsFiltre ="";
-    let chaqueDomaine = "";
-    let tableauDomaines = "";
-    let valeurDomaine = "" ;
-    let valeurRegion = "";
-
-function filtreRegionDomaine(){
-    exposantsFiltre = exposants;
-    exposantsFiltre = exposantsFiltre.filter(
-        exposant => exposant.ville.region.nom.split(" ")[0] == valeurRegion
-        && (exposant.domaine & valeurDomaine) == valeurDomaine
-    ); 
-    return exposantsFiltre
-}
-
 //aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDomaine()
-  function chercherValeurRegion(){
+function chercherValeurRegion(){
     valeurRegion = this.value;
+    console.log(valeurRegion) //ok
 
     //exceptions pour les 2 regions à double tiret
     if(valeurRegion == "Saguenay-Lac-Saint-Jean"){
@@ -95,6 +73,32 @@ function filtreRegionDomaine(){
     return valeurRegion
   };
 
+//afficher la flèche bleue quand une région est sélectionnée
+  function afficherFleche(){
+    resetCouleur()
+    this.style.backgroundImage="url('/src/lib/img/app/fleche.png')";
+    this.style.color="white";
+    this.style.fontWeight="bold";
+    };
+
+    let exposantsFiltre ="";
+    let chaqueDomaine = "";
+    let tableauDomaines = "";
+    let valeurDomaine = "" ;
+    let valeurRegion = "";
+  
+
+function filtreRegionDomaine(){
+    exposantsFiltre = exposants;
+    exposantsFiltre = exposantsFiltre.filter(
+        exposant => exposant.ville.region.nom.split(" ")[0] == valeurRegion
+        && (exposant.domaine & valeurDomaine) == valeurDomaine
+    ); 
+    return exposantsFiltre
+}
+
+
+
 //aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDomaine()
 function chercherValeurDomaine(domaine){
     valeurDomaine = domaine.valeur;
@@ -111,14 +115,16 @@ function chercherValeurDomaine(domaine){
     tableauDomaines = new Set();
 
     for(let x = 0; x<exposants.length; x++){
+        if(exposants[x].ville){
+
         if(exposants[x].ville.region.nom.split(" ")[0] == valeurRegion){
             chaqueDomaine = (recupMappage(exposants[x].domaine, domaines))
         }
-
        for (let y = 0; y<chaqueDomaine.length; y++){
         chaqueDomaine[y] = mappageDomaines[chaqueDomaine[y]] || chaqueDomaine[y];
         tableauDomaines.add(chaqueDomaine[y])
        }
+    }
     };
     //pour trier la liste pour affichage par ordre alphabetique
     tableauDomaines = [...tableauDomaines].sort((a, b) => a.nom.localeCompare(b.nom))

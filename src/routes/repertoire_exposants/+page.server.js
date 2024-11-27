@@ -15,8 +15,8 @@ export async function load({params, cookies}){
 
     const exposants = await Utilisateur.findAll({
         where: {
-            //afficher seulement les utilisateurs qui sont exposants ou organisateurs (pour afficher l'entreprise de Nancy!)
-              role_id: [1,3],
+            //afficher seulement les utilisateurs qui sont exposants
+              role_id: [3],
           },
         include: [
             { model: Role, as: "role" },

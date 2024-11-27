@@ -8,6 +8,7 @@
     import BoutonBleu from "$lib/components/boutons/boutonBleu.svelte";
     import UnEvenement from "$lib/components/repertoires/unEvenement.svelte";
     import AccordionVisiteur, { createAccordionContext } from "$lib/components/generaux/accordionVisiteur.svelte";
+    import Modal from "$lib/components/generaux/modal.svelte";
 	import { Cookies } from "nodemailer/lib/fetch";
     import { onMount } from "svelte";
     import Recherche from '$lib/components/generaux/recherche.svelte';
@@ -18,6 +19,15 @@
 
 //pour créer le contexte pour que les sections d'accordéon se referment quand on clique sur une autre
     createAccordionContext(); 
+
+//images à afficher dans le component Modal pour afficher en grand
+  const images=[
+    "/src/lib/img/app/accueil/visiteur_1.jpg",
+    "/src/lib/img/app/accueil/visiteur_2.jpg",
+    "/src/lib/img/app/accueil/visiteur_3.jpg",
+    "/src/lib/img/app/accueil/visiteur_4.jpg",
+    "/src/lib/img/app/accueil/visiteur_5.jpg",
+]
 
 //pour la recherche de région
     let evenementsFiltre ="" 
@@ -86,6 +96,8 @@ let regionActive = null;
 
 <H1Title title={"Qui sommes nous?"} />
 
+
+
 <div class="container is-fluid mb-6 has-text-centered">
     <p>Trouvez tous les salons d'artisans, les événements, les marchés publics éphémères ainsi que les
         expositions du Québec au même endroit.
@@ -105,46 +117,27 @@ de chez-toi, tu pourras, grâce à notre <a href="repertoire_evenements">répert
 </div>
 
 <div class="container is-fluid mt-6 mb-6">
-    <div class="columns has-text-centered">
+    <div class="columns is-mobile is-centered is-multiline has-text-centered">
 
-        <div class="column">
-        </div>
+        <div class="column is-hidden-mobile"></div>
 
-        <div class="column is-flex centerImage">
-            <figure class="image is-128x128">
-                <img src="https://bulma.io/assets/images/placeholders/128x128.png" alt=""/>
-              </figure>
-        </div>
-
-        <div class="column is-flex centerImage">
-            <figure class="image is-128x128">
-                <img src="https://bulma.io/assets/images/placeholders/128x128.png" alt=""/>
-              </figure>
-        </div>
-
-        <div class="column is-flex centerImage">
-            <figure class="image is-128x128">
-                <img src="https://bulma.io/assets/images/placeholders/128x128.png" alt=""/>
-              </figure>
-        </div>
-
-        <div class="column is-flex centerImage">
-            <figure class="image is-128x128">
-                <img src="https://bulma.io/assets/images/placeholders/128x128.png" alt=""/>
-              </figure>
-        </div>
-
-        <div class="column is-flex centerImage">
-            <figure class="image is-128x128">
-                <img src="https://bulma.io/assets/images/placeholders/128x128.png" alt=""/>
-              </figure>
-        </div>
-
-        <div class="column">
-        </div>
+                {#each images as image}
+                <div class="column is-flex is-justify-content-center is-align-items-center centerImage">
+                    <figure>
+                        <Modal image={image}/>
+                    </figure>
+                </div>
+                {/each}
+            
+        <div class="column is-hidden-mobile"></div>
 
     </div>
+
+    <div class="has-text-centered">
+        <a class="is-size-7" href="https://la-vitrine-vaudreuil-soulanges.odoo.com/" target="blank">Crédit photo: La Vitrine Vaudreuil Soulanges</a>
+    </div>
 </div>
+
 
 <div class="has-text-centered mt-5">
     <H3Title title={"Marchés à venir"} />
@@ -175,7 +168,6 @@ de chez-toi, tu pourras, grâce à notre <a href="repertoire_evenements">répert
             <H2AvecSousTitre title={"Tous les marchés de la semaine:"} 
             subtitle={"(Clique sur une région pour afficher les marchés)"} />
             <div class="container is-fluid">
-            
             
             <div>
                 {#if [...afficherRegions].length > 0}
@@ -221,9 +213,6 @@ de chez-toi, tu pourras, grâce à notre <a href="repertoire_evenements">répert
 
 
 <style>
-    .texte-bleu{
-        color: #184287;
-    }
 
     .bordure{
         border:1px solid lightgray;
@@ -232,9 +221,9 @@ de chez-toi, tu pourras, grâce à notre <a href="repertoire_evenements">répert
     } 
 
     .bouton{
-    width:100%;
-    background-repeat: no-repeat ;
-    padding: 0.2rem;
+        width:100%;
+        background-repeat: no-repeat ;
+        padding: 0.2rem;
     }
 
     input {
@@ -247,6 +236,7 @@ de chez-toi, tu pourras, grâce à notre <a href="repertoire_evenements">répert
 
     .centerImage{
         justify-content: center;
+        min-width: 128px;
     }
 
     /* pour afficher la région sélectionnée avec la flèche */
@@ -255,8 +245,10 @@ de chez-toi, tu pourras, grâce à notre <a href="repertoire_evenements">répert
         background-color: #184287;
         padding: 0.5rem;
         font-weight: bold;
-        }
+    }
 
 
+  
 
+    
 </style>
