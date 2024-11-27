@@ -9,7 +9,6 @@
     import { deleteOnePanier } from '$lib/outils/formHandlers';
     import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
-    import ViderPanier from '$lib/components/notifications/viderPanier.svelte';
 
     export let data;
     const paniers = data.paniers;
@@ -79,7 +78,6 @@
                 </form>
             </div>
             <!--<div class="column">
-                <ViderPanier utilisateur_id={utilisateur.id} />
             </div>-->
         </div>
     
