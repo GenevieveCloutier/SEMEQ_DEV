@@ -40,26 +40,31 @@
 	
 		$: if ($current != currentKey)
 			open = false;
+
 </script>
   
-  <div class="accordion ">
+  <div class="accordion">
       <div class="header">
 
             <!-- si ouvert, afficher la flèche par en haut -->
             {#if open}
-            <button class="is-flex is-align-items-center is-justify-content-space-between"
-                on:click={handleClick} 
-                on:click={fonction} >
-            <slot name="head"></slot>
-                <i class="fa-solid fa-chevron-up"></i>
-            </button>
+ 
+                    <button on:click={handleClick} on:click={fonction} >
+                                <slot name="head"></slot>
+                            <!-- <div class="column">
+                                <i class="fa-solid fa-chevron-up"></i>
+                            </div> -->
+                    </button>
+             
 
             <!-- si fermé, afficher la flèche par en bas -->
             {:else}
-            <button class="is-flex is-align-items-center is-justify-content-space-between"
-                on:click={handleClick}>
-            <slot name="head"></slot>
-                <i class="fa-solid fa-chevron-down"></i>
+            <button on:click={handleClick}>
+                        <slot name="head"></slot>
+                    <!-- <div class="column">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div> -->
+
             </button>
             {/if}
         
@@ -67,9 +72,9 @@
       
             <!-- si ouvert, afficher le texte / résulats -->
             {#if open}
-            <div class="details" transition:slide="{{ duration: 150, easing: quadInOut }}" >
-                <slot name="details"></slot>
-            </div>
+                <div class="details" transition:slide="{{ duration: 150, easing: quadInOut }}" >
+                    <slot name="details"></slot>
+                </div>
             {/if}
 
   </div>
@@ -77,6 +82,7 @@
   <style>
       div.accordion {
           margin: 1rem 0;
+          
       }
       
       div.header {
@@ -95,5 +101,9 @@
       }
       .fa-chevron-down, .fa-chevron-up{
         color: #184287;
+      }
+
+      .bordure{
+        border:1px solid black;
       }
   </style>

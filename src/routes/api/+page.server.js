@@ -125,7 +125,9 @@ export const actions = {
 
 			if (logo && logo.name) {
 				const buffer = Buffer.from(await logo.arrayBuffer());
-				const nomTemporaire = randomUUID() + logo.name;
+            const extension = logo.name.substring(logo.name.lastIndexOf("."));
+            
+				const nomTemporaire = randomUUID() +  logo.name.replaceAll(/[\s\W]/g, "_") + extension;
 				const filePath = path.resolve(cheminLogos, nomTemporaire);
 				fs.writeFileSync(filePath, buffer);
 				return path.relative(process.cwd(), filePath);
@@ -141,7 +143,9 @@ export const actions = {
 
 			if (photo && photo.name) {
 				const buffer = Buffer.from(await photo.arrayBuffer());
-				const nomTemporaire = randomUUID() + photo.name;
+            const extension = photo.name.substring(photo.name.lastIndexOf("."));
+
+				const nomTemporaire = randomUUID() +  photo.name.replaceAll(/[\s\W]/g, "_") + extension;
 				const filePath = path.resolve(cheminPhotosUtilisateurs, nomTemporaire);
 				fs.writeFileSync(filePath, buffer);
 				return path.relative(process.cwd(), filePath);
@@ -168,6 +172,7 @@ export const actions = {
 				data.get('tiktok'),
 				domaine,
 				data.get('ville_id'),
+                data.get("code_postal"),
 				data.get('partage') == 'on' ? 1 : 0,
 				data.get('affichage') == 'on' ? 1 : 0,
 				data.get('abonne') == 'on' ? 1 : 0,
@@ -178,7 +183,8 @@ export const actions = {
 				photo_1,
 				photo_2,
 				photo_3,
-				logo
+				logo,
+                data.get("telephone")
 			);
 
 			createCookie(res.id, cookies, res.role_id);
@@ -391,7 +397,9 @@ export const actions = {
 
 			if (photo && photo.name) {
 				const buffer = Buffer.from(await photo.arrayBuffer());
-				const nomTemporaire = randomUUID() + photo.name;
+            const extension = photo.name.substring(photo.name.lastIndexOf("."));
+
+				const nomTemporaire = randomUUID() +  photo.name.replaceAll(/[\s\W]/g, "_") + extension;
 				const filePath = path.resolve(cheminPhotosEven, nomTemporaire);
 				fs.writeFileSync(filePath, buffer);
 				return path.relative(process.cwd(), filePath);
@@ -409,7 +417,7 @@ export const actions = {
 
 		let session;
 		try {
-			session = await findOneSession({ uuid: cookies.get('session') }); //ça fonctionne :D
+			session = await findOneSession({ uuid: cookies.get('session') }); 
 			//log("session dans api = ", session.utilisateur.abonne);
 		} catch (error) {
 			throw error;
@@ -436,6 +444,8 @@ export const actions = {
 				data.get('courriel'),
 				data.get('ville_id'),
 				data.get('adresse'),
+                data.get('code_postal'),
+                data.get('telephone'),
 				emplacement,
 				type,
 				data.get('type_autre'),

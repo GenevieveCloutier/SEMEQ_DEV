@@ -86,22 +86,6 @@ export async function load({ params, cookies }) {
     const users = await findAll();
     const session = cookies.get('session');
     const role = cookies.get('role');
-    // redirection temporaire, enlever quand la vraie page d'accueil sera faite
-    if (!role){
-        redirect(302, '/exposant');
-    }
-    if (role == '1'){
-        redirect(302, '/gestionnaire');
-    }
-    if (role == '2'){
-        redirect(302, '/organisateur');
-    }
-    if (role == '3'){
-        redirect(302, '/exposant');
-    }
-    if (role == '4'){
-        redirect(302, '/visiteur');
-    }
-    
+ 
     return {users: users, session: session}; //tous les utilisateurs
 }
