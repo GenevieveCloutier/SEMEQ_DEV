@@ -31,17 +31,20 @@ export async function load({params, cookies}){
    const events = await Evenement.findAll({
        order:[['debut_even']],
        where: {
-           [Op.and]: 
+           [Op.and]: [
             //afficher seulement les événements approuvés
              { approuve: 1},
 
             //dont les dates sont entre 1 mois de moins que le mois actuel et 10 mois de plus que le mois actuel
-             [Op.or]:[
-                { debut_even: { [Op.between]: [dateDebut, dateFin] } }, 
-                { fin_even: { [Op.between]: [dateDebut, dateFin] } } 
-             ]
+            {
+                [Op.or]:[
+                    { debut_even: { [Op.between]: [dateDebut, dateFin] } }, 
+                    { fin_even: { [Op.between]: [dateDebut, dateFin] } } 
+                ]
+            }
+        ]
            
-         },
+    },
        include: [
            { model: Utilisateur, as: "utilisateur" },
            { model: Ville, as: "ville",

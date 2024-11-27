@@ -17,19 +17,22 @@
         <div class="card-content">
             {#if exposant.entreprise}
                 <p class="has-text-weight-bold">{exposant.entreprise}</p>
-            {:else}
+            {:else if exposant.prenom && exposant.nom}
                 <p class="has-text-weight-bold">{exposant.prenom} {exposant.nom}</p>
+            {:else}
+                <p class="has-text-weight-bold">Non disponible</p>
             {/if}
-            <p class="mt-3">{exposant.ville.nom}</p>
 
-            <!-- enlever cette ligne après la démo -->
-            <p>{recupMappage(exposant.domaine, domaines)}</p>
+            {#if exposant.ville}
+            <p class="mt-3">{exposant.ville.nom}</p>
+            {:else}<p class="has-text-weight-bold">Non disponible</p>
+            {/if}
             
             <!-- si l'utilisateur a un abonnement actif, afficher le bouton pour la fiche, sinon afficher l'icone -->
              {#if exposant.abonne == 1}
 
                 <div class="has-text-centered mt-2">
-                    <BoutonMince lien={'/repertoire_exposants/id'} texte={"Voir la fiche"} />
+                    <BoutonMince lien={`/repertoire_exposants/${exposant.id}`} texte={"Voir la fiche"} />
                 </div>
             
             {:else if exposant.site}

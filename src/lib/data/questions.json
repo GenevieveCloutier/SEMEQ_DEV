@@ -1,0 +1,37 @@
+[
+    {
+       "question": "Qu’est-ce que le Répertoire SÉMEQ ?",
+       "reponse":"Le Répertoire SÉMEQ est une plateforme dédiée à simplifier la vie des artisans du Québec. Nous recensons les appels de candidatures en cours pour divers salons, marchés et événements et fournissons du matériel pratique aux artisans. Notre objectif est de devenir la référence pour trouver les événements qui acceptent les artisans."
+    },
+
+    {
+       "question": "Quel type d’événements retrouve-t-on sur le Répertoire SÉMEQ ?",
+       "reponse":"Le Répertoire SÉMEQ inclut tout type d'événements au Québec, à condition qu'ils acceptent des artisans, y compris des petits producteurs agroalimentaires. Les événements peuvent être spécialisés ou non, du moment qu'ils répondent aux critères de participation des artisans."
+    },
+
+    {
+        "question": "À qui s’adresse le Répertoire SÉMEQ ?",
+        "reponse":"Le Répertoire SÉMEQ s`adresse aux artisans, artisans agroalimentaires, organisateurs d'événements, et à toute personne souhaitant découvrir des produits artisanaux et connaître les événements où les trouver. Les artisans membres reçoivent les appels de candidatures qui sont en cour. Les visiteurs y retrouvent la liste des salons, événements, marchés et expositions accueillants des artisans. Les organisateurs peuvent promouvoir leurs événements et accéder à des ressources exclusives s'ils sont membres payants."
+        
+    },
+
+    {
+        "question": "Puis-je m’inscrire au Répertoire SÉMEQ même si je suis un représentant MLM ou un revendeur de produits ?",
+        "reponse":"Oui, les représentants MLM et les revendeurs peuvent s’inscrire pour consulter la liste des appels de candidatures en cours, mais ils ne seront pas affichés dans la section <a href='/repertoire_exposants'>Répertoire des artisans</a> du site et ils doivent être conscients les marchés ne les accepteront pas nécessairement ils devront faire leurs vérifications, car les recherches ont été faite en fonction des artisans."
+    },
+
+    {
+        "question": "Le Répertoire SÉMEQ organise-t-il des salons, événements ou marchés où je peux m’inscrire comme artisan ?",
+        "reponse" : "Pour l'instant, le Répertoire SÉMEQ est uniquement une plateforme de référencement. Toutefois, à l'avenir, nous prévoyons d'organiser des ateliers thématiques, des formations pour artisans, ainsi que des rencontres pour échanger autour de la réalité du milieu."
+    },
+
+    {
+        "question": "Le Répertoire SÉMEQ garantit-il la qualité ou la légalité des organisateurs d’événements?",
+        "reponse": "Non, le Répertoire SÉMEQ ne garantit ni la qualité ni la légalité des organisateurs ou des événements listés. Chaque exposant est responsable de vérifier si l’événement correspond à ses attentes et de s’assurer de la crédibilité des organisateurs. Nous fournissons toutefois des recommandations pour éviter la fraude et aider les artisans à faire des choix éclairés."
+    },
+
+    {
+        "question": "En tant qu’organisateur, quelles sont les conditions pour inscrire mon événement ?",
+        "reponse": "La seule condition pour inscrire un événement est qu’il accepte des artisans ou artisans agroalimentaires, et que vous complétiez le formulaire d’inscription en ligne. Le formulaire d'inscription d'événement gratuit est <a href='/repertoire_evenements/inscription_evenement_gratuit'>ici</a>. Pour plus de visibilité pour ton événement, tu peux aussi prendre un abonnement, les informations sont <a href='/boutique/abonnement_organisateur'>ici.</a>"
+    }
+]

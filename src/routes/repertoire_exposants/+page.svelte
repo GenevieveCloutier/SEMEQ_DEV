@@ -2,14 +2,16 @@
 <script>
     import H1Title from "$lib/components/titres/h1Title.svelte";
     import H2Title from "$lib/components/titres/h2Title.svelte";
+    import H2AvecSousTitre from "$lib/components/titres/h2AvecSousTitre.svelte";
     import BoutonGris from "$lib/components/boutons/boutonGris.svelte";
     import BoutonBleu from "$lib/components/boutons/boutonBleu.svelte";
-    import Accordion, { createAccordionContext, getAccordionContext } from "$lib/components/generaux/accordion.svelte";
+    import AccordionEvenement, { createAccordionContext, getAccordionContext } from "$lib/components/generaux/accordionEvenement.svelte";
 	import { Cookies } from "nodemailer/lib/fetch";
     import Recherche from '$lib/components/generaux/recherche.svelte';
     import RechercheNoResult from '$lib/components/generaux/rechercheNoResult.svelte';
     import UnExposant from "../../lib/components/repertoires/unExposant.svelte";
     import { domaines, recupMappage } from '$lib/outils/compteurBinaire';
+    import mappageDomaines from "$lib/data/mappageDomaines.json";
 
 	export let data;
 	const { villes, regions, evenements, exposants } = data;
@@ -19,7 +21,6 @@
 
 // Fonction pour fermer tous les accordéons (si on change de région)
     function fermerAccordeons() {
-        // réinitialise current pour fermer tous les accordéons quand on change de région
         current.set(null); 
     }
 
@@ -85,92 +86,13 @@ function filtreRegionDomaine(){
         valeurRegion = "Gaspésie--Îles-de-la-Madeleine"
     }
 
+    //pour descendre à la section des domaines sur mobile
+    if (window.innerWidth <= 767) {
+        window.location.href="/repertoire_exposants#mobile"
+    }
+
     filtreRegionDomaine()
     return valeurRegion
-  }
-
-
-  const mappageDomaines = {
-    'accessoires_sacs' : {
-        nom: 'Accessoires et sacs',
-        valeur: '1'
-    },
-    'agro-alimentaire' : {
-        nom: 'Agro-Alimentaire',
-        valeur: '2'
-    },
-    'animaux' : {
-        nom: 'Animaux',
-        valeur:'4'
-    },
-    'arts_visuels' : {
-        nom: 'Arts visuels',
-        valeur:'8'
-    },
-    'bijoux_joaillerie' : {
-        nom: 'Bijoux et joaillerie',
-        valeur:'16'
-    },
-    'ceramique_poterie' : {
-        nom: 'Céramique et poterie',
-        valeur:'32'
-    },
-    'decoration_interieure' : {
-        nom: 'Décoration intérieure',
-        valeur:'64'
-    },
-    'ebenisterie' : {
-        nom: 'Ébenisterie',
-        valeur:'128'
-    },
-    'forgerie' : {
-        nom: 'Forgerie',
-        valeur:'256'
-    },
-    'jouets_loisirs' : {
-        nom: 'Jouets et loisirs',
-        valeur:'512'
-    },
-    'papeteries_livres' : {
-        nom: 'Papeterie et livres',
-        valeur:'1024'
-    },
-    'photographies' : {
-        nom: 'Photographies',
-        valeur:'2048'
-    },
-    'produits_corporels' : {
-        nom: 'Produits corporels',
-        valeur:'4096'
-    },
-    'sculpture' : {
-        nom: 'Sculpture',
-        valeur:'8192'
-    },
-    'tricots_crochets' : {
-        nom: 'Tricots et crochet',
-        valeur:'16384'
-    },
-    'verre_vitrail' : {
-        nom: 'Verre et vitrail',
-        valeur:'32768'
-    },
-    'vetements_tous' : {
-        nom: 'Vêtements (tous)',
-        valeur:'65536'
-    },
-    'vetements_enfants' : {
-        nom: 'Vêtements pour enfants',
-        valeur:'131072'
-    },
-    'zero_dechet' : {
-        nom: 'Zéro déchet',
-        valeur:'262144'
-    },
-    'autres' : {
-        nom: 'Autres',
-        valeur:'524288'
-    }
   };
 
 //aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDomaine()
@@ -221,8 +143,8 @@ function chercherValeurDomaine(domaine){
 
 <div class="container is-fluid mb-6 has-text-centered">
     <p>Trouvez plusieurs artisans et créateurs professionnels du Québec au même endroit!<br>
-        Tous les exposants présents dans notre répertoire sont des artistes et/ou entrepreneurs ayant un statut légal
-         et conforme aux lois provinciales. (NEQ, MAPAQ etc)
+         Il est maintenant facile de 
+        découvrir les entreprises de chez-nous!
     </p>
 
     <div class="columns mt-5 is-three-fifths">
@@ -257,14 +179,7 @@ function chercherValeurDomaine(domaine){
 </div> 
 
 <div id="repertoireEntier" class="container">
-    <!-- pour ajouter des explications sur l'utilisation sur un mobile -->
-    <div class=" content has-background-light is-hidden-desktop is-hidden-tablet-only">
-        <ol type="1">
-            <li>Clique sur une <strong>région</strong> ci-dessous</li>
-            <li>Clique ensuite sur la <strong> catégorie</strong> pour laquelle tu voudrais voir les entreprises enregistrées
-            (sous la liste des régions)</li>
-        </ol>
-    </div>
+
     <div class="columns">
 
         <div class="column mt-4 texte-bleu is-one-quarter">
@@ -282,21 +197,20 @@ function chercherValeurDomaine(domaine){
             </div>
         </div>
 
-       <div class="box column">
+       <div id="mobile" class="box column">
         
              {#if exposantsFiltre && [...tableauDomaines].length > 0}
            
                 {#if notificationVisible}
-                    <div class="notification is-info is-light has-text-centered">
+                    <div class="notification is-info is-light has-text-centered is-hidden-mobile">
                         <button class="delete" on:click={supprimerNotification}></button>
                         Clique sur les catégorie pour voir les exposants. Tu peux aussi sélectionner une 
                         autre région en tout temps.
                     </div>
                 {/if}
-             
+                <H2AvecSousTitre title={"Liste des catégories"} subtitle={"Clique sur une catégorie pour afficher les exposants"} />
                     {#each tableauDomaines as domaine}
-                    <Accordion>
-
+                    <AccordionEvenement>
                         <span  slot="head">
                             <input readonly bind:value={domaine.nom}
                             class="has-text-black"
@@ -313,19 +227,28 @@ function chercherValeurDomaine(domaine){
                                     <UnExposant exposant={exposant}/>
                                 </div>
                             {/each}
+                            <div class="is-hidden-desktop is-hidden-tablet mt-4 has-text-centered">
+                                <BoutonBleu lien={"/repertoire_exposants#repertoireEntier"} texte={"Retour à la liste des régions"}/>
+                            </div>
                             {:else}
-                            <p class=" box bordure px-3 py-3 has-text-centered ">Aucun exposant dans cette catégorie<br>
+                            <p class=" box bordure px-3 py-3 mx-3 my-3 has-text-centered ">Aucun exposant dans cette catégorie<br>
                                 à afficher pour le moment!</p>
                         {/if}
                         </div>
                     </div>
-                    </Accordion>
+
+                    </AccordionEvenement>
                     {/each}
 
                     {:else if exposantsFiltre && [...tableauDomaines].length == 0}
                     <div class="encadre">
                         <p>Aucun exposant n'est enregistré dans cette région pour le moment.</p>
                         <p>Choisis une autre région en cliquant dans la liste des régions</p>
+                        <!-- Bouton pour retourner à la liste des régions sur mobile seulement -->
+                        <div class="is-hidden-desktop is-hidden-tablet mt-4">
+                            <BoutonBleu lien={"/repertoire_exposants#repertoireEntier"} texte={"Retour à la liste des régions"}/>
+                        </div>
+                        
                     </div>
                     {:else}
                     <p class="px-4 py-4 has-text-centered is-size-5 has-background-info-light">Pour voir les exposants inscrits
@@ -334,8 +257,6 @@ function chercherValeurDomaine(domaine){
         </div>
     </div> 
 </div>
-
-
 
 <style>
     .texte-bleu{

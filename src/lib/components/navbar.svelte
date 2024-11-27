@@ -3,15 +3,16 @@
 import { onMount } from "svelte";
 
   onMount(() => {
-// actualiser la page si on fait la transition pc/simulateur de mobile, le mien capote sinon
     const burger = document.querySelector('.navbar-burger');
     const menu = document.getElementById('navMenu');
 
-    burger.addEventListener('click', () => {
-      burger.classList.toggle('is-active');
-      menu.classList.toggle('is-active');
-    });
-  });
+    if (burger && menu) {
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('is-active');
+            menu.classList.toggle('is-active');
+        });
+	}
+});
 
 	//pour que le dropdown se referme quand on clique sur un des liens
 	function cacherMenu() {
@@ -20,22 +21,20 @@ import { onMount } from "svelte";
 		let element = document.getElementsByClassName("has-dropdown"); 
 		let burger = document.querySelector('#burger');
 		let menu = document.querySelector('#navMenu')
-		burger.classList.toggle('is-active');
-		menu.classList.toggle('is-active')
+
+		if (burger && menu) { 
+        	burger.classList.toggle('is-active');
+        	menu.classList.toggle('is-active');
+    }
 
 		//pour que ça referme sur pc
 		for(let x=0; x<element.length; x++){
-			element[x].style.display = 'none'; 
-			setInterval(function () { element[x].style.display = ''; }, 50); 
+			if(element.length > 0){
+				element[x].style.display = 'none'; 
+				setTimeout(function () { element[x].style.display = ''; }, 50); 
+			}
 		};
 	};
-
-	// //pour fermer les dropdown sur mobile
-	// function fermerDropdown(){
-	// 	let element = document.getElementsByClassName("has-dropdown");
-	// 	console.log(element.classList)
-
-	// }
 	
     
 </script>
@@ -79,8 +78,7 @@ import { onMount } from "svelte";
 					<hr class="navbar-divider" />
 					<a href="/exposant#avantages" class="navbar-item item-deroul" on:click={cacherMenu}> Compte exposant </a>
 					<hr class="navbar-divider" />
-					<!-- ajouter l'ancre vers le tableau quand la page sera faite -->
-					<a href="/organisateur" class="navbar-item item-deroul" on:click={cacherMenu}> Compte organisateur </a>
+					<a href="/organisateur#avantages_organisateur" class="navbar-item item-deroul" on:click={cacherMenu}> Compte organisateur </a>
 				</div>
 			</div>
 
@@ -93,6 +91,8 @@ import { onMount } from "svelte";
 					<a href="/contact" class="navbar-item item-deroul" on:click={cacherMenu}> Nous joindre </a>
 					<hr class="navbar-divider" />
 					<a href="/a_propos" class="navbar-item item-deroul" on:click={cacherMenu}> À propos </a>
+					<hr class="navbar-divider" />
+					<a href="/faq" class="navbar-item item-deroul" on:click={cacherMenu}> F.A.Q. </a>
 				</div>
 			</div>
 

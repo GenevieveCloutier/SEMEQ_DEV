@@ -1,0 +1,23 @@
+{
+    "typeArtisan": {
+        "nom": "Artisan",
+        "valeur": 1
+    },
+    "typeAgro": {
+        "nom": "Agro-Alimentaire",
+        "valeur": 2
+    },
+    "typeMLM": {
+        "nom": "MLM",
+        "valeur": 4
+    },
+    "typeAuteur": {
+        "nom": "Auteur",
+        "valeur": 8
+    },
+    "typeArt": {
+        "nom": "Métiers d'art",
+        "valeur": 16
+    }
+
+}

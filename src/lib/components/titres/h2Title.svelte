@@ -1,5 +1,8 @@
 <script>
 	export let title;
+	
+	
+	
 </script>
 
 <div class="block">

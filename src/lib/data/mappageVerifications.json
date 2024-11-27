@@ -1,0 +1,11 @@
+{
+    "verifNEQ" : {
+        "nom" : "NEQ valide",
+        "valeur" : "1"
+    },
+
+    "verifPermis" : {
+        "nom" : "Permis MAPAQ",
+        "valeur" : "2"
+    }
+}

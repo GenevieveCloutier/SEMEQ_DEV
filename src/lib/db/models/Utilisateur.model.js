@@ -65,6 +65,10 @@ export const Utilisateur = sequelize.define('utilisateur', {
         },
         allowNull: true
     },
+    code_postal: {
+        type: DataTypes.STRING,
+        allowNull: true
+    }, 
     partage: {
         type: DataTypes.BOOLEAN,
         allowNull: true
@@ -109,6 +113,10 @@ export const Utilisateur = sequelize.define('utilisateur', {
         type: DataTypes.STRING,
         allowNull: true
     },
+    telephone: {
+        type: DataTypes.STRING,
+        allowNull: true
+    }, 
     jeton: {
         type: DataTypes.STRING,
         allowNull: true

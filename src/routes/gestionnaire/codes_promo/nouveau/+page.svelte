@@ -5,6 +5,9 @@
     import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
 	import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import { creationCodePromo } from '$lib/outils/formHandlers';
+	
+	export let data;
+	const { categories } = data;
 
     // Mettre en évidence le lien actif dans menu latéral gestionnaire
     import { onMount } from "svelte";
@@ -62,6 +65,20 @@
                         required
 				></textarea>
             </div>
+
+			<div class="field">
+				<label for="categorie_id" class="label">Catégorie <span class="rouge">*</span></label>
+				<div class="control">
+					<div class="select is-fullwidth">
+						<select name="categorie_id" id="type" required>
+							<option  disabled selected>Choisissez une catégorie de partenaire</option>
+							{#each categories as categorie}
+								<option value={categorie.id}>{categorie.nom}</option>
+							{/each}
+						</select>
+					</div>
+				</div>
+			</div>
 
             <div class="field">
                 <label class="label" for="expiration">Date d'expiration</label>

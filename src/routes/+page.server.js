@@ -12,6 +12,7 @@ import { Session } from '../lib/db/models/Session.model.js';
 import { Type } from '../lib/db/models/Type.model.js';
 import { Utilisateur } from '../lib/db/models/Utilisateur.model.js';
 import { Ville } from '../lib/db/models/Ville.model.js';
+import { Categorie } from '../lib/db/models/Categorie.model.js';
 
 //Appel des fonctions des controllers
 import { findAll } from '$lib/db/controllers/Utilisateurs.controller.js';
@@ -19,6 +20,7 @@ import { newRole } from '../lib/db/controllers/Roles.controller.js';
 import { ajoutRegions } from '../lib/db/controllers/Regions.controller.js';
 import { adminCreation } from '../lib/db/controllers/Utilisateurs.controller.js';
 import { newType } from '../lib/db/controllers/Types.controller.js';
+import { newCategorie } from '../lib/db/controllers/Categories.controller.js';
 
 //Appel de fonctions externe
 import { redirect } from '@sveltejs/kit';
@@ -62,6 +64,19 @@ async function initializeDatabase() {
         await newType('Formation');
         await newType('Outil');
     }
+//Création des categories si la bd est vide.    
+    const categories_partenaires = await Categorie.findOne({ where: { id: 1 } });
+    if (!categories_partenaires){
+        await newCategorie('Rabais boutique SÉMEQ');
+        await newCategorie('Décoration / Design / Accessoires');
+        await newCategorie('Emballages / Packaging / Sacs');
+        await newCategorie('Graphisme');
+        await newCategorie('Impressions - Produits et services');
+        await newCategorie('Maquillages');
+        await newCategorie('Marketing web');
+        await newCategorie('Présentoirs / Ébénisterie');
+        await newCategorie('Vidéos et montage - Création de contenu');
+    }
 }
 
 await initializeDatabase();
@@ -71,22 +86,6 @@ export async function load({ params, cookies }) {
     const users = await findAll();
     const session = cookies.get('session');
     const role = cookies.get('role');
-    // redirection temporaire, enlever quand la vraie page d'accueil sera faite
-    if (!role){
-        redirect(302, '/exposant');
-    }
-    if (role == '1'){
-        redirect(302, '/gestionnaire');
-    }
-    if (role == '2'){
-        redirect(302, '/organisateur');
-    }
-    if (role == '3'){
-        redirect(302, '/exposant');
-    }
-    if (role == '4'){
-        redirect(302, '/visiteur');
-    }
-    
+ 
     return {users: users, session: session}; //tous les utilisateurs
 }
