@@ -182,7 +182,9 @@
                     </div>
 
                     <div class="block has-text-centered">
-                        <SubmitButon texte={'Valider et payer'} />
+                        <a href="/panier/paiement">
+                            <button id="paiement" type="submit" class="button is-dark" style="background-color: #053682; color:white">Valider et payer</button>
+                        </a>
                     </div>                
                 </div>
             </div>
