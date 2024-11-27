@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
+import { Categorie } from './Categorie.model.js';
 
 export const Partenaire = sequelize.define("partenaires", {
     nom: {
@@ -22,4 +23,15 @@ export const Partenaire = sequelize.define("partenaires", {
         type: DataTypes.DATE,
         allowNull: true
     },
+    categorie_id: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Categorie,
+            key: "id"
+        },
+        allowNull: true
+    },
 });
+
+Partenaire.belongsTo(Categorie, { foreignKey: 'categorie_id', as: 'categorie' });
+Categorie.hasMany(Partenaire, { foreignKey: 'categorie_id', as: 'partenaires' });

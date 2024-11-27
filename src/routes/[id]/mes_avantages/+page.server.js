@@ -1,6 +1,7 @@
 import { error } from '@sveltejs/kit';
 import { Op } from "sequelize";
 import { Partenaire } from "$lib/db/models/Partenaire.model";
+import { Categorie } from "$lib/db/models/Categorie.model.js"
 import { findOne } from '$lib/db/controllers/Utilisateurs.controller';
 
 export async function load({ cookies, params }){
@@ -21,13 +22,17 @@ export async function load({ cookies, params }){
                 { expiration: { [Op.gte]: aujourdhui } },  // Date supérieure (après) ou égale à aujourd'hui
                 { expiration: null }
             ]
-        }
+        },
+        include: [
+            { model: Categorie, as: "categorie" },
+        ]
     });
 
     let resultat = partenaires.map(partenaire => ({
         ...partenaire.dataValues,
         expiration: partenaire.expiration === null ? "Aucune"
             : partenaire.expiration.toLocaleDateString('fr-CA', {timeZone: 'America/Montreal'}),
+        categorie: partenaire.categorie ? partenaire.categorie.dataValues : null,
     }));
 
     return { partenaires : resultat }
