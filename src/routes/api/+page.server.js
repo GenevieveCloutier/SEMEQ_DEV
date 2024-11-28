@@ -826,10 +826,14 @@ export const actions = {
 
 	deleteAllUserCart: async ({ cookies, request }) => {
 		const data = await request.formData();
-		const paniers = await findAllInCart({ utilisateur_id: data.get('id') });
+		//const paniers = await findAllInCart({ utilisateur_id: data.get('id') });
+		const utilisateur_id = data.get('id');
+		console.log('Utilisateur ID:', utilisateur_id);
 		if (cookies.get('id')) {
-			const res = await deleteCart(data.get('id'));
+			const res = await deleteCart(utilisateur_id);
+			console.log('DeleteCart response:', res);
 			return res;
+			//const res = await deleteCart(data.get('id'));
 		} else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action.');
 	},
 

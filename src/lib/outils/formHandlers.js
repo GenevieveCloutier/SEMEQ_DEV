@@ -806,6 +806,7 @@ export async function deleteSelectedItemsCart(event){
 }
 
 export async function deleteAllUserCart(p_id) {
+	console.log('deleteAllUserCart called with id:', p_id);
 	erreur.set('');
 	success.set('');
 	const formData = new FormData();
@@ -817,11 +818,13 @@ export async function deleteAllUserCart(p_id) {
 	
 	const result = await response.json();
 	const test = JSON.parse(result.data);
+	console.log('API response:', result);
 	if(result.status === 200){
-		success.set(JSON.parse(result.data)[3]);
+		success.set('Le panier a été vidé avec succès.');
 		goto(`/boutique`);
 	}else{
-		erreur.set(JSON.parse(result.data)[0]);
+		console.error('Error:', error);
+		erreur.set('Une erreur est survenue lors de la suppression du panier.');
 	}
 }
 

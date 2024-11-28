@@ -118,13 +118,25 @@ export async function findOne(p_where){
  * @param {Object} p_where - Conditions de suppression.
  * @returns {Object} - Message de succès.
  */
-export async function deleteCart(p_where){
+/*export async function deleteCart(p_where){
     return await Panier.destroy({ where: p_where })
     .then(res => {
         return {message: "Succès suppression panier."};
     }).catch((error) => {
         throw error;
     });
+}*/
+
+export async function deleteCart(utilisateur_id) {
+	try {
+		const result = await Panier.destroy({
+			where: { utilisateur_id: utilisateur_id }
+		});
+		return { status: 200, data: JSON.stringify(result) };
+	} catch (error) {
+		console.error('Error deleting cart:', error);
+		return { status: 500, data: JSON.stringify({ error: 'Internal Server Error' }) };
+	}
 }
 
 /**

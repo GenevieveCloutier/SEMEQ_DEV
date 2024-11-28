@@ -17,7 +17,7 @@
 							: but == 'code_promo'
 							? "Supprimer le code promo"
 								: but == 'panier'
-								? "Supprimer le panier"
+								? "Vider le panier"
 								: null;
 </script>
 
