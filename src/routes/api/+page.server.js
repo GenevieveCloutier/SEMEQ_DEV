@@ -27,6 +27,7 @@ import {
 	suppressionEvenement
 } from '../../lib/db/controllers/Evenements.controller.js';
 import { ajoutProduitPanier, deleteCart } from '../../lib/db/controllers/Paniers.controller.js';
+import { Op } from "sequelize";
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
 import fs from 'fs';
@@ -791,6 +792,31 @@ export const actions = {
 				status: 200,
 				body: {
 					message: 'Produit retiré du panier avec succès',
+					evenement: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
+
+	deleteSelectedItemsCart: async ({ request }) => {
+		const data = await request.formData();
+		const utilisateur_id = data.get('utilisateur_id');
+        const selectedItems = data.get('selectedItems').split(',');
+
+		try {
+			const conditions = {
+                utilisateur_id: utilisateur_id,
+                produit_id: {
+                    [Op.in]: selectedItems
+                }
+            };
+            let res = await deleteCart(conditions);
+			return {
+				status: 200,
+				body: {
+					message: 'Produits retirés du panier avec succès',
 					evenement: res
 				}
 			};

@@ -4,7 +4,6 @@
     import H2Title from "$lib/components/titres/h2Title.svelte";
     import BoutonGris from "$lib/components/boutons/boutonGris.svelte";
     import Retour from "$lib/components/generaux/retour.svelte";
-    import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
     import AbonnementEven from '$lib/components/boites/abonnementEven.svelte';
     import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
     import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
@@ -87,7 +86,7 @@
             <div class="column is-narrow">
                 <form on:submit|preventDefault={deleteSelectedItemsCart}>
                     <input type="hidden" name="utilisateur_id" value={utilisateur.id} /> 
-                    <input type="hidden" name="selectedProduits" value={selectedItems} /> 
+                    <input type="hidden" name="selectedItems" value={selectedItems.join(',')} /> 
                     <button type="submit" class="button is-danger is-outlined">Supprimer les éléments</button>
                 </form>
             </div>
