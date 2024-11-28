@@ -8,7 +8,7 @@
     import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
     import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
-    import { deleteOnePanier, deleteSelectedItemsCart, deleteAllUserCart } from '$lib/outils/formHandlers';
+    import { deleteOnePanier, deleteSelectedItemsCart } from '$lib/outils/formHandlers';
     import Confirmation from '$lib/components/notifications/confirmation.svelte';
 
     export let data;
