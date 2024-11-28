@@ -9,12 +9,23 @@
     import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
     import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
-    import { deleteOnePanier } from '$lib/outils/formHandlers';
-    import confirmation from '$lib/components/notifications/confirmation.svelte';
+    import { deleteOnePanier, deleteSelectedItemsCart } from '$lib/outils/formHandlers';
+    import Confirmation from '$lib/components/notifications/confirmation.svelte';
 
     export let data;
     const paniers = data.paniers;
     const utilisateur = data.utilisateur;
+
+    // Pour supprimer plusieurs produits du panier
+    let selectedItems = [];
+    function handleCheckboxChange(event) {
+        const itemId = event.target.value;
+        if (event.target.checked) {
+            selectedItems = [...selectedItems, itemId];
+        } else {
+            selectedItems = selectedItems.filter(id => id !== itemId);
+        }
+    }
 
     // Calcul économie
     let economie = paniers.reduce((acc, panier) => {
@@ -74,8 +85,9 @@
         <!-- Boutons supprimer produits/vider panier -->
         <div class="columns is-1">
             <div class="column is-narrow">
-                <form> <!-- on:submit|preventDefault={deleteSelectedCart} -->
-                    <input type="hidden" name="produit_id" /> <!-- value={produit.id} -->
+                <form on:submit|preventDefault={deleteSelectedItemsCart}>
+                    <input type="hidden" name="utilisateur_id" value={utilisateur.id} /> 
+                    <input type="hidden" name="selectedProduits" value={selectedItems} /> 
                     <button type="submit" class="button is-danger is-outlined">Supprimer les éléments</button>
                 </form>
             </div>
@@ -102,7 +114,7 @@
                                 <td>
                                     <div class="field has-text-centered">
                                         <div class="control">
-                                            <input type="checkbox" id="produit_select" value={panier.id}>
+                                            <input type="checkbox" id="selectItem" value={panier.id} on:change={handleCheckboxChange}>
                                         </div>
                                     </div>
                                 </td>
