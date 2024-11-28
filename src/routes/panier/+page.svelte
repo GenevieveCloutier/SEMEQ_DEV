@@ -9,6 +9,7 @@
     import { deleteOnePanier } from '$lib/outils/formHandlers';
     import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
+	import Paypal from "../../lib/components/paypal.svelte";
 
     export let data;
     const paniers = data.paniers;
@@ -180,7 +181,8 @@
 
                     <div class="block has-text-centered">
                         <SubmitButon texte={'Valider et payer'} />
-                    </div>                
+                    </div>
+                    <Paypal />                
                 </div>
             </div>
         </div>
