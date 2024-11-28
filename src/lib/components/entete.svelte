@@ -51,7 +51,7 @@ export let abonne;
 		<div class="dropdown-menu" id="dropdown-compte" role="menu" >
 			<div class="dropdown-content">
 				{#if id == 1}
-				<a href={`/gestionnaire`} class="dropdown-item"> Mon compte </a>
+				<a href={`/gestionnaire`} class="dropdown-item"> Tableau de bord </a>
 				{:else}
 				<a href={`/${id}`} class="dropdown-item"> Mon compte </a>
 				{/if}
