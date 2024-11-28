@@ -68,7 +68,7 @@
                 <label for="categorie_id" class="label">Catégorie <span class="rouge">*</span></label>
                 <div class="control">
                     <div class="select is-fullwidth">
-                        <select name="categorie_id" id="type">
+                        <select name="categorie_id" id="categorie_id">
                             <option value={code.categorie_id} disabled selected required>{code.categorie.nom}</option>
                             {#each categories as categorie}
                                 <option value={categorie.id}>{categorie.nom}</option>
