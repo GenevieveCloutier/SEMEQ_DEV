@@ -8,9 +8,10 @@ export async function load({ cookies, params }){
     const cookiesId = cookies.get('id');
     const user = await findOne({ id: cookiesId });
     let abonne = user.abonne;
+    const role = cookies.get('role');
 
-    // Restriction accès page aux abonnés
-    if (abonne !== true) {
+    // Restriction accès page aux abonnés ou admin
+    if (!abonne && role !== '1') {
         throw error(403, 'Seuls les abonnés peuvent accéder à cette page.');
     }
 
