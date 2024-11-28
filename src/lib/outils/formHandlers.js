@@ -805,6 +805,26 @@ export async function deleteSelectedItemsCart(event){
     }
 }
 
+export async function deleteAllUserCart(p_id) {
+	erreur.set('');
+	success.set('');
+	const formData = new FormData();
+	formData.append('id', p_id);
+	const response = await fetch('../../api?/deleteAllUserCart', {
+		method: 'POST',
+		body: formData
+	});
+	
+	const result = await response.json();
+	const test = JSON.parse(result.data);
+	if(result.status === 200){
+		success.set(JSON.parse(result.data)[3]);
+		goto(`/boutique`);
+	}else{
+		erreur.set(JSON.parse(result.data)[0]);
+	}
+}
+
 export async function creationCodePromo(event) {
 	chargement;
 	erreur.set('');

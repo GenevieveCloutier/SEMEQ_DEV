@@ -8,7 +8,7 @@
     import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
     import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
-    import { deleteOnePanier, deleteSelectedItemsCart } from '$lib/outils/formHandlers';
+    import { deleteOnePanier, deleteSelectedItemsCart, deleteAllUserCart } from '$lib/outils/formHandlers';
     import Confirmation from '$lib/components/notifications/confirmation.svelte';
 
     export let data;
@@ -90,9 +90,9 @@
                     <button type="submit" class="button is-danger is-outlined">Supprimer les éléments</button>
                 </form>
             </div>
-            <!--<div class="column">
-                <Confirmation utilisateur_id={utilisateur.id} />
-            </div>-->
+            <div class="column">
+                <Confirmation but='panier' id={utilisateur.id} />
+            </div>
         </div>
 
         <div class="columns">
