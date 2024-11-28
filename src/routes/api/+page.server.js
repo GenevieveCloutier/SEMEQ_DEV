@@ -803,10 +803,10 @@ export const actions = {
 	deleteSelectedItemsCart: async ({ request }) => {
         const data = await request.formData();
         const utilisateur_id = data.get('utilisateur_id');
-        const selectedItems = data.get('selectedItems').split(',');
+        const produit_id = data.get('selectedItems').split(',');
 
         try {
-            const res = await deleteItemsCart(utilisateur_id, selectedItems);
+            const res = await deleteItemsCart(utilisateur_id, produit_id);
             return {
                 status: 200,
                 body: {
