@@ -13,11 +13,6 @@ export async function load({ params }){
         order: [
             ['createdAt', 'DESC'] //Nouveaux produits en premiers
         ],
-        where: {
-            type_id: {
-                [Op.ne]: 1 // Ne correspond PAS à "Abonnement"
-            }
-        },
         include: [
             { model: Type, as: "type" },
         ]

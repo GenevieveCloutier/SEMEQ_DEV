@@ -10,8 +10,8 @@ export async function load({ cookies, params }){
     let abonne = user.abonne;
     const role = cookies.get('role');
 
-    // Restriction accès page aux abonnés
-    if (!abonne && role !== '1') {
+    // Restriction accès page aux abonnés ou admin
+    if ((!abonne && role !== '1') {
         throw error(403, 'Seuls les abonnés peuvent accéder à cette page.');
     }
 
