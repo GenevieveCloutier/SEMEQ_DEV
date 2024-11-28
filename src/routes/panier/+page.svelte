@@ -87,7 +87,7 @@
                 <form on:submit|preventDefault={deleteSelectedItemsCart}>
                     <input type="hidden" name="utilisateur_id" value={utilisateur.id} />
                     <input type="hidden" name="selectedItems" value={selectedItems.join(',')} />
-                    <button type="submit" class="button is-danger is-outlined">Supprimer les éléments</button>
+                    <button type="submit" class="button is-danger is-outlined">Supprimer les produits</button>
                 </form>
             </div>
             <div class="column">
