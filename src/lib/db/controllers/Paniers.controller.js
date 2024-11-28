@@ -2,6 +2,7 @@ import { Panier } from "../models/Panier.model";
 import { Utilisateur } from "../models/Utilisateur.model";
 import { Produit } from "../models/Produit.model";
 import { Type } from "../models/Type.model";
+import { Op } from 'sequelize';
 
 /**
  * Récupère tous les paniers de la base de données en incluant les informations de l'utilisateur et du produit associés.
@@ -142,6 +143,29 @@ export async function deleteUserCart(p_utilisateur_id) {
 		console.error('Error deleting cart:', error);
 		return { status: 500, data: JSON.stringify({ error: 'Internal Server Error' }) };
 	}
+}
+
+/**
+ * Supprime les entrées dans la table paniers pour l'utilisateur spécifié.
+ * @param {Object} p_utilisateur_id - ID de l'utilisateur.
+ * @param {Object} p_produit_id - ID du produit.
+ * @returns {Object} - Message de succès.
+ */
+export async function deleteItemsCart(p_utilisateur_id, p_produit_ids) {
+    try {
+        const result = await Panier.destroy({
+            where: {
+                utilisateur_id: p_utilisateur_id,
+                produit_id: {
+                    [Op.in]: p_produit_ids
+                }
+            }
+        });
+        return { status: 200, data: JSON.stringify(result) };
+    } catch (error) {
+        console.error('Error deleting items from cart:', error);
+        return { status: 500, data: JSON.stringify({ error: 'Internal Server Error' }) };
+    }
 }
 
 /**
