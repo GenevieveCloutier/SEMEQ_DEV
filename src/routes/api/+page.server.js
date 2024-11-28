@@ -854,7 +854,7 @@ export const actions = {
 		const expiration = data.get('expiration') ? data.get('expiration') : null;
 	
 		try {
-			const res = await nouveauCodePromo(data.get('nom'), data.get('avantage'), data.get('code'), logo, expiration);
+			const res = await nouveauCodePromo(data.get('nom'), data.get('avantage'), data.get('code'), logo, expiration, data.get('categorie_id'));
 			return {
 				status: 200,
 				body: {
@@ -893,7 +893,8 @@ export const actions = {
 				avantage: data.get('avantage'),
 				code: data.get('code'),
 				logo: logo,
-				expiration: expiration
+				expiration: expiration,
+				categorie: data.get('categorie_id')
 		});
 			return {
 				status: 200,
