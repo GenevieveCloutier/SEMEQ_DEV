@@ -776,6 +776,32 @@ export async function deleteOnePanier(event){
     }
 }
 
+export async function deleteSelectedItemsCart(event){
+    chargement();
+    erreur.set('');
+    try{
+        const formData = new FormData(event.target);
+        const response = await fetch('../api?/deleteSelectedItemsCart', {
+            method: 'POST',
+            body: formData
+        });
+        log("formhandler deleteSelectedItemsCart response = ", response);
+        const result = await response.json();
+        log("formhandler deleteSelectedItemsCart, result = ", result);
+        
+        if (result.status == 200)
+            window.location.reload();
+			success.set("Les produits ont été retirés du panier.");
+        if (result.status == 401){
+            log("formhandler error deleteSelectedItemsCart = ",JSON.parse(result.data)[0])
+            erreur.set(JSON.parse(result.data)[0]);
+        }
+    }catch(error){
+        console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+    }
+}
+
 export async function creationCodePromo(event) {
 	chargement;
 	erreur.set('');
