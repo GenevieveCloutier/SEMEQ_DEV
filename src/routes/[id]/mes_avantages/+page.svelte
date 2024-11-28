@@ -5,7 +5,7 @@
 
     export let data;
     const partenaires = data.partenaires;
-
+    
     // Regrouper les partenaires par nom de catégorie
     const partenairesParCategorie = partenaires.reduce((acc, partenaire) => {
         const categorieNom = partenaire.categorie?.nom;
@@ -37,6 +37,15 @@
 <H1Title title={"Mes avantages"} />
 
 <div>
+    {#if categories.length === 0}
+    <div class="block">
+        <section class="section no-result">
+            <p class="title"> Désolé  <span class="icon is-large"><i class="fa-regular fa-face-sad-tear fa-xl"></i></span></p><br>
+            <p class="subtitle">Aucun de nos partenaires n'a de code promo actif en ce moment.</p>
+        </section>
+    </div>
+    {/if}
+
     {#each categories as categorie}
         <div class="block">
             <H2Title title={categorie.nom} />
@@ -57,3 +66,9 @@
     {/each}
 </div>
 
+<style>
+.no-result{
+    padding: 20px;
+    background-color: lightgray;
+}
+</style>
