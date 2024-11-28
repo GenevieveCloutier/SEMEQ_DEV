@@ -5,7 +5,6 @@ import { findAll } from '../../../../lib/db/controllers/Categories.controller';
 export async function load({ params }){
     const paramId = params.id;
 
-    //const categories = await Partenaire.findAll();
     const categories = await findAll();
     
     const code = await Partenaire.findOne({
@@ -17,7 +16,7 @@ export async function load({ params }){
     
     let resultat = {
         ...code.dataValues,
-        expiration: code.expiration.toLocaleDateString('fr-CA', {timeZone: 'UTC'}),
+        expiration: code.expiration ? code.expiration.toLocaleDateString('fr-CA', { timeZone: 'UTC' }) : null,
         categorie: code.categorie ? code.categorie.dataValues : null,
     };
 

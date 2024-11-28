@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
 import { Categorie } from './Categorie.model.js';
 
-export const Partenaire = sequelize.define("partenaires", {
+export const Partenaire = sequelize.define("partenaire", {
     nom: {
         type: DataTypes.STRING,
         allowNull: true
