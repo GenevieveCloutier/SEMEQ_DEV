@@ -26,7 +26,7 @@ import {
 	modificationEvenement,
 	suppressionEvenement
 } from '../../lib/db/controllers/Evenements.controller.js';
-import { ajoutProduitPanier, deleteCart, findAllInCart } from '../../lib/db/controllers/Paniers.controller.js';
+import { ajoutProduitPanier, deleteCart, findAllInCart, deleteUserCart } from '../../lib/db/controllers/Paniers.controller.js';
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
 import fs from 'fs';
@@ -826,14 +826,11 @@ export const actions = {
 
 	deleteAllUserCart: async ({ cookies, request }) => {
 		const data = await request.formData();
-		//const paniers = await findAllInCart({ utilisateur_id: data.get('id') });
 		const utilisateur_id = data.get('id');
-		console.log('Utilisateur ID:', utilisateur_id);
 		if (cookies.get('id')) {
-			const res = await deleteCart(utilisateur_id);
+			const res = await deleteUserCart(utilisateur_id);
 			console.log('DeleteCart response:', res);
 			return res;
-			//const res = await deleteCart(data.get('id'));
 		} else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action.');
 	},
 

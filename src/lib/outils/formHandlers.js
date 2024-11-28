@@ -806,7 +806,6 @@ export async function deleteSelectedItemsCart(event){
 }
 
 export async function deleteAllUserCart(p_id) {
-	console.log('deleteAllUserCart called with id:', p_id);
 	erreur.set('');
 	success.set('');
 	const formData = new FormData();
