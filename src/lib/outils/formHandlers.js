@@ -781,6 +781,14 @@ export async function deleteSelectedItemsCart(event) {
     erreur.set('');
     try {
         const formData = new FormData(event.target);
+		
+        // Vérifiez si selectedItems contient au moins un élément
+		const selectedItems = formData.get('selectedItems').split(',');
+        if (selectedItems.length === 0 || selectedItems[0] === '') {
+            erreur.set("Merci de sélectionner au moins un produit pour supprimer.");
+            return;
+        }
+
         const response = await fetch('../api?/deleteSelectedItemsCart', {
             method: 'POST',
             body: formData
