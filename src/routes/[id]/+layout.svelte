@@ -3,6 +3,7 @@
     export let data;
     let role = data?.role;
     let id = data?.id;
+    let abonne = data?.abonne;
 </script>
 
 <div class="columns">
@@ -11,10 +12,12 @@
             <ul class="menu-list">
                 <li><a href={`/${id}`} id="monCompte">Mon compte</a></li>
                 <li><a href={`/${id}/mes_evenements`} id="mesEvenements">Mes événements</a></li>
-                {#if role === '3' || role === '1'}
+                {#if role === '3' && abonne === true || role === '1'}
                 <li><a href={`/${id}/appels_candidatures`} id="appelsCandidatures">Appels de candidatures</a></li>
                 {/if}
+                {#if abonne === true || role === '1'}
                 <li><a href={`/${id}/mes_avantages`} id="mesAvantages">Mes avantages</a></li>
+                {/if}
                 <li><a href={`/${id}/formations_outils`} id="formationsOutils">Mes formations et outils</a></li>
                 <li><a href={`/${id}/achats`} id="achats">Historique d'achat</a></li>
                 <div class="espace"></div>
