@@ -3,14 +3,13 @@ export let session;
 export let id;
 export let role;
 
-//pour faire fonctionner le menu de connexion au clic sur mobile
+//pour faire fonctionner le menu de connexion au clic sur mobile, à valider
 
 function clicIcone(){
       if (window.innerWidth <= 767) {
         let dropdown = document.querySelector('#dropdown-compte');
         dropdown.classList.toggle('is-active');
         dropdown.classList.remove("is-hoverable")
-        console.log(dropdown.classList)
     }
       }
 

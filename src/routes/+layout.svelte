@@ -20,7 +20,7 @@
 <!-- si la page affichée n'est pas la page d'accueil, insérer les menus et le footer, sinon, mettre juste le slot-->
 {#if !accueil}
 
-  <Entete session={session} id={id} role={role} abonne={abonne}></Entete>
+  <Entete session={session} id={id} role={role}></Entete>
   <Navbar />
   <slot />
   <Footer />

@@ -48,11 +48,11 @@ createAccordionContext();
 						Répertoires
 					</span>
 					<span class="box" slot="details">
-						<a class="navbar-item item-deroul" href="/visiteur">Événements de la semaine</a>
+						<a class="navbar-item item-deroul has-text-centered" href="/visiteur">Événements de la semaine</a>
 						<hr class="navbar-divider" />
-						<a class="navbar-item item-deroul" href="/repertoire_exposants">Répertoire des exposants</a>
+						<a class="navbar-item item-deroul has-text-centered" href="/repertoire_exposants">Répertoire des exposants</a>
 						<hr class="navbar-divider" />
-						<a class="navbar-item item-deroul" href="/repertoire_evenements">Répertoire des événements</a>
+						<a class="navbar-item item-deroul has-text-centered" href="/repertoire_evenements">Répertoire des événements</a>
 					</span>
 				</AccordionMenu>
 			</div>
