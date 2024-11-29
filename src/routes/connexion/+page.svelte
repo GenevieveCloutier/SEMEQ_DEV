@@ -4,6 +4,7 @@
     import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
     import Retour from '$lib/components/generaux/retour.svelte';
 	import Annonce from '../../lib/components/notifications/annonce.svelte';
+	import Turnstile from '../../lib/components/turnstile.svelte';
     </script>
 
 <!--! Faut revoir le system de notification ici, c'etait la premiere version avant les components -->
@@ -32,7 +33,7 @@
 					    </div>
                         <a href="/connexion/recuperation" class="help has-text-centered">J'ai oublié mon mot de passe</a>
                         <div class="block has-text-centered">
-                            <div class="skeleton-block"></div>
+                            <Turnstile siteKey="{import.meta.env.VITE_TURNSTILE_SITE_KEY}" />
                             <!-- Valider si SubmitButon fait la bonne action! -->
                             <SubmitButon texte={'Se connecter'}></SubmitButon>
                             <Retour />

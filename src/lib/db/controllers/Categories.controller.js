@@ -30,12 +30,12 @@ export async function newCategorie(p_nom){
  */
 export async function findAll(){
     return await Categorie.findAll().then(resultat => {
-        return resultat.map(role => role.dataValues);
+        return resultat.map(categorie => categorie.dataValues);
     })
     .catch((error)=>{
         throw error;
     });
-}
+};
 
 /**
  * Trouve une catégorie unique en fonction des conditions spécifiées.

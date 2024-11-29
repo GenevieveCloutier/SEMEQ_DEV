@@ -4,14 +4,14 @@
     import Recherche from '$lib/components/generaux/recherche.svelte';
     import RechercheNoResult from '$lib/components/generaux/rechercheNoResult.svelte';
     import SectionBoutique from "$lib/components/boites/sectionBoutique.svelte";
-    import AbonnementsBoutique from "$lib/components/boites/AbonnementsBoutique.svelte";
-
+    import SectionAbonnement from "$lib/components/boites/sectionAbonnement.svelte";
     export let data;
     const produits = data.produits;
 
     // Filtrer produits selon leur type
     const formations = produits.filter(produit => produit.type.nom === 'Formation');
     const outils = produits.filter(produit => produit.type.nom === 'Outil');
+    const abonnements = produits.filter(produit => produit.type.nom === 'Abonnement');
 
     // Barre de recherche
     let searchQuery = '';
@@ -38,11 +38,31 @@
                     produit.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
                     produit.desc.toLowerCase().includes(searchQuery.toLowerCase())
                 ) as item}
-                    <SectionBoutique id={item.id} photo={`/${item.photo}`} nom={item.nom} desc={item.desc} prix_a={item.prix_a} prix_v={item.prix_v}></SectionBoutique>
+                    {#if item.type.nom == 'Abonnement'}
+                    <SectionAbonnement id={item.id} photo={`/${item.photo}`} nom={item.nom} desc={item.desc} prix={item.prix_a} prix_sup={item.prix_v}/>
+                    {:else}
+                    <SectionBoutique id={item.id} photo={`/${item.photo}`} nom={item.nom} desc={item.desc} prix_a={item.prix_a} prix_v={item.prix_v}/>
+                    {/if}
                 {/each}
             </div>
         </div>
-    {:else} <!-- Affichage de tous les produits par type -->        
+    {:else} <!-- Affichage de tous les produits par type -->    
+    <div class="block" id="abonnements">
+        <H2Title title={"Abonnements"} />
+        {#if abonnements.length === 0}
+            Aucun abonnement disponible pour le moment.
+        {:else}
+            <div class="fixed-grid is-col-min-10 has-2-cols-mobile has-3-cols-tablet has-4-cols-desktop has-4-cols-widescreen has-5-cols-fullhd">
+                <div class="grid">
+                {#each abonnements as abonnement}
+                <SectionAbonnement id={abonnement.id} photo={`/${abonnement.photo}`} nom={abonnement.nom} desc={abonnement.desc} prix={abonnement.prix_a} prix_sup={abonnement.prix_v}/>
+                {/each}
+                </div>
+            </div>
+        {/if}
+    </div>
+    
+
         <div class="block" id="formations">
             <H2Title title={"Formations"} />
             {#if formations.length === 0}

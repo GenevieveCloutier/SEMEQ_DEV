@@ -26,7 +26,8 @@ import {
 	modificationEvenement,
 	suppressionEvenement
 } from '../../lib/db/controllers/Evenements.controller.js';
-import { ajoutProduitPanier, deleteCart } from '../../lib/db/controllers/Paniers.controller.js';
+import { ajoutProduitPanier, deleteCart, deleteItemsCart, deleteUserCart } from '../../lib/db/controllers/Paniers.controller.js';
+import { Op } from 'sequelize';
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
 import fs from 'fs';
@@ -49,6 +50,7 @@ const cheminPhotosPartenaires = path.join(process.cwd(), 'src/lib/img/app/parten
 //*Import de la clé secrete stocké dans .env
 import { TURNSTILE_SECRET_KEY } from '$env/static/private';
 import { COURRIEL_GESTIONNAIRE } from '$env/static/private';
+import { transactionPanier } from '../../lib/db/controllers/Transaction.controller.js';
 
 export const actions = {
 	/**
@@ -260,6 +262,7 @@ export const actions = {
 				data.get('nom'),
 				data.get('type_id'),
 				data.get('desc'),
+				data.get('url'),
 				data.get('prix_v'),
 				data.get('prix_a'),
 				photo,
@@ -295,16 +298,19 @@ export const actions = {
 			return null;
 		};
 		let photo = await uploadPhoto('photo');
+		log("api data = ", data);
 		try {
 			const res = await modifProduit(data.get('id'), {
 				nom: data.get('nom'),
 				type_id: data.get('type_id'),
 				desc: data.get('desc'),
+				url: data.get('url'),
 				prix_v: data.get('prix_v'),
 				prix_a: data.get('prix_a'),
 				photo: photo,
 				dispo: data.get('dispo') == 'on' ? true : false
 		});
+		log("api res = ", res)
 			return {
 				status: 200,
 				body: {
@@ -753,6 +759,31 @@ export const actions = {
 		}
 	},
 
+	codePromoPanier: async ({request}) => {
+		const data = await request.formData();
+
+		// Date du jour au format ISO avec l'heure 00:00:00 pour comparer avec dates dans BD
+		let aujourdhui = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+		
+		const code = await findOneCodePromo({ code: data.get('code') });
+		if (code.expiration < aujourdhui) {
+			return {
+				status: 200,
+				body: {
+					message: 'Code promo accepté.',
+					article: res
+				}
+			};
+		} else {
+			return {
+				status: 404,
+				body: {
+					message: 'Ce code promo n\'est pas valide ou a expiré.'
+				}
+			};
+		}
+	},
+
 	deleteOnePanier: async ({ request }) => {
 		const data = await request.formData();
 
@@ -768,6 +799,35 @@ export const actions = {
 		} catch (error) {
 			return fail(401, error);
 		}
+	},
+
+	deleteSelectedItemsCart: async ({ request }) => {
+        const data = await request.formData();
+        const utilisateur_id = data.get('utilisateur_id');
+        const produit_id = data.get('selectedItems').split(',');
+
+        try {
+            const res = await deleteItemsCart(utilisateur_id, produit_id);
+            return {
+                status: 200,
+                body: {
+                    message: 'Produits retirés du panier avec succès',
+                    evenement: res
+                }
+            };
+        } catch (error) {
+            return fail(401, error);
+        }
+    },
+
+	deleteAllUserCart: async ({ cookies, request }) => {
+		const data = await request.formData();
+		const utilisateur_id = data.get('id');
+		if (cookies.get('id')) {
+			const res = await deleteUserCart(utilisateur_id);
+			console.log('DeleteCart response:', res);
+			return res;
+		} else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action.');
 	},
 
 	nouveauCodePromo: async ({ request, cookies }) => {
@@ -793,9 +853,31 @@ export const actions = {
 		}
 	
 		const expiration = data.get('expiration') ? data.get('expiration') : null;
+
+		// Vérification des valeurs de produit_id et type_id
+		const produit_id = data.get('produit_id') ? data.get('produit_id') : null;
+		const type_id = data.get('type_id') ? data.get('type_id') : null;
+		if (produit_id !== null && type_id !== null) {
+			return {
+				status: 400,
+				body: {
+					message: 'Merci de choisir soit le produit, soit le type de produit admissible au rabais du code promo.'
+				}
+			};
+		}
 	
 		try {
-			const res = await nouveauCodePromo(data.get('nom'), data.get('avantage'), data.get('code'), logo, expiration);
+			const res = await nouveauCodePromo(
+				data.get('nom'),
+				data.get('avantage'),
+				data.get('code'),
+				data.get('rabais'),
+				logo,
+				expiration,
+				data.get('categorie_id'),
+				produit_id,
+				type_id
+			);
 			return {
 				status: 200,
 				body: {
@@ -834,7 +916,8 @@ export const actions = {
 				avantage: data.get('avantage'),
 				code: data.get('code'),
 				logo: logo,
-				expiration: expiration
+				expiration: expiration,
+				categorie: data.get('categorie_id')
 		});
 			return {
 				status: 200,
@@ -877,6 +960,18 @@ export const actions = {
 			
 		} catch (error) {
 			return fail(401, error);
+		}
+	},
+
+	validationAchat: async ({request}) =>{
+		const formData = await request.formData();
+    	const json = formData.get('donnees');
+    	const data = JSON.parse(json);
+		try {
+			const res = await transactionPanier(data);
+			return res;
+		} catch (error) {
+			throw error
 		}
 	}
 };

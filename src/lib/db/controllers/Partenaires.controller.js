@@ -1,5 +1,7 @@
 import { Partenaire } from "../models/Partenaire.model";
 import { Categorie } from "../models/Categorie.model";
+import { Produit } from "../models/Produit.model";
+import { Type } from "../models/Type.model";
 import { error } from "@sveltejs/kit";
 
 /**
@@ -13,6 +15,8 @@ export async function findAll(){
     return await Partenaire.findAll({
         include: [
             { model: Categorie, as: "categorie" },
+			{ model: Produit, as: "produit" },
+			{ model: Type, as: "type" },
         ],
     }).then(resultat => {
         if(resultat.length === 0){
@@ -20,7 +24,9 @@ export async function findAll(){
         }
         return resultat.map(partenaire => ({
             ...partenaire.dataValues,
-            type: partenaire.type ? partenaire.type.dataValues : null
+            categorie: partenaire.categorie ? partenaire.categorie.dataValues : null,
+			produit: partenaire.produit ? partenaire.produit.dataValues : null,
+			type: partenaire.type ? partenaire.type.dataValues : null,
         }));
     })
     .catch((error)=>{
@@ -41,26 +47,31 @@ export async function findAll(){
  *
  * @throws {Error} - Lance une erreur en cas de problème lors de la recherche.
  */
-export async function findOne(p_where){
-    return await Partenaire.findOne({ where: p_where, include: [{
-        model: Categorie,
-        as: 'categorie'
-    }]})
-    .then(res => {
-        if(res)
-        return {
-            ...res.dataValues,
-            type: res.categorie ? res.categorie.dataValues : null
-        };
-        else
-            return null;
-    }).catch((error) => {;
-        throw error;
-    });
+export async function findOne(p_where) {
+	return await Partenaire.findOne({
+		where: p_where,
+		include: [
+			{ model: Categorie, as: 'categorie' },
+			{ model: Produit, as: 'produit' },
+			{ model: Type, as: 'type' },
+		]
+	})
+		.then((res) => {
+			if (res)
+				return {
+					...res.dataValues,
+					categorie: res.categorie ? res.categorie.dataValues : null,
+					produit: res.produit ? res.produit.dataValues : null,
+					type: res.type ? res.type.dataValues : null
+				};
+			else return null;
+		})
+		.catch((error) => {
+			throw error;
+		});
 }
 
-
-export async function nouveauCodePromo(p_nom, p_avantage, p_code, p_logo, p_expiration, p_categorie) {
+export async function nouveauCodePromo(p_nom, p_avantage, p_code, p_rabais, p_logo, p_expiration, p_categorie_id, p_produit_id, p_type_id) {
 	try {
         const doublonPartenaire = await findOne({nom: p_nom});
         const doublonCode = await findOne({code: p_code});
@@ -69,9 +80,12 @@ export async function nouveauCodePromo(p_nom, p_avantage, p_code, p_logo, p_expi
 			nom: p_nom,
 			avantage: p_avantage,
 			code: p_code,
+			rabais: p_rabais,
 			logo: p_logo,
             expiration: p_expiration,
-			categorie: p_categorie
+			categorie_id: p_categorie_id,
+			produit_id: p_produit_id,
+			type_id: p_type_id
 		});
 		return resultat.dataValues;
 	} catch (error) {
@@ -86,9 +100,12 @@ export async function modifCodePromo(p_id, p_modifications) {
 			nom: p_modifications.nom ?? partenaire.nom,
 			avantage: p_modifications.avantage ?? partenaire.avantage,
 			code: p_modifications.code ?? partenaire.code,
+			rabais: p_modifications.rabais ?? partenaire.rabais,
 			logo: p_modifications.logo ?? partenaire.logo,
             expiration: p_modifications.expiration ?? partenaire.expiration,
-			categorie: p_modifications.categorie ?? partenaire.categorie,
+			categorie_id: p_modifications.categorie_id ?? partenaire.categorie_id,
+			produit_id: p_modifications.produit_id ?? partenaire.produit_id,
+			type_id: p_modifications.type_id ?? partenaire.type_id,
 		});
 		return partenaire.dataValue
 	} catch (error) {

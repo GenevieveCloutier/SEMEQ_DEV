@@ -3,6 +3,7 @@
 export let session;
 export let id;
 export let role;
+export let abonne;
 
 	// Pour faire afficher le menu dropdown quand on clique sur l'icone ou la flèche
 	// export function toggleNavbarMenu(node) {
@@ -49,21 +50,22 @@ export let role;
 		{#if session}
 		<div class="dropdown-menu" id="dropdown-compte" role="menu" >
 			<div class="dropdown-content">
-				<!-- ajouter les autorisations pour l'accès aux liens (remplacer /id/) -->
-				 {#if id == 1}
-				<a href={`/`} class="dropdown-item"> Mon compte </a>
+				{#if id == 1}
+				<a href={`/gestionnaire`} class="dropdown-item"> Tableau de bord </a>
 				{:else}
 				<a href={`/${id}`} class="dropdown-item"> Mon compte </a>
 				{/if}
 				<hr class="dropdown-divider" />
 				<a href={`/${id}/mes_evenements`} class="dropdown-item" on:click={cacherMenu}> Mes événements </a>
 				<hr class="dropdown-divider" />
-				{#if role === '3' || role === '1'}
+				{#if role === '3' && abonne === true || role === '1'}
 				<a href={`/${id}/appels_candidatures`} class="dropdown-item" on:click={cacherMenu}> Appels de candidature </a>
 				<hr class="dropdown-divider" />
 				{/if}
+				{#if abonne === true || role === '1'}
 				<a href={`/${id}/mes_avantages`} class="dropdown-item" on:click={cacherMenu}> Mes avantages </a>
 				<hr class="dropdown-divider" />
+				{/if}
 				<a href={`/${id}/formations_outils`} class="dropdown-item" on:click={cacherMenu}> Mes formations et outils </a>
 				<hr class="dropdown-divider" />
 				<a href={`/${id}/achats`} class="dropdown-item" on:click={cacherMenu}> Historique d'achat </a>
