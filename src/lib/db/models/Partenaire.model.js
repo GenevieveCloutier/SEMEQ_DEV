@@ -18,8 +18,12 @@ export const Partenaire = sequelize.define("partenaire", {
         allowNull: true
     },
     rabais: {
-        type: DataTypes.REAL,
-        allowNull: true
+        type: DataTypes.FLOAT,
+        allowNull: true,
+        validate: {
+            min: 0.0,
+            max: 100.0
+        }
     },
     logo: {
         type: DataTypes.STRING,
