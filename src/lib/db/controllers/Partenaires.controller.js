@@ -24,9 +24,9 @@ export async function findAll(){
         }
         return resultat.map(partenaire => ({
             ...partenaire.dataValues,
-            categorie: partenaire.categorie ? partenaire.categorie.dataValues : null
-			type: partenaire.produit ? partenaire.produit.dataValues : null
-			type: partenaire.type ? partenaire.type.dataValues : null
+            categorie: partenaire.categorie ? partenaire.categorie.dataValues : null,
+			produit: partenaire.produit ? partenaire.produit.dataValues : null,
+			type: partenaire.type ? partenaire.type.dataValues : null,
         }));
     })
     .catch((error)=>{
@@ -57,9 +57,9 @@ export async function findOne(p_where){
         if(res)
         return {
             ...res.dataValues,
-            categorie: res.categorie ? res.categorie.dataValues : null
-			produit: res.produit ? res.produit.dataValues : null
-			type: res.type ? res.type.dataValues : null
+            categorie: res.categorie ? res.categorie.dataValues : null,
+			produit: res.produit ? res.produit.dataValues : null,
+			type: res.type ? res.type.dataValues : null,
         };
         else
             return null;
