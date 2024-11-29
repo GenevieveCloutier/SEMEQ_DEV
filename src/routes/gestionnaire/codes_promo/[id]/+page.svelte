@@ -8,10 +8,7 @@
 	import Confirmation from '$lib/components/notifications/confirmation.svelte';
 
     export let data;
-    const code = data.code;
-    const categories = data.categories;
-    const produits = data.produits;
-	const types = data.types;
+	let { code, categories, produits, types } = data;
 </script>
 
 <H1Title title={"Modification d'un code promo"} />
@@ -132,7 +129,11 @@
                         <div class="control">
                             <div class="select is-fullwidth">
                                 <select name="produit_id" id="produit_id" required>
-                                    <option value={code.produit_id} disabled selected required>{code.produit.nom}</option>
+                                    {#if code.produit_id === null}
+                                        <option  disabled selected>Choisissez un produit sur lequel appliquer le rabais</option>
+                                    {:else}
+                                        <option value={code.produit_id} disabled selected required>{code.produit.nom}</option>
+                                    {/if}
                                     {#each produits as produit}
                                         <option value={produit.id}>{produit.nom}</option>
                                     {/each}
@@ -147,8 +148,11 @@
                         <div class="control">
                             <div class="select is-fullwidth">
                                 <select name="type_id" id="type_id">
-                                    <option value={code.type_id} disabled selected required>{code.type.nom}</option>
-                                    <option  disabled selected>Choisissez un type de produit sur lequel appliquer le rabais</option>
+                                    {#if code.type_id === null}
+                                        <option  disabled selected>Choisissez un type de produit sur lequel appliquer le rabais</option>
+                                    {:else}
+                                        <option value={code.type_id} disabled selected required>{code.type.nom}</option>
+                                    {/if}
                                     {#each types as type}
                                         <option value={type.id}>{type.nom}</option>
                                     {/each}
