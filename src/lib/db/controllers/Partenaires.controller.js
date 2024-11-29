@@ -64,7 +64,7 @@ export async function findOne(p_where) {
 					produit: res.produit ? res.produit.dataValues : null,
 					type: res.type ? res.type.dataValues : null
 				};
-			//else return null;
+			else return null;
 		})
 		.catch((error) => {
 			throw error;
