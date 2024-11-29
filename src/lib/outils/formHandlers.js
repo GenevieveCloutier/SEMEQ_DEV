@@ -885,7 +885,6 @@ export async function supprimeCodePromo(p_id) {
 	});
 	
 	const result = await response.json();
-	const test = JSON.parse(result.data);
 	if(result.status === 200){
 		success.set(JSON.parse(result.data)[3]);
 		goto(`/gestionnaire/codes_promo`);
@@ -927,4 +926,12 @@ export async function achatReussi(donnees){
 		method: 'POST',
 		body: formData
 	  });
+	  const result = await response.json();
+	  if(result.status === 200)
+		console.log("Achat validé");
+	//? Une fonction pour envoyer un mail ?
+	else
+		erreur.set(JSON.parse(result.data)[0]);
+		
+		
 }

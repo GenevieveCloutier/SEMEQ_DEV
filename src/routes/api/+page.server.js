@@ -945,11 +945,11 @@ export const actions = {
 		const formData = await request.formData();
     	const json = formData.get('donnees');
     	const data = JSON.parse(json);
-		// log("dans l'api data = ", data)
 		try {
 			const res = await transactionPanier(data);
+			return res;
 		} catch (error) {
-			
+			throw error
 		}
 	}
 };

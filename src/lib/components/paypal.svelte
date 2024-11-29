@@ -4,14 +4,15 @@
     import { loadScript } from "@paypal/paypal-js";
 	  import { onMount } from "svelte";
     import { achatReussi } from '$lib/outils/formHandlers';
+    import { erreur } from '$lib/outils/formHandlers';
+    
 
     export let total;
     export let redirection;
     export let donneesClient;
-    //<!--! La pour le test j'ai mis la clé directement ici, mais va falloir la mettre en dotenv
-    const CLIENT_ID = "AVjfN3RipHRH5MAlrzQyfJGb65Niols6HURmiL0dmpuzVh63eOAaJcheLD7jKdReHi6sQp1z1B4wp-1c";
+    export let paypal_id;
     onMount(() => {
-    loadScript({ "client-id": CLIENT_ID, currency: "CAD" }).then((paypal) => {
+    loadScript({ "client-id": paypal_id, currency: "CAD" }).then((paypal) => {
       paypal
         .Buttons({
           style: {
@@ -39,7 +40,7 @@
           },
           onError: function (err) {
             //<!--! Et ca c'est quand ca a merdé
-            alert("Quelque chose s'est mal passé");
+              erreur.set("Un problème est survenue lors de la communication avec Paypal.\nVeuillez réessayer.")
             console.log("Quelque chose s'est mal passé", err);
           },
         })
