@@ -852,9 +852,31 @@ export const actions = {
 		}
 	
 		const expiration = data.get('expiration') ? data.get('expiration') : null;
+
+		// Vérification des valeurs de produit_id et type_id
+		const produit_id = data.get('produit_id') ? data.get('produit_id') : null;
+		const type_id = data.get('type_id') ? data.get('type_id') : null;
+		if (produit_id !== null && type_id !== null) {
+			return {
+				status: 400,
+				body: {
+					message: 'Merci de choisir soit le produit, soit le type de produit admissible au rabais du code promo.'
+				}
+			};
+		}
 	
 		try {
-			const res = await nouveauCodePromo(data.get('nom'), data.get('avantage'), data.get('code'), logo, expiration, data.get('categorie_id'));
+			const res = await nouveauCodePromo(
+				data.get('nom'),
+				data.get('avantage'),
+				data.get('code'),
+				data.get('rabais'),
+				logo,
+				expiration,
+				data.get('categorie_id'),
+				produit_id,
+				type_id
+			);
 			return {
 				status: 200,
 				body: {
