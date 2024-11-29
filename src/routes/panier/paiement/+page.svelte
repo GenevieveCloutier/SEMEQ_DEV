@@ -94,7 +94,7 @@
 
   <!-- La div pour le bouton paypal -->
    <div class="container is-flex is-justify-content-center is-align-items-center">
-    <Paypal total={totalToSend} redirection={redirection}/>
+    <Paypal total={totalToSend} redirection={redirection} donneesClient={data}/>
   </div>
 
   <div class="block has-text-right">

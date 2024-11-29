@@ -20,7 +20,9 @@ export const Panier = sequelize.define("panier", {
         },
         allowNull: true
     }, 
-});
+},
+{ paranoid: true }// Permet à sequelize de faire de la soft-deletion
+);
 
 Panier.belongsTo(Utilisateur, { foreignKey: 'utilisateur_id', as: 'utilisateur' });
 Utilisateur.hasMany(Panier, { foreignKey: 'utilisateur_id', as: 'paniers' });

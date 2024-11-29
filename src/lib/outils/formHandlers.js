@@ -916,3 +916,15 @@ export async function contact(event) {
         erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
 	}
 }
+
+export async function achatReussi(donnees){
+	erreur.set('');
+	success.set('');
+	const formData = new FormData();
+	formData.append('donnees', JSON.stringify(donnees));
+	// alert(donnees.utilisateur.id)
+	const response = await fetch('../../api?/validationAchat', {
+		method: 'POST',
+		body: formData
+	  });
+}
