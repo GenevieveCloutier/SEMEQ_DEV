@@ -50,6 +50,7 @@ const cheminPhotosPartenaires = path.join(process.cwd(), 'src/lib/img/app/parten
 //*Import de la clé secrete stocké dans .env
 import { TURNSTILE_SECRET_KEY } from '$env/static/private';
 import { COURRIEL_GESTIONNAIRE } from '$env/static/private';
+import { transactionPanier } from '../../lib/db/controllers/Transaction.controller.js';
 
 export const actions = {
 	/**
@@ -959,6 +960,18 @@ export const actions = {
 			
 		} catch (error) {
 			return fail(401, error);
+		}
+	},
+
+	validationAchat: async ({request}) =>{
+		const formData = await request.formData();
+    	const json = formData.get('donnees');
+    	const data = JSON.parse(json);
+		try {
+			const res = await transactionPanier(data);
+			return res;
+		} catch (error) {
+			throw error
 		}
 	}
 };
