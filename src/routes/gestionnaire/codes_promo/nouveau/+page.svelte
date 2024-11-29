@@ -61,14 +61,14 @@
 
 				<div class="column is-half">
 					<div class="field">
-						<label class="label" for="rabais">Rabais</label>
+						<label class="label" for="rabais">Rabais (en %)</label>
 						<div class="control">
 							<input
 								class="input"
 								type="text"
 								name="rabais"
 								id="rabais"
-								placeholder="% de rabais"
+								placeholder="Pour 15% inscrire 0.15"
 								required
 							/>
 						</div>
@@ -103,9 +103,27 @@
 							</div>
 						</div>
 					</div>
-
+				</div>
+				<div class="column is-half">
 					<div class="field">
-						<label for="produit_id" class="label">Produit de la boutique SÉMEQ</label>
+						<label class="label" for="expiration">Date d'expiration</label>
+							<div class="control">
+								<input class="input" type="date" name="expiration" id="expiration" />
+							</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container has-text-centered">
+				<p><i>
+					Si le code promo peut-être utilisé sur la boutique SÉMEQ, merci de choisir un produit OU un type de produit
+					pour le rabais.
+				</i></p>
+			</div>
+			<div class="columns">
+				<div class="column is-half">
+					<div class="field">
+						<label for="produit_id" class="label">Produit</label>
 						<div class="control">
 							<div class="select is-fullwidth">
 								<select name="produit_id" id="produit_id" required>
@@ -120,17 +138,10 @@
 				</div>
 				<div class="column is-half">
 					<div class="field">
-						<label class="label" for="expiration">Date d'expiration</label>
-							<div class="control">
-								<input class="input" type="date" name="expiration" id="expiration" />
-							</div>
-					</div>
-
-					<div class="field">
-						<label for="categorie_id" class="label">Types de produits de la boutique SÉMEQ</label>
+						<label for="type_id" class="label">Types de produits</label>
 						<div class="control">
 							<div class="select is-fullwidth">
-								<select name="categorie_id" id="categorie_id">
+								<select name="type_id" id="type_id">
 									<option  disabled selected>Choisissez un type de produit sur lequel appliquer le rabais</option>
 									{#each types as type}
 										<option value={type.id}>{type.nom}</option>
