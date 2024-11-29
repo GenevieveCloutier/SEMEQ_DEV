@@ -87,5 +87,5 @@ export async function load({ params, cookies }) {
     const session = cookies.get('session');
     const role = cookies.get('role');
  
-    return {users: users, session: session}; //tous les utilisateurs
+    return {users: users, session: session, role:role}; //tous les utilisateurs
 }
