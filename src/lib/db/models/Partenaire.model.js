@@ -60,10 +60,10 @@ export const Partenaire = sequelize.define("partenaire", {
 });
 
 Partenaire.belongsTo(Categorie, { foreignKey: 'categorie_id', as: 'categorie' });
-Categorie.hasMany(Partenaire, { foreignKey: 'categorie_id', as: 'partenaires' });
+Categorie.hasMany(Partenaire, { foreignKey: 'categorie_id', as: 'code_partenaires' });
 
 Partenaire.belongsTo(Produit, { foreignKey: 'produit_id', as: 'produit' });
-Produit.hasMany(Partenaire, { foreignKey: 'produit_id', as: 'partenaires' });
+Produit.hasMany(Partenaire, { foreignKey: 'produit_id', as: 'code_produits' });
 
 Partenaire.belongsTo(Type, { foreignKey: 'type_id', as: 'type' });
-Type.hasMany(Partenaire, { foreignKey: 'type_id', as: 'partenaires' });
+Type.hasMany(Partenaire, { foreignKey: 'type_id', as: 'code_types' });
