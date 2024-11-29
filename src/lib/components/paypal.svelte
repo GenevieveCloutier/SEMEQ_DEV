@@ -4,7 +4,8 @@
     import { loadScript } from "@paypal/paypal-js";
 	import { onMount } from "svelte";
 
-    export let total = 10;
+    export let total;
+    export let redirection;
     //<!--! La pour le test j'ai mis la clé directement ici, mais va falloir la mettre en dotenv
     const CLIENT_ID = "AVjfN3RipHRH5MAlrzQyfJGb65Niols6HURmiL0dmpuzVh63eOAaJcheLD7jKdReHi6sQp1z1B4wp-1c";
     onMount(() => {
@@ -29,8 +30,8 @@
           onApprove: function (data, actions) {
             //<!--! Ca c'est ce qui est declenché en retour si le paiement est valider
             return actions.order.capture().then(function (details) {
-              alert("Paiement validé");
-              //<!--!Ajouter un actions.redirect() pour changer de page
+              console.log("Paiement validé");
+              actions.redirect(redirection);
             });
           },
           onError: function (err) {
