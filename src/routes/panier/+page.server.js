@@ -5,6 +5,7 @@ import { Utilisateur } from "$lib/db/models/Utilisateur.model";
 import { Produit } from "$lib/db/models/Produit.model";
 import { Type } from "$lib/db/models/Type.model";
 import { findOne } from '$lib/db/controllers/Utilisateurs.controller';
+import { log } from '../../lib/outils/debug';
 
 /**
  * Charge tous les paniers de l'utilisateur avec les détails des produits, incluant les types.
@@ -39,6 +40,8 @@ export async function load({ cookies }){
             type: panier.produit.type ? panier.produit.type.dataValues : null
         } : null
     }));
+
+    // log("dans le load le paniers = ", resultat)
 
     return { paniers: resultat, utilisateur }
 }

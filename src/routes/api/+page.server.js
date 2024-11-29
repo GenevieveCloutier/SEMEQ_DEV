@@ -50,6 +50,7 @@ const cheminPhotosPartenaires = path.join(process.cwd(), 'src/lib/img/app/parten
 //*Import de la clé secrete stocké dans .env
 import { TURNSTILE_SECRET_KEY } from '$env/static/private';
 import { COURRIEL_GESTIONNAIRE } from '$env/static/private';
+import { transactionPanier } from '../../lib/db/controllers/Transaction.controller.js';
 
 export const actions = {
 	/**
@@ -852,9 +853,31 @@ export const actions = {
 		}
 	
 		const expiration = data.get('expiration') ? data.get('expiration') : null;
+
+		// Vérification des valeurs de produit_id et type_id
+		const produit_id = data.get('produit_id') ? data.get('produit_id') : null;
+		const type_id = data.get('type_id') ? data.get('type_id') : null;
+		if (produit_id !== null && type_id !== null) {
+			return {
+				status: 400,
+				body: {
+					message: 'Merci de choisir soit le produit, soit le type de produit admissible au rabais du code promo.'
+				}
+			};
+		}
 	
 		try {
-			const res = await nouveauCodePromo(data.get('nom'), data.get('avantage'), data.get('code'), logo, expiration, data.get('categorie_id'));
+			const res = await nouveauCodePromo(
+				data.get('nom'),
+				data.get('avantage'),
+				data.get('code'),
+				data.get('rabais'),
+				logo,
+				expiration,
+				data.get('categorie_id'),
+				produit_id,
+				type_id
+			);
 			return {
 				status: 200,
 				body: {
@@ -937,6 +960,18 @@ export const actions = {
 			
 		} catch (error) {
 			return fail(401, error);
+		}
+	},
+
+	validationAchat: async ({request}) =>{
+		const formData = await request.formData();
+    	const json = formData.get('donnees');
+    	const data = JSON.parse(json);
+		try {
+			const res = await transactionPanier(data);
+			return res;
+		} catch (error) {
+			throw error
 		}
 	}
 };
