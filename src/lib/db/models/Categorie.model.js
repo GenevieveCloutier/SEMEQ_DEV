@@ -5,5 +5,5 @@ export const Categorie = sequelize.define("categorie", {
     nom: {
         type: DataTypes.STRING,
         allowNull: true
-    }
+    },
 });

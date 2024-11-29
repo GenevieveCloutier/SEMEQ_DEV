@@ -1,7 +1,7 @@
 <script>
 	import { fly } from 'svelte/transition';
 	import Retour from '../generaux/retour.svelte';
-	import { handleUserDelete, suppressionEvenement, suppressionBlogue, suppressionProduit, supprimeCodePromo } from '../../outils/formHandlers';
+	import { handleUserDelete, suppressionEvenement, suppressionBlogue, suppressionProduit, supprimeCodePromo, deleteAllUserCart } from '../../outils/formHandlers';
 
 	export let id, but;
 	let confirmation = false;
@@ -16,7 +16,9 @@
 						? "Supprimer le produit"
 							: but == 'code_promo'
 							? "Supprimer le code promo"
-							: null;
+								: but == 'panier'
+								? "Vider le panier"
+								: null;
 </script>
 
 <button
@@ -144,6 +146,30 @@
 				}}>Retour</button
 			>
 			<button class="button is-danger" on:click|preventDefault={supprimeCodePromo(id)}>
+				Confirmer la suppression</button
+			>
+		</div>
+	</div>
+{/if}
+
+{#if confirmation && but == 'panier'}
+	<div
+		class="box has-text-centered popup"
+		in:fly={{ y: 200, duration: 1500 }}
+		out:fly={{ y: -200, duration: 1500 }}
+	>
+		<p>Veux-tu vraiment vider ton panier?</p>
+		<p class="help">
+			Cette action entraîneras la suppression de tous les produits dans ton panier.
+		</p>
+		<div class="block">
+			<button
+				class="button"
+				on:click|preventDefault={() => {
+					confirmation = !confirmation;
+				}}>Retour</button
+			>
+			<button class="button is-danger" on:click|preventDefault={deleteAllUserCart(id)}>
 				Confirmer la suppression</button
 			>
 		</div>

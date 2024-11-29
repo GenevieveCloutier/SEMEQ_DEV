@@ -726,6 +726,28 @@ export async function ajouterPanier(event){
     }
 }
 
+export async function codePromoPanier(event) {
+	chargement;
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/codePromoPanier', {
+			method: 'POST',
+			enctype: 'multipart/form-data',
+			body: formData
+		});
+		const result = await response.json();
+		if (result.status == 200){
+			window.location.reload();
+			success.set('Code promo accepté.');
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
+}
+
 export async function deleteOnePanier(event){
     chargement();
     erreur.set('');
@@ -750,6 +772,62 @@ export async function deleteOnePanier(event){
         console.error("erreur inattendue : ", error);
         erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
     }
+}
+
+export async function deleteSelectedItemsCart(event) {
+    chargement();
+    erreur.set('');
+    try {
+        const formData = new FormData(event.target);
+		
+        // Vérifiez si selectedItems contient au moins un élément
+		const selectedItems = formData.get('selectedItems').split(',');
+        if (selectedItems.length === 0 || selectedItems[0] === '') {
+            erreur.set("Merci de sélectionner au moins un produit pour supprimer.");
+            return;
+        }
+
+        const response = await fetch('../api?/deleteSelectedItemsCart', {
+            method: 'POST',
+            body: formData
+        });
+        log("formhandler deleteSelectedItemsCart response = ", response);
+        const result = await response.json();
+        log("formhandler deleteSelectedItemsCart, result = ", result);
+
+        if (result.status == 200) {
+            window.location.reload();
+            success.set("Les produits ont été retirés du panier.");
+        } else {
+            log("formhandler error deleteSelectedItemsCart = ", JSON.parse(result.data)[0]);
+            erreur.set(JSON.parse(result.data)[0]);
+        }
+    } catch (error) {
+        console.error("erreur inattendue : ", error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+    }
+}
+
+export async function deleteAllUserCart(p_id) {
+	erreur.set('');
+	success.set('');
+	const formData = new FormData();
+	formData.append('id', p_id);
+	const response = await fetch('../../api?/deleteAllUserCart', {
+		method: 'POST',
+		body: formData
+	});
+	
+	const result = await response.json();
+	const test = JSON.parse(result.data);
+	console.log('API response:', result);
+	if(result.status === 200){
+		success.set('Le panier a été vidé avec succès.');
+		goto(`/boutique`);
+	}else{
+		console.error('Error:', error);
+		erreur.set('Une erreur est survenue lors de la suppression du panier.');
+	}
 }
 
 export async function creationCodePromo(event) {

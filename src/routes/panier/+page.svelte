@@ -1,19 +1,30 @@
+
 <script>
     import H1Title from "$lib/components/titres/h1Title.svelte";
     import H2Title from "$lib/components/titres/h2Title.svelte";
     import BoutonGris from "$lib/components/boutons/boutonGris.svelte";
     import Retour from "$lib/components/generaux/retour.svelte";
-    import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
     import AbonnementEven from '$lib/components/boites/abonnementEven.svelte';
     import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
-    import { deleteOnePanier } from '$lib/outils/formHandlers';
     import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
-    import ViderPanier from '$lib/components/notifications/viderPanier.svelte';
+    import { deleteOnePanier, deleteSelectedItemsCart } from '$lib/outils/formHandlers';
+    import Confirmation from '$lib/components/notifications/confirmation.svelte';
 
     export let data;
     const paniers = data.paniers;
     const utilisateur = data.utilisateur;
+
+    // Pour supprimer plusieurs produits du panier
+    let selectedItems = [];
+    function handleCheckboxChange(event) {
+        const itemId = event.target.value;
+        if (event.target.checked) {
+            selectedItems = [...selectedItems, itemId];
+        } else {
+            selectedItems = selectedItems.filter(id => id !== itemId);
+        }
+    }
 
     // Calcul économie
     let economie = paniers.reduce((acc, panier) => {
@@ -69,20 +80,21 @@
             {/if}
         </section>
 
-    {:else}
+        {:else}
         <!-- Boutons supprimer produits/vider panier -->
         <div class="columns is-1">
             <div class="column is-narrow">
-                <form> <!-- on:submit|preventDefault={deleteSelectedCart} -->
-                    <input type="hidden" name="produit_id" /> <!-- value={produit.id} -->
-                    <button type="submit" class="button is-danger is-outlined">Supprimer les éléments</button>
+                <form on:submit|preventDefault={deleteSelectedItemsCart}>
+                    <input type="hidden" name="utilisateur_id" value={utilisateur.id} />
+                    <input type="hidden" name="selectedItems" value={selectedItems.join(',')} />
+                    <button type="submit" class="button is-danger is-outlined">Supprimer les produits</button>
                 </form>
             </div>
-            <!--<div class="column">
-                <ViderPanier utilisateur_id={utilisateur.id} />
-            </div>-->
+            <div class="column">
+                <Confirmation but='panier' id={utilisateur.id} />
+            </div>
         </div>
-    
+
         <div class="columns">
             <div class="column is-three-quarters">
                 <table class="table is-striped is-fullwidth">
@@ -101,7 +113,7 @@
                                 <td>
                                     <div class="field has-text-centered">
                                         <div class="control">
-                                            <input type="checkbox" id="produit_select" value={panier.id}>
+                                            <input type="checkbox" id="selectItem" value={panier.id} on:change={handleCheckboxChange}>
                                         </div>
                                     </div>
                                 </td>
@@ -181,7 +193,9 @@
                     </div>
 
                     <div class="block has-text-centered">
-                        <SubmitButon texte={'Valider et payer'} />
+                        <a href="/panier/paiement">
+                            <button id="paiement" type="submit" class="button is-dark" style="background-color: #053682; color:white">Valider et payer</button>
+                        </a>
                     </div>                
                 </div>
             </div>
@@ -189,7 +203,7 @@
 
         <div class="block has-text-right">
             <Retour />
-        </div>        
+        </div>
     {/if}
 
 </div>
@@ -210,9 +224,4 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
     }
-
-    #btn_code_promo {
-		background-color: #d9d9d9;
-		color: black;
-	}
 </style>

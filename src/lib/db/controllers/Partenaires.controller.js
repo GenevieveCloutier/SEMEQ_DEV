@@ -60,7 +60,7 @@ export async function findOne(p_where){
 }
 
 
-export async function nouveauCodePromo(p_nom, p_avantage, p_code, p_logo, p_expiration, p_categorie) {
+export async function nouveauCodePromo(p_nom, p_avantage, p_code, p_logo, p_expiration, p_categorie_id) {
 	try {
         const doublonPartenaire = await findOne({nom: p_nom});
         const doublonCode = await findOne({code: p_code});
@@ -71,7 +71,7 @@ export async function nouveauCodePromo(p_nom, p_avantage, p_code, p_logo, p_expi
 			code: p_code,
 			logo: p_logo,
             expiration: p_expiration,
-			categorie: p_categorie
+			categorie_id: p_categorie_id
 		});
 		return resultat.dataValues;
 	} catch (error) {
@@ -88,7 +88,7 @@ export async function modifCodePromo(p_id, p_modifications) {
 			code: p_modifications.code ?? partenaire.code,
 			logo: p_modifications.logo ?? partenaire.logo,
             expiration: p_modifications.expiration ?? partenaire.expiration,
-			categorie: p_modifications.categorie ?? partenaire.categorie,
+			categorie_id: p_modifications.categorie_id ?? partenaire.categorie_id,
 		});
 		return partenaire.dataValue
 	} catch (error) {
