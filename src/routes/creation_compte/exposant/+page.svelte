@@ -77,7 +77,7 @@
           <div class="field">
             <label class="label" for="code_postal">Code postal (format: J0A 1A0)<span class="rouge">*</span></label>
             <div class="control">
-              <input class="input" type="text" name="code_postal" id="adresse" required placeholder="J0A 1A0" >
+              <input class="input" type="text" name="code_postal" id="code_postal" required placeholder="J0A 1A0" >
             </div>
           </div>
 

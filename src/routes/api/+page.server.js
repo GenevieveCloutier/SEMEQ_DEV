@@ -122,22 +122,22 @@ export const actions = {
 		const domaine = envoieMappage(data, domaines);
 
 		// Pour uploader et stocker les logos
-		const uploadLogo = async (nomFichier) => {
-			const logo = data.get(nomFichier);
+		// const uploadLogo = async (nomFichier) => {
+		// 	const logo = data.get(nomFichier);
 
-			if (logo && logo.name) {
-				const buffer = Buffer.from(await logo.arrayBuffer());
-            const extension = logo.name.substring(logo.name.lastIndexOf("."));
+		// 	if (logo && logo.name) {
+		// 		const buffer = Buffer.from(await logo.arrayBuffer());
+        //     const extension = logo.name.substring(logo.name.lastIndexOf("."));
             
-				const nomTemporaire = randomUUID() +  logo.name.replaceAll(/[\s\W]/g, "_") + extension;
-				const filePath = path.resolve(cheminLogos, nomTemporaire);
-				fs.writeFileSync(filePath, buffer);
-				return path.relative(process.cwd(), filePath);
-			}
-			// Si pas de logo, retourne null
-			return null;
-		};
-		const logo = await uploadLogo('logo');
+		// 		const nomTemporaire = randomUUID() +  logo.name.replaceAll(/[\s\W]/g, "_") + extension;
+		// 		const filePath = path.resolve(cheminLogos, nomTemporaire);
+		// 		fs.writeFileSync(filePath, buffer);
+		// 		return path.relative(process.cwd(), filePath);
+		// 	}
+		// 	// Si pas de logo, retourne null
+		// 	return null;
+		//};
+		//const logo = await uploadLogo('logo');
 
 		// Pour uploader et stocker les photos des utilisateurs
 		const uploadPhotoUtilisateur = async (nomFichier) => {
@@ -145,7 +145,7 @@ export const actions = {
 
 			if (photo && photo.name) {
 				const buffer = Buffer.from(await photo.arrayBuffer());
-            const extension = photo.name.substring(photo.name.lastIndexOf("."));
+            	const extension = photo.name.substring(photo.name.lastIndexOf("."));
 
 				const nomTemporaire = randomUUID() +  photo.name.replaceAll(/[\s\W]/g, "_") + extension;
 				const filePath = path.resolve(cheminPhotosUtilisateurs, nomTemporaire);
@@ -185,7 +185,7 @@ export const actions = {
 				photo_1,
 				photo_2,
 				photo_3,
-				logo,
+				//logo,
                 data.get("telephone")
 			);
 

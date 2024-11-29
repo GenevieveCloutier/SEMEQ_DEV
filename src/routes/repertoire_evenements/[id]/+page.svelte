@@ -223,7 +223,7 @@ let affichersite = siteweb();
             {#if evenement.description}
                 {evenement.description}
             {:else}
-                <p>Aucune description de l'entreprise n'a été fournie par l'exposant</p>
+                <p>Aucune description de l'événement n'a été fournie par l'organisation.</p>
             {/if}
         </div>
         <div class="column is-1"></div>
