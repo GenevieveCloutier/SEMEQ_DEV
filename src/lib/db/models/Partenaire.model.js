@@ -15,6 +15,10 @@ export const Partenaire = sequelize.define("partenaire", {
         type: DataTypes.STRING,
         allowNull: true
     },
+    rabais: {
+        type: DataTypes.REAL,
+        allowNull: true
+    },
     logo: {
         type: DataTypes.STRING,
         allowNull: true
