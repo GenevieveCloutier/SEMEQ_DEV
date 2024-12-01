@@ -28,7 +28,12 @@
 		});
 		if (evenement.limite) document.querySelector(`[name="limite"]`).checked = true;
 		if (evenement.selection) document.querySelector(`[name="selection"]`).checked = true;
+
+		const actives = document.querySelectorAll('a.is-active');
+        actives.forEach((x)=>x.classList.remove('is-active'));
+    document.getElementById('evenements').classList.add('is-active')
 	});
+
 
 	//fonction pour éviter que la date de début enregistrée soit après la date de fin
 	function dateConforme(dateDebut, dateFin) {

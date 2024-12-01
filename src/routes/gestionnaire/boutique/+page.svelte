@@ -5,8 +5,16 @@
     import RechercheNoResult from '$lib/components/generaux/rechercheNoResult.svelte';
     import SectionBoutique from "$lib/components/boites/sectionBoutique.svelte";
     import SectionAbonnement from "$lib/components/boites/sectionAbonnement.svelte";
+	import { onMount } from "svelte";
+    
     export let data;
     const produits = data.produits;
+
+    onMount(()=>{
+        const actives = document.querySelectorAll('a.is-active');
+        actives.forEach((x)=>x.classList.remove('is-active'));
+    document.getElementById('boutique').classList.add('is-active')
+    });
 
     // Filtrer produits selon leur type
     const formations = produits.filter(produit => produit.type.nom === 'Formation');

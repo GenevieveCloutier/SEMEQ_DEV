@@ -1,14 +1,22 @@
 <script>
 	import H1Title from '$lib/components/titres/h1Title.svelte';
+	import { onMount } from 'svelte';
 	import Recherche from '../../../lib/components/generaux/recherche.svelte';
 	import RechercheNoResult from '../../../lib/components/generaux/rechercheNoResult.svelte';
 	import NotifDanger from '../../../lib/components/notifications/notifDanger.svelte';
 	import NotifSuccess from '../../../lib/components/notifications/notifSuccess.svelte';
+	
 
 	export let data;
 	let { blogues } = data;
 	let searchQuery = '';
 	let orientation = 1; //Variable pour gérer le sens de triage
+
+	onMount(()=>{
+        const actives = document.querySelectorAll('a.is-active');
+        actives.forEach((x)=>x.classList.remove('is-active'));
+    document.getElementById('blogue').classList.add('is-active')
+    });
 
 	function triage(event, champ) {
 		if (champ == 'createdAt')

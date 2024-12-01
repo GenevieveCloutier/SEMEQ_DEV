@@ -8,7 +8,7 @@
   onMount(()=>{
         const actives = document.querySelectorAll('a.is-active');
         actives.forEach((x)=>x.classList.remove('is-active'));
-    document.getElementById('evenements').classList.add('is-active')
+    document.getElementById('approbation').classList.add('is-active')
     });
 
 
