@@ -2,17 +2,17 @@
       import H3Title from "$lib/components/titres/h3Title.svelte";
       import BoutonBleuHover from "$lib/components/boutons/boutonBleuHover.svelte";
       import { onMount } from "svelte";
-	import IconeConnexion from "../lib/components/menus/iconeConnexion.svelte";
+	import ConnexionAccueil from "../lib/components/menus/connexionAccueil.svelte";
  
 
 	export let data;
-	const { users, session, role} = data;
+	const { users, session, role, id, abonne} = data;
 
 </script>
 <div class="media is-hidden-mobile">
       <div class="column is-11"></div>
       <div class="column is-1 media-content is-align-self-flex-end">
-            <IconeConnexion id={data.id} session={session} role={data.role}  />
+            <ConnexionAccueil session={session} role={role}  id={id} abonne={abonne} />
       </div>
 </div>
 

@@ -60,14 +60,18 @@ createAccordionContext();
 			<div class="column titre">
 				<AccordionMenu>
 					<span class="mx-4 "slot="head">
-						<a href="/creation_compte"> Inscription </a>
+						Inscription
 					</span>
 					<span class="box" slot="details">
-						<a class="navbar-item item-deroul" href="creation_compte/compte_gratuit">Compte gratuit</a>
+						<a class="navbar-item item-deroul has-text-centered" href="/creation_compte/compte_gratuit">Compte gratuit</a>
 						<hr class="navbar-divider" />
-						<a class="navbar-item item-deroul" href="/exposant#avantages">Compte exposant</a>
+						<a class="navbar-item item-deroul has-text-centered" href="/exposant#avantages">Compte exposant</a>
 						<hr class="navbar-divider" />
-						<a class="navbar-item item-deroul" href="/organisateur#avantages_organisateur">Compte organisateur</a>
+						<a class="navbar-item item-deroul has-text-centered" href="/organisateur#avantages_organisateur">Compte organisateur</a>
+						<hr class="navbar-divider" />
+						<a class="navbar-item item-deroul has-text-centered" href="/creation_compte">Comparer les forfaits </a>
+						<hr class="navbar-divider" />
+						<a class="navbar-item item-deroul has-text-centered" href="/partenaires">Partenaires</a>
 					</span>
 				</AccordionMenu>
 			</div>
@@ -75,7 +79,7 @@ createAccordionContext();
 
 			<div class="column titre">
 					<span class="mt-2">
-						<a href="/boutique" class="navbar-item hover-bleu"> Formations et outils </a>
+						<a href="/boutique" class="navbar-item hover-bleu has-text-centered"> Formations et outils </a>
 					</span>
 			</div>
 
@@ -85,18 +89,18 @@ createAccordionContext();
 						Contact
 					</span>
 					<span class="box" slot="details">
-						<a class="navbar-item item-deroul" href="/contact">Nous joindre</a>
+						<a class="navbar-item item-deroul has-text-centered" href="/contact">Nous joindre</a>
 						<hr class="navbar-divider" />
-						<a class="navbar-item item-deroul" href="/a_propos">À propos</a>
+						<a class="navbar-item item-deroul has-text-centered" href="/a_propos">À propos</a>
 						<hr class="navbar-divider" />
-						<a class="navbar-item item-deroul" href="/faq">F.A.Q.</a>
+						<a class="navbar-item item-deroul has-text-centered" href="/faq">F.A.Q.</a>
 					</span>
 				</AccordionMenu>
 			</div>
 
 			<div class="column titre ">
 				<span class="mt-2">
-					<a href="/blogue" class="navbar-item hover-bleu"> Blogue </a>
+					<a href="/blogue" class="navbar-item hover-bleu has-text-centered"> Blogue </a>
 				</span>
 		</div>
 
@@ -136,7 +140,7 @@ createAccordionContext();
     
 	/* pour étirer la navbar tout le long de la page sur pc:
      https://gist.github.com/ridgey28/ac007132125d6e251f6c1b96f04049ba */
-	@media screen and (min-width: 1088px) 
+	@media screen and (min-width: 750px) 
 	{
 		.navbar-center {
 			width: 100%;

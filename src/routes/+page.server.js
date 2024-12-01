@@ -86,6 +86,9 @@ export async function load({ params, cookies }) {
     const users = await findAll();
     const session = cookies.get('session');
     const role = cookies.get('role');
+    const id = cookies.get('id');
+    let abonne;
+
  
-    return {users: users, session: session, role:role}; //tous les utilisateurs
+    return {users: users, session: session, role:role, id:id, abonne:abonne}; //tous les utilisateurs
 }

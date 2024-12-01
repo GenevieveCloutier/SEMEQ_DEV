@@ -104,15 +104,13 @@
 	div.header {
 		display: flex;
 		justify-content: center;
-		width: 100%;
+	
 	}
 
 	div.details {
-		width: 100%;
+		width: 175%;
 		display: flex;
-		justify-content: center;
 		background-color: white;
-		padding: 1rem;
 	}
 
 	.fa-chevron-down, .fa-chevron-up {

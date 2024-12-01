@@ -11,6 +11,7 @@
     import { onMount } from "svelte";
     import Recherche from '$lib/components/generaux/recherche.svelte';
     import RechercheNoResult from '$lib/components/generaux/rechercheNoResult.svelte';
+   
 
 	export let data;
 	const { villes, regions, evenements, utilisateurs } = data;
@@ -29,6 +30,23 @@
         resultatRecherche.hidden = false;
         repertoireEntier.hidden = true;
     }
+
+    let notificationVisible = false;
+    //pour fermer le message de notification
+    function supprimerNotification() {
+        notificationVisible = false;
+        return notificationVisible;
+    }
+
+    function rechercheVide(){
+        if(searchQuery == ""){
+            notificationVisible = true
+        }
+        else{
+            barreRecherche()
+        }
+    };
+
 
 //pour effacer le résultat de la recherche
     function effacerRecherche(){
@@ -152,9 +170,15 @@ function filtreRegionDate(){
     <div class="columns mt-5 is-three-fifths">
         <div class="column mt-2 is-offset-one-fifth ">
             <Recherche bind:searchQuery typeRecherche="un événement" />
+                {#if notificationVisible}
+                    <div id="erreur" class="notification is-danger">
+                        <button class="delete" on:click={supprimerNotification}></button>
+                        <p>Veuillez entrer le nom d'un événement</p>  
+                    </div>
+                {/if}
         </div>
         <div class="column block has-text-left">
-            <BoutonBleu fonction={barreRecherche} texte={"Rechercher un événement"} />
+            <BoutonBleu fonction={rechercheVide} texte={"Rechercher un événement"} />
         </div>
     </div>
 </div>

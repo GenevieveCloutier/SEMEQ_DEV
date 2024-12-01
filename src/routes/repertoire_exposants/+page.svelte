@@ -24,11 +24,20 @@
         current.set(null); 
     }
 
-//pour fermer le message de notification
-    let notificationVisible = true;
+//pour fermer le message de notification de la barre de recherche
+    let notificationVisible = false;
     function supprimerNotification() {
         notificationVisible = false;
     }
+
+    function rechercheVide(){
+        if(searchQuery == ""){
+            notificationVisible = true
+        }
+        else{
+            barreRecherche()
+        }
+    };
 
 // Barre de recherche
     let searchQuery = '';
@@ -51,10 +60,15 @@
         repertoireEntier.hidden = false; 
     }
 
+    //pour fermer la notification du module de répertoire
+    let notificationVisible2 = true;
+    function supprimerNotification2() {
+        notificationVisible2 = false;
+    }
+
 //aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDomaine()
 function chercherValeurRegion(){
     valeurRegion = this.value;
-    console.log(valeurRegion) //ok
 
     //exceptions pour les 2 regions à double tiret
     if(valeurRegion == "Saguenay-Lac-Saint-Jean"){
@@ -156,9 +170,16 @@ function chercherValeurDomaine(domaine){
     <div class="columns mt-5 is-three-fifths">
         <div class="column mt-2 is-offset-one-fifth">
             <Recherche bind:searchQuery typeRecherche="un exposant" />
+                {#if notificationVisible}
+                    <div id="erreur" class="notification is-danger">
+                        <button class="delete" on:click={supprimerNotification}></button>
+                        <p>Veuillez entrer le nom d'un exposant</p>  
+                    </div>
+                {/if}
         </div>
         <div class="column block has-text-left">
-            <BoutonBleu fonction={barreRecherche} texte={"Rechercher un exposant"} />
+            <BoutonBleu fonction={rechercheVide} texte={"Rechercher un exposant"} />
+
         </div>
     </div>
 </div>
@@ -207,9 +228,9 @@ function chercherValeurDomaine(domaine){
         
              {#if exposantsFiltre && [...tableauDomaines].length > 0}
            
-                {#if notificationVisible}
+                {#if notificationVisible2}
                     <div class="notification is-info is-light has-text-centered is-hidden-mobile">
-                        <button class="delete" on:click={supprimerNotification}></button>
+                        <button class="delete" on:click={supprimerNotification2}></button>
                         Clique sur les catégorie pour voir les exposants. Tu peux aussi sélectionner une 
                         autre région en tout temps.
                     </div>
