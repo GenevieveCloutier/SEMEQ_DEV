@@ -43,7 +43,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
+        background-color: rgba(0, 0, 0, 0.5);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -59,12 +59,6 @@
         aspect-ratio: 1/1;
         object-fit: cover;
     }
-
-    .imageCarree {
-    width: 175px;
-    aspect-ratio: 1/1;
-    object-fit: cover;
-}
 
 
 
