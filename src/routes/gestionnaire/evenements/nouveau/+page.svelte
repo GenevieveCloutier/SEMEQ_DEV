@@ -7,6 +7,8 @@
 	import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
     import {creationEvenementPayant, erreur} from '$lib/outils/formHandlers';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
+	import NotifSuccess from '../../../../lib/components/notifications/notifSuccess.svelte';
+    
 
     export let data;
     const { villes } = data;
