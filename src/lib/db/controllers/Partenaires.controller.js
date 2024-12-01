@@ -47,27 +47,29 @@ export async function findAll(){
  *
  * @throws {Error} - Lance une erreur en cas de problème lors de la recherche.
  */
-export async function findOne(p_where){
-    return await Partenaire.findOne({ where: p_where, include: [
-		{ model: Categorie, as: 'categorie' },
-		{ model: Produit, as: "produit" },
-		{ model: Type, as: "type" },
-	]})
-    .then(res => {
-        if(res)
-        return {
-            ...res.dataValues,
-            categorie: res.categorie ? res.categorie.dataValues : null,
-			produit: res.produit ? res.produit.dataValues : null,
-			type: res.type ? res.type.dataValues : null,
-        };
-        else
-            return null;
-    }).catch((error) => {;
-        throw error;
-    });
+export async function findOne(p_where) {
+	return await Partenaire.findOne({
+		where: p_where,
+		include: [
+			{ model: Categorie, as: 'categorie' },
+			{ model: Produit, as: 'produit' },
+			{ model: Type, as: 'type' },
+		]
+	})
+		.then((res) => {
+			if (res)
+				return {
+					...res.dataValues,
+					categorie: res.categorie ? res.categorie.dataValues : null,
+					produit: res.produit ? res.produit.dataValues : null,
+					type: res.type ? res.type.dataValues : null
+				};
+			else return null;
+		})
+		.catch((error) => {
+			throw error;
+		});
 }
-
 
 export async function nouveauCodePromo(p_nom, p_avantage, p_code, p_rabais, p_logo, p_expiration, p_categorie_id, p_produit_id, p_type_id) {
 	try {
