@@ -10,6 +10,11 @@ erreur.set('');
 success.set('');
 annonce.set('');
 
+// Pour l'application des codes promos
+export const rabais = writable(0);
+export const produitId = writable(null);
+export const typeId = writable(null);
+
 /**
  * Ajoute la classe 'is-loading' à l'élément déclencheur de l'événement.
  *
@@ -736,15 +741,29 @@ export async function codePromoPanier(event) {
 		const formData = new FormData(event.target);
 		const response = await fetch('/api?/codePromoPanier', {
 			method: 'POST',
-			enctype: 'multipart/form-data',
 			body: formData
 		});
+		// Ajout error pour trouver problème
+		if (!response.ok) {
+            throw new Error('Erreur de réponse de l\'API');
+        }
+
 		const result = await response.json();
-		if (result.status == 200){
-			window.location.reload();
-			success.set('Code promo accepté.');
-		}
-		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+		// Ajout log pour trouver problème
+		console.log('Réponse de l\'API:', result);
+
+		if (result.status === 200 && result.body) {
+            if (result.body.rabais !== undefined) {
+                rabais.set(result.body.rabais);
+                produitId.set(result.body.produit_id);
+                typeId.set(result.body.type_id);
+                success.set('Code promo accepté.');
+            } else {
+                throw new Error('Données de réponse invalides');
+            }
+        } else {
+            erreur.set(result.body.message);
+        }
 	} catch (error) {
 		console.error('erreur inattendue : ', error);
 		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");

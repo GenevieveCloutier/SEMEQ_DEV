@@ -26,7 +26,7 @@ import {
 	modificationEvenement,
 	suppressionEvenement
 } from '../../lib/db/controllers/Evenements.controller.js';
-import { ajoutProduitPanier, deleteCart, deleteItemsCart, deleteUserCart } from '../../lib/db/controllers/Paniers.controller.js';
+import { ajoutProduitPanier, deleteCart, deleteItemsCart, deleteUserCart, findAll as findAllPaniers, } from '../../lib/db/controllers/Paniers.controller.js';
 import { Op } from 'sequelize';
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
@@ -37,6 +37,8 @@ import { Utilisateur } from '../../lib/db/models/Utilisateur.model.js';
 import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '../../lib/db/controllers/Blogs.controller.js';
 import { request } from 'http';
 import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifProduit } from '../../lib/db/controllers/Produits.controller.js';
+import { Produit } from '../../lib/db/models/Produit.model.js';
+import { Type } from '../../lib/db/models/Type.model.js';
 import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '../../lib/db/controllers/Partenaires.controller.js';
 
 //Chemins de base pour stocker les photos
@@ -759,30 +761,69 @@ export const actions = {
 		}
 	},
 
-	codePromoPanier: async ({request}) => {
-		const data = await request.formData();
+	codePromoPanier: async ({request, cookies }) => {
+		try {
+			const data = await request.formData();
+			const partenaire = await findOneCodePromo({ code: data.get('code') });
 
-		// Date du jour au format ISO avec l'heure 00:00:00 pour comparer avec dates dans BD
-		let aujourdhui = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-		
-		const code = await findOneCodePromo({ code: data.get('code') });
-		if (code.expiration < aujourdhui) {
-			return {
-				status: 200,
-				body: {
-					message: 'Code promo accepté.',
-					article: res
+			const sessionId = cookies.get('id');
+			const paniers = await findAllPaniers({
+				where: { utilisateur_id: sessionId },
+				include: [
+					{ model: Utilisateur, as: "utilisateur" },
+					{ model: Produit, as: "produit",
+						include: [
+						{ model: Type, as: "type" }
+						]
+					}
+				]
+			});
+
+			// Date du jour au format ISO avec l'heure 00:00:00 pour comparer avec dates dans BD
+			let aujourdhui = new Date().toISOString().split("T")[0]  + " 00:00:00.000 +00:00";
+			
+			if (partenaire && (partenaire.expiration === null || partenaire.expiration >= aujourdhui)) {
+				const isValid = paniers.some(panier => {
+					return (partenaire.produit_id && partenaire.produit_id === panier.produit.id) ||
+						(partenaire.type_id && partenaire.type_id === panier.produit.type.id);
+				});
+
+				if (isValid) {
+					return {
+						status: 200,
+						body: {
+                            message: 'Code promo accepté.',
+                            rabais: partenaire.rabais,
+                            produit_id: partenaire.produit_id,
+                            type_id: partenaire.type_id
+                        }
+					};
+				} else {
+					return {
+						status: 404,
+						body: {
+							message: 'Ce code promo n\'est pas valide pour les produits dans votre panier.'
+						}
+					};
 				}
-			};
-		} else {
-			return {
-				status: 404,
-				body: {
-					message: 'Ce code promo n\'est pas valide ou a expiré.'
-				}
-			};
-		}
-	},
+			} else {
+				return {
+					status: 404,
+					body: {
+						message: 'Ce code promo n\'est pas valide ou a expiré.'
+					}
+				};
+			}
+		} catch (error) {
+            console.error('Erreur dans l\'API:', error);
+            return {
+                status: 500,
+                body: {
+                    message: 'Une erreur inattendue s\'est produite, veuillez réessayer.'
+                }
+            };
+        }
+    },
 
 	deleteOnePanier: async ({ request }) => {
 		const data = await request.formData();
