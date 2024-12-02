@@ -26,7 +26,7 @@ export async function load({ cookies, params }){
     let resultat = achats.map(achat => ({
         ...achat.dataValues,
         prix: achat.prix === null ? "Non défini" : achat.prix === 0 ? "Gratuit" : `${achat.prix.toFixed(2)} $`,
-        date: achat.date.toLocaleDateString('fr-CA', {timeZone: 'UTC'}),
+        createdAt: achat.createdAt.toLocaleDateString('fr-CA', {timeZone: 'UTC'}),
         utilisateur: achat.utilisateur ? achat.utilisateur.dataValues : null,
         produit: achat.produit ? {
             ...achat.produit.dataValues,
@@ -34,5 +34,28 @@ export async function load({ cookies, params }){
         } : null
     }));
 
-    return { resultat }
+    // Agréger les achats par date
+    const aggregatedAchats = resultat.reduce((acc, achat) => {
+        const date = achat.createdAt;
+        if (!acc[date]) {
+            acc[date] = {
+                date,
+                ids: [],
+                produits: [],
+                prixTotal: 0
+            };
+        }
+        acc[date].ids.push(achat.id);
+        acc[date].produits.push(achat.produit.nom);
+        acc[date].prixTotal += parseFloat(achat.prix.replace(' $', '').replace('Gratuit', '0').replace('Non défini', '0')) || 0;
+        return acc;
+    }, {});
+
+    // Convertir l'objet en tableau pour faciliter l'affichage
+    const aggregatedAchatsArray = Object.values(aggregatedAchats).map(agg => ({
+        ...agg,
+        prixTotal: agg.prixTotal === 0 ? "Gratuit" : `${agg.prixTotal.toFixed(2)} $`,
+    }));
+
+    return { aggregatedAchats: aggregatedAchatsArray };
 }
