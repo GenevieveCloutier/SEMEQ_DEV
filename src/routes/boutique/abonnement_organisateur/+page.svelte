@@ -5,10 +5,28 @@
     import Retour from "$lib/components/generaux/retour.svelte";
     import AvantagesOrganisateur from "$lib/components/generaux/avantagesOrganisateur.svelte";
     import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
+    import abonEven from '$lib/data/abonEven.json'
     import { erreur } from '$lib/outils/formHandlers';
 
     export let data;
     const abonnementsEven = data.abonnementsEven;
+
+//tranformer le fichier json en tableau pour la boucle each
+  const tableauAbonnements = Object.entries(abonEven).map(([key, value]) => ({
+    id: key,
+    ...value,
+      }));
+
+let abonnementSelectionne = null;
+let totalToSend;
+
+// récupère l'identifiant du type d'abonnementsélectionné par l'utilisateur
+    function abonnementChoisi(event) {
+        const id = event.target.value; 
+        abonnementSelectionne = tableauAbonnements.find((abonnement) => abonnement.id === id);
+        totalToSend = abonnementSelectionne.prix;
+        return {abonnementSelectionne, totalToSend}
+    }
 
     let premierAvecPhoto = abonnementsEven.find(organisateur => organisateur.photo !== null);
 </script>
@@ -47,18 +65,23 @@
 
             <div class="field-body">
                 <div class="field">
+                  <label class="label" for="tiktok">Type d'abonnement souhaité<span class="rouge">*</span></label>
                     <div class="controle">
                         <div class="select">
-                            <select id="selectionAbonnement" name="produit_id">
-                                {#each abonnementsEven as abonnement}
-                                    <option value={abonnement.id}>{abonnement.desc} {abonnement.prix_v}</option>
-                                {/each}
+                            <select id="selectionAbonnement" 
+                                  on:change={abonnementChoisi} 
+                                  name="typeAbonnement"
+                                  required>
+                                <option value="">SÉLECTIONNER</option>
+                                    {#each tableauAbonnements as abonnement}
+                                        <option value={abonnement.id}>{abonnement.nom}: {abonnement.prix.toFixed(2)}$</option>
+                                    {/each}
                             </select>
                         </div>
                     </div>
                 </div>
             </div><br>
-
+        
             <BoutonBleu lien={'/creation_compte/organisateur'}  texte={'Acheter'} />
             <Retour />
         </div>
