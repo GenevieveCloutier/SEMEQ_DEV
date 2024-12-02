@@ -78,7 +78,7 @@
                 const recherche = searchQuery.toLowerCase();
                 return x.nom.toLowerCase().includes(recherche);
               }) as evenement}
-            <tr on:click={() => window.location = `./approbations/${evenement.id}`}>
+            <tr on:click={() => window.location = `./evenements/${evenement.id}`}>
                 <td> {evenement.nom}</td>
                 <td>{evenement.utilisateur.prenom} {evenement.utilisateur.nom}</td>
                 <td>{evenement.courriel}</td>

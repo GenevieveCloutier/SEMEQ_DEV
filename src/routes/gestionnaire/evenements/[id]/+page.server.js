@@ -9,10 +9,12 @@ import { emplacements, recupMappage, types, verifs } from '../../../../lib/outil
 export async function load({cookies, params}){
     const villes = await findAll();
     let evenement = await findOne({id: params.id});
-    evenement.debut_even = evenement.debut_even.toLocaleDateString('fr-CA');
-    evenement.fin_even = evenement.fin_even.toLocaleDateString('fr-CA');
-    evenement.debut_cand = evenement.debut_cand.toLocaleDateString('fr-CA');
-    evenement.fin_cand = evenement.fin_cand.toLocaleDateString('fr-CA');
+    console.log(evenement);
+    
+    evenement.debut_even = evenement.debut_even.toLocaleDateString('fr-CA', {timeZone: 'UTC'});
+    evenement.fin_even = evenement.fin_even.toLocaleDateString('fr-CA', {timeZone: 'UTC'});
+    evenement.fin_cand = evenement.fin_cand.toLocaleDateString('fr-CA', {timeZone: 'UTC'});
+    evenement.debut_cand = evenement.debut_cand.toLocaleDateString('fr-CA', {timeZone: 'UTC'});
 
     const liste_emplacement = recupMappage( evenement.emplacement, emplacements)
     const liste_type = recupMappage( evenement.type, types);

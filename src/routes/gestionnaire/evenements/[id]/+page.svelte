@@ -774,6 +774,9 @@
 
 							<!-- Boutons en bas de page -->
 							<div class="block has-text-right">
+								{#if !evenement.approuve}
+								<p class="help">Enregistrer cet événement pour l'approuver</p><br>
+								{/if}
 								<!-- Valider si SubmitButon fait la bonne action! -->
 								<SubmitButon texte={'Enregistrer'}></SubmitButon>
 								<Retour />
