@@ -466,6 +466,7 @@ export const actions = {
 				photo_3,
 				session.utilisateur.abonne
 			);
+			log("api creation = ", res)
 			return {
 				status: 200,
 				body: {
@@ -474,6 +475,7 @@ export const actions = {
 				}
 			};
 		} catch (error) {
+			log("erreur dans l'api = ", error)
 			return fail(401, error);
 		}
 	},
@@ -691,6 +693,7 @@ export const actions = {
 			const photo_1 = await uploadPhoto('photo_1');
 			const photo_2 = await uploadPhoto('photo_2');
 			const photo_3 = await uploadPhoto('photo_3');
+			log("api data = ", data)
 			let res = await modificationEvenement(data.get('id'), {
 				nom: data.get('nom'),
 				contact: data.get('contact'),
@@ -702,10 +705,12 @@ export const actions = {
 				fin_cand: data.get('fin_cand'),
 				fondation: data.get('fondation'),
 				nb_visiteur: data.get('nb_visiteur'),
-				nb__expo: data.get('nb_expo'),
+				nb_expo: data.get('nb_expo'),
 				profil: data.get('profil'),
 				site: data.get('site'),
 				fb_even: data.get('fb_even'),
+				insta_even: data.get('insta_even'),
+				tiktok_even:data.get('tiktok_even'),
 				courriel: data.get('courriel'),
 				ville_id: data.get('ville_id'),
 				adresse: data.get('adresse'),
@@ -713,6 +718,8 @@ export const actions = {
 				type: type,
 				type_autre: data.get('type_autre'),
 				form_cand: data.get('form_cand'),
+                code_postal: data.get('code_postal'),
+                telephone: data.get('telephone'),
 				verification: verif,
 				verification_autre: data.get('verification_autre'),
 				selection: data.get('selection') == 'on' ? 1 : 0,

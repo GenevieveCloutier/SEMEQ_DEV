@@ -205,7 +205,7 @@ export async function adminCreation() {
 			courriel: 'admin@admin',
 			pwd: 'admin',
 			abonne: true,
-			fin_abo: new Date(Date.now() + 99.1536e10)
+			fin_abo: new Date(Date.now() + 999.1536e10)
 		});
 		console.log('Admin créé');
 	} catch (error) {

@@ -19,7 +19,7 @@
         actives.forEach((x)=>x.classList.remove('is-active'));
         document.getElementById('evenementsnouveau').classList.add('is-active')
 
-        const requis = document.querySelectorAll('[required]');
+        const requis = document.querySelectorAll('[required]:not(input[type="date"]):not(#villeEven)');
         requis.forEach(x => {
             x.removeAttribute('required');
         });

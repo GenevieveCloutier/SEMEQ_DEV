@@ -23,12 +23,15 @@
 		liste_type.forEach((type) => {
 			if (type) document.querySelector(`[name="${type}"]`).checked = true;
 		});
+		if(evenement.type_autre) document.querySelector(`#typeAutrePayant`).checked = true;
 		liste_verif.forEach((verif) => {
 			if (verif) document.querySelector(`[name="${verif}"]`).checked = true;
 		});
+		if(evenement.verification) document.querySelector('#checkboxVerifPayant').checked = true;
 		if (evenement.limite) document.querySelector(`[name="limite"]`).checked = true;
 		if (evenement.selection) document.querySelector(`[name="selection"]`).checked = true;
 	});
+
 
 	//fonction pour éviter que la date de début enregistrée soit après la date de fin
 	function dateConforme(dateDebut, dateFin) {
@@ -50,6 +53,27 @@
 		dateConforme(dateDebut, dateFin);
 	}
 
+	//fonction pour afficher la section / cacher le bouton
+	function afficher(event, section, bouton) {
+		event.preventDefault();
+		bouton.hidden = true;
+		section.hidden = false;
+	}
+
+	//pour la section 2
+	function section2(event) {
+		let section = document.querySelector('#section2');
+		let bouton = document.querySelector('#bouton2');
+		afficher(event, section, bouton);
+	}
+
+	//pour la section 3
+	function section3(event) {
+		let section = document.querySelector('#section3');
+		let bouton = document.querySelector('#bouton3');
+		afficher(event, section, bouton);
+	}
+
 	async function rechargement() {
 		await invalidateAll();
 		villes = data.villes;
@@ -68,7 +92,7 @@
 <H1Title title={"Détails de l'événement"} />
 <NotifSuccess />
 <NotifDanger />
-<div class="block">
+<div class="section">
 	<form on:submit|preventDefault={modifEvenement}>
 		<div class="box">
 			<!-- section pour les infos de l'événement -->
@@ -79,13 +103,14 @@
 					<div class="column is-half">
 						<div>
 							<div class="field">
-								<label class="label" for="nom">Nom de l'événement </label>
+								<label class="label" for="nom">Nom de l'événement</label>
 								<div class="control">
 									<input
 										class="input"
 										type="text"
 										name="nom"
 										id="nomEvenPayant"
+										placeholder="Marché de Noël"
 										value={evenement.nom}
 									/>
 								</div>
@@ -94,18 +119,37 @@
 
 						<div class="my-5">
 							<div class="field">
-								<label class="label" for="adresse">Adresse </label>
+								<label class="label" for="adresse">Adresse</label>
 								<div class="control">
 									<input
 										class="input"
 										type="text"
 										name="adresse"
 										id="adresseEvenPayant"
+										placeholder="123 rue du Sous-Bois"
 										value={evenement.adresse}
 									/>
 								</div>
 							</div>
 						</div>
+
+						<div class="my-5">
+							<div class="field">
+								<label class="label" for="code_postal"
+									>Code postal (format: J0A 1A0)<span class="rouge">*</span></label
+								>
+								<div class="control">
+									<input
+										class="input"
+										type="text"
+										name="code_postal"
+										placeholder="J0A 1A0"
+										value={evenement.code_postal}
+									/>
+								</div>
+							</div>
+						</div>
+
 						<div class="my-5">
 							<div class="field">
 								<label class="label" for="ville_id">Ville </label>
@@ -128,6 +172,24 @@
 					<div class="column is-half">
 						<div>
 							<div class="field">
+								<label class="label" for="telephone"
+									>Numéro de téléphone (format: 123 456-7890)</label
+								>
+								<div class="control">
+									<input
+										class="input"
+										type="tel"
+										name="telephone"
+										pattern={'[0-9]{3} [0-9]{3}-[0-9]{4}'}
+										placeholder="123 456-7890"
+										value={evenement.telephone}
+									/>
+								</div>
+							</div>
+						</div>
+
+						<div class="mt-5">
+							<div class="field">
 								<label class="label" for="horaire_even">Heures d'ouverture (au public)</label>
 								<div class="control">
 									<input
@@ -135,6 +197,7 @@
 										type="text"
 										name="horaire_even"
 										id="horaireEvenPayant"
+										placeholder="De 9h à 17h"
 										value={evenement.horaire_even}
 									/>
 								</div>
@@ -142,7 +205,9 @@
 						</div>
 
 						<div class="mt-5">
-							<label class="label" for="date">Dates de l'événement</label>
+							<label class="label" for="date"
+								>Dates de l'événement<span class="rouge">*</span></label
+							>
 							<div class="field is-grouped">
 								<div class="container ml-6 mb-3">
 									<span> Du:</span>
@@ -152,6 +217,7 @@
 										name="debut_even"
 										id="dateEvenPayantDebut"
 										on:change={dateEven}
+										required
 										value={evenement.debut_even}
 									/>
 									<span>au:</span>
@@ -160,6 +226,7 @@
 										type="date"
 										name="fin_even"
 										id="dateEvenPayantFin"
+										required
 										value={evenement.fin_even}
 									/>
 								</div>
@@ -182,8 +249,9 @@
 								id="descriptionEvenPayant"
 								cols="30"
 								rows="5"
-								value={evenement.description}
-							></textarea>
+								placeholder="Décrivez brièvement votre événement en un maximum 300 caractères."
+								>{evenement.description}</textarea
+							>
 						</div>
 					</div>
 					<!-- fin de la colonne pleine largeur -->
@@ -193,14 +261,33 @@
 						<div class="column is-half">
 							<div class="my-5">
 								<div class="field">
-									<label class="label" for="site">Site web ou page Facebook de l'événement</label>
+									<label class="label" for="site">Site web de l'événement (si disponible)</label>
 									<div class="control">
 										<input
 											class="input"
 											type="url"
 											name="site"
 											id="siteEvenPayant"
+											placeholder="https://monevenement.com"
 											value={evenement.site}
+										/>
+									</div>
+								</div>
+							</div>
+
+							<div class="my-5">
+								<div class="field">
+									<label class="label" for="insta_even"
+										>Compte instagram de l'organisation ou de l'événement (si disponible)</label
+									>
+									<div class="control">
+										<input
+											class="input"
+											type="url"
+											name="insta_even"
+											id="insta_even"
+											placeholder="https://www.instagram.com"
+											value={evenement.insta_even}
 										/>
 									</div>
 								</div>
@@ -212,14 +299,35 @@
 						<div class="column is-half">
 							<div class="my-5">
 								<div class="field">
-									<label class="label" for="fb_even">Lien vers l'événement Facebook</label>
+									<label class="label" for="fb_even"
+										>Lien vers la page ou l'événement Facebook (si disponible)</label
+									>
 									<div class="control">
 										<input
 											class="input"
 											type="url"
 											name="fb_even"
 											id="siteEvenPayant"
+											placeholder="https://www.facebook.com/events/426652909763130"
 											value={evenement.fb_even}
+										/>
+									</div>
+								</div>
+							</div>
+
+							<div class="my-5">
+								<div class="field">
+									<label class="label" for="tiktok_even"
+										>Lien vers le compte Tiktok de l'organisation ou de l'événement (si disponible)</label
+									>
+									<div class="control">
+										<input
+											class="input"
+											type="url"
+											name="tiktok_even"
+											id="tiktok_even"
+											placeholder="https://www.tiktok.com"
+											value={evenement.tiktok_even}
 										/>
 									</div>
 								</div>
@@ -233,7 +341,7 @@
 					<!-- debut de la section pour les photos -->
 
 					<div class="field my-5">
-						<label class="label" for="emplacement">Emplacement</label>
+						<label class="label" for="emplacement">Emplacement<span class="rouge">*</span></label>
 						<div class="control">
 							<div class="checkboxes">
 								<label class="checkbox"
@@ -325,8 +433,10 @@
 					</div>
 					<!-- fin de la section pour les photos -->
 
+					
+
 					<div class="block">
-						<div id="section2">
+						<div  id="section2">
 							<hr class="my-6 is-hidden-mobile is-hidden-tablet-only" />
 
 							<!-- section pour les infos d'appel de candidatures -->
@@ -336,14 +446,16 @@
 									<div>
 										<div class="field">
 											<label class="label" for="contact"
-												>Personne contact pour l'appel de candidature
-											</label>
+												>Personne contact pour l'appel de candidature <span class="rouge">*</span
+												></label
+											>
 											<div class="control">
 												<input
 													class="input"
 													type="text"
 													name="contact"
 													id="contactEvenPayant"
+													placeholder="Prenom Nom"
 													value={evenement.contact}
 												/>
 											</div>
@@ -353,14 +465,16 @@
 									<div class="mt-5">
 										<div class="field">
 											<label class="label" for="courriel"
-												>Courriel pour information ou inscription
-											</label>
+												>Courriel pour information ou inscription <span class="rouge">*</span
+												></label
+											>
 											<div class="control">
 												<input
 													class="input"
 													type="courriel"
 													name="courriel"
 													id="courrielEvenPayant"
+													placeholder="inscription_evenement@mail.com"
 													value={evenement.courriel}
 												/>
 											</div>
@@ -378,6 +492,7 @@
 													type="url"
 													name="form_cand"
 													id="formEvenPayant"
+													placeholder="https://www.formulaire_candidature.com"
 													value={evenement.form_cand}
 												/>
 											</div>
@@ -385,7 +500,9 @@
 									</div>
 
 									<div class="my-5">
-										<label class="label" for="cand">Dates de l'appel de candidatures</label>
+										<label class="label" for="cand"
+											>Dates de l'appel de candidatures<span class="rouge">*</span></label
+										>
 										<div class="field is-grouped">
 											<div class="container ml-6 mb-3">
 												<span> Du:</span>
@@ -396,6 +513,7 @@
 													id="dateCandEvenPayantDebut"
 													on:change={dateAppel}
 													value={evenement.debut_cand}
+													required
 												/>
 												<span>au:</span>
 												<input
@@ -404,6 +522,7 @@
 													name="fin_cand"
 													id="dateCandEvenPayantFin"
 													value={evenement.fin_cand}
+													required
 												/>
 											</div>
 										</div>
@@ -415,7 +534,9 @@
 								<div class="column is-half">
 									<div>
 										<div class="field">
-											<label class="label" for="type">Type d'exposants</label>
+											<label class="label" for="type"
+												>Type d'exposants<span class="rouge">*</span></label
+											>
 											<div class="control">
 												<div class="checkboxes">
 													<label class="checkbox"
@@ -470,6 +591,7 @@
 															type="text"
 															name="type_autre"
 															id="inputTypePayant"
+															placeholder="Préciser"
 															value={evenement.type_autre}
 														/>
 													</div>
@@ -483,7 +605,7 @@
 											<div class="control">
 												<label class="checkbox label">
 													Les places sont attribuées selon une sélection parmi les candidatures
-													reçues <br />
+													reçues <span class="rouge">*</span><br />
 													<span class="is-size-7 has-text-grey has-text-weight-normal"
 														>(oui = sélection à la fin de la période de candidatures, non = premier
 														arrivé, premier servi)<br /></span
@@ -501,11 +623,17 @@
 										<div class="my-5">
 											<div class="field">
 												<label class="checkbox label">
-													Le nombre d'exposants par domaine est limité <br />
+													Le nombre d'exposants par domaine est limité <span class="rouge">*</span
+													><br />
 													<span class="is-size-7 has-text-grey has-text-weight-normal"
 														>(ex. 2 kiosques de savons, 1 kiosque de bougies...)<br /></span
 													>
-													<input type="checkbox" class="toggle exclus" name="limite" id="limite" />
+													<input
+														type="checkbox"
+														class="toggle exclus"
+														name="limite"
+														id="limite"
+													/>
 												</label>
 											</div>
 										</div>
@@ -549,6 +677,7 @@
 															type="text"
 															name="verification_autre"
 															id="inputVerifPayant"
+															placeholder="Préciser"
 															value={evenement.verification_autre}
 														/>
 													</div>
@@ -558,11 +687,15 @@
 									</div>
 								</div>
 							</div>
+
+							
+
+							<!-- fin section 2        -->
 						</div>
 
 						<hr class="mb-6 is-hidden-mobile is-hidden-tablet-only" />
 
-						<div id="section3">
+						<div  id="section3">
 							<H3Title title={'Statistiques de votre événement'} />
 
 							<div class="columns">
@@ -575,6 +708,7 @@
 												type="number"
 												name="nb_expo"
 												id="nbExpoEvenPayant"
+												placeholder="25"
 												value={evenement.nb_expo}
 											/>
 										</div>
@@ -590,6 +724,7 @@
 												type="number"
 												name="nb_visiteur"
 												id="formEvenPayant"
+												placeholder="750"
 												value={evenement.nb_visiteur}
 											/>
 										</div>
@@ -607,6 +742,7 @@
 												type="number"
 												name="fondation"
 												id="fondation"
+												placeholder="2022"
 												value={evenement.fondation}
 											/>
 										</div>
@@ -624,11 +760,13 @@
 												id="descriptionEvenPayant"
 												cols="30"
 												rows="5"
-												value={evenement.profil}
-											></textarea>
+												placeholder="Événement visant les familles avec jeunes enfants (max 300 caractères)."
+												>{evenement.profil}</textarea
+											>
 										</div>
 									</div>
 								</div>
+
 								<input value={evenement.id} hidden readonly name="id" />
 							</div>
 
@@ -649,8 +787,6 @@
 
 						<!-- /div du box du formulaire -->
 					</div>
-
-					<!-- /div du block -->
 				</div>
 			</div>
 		</div>

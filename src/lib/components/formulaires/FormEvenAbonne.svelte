@@ -104,7 +104,7 @@ function section3(event){
 </script>
 <NotifSuccess />
 <NotifDanger />
-<div class="block">
+<div class="section">
 
 	<form on:submit|preventDefault={creationEvenementPayant}>
         <div class="box">
