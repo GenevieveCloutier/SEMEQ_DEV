@@ -8,6 +8,7 @@
     import mappageEmplacements from "$lib/data/mappageEmplacements.json";
     import mappageTypes from "$lib/data/mappageTypes.json";
     import mappageVerifications from "$lib/data/mappageVerifications.json";
+	import BoutonBleu from "$lib/components/boutons/boutonBleu.svelte";
 
     export let data;
     const { evenement, role } = data;
@@ -93,6 +94,9 @@ let affichersite = siteweb();
             <H2Title title={evenement.utilisateur.prenom}-{evenement.utilisateur.nom} />
             {evenement.ville.nom}
         {/if}
+    </div>
+    <div class="column has-text-right">
+        <BoutonBleu texte={"Retour au répertoire"} lien={"/repertoire_evenements"}/>
     </div>
     </div>
     <div class="columns mt-6 has-text-centered is-mobile">

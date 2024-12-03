@@ -3,6 +3,7 @@
     import { domaines, recupMappage } from '$lib/outils/compteurBinaire';
     import mappageDomaines from "$lib/data/mappageDomaines.json";
     import Modal from "$lib/components/generaux/modal.svelte";
+    import BoutonBleu from "$lib/components/boutons/boutonBleu.svelte"
 
     export let data;
     const { exposant } = data;
@@ -53,6 +54,9 @@ let affichersite = siteweb();
             {exposant.ville.nom}
         {/if}
     </div>
+    <div class="column has-text-right">
+        <BoutonBleu texte={"Retour au répertoire"} lien={"/repertoire_exposants"}/>
+    </div>
     </div>
     <div class="columns mt-6 has-text-centered is-mobile">
         <div class="column is-hidden-mobile">
@@ -81,6 +85,7 @@ let affichersite = siteweb();
             </figure>
         </div>
         {/if}
+ 
         
         <div class="column is-hidden-mobile">
         </div>

@@ -2,7 +2,7 @@
     import H1Title from "$lib/components/titres/h1Title.svelte";
 
     export let data;
-    let { resultat : achats } = data;
+    let { aggregatedAchats } = data;
 
     // Mettre en évidence le lien actif dans menu latéral gestionnaire
     import { onMount } from "svelte";
@@ -25,12 +25,12 @@
     * @param {string} champ - Le nom du champ selon lequel trier les achats.
     */
     function triage(event, champ){
-        achats.sort((a, b) => {
+        aggregatedAchats.sort((a, b) => {
           return    (a[champ]?.toUpperCase() < b[champ]?.toUpperCase()) ? -1*orientation :
                     (a[champ]?.toUpperCase() > b[champ]?.toUpperCase()) ? +1*orientation :
                      0;
         });
-        achats = achats; //Pour bind le tableau
+        aggregatedAchats = aggregatedAchats; //Pour bind le tableau
         orientation *= -1;
         if(orientation == 1) //pour changer l'icon
             event.target.classList.replace('fa-arrow-down-short-wide', 'fa-arrow-up-short-wide');
@@ -43,27 +43,29 @@
 
 <div class="section">
     <div class="block table-container">
-    <table class="table is-hoverable is-striped is-fullwidth ">
+    <table class="table is-hoverable is-striped is-fullwidth">
         <thead class="has-text-centered">
             <tr>
-                <!-- TRIAGE NE FONCTIONNE PAS POUR N° COMMANDE -->
-                <th class="has-text-centered">N° commande <button on:click={event => triage(event, 'id')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
-                <th>Produits commandés</th>
-                <th>Total <button on:click={event => triage(event, 'prix')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
                 <th>Date <button on:click={event => triage(event, 'date')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
+                <th>Produits commandés</th>
+                <th>Total <button on:click={event => triage(event, 'prixTotal')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
                 <th class="has-text-centered">Facture</th>
             </tr>
         </thead>
         <tbody>
-            {#each achats as achat}
+            {#each aggregatedAchats as achat}
             <tr>
-                <td class="has-text-centered">{achat.id}</td> <!-- MODIFIER POUR N° COMMANDE PAYPAL SI POSSIBLE -->
-                <td>{achat.produit.nom}</td> <!-- MODIFIER POUR PLUSIEURS ARTICLES DANS 1 COMMANDE -->
-                <td>{achat.prix}</td> <!-- MODIFIER POUR TOTAL SI PLUSIEURS ARTICLES DANS 1 COMMANDE -->
                 <td>{achat.date}</td>
+                <td>
+                    <ul>
+                        {#each achat.produits as produit}
+                            <li>• {produit}</li>
+                        {/each}
+                    </ul>
+                </td>
+                <td>{achat.prixTotal}</td>
                 <td class="has-text-centered">
-                    <!-- RETIRER is-static et ajouter lien -->
-                    <a href="/" target="_blank" class="button is-small is-static" style="background-color: #053682; color:white">Récupérer ma facture</a>
+                    <a href="./achats/${achat.date}" target="_blank" class="button is-small" style="background-color: #053682; color:white">Récupérer ma facture</a>
                 </td>
             </tr>
             {/each}

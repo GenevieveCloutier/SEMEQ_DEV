@@ -11,6 +11,7 @@
     import { creationExposant, erreur } from '../../../lib/outils/formHandlers';
     export let data;
     const { villes } = data;
+
 </script>
   
   
@@ -149,7 +150,9 @@
 
       </div> <!-- Fin des colonnes -->
 
+
       <DomainesActivites />
+    
 
       <div class="columns">
         <!-- Première colonne -->

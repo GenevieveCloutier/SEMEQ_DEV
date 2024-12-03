@@ -1,0 +1,18 @@
+{
+    "abonnementAnnuel" : {
+        "nom" : "Abonnement annuel",
+        "nbCategories" : 1,
+        "prix" : 44.00
+    },
+
+    "uneCategorie" : {
+        "nom" : "Abonnement annuel + 1 domaine additionnel ",
+        "nbCategories" : 2,
+        "prix" : 49.00
+    },
+    "deuxCategories" : {
+        "nom" : "Abonnement annuel + 2 domaines additionnels ",
+        "nbCategories" : 3,
+        "prix" : 54.00
+    }
+}
