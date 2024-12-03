@@ -53,7 +53,7 @@ export async function suppressionEvenement(p_id) {
 		method: 'POST',
 		body: formData
 	});
-	
+
 	const result = await response.json();
 	const test = JSON.parse(result.data);
 	if(result.status === 200){
@@ -73,7 +73,7 @@ export async function suppressionBlogue(p_id) {
 		method: 'POST',
 		body: formData
 	});
-	
+
 	const result = await response.json();
 	const test = JSON.parse(result.data);
 	if(result.status === 200){
@@ -93,7 +93,7 @@ export async function suppressionProduit(p_id) {
 		method: 'POST',
 		body: formData
 	});
-	
+
 	const result = await response.json();
 	if(result.status === 200){
 		success.set(JSON.parse(result.data)[3]);
@@ -180,25 +180,27 @@ export async function creationExposant(event) {
 		}
 
 			//limiter la taille à 5 mo
-			const formatMax = 5 * 1024 * 1024; 
+			const formatMax = 5 * 1024 * 1024;
 			const fichierSoumis = event.target.querySelectorAll(
 				'input[type="file"]'
 			);
-	
+
 			for (const x of fichierSoumis) {
-				const tableauFichiers = x.files; 
+				const tableauFichiers = x.files;
 				if (tableauFichiers.length > 0) {
 					for (const fichier of tableauFichiers) {
 						if (fichier.size > formatMax) {
-							erreur.set(`Le fichier ${fichier.name} dépasse la taille maximale autorisée de  Mo. Sélectionner un autre fichier.`);
+							erreur.set(`Le fichier ${fichier.name} dépasse la taille maximale autorisée de 5 Mo. Sélectionner un autre fichier.`);
 							return;
 						}
 					}
 				}
 			}
-			
+
+
 		const response = await fetch('../api?/nouvelUtilisateur', {
 			method: 'POST',
+			enctype: 'multipart/form-data',
 			body: formData
 		});
 
@@ -210,7 +212,9 @@ export async function creationExposant(event) {
 		//!Cette solution ne fonctionne que si il n'y as qu'un seul cookie http:false
 
 		const result = await response.json();
-		if (result.status == 200) window.location.href = origine;
+				if (result.status == 200)
+			//envoyer vers la page de paiement après avoir rempli le form
+			window.location.href = '/panier/paiement_abonnement';
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {
 		console.error('erreur inattendue : ', error);
@@ -240,17 +244,17 @@ export async function creationOrganisateur(event) {
 		}
 
 		//limiter la taille à 5 mo
-		const formatMax = 5 * 1024 * 1024; 
+		const formatMax = 5 * 1024 * 1024;
 		const fichierSoumis = event.target.querySelectorAll(
 			'input[type="file"]'
 		);
 
 		for (const x of fichierSoumis) {
-			const tableauFichiers = x.files; 
+			const tableauFichiers = x.files;
 			if (tableauFichiers.length > 0) {
 				for (const fichier of tableauFichiers) {
 					if (fichier.size > formatMax) {
-						erreur.set(`Le fichier ${fichier.name} dépasse la taille maximale autorisée de  Mo. Sélectionner un autre fichier.`);
+						erreur.set(`Le fichier ${fichier.name} dépasse la taille maximale autorisée de 5 Mo. Sélectionner un autre fichier.`);
 						return;
 					}
 				}
@@ -259,13 +263,14 @@ export async function creationOrganisateur(event) {
 
 		const response = await fetch('../api?/nouvelUtilisateur', {
 			method: 'POST',
+			enctype: 'multipart/form-data',
 			body: formData
 		});
 		const result = await response.json();
 
 		if (result.status == 200)
-			//lien vers où ça doit aller après avoir envoyé le form
-			window.location.href = '/[id]/mes_evenements/inscription_evenement_abonne';
+			//envoyer vers la page de paiement après avoir rempli le form
+			window.location.href = '/panier/paiement_abonnement';
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {
 		console.error('erreur inattendue : ', error);
@@ -415,7 +420,7 @@ export async function creationEvenement(event) {
 			origine = document.cookie.replaceAll('%2F', '/').slice(8); //*Remplace les '%2F' par des '/' et enlève les 8 premier caractères (origine=)
 		//!Cette solution ne fonctionne que si il n'y as qu'un seul cookie http:false
 		if (result.status == 200) success.set('Événement ajouté avec succès!');
-		
+
 
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {
@@ -464,17 +469,17 @@ export async function creationEvenementPayant(event) {
 		}
 
 		//limiter la taille à 5 mo
-		const formatMax = 5 * 1024 * 1024; 
+		const formatMax = 5 * 1024 * 1024;
 		const fichierSoumis = event.target.querySelectorAll(
 			'input[type="file"]'
 		);
 
 		for (const x of fichierSoumis) {
-			const tableauFichiers = x.files; 
+			const tableauFichiers = x.files;
 			if (tableauFichiers.length > 0) {
 				for (const fichier of tableauFichiers) {
 					if (fichier.size > formatMax) {
-						erreur.set(`Le fichier ${fichier.name} dépasse la taille maximale autorisée de  Mo. Sélectionner un autre fichier.`);
+						erreur.set(`Le fichier ${fichier.name} dépasse la taille maximale autorisée de 5 Mo. Sélectionner un autre fichier.`);
 						return;
 					}
 				}
@@ -488,7 +493,10 @@ export async function creationEvenementPayant(event) {
 			body: formData
 		});
 		const result = await response.json();
-		if (result.status == 200)success.set('Événement ajouté avec succès!');
+	
+		if (result.status == 200)
+			//envoyer vers la page de confirmation finale après avoir rempli le form
+			window.location.href = '/panier/paiement/confirmation';
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 		return;
 	} catch (error) {
@@ -640,7 +648,7 @@ export async function modifUtilisateur(event) {
 
 	try {
 		const formData = new FormData(event.target);
-		
+
         if ([...formData.keys()].includes('expo') || [...formData.keys()].includes('orga')){
             const neqInput = event.target.querySelector('#neq');
 		const noNeqCheckbox = event.target.querySelector('#no-neq');
@@ -668,7 +676,7 @@ export async function modifUtilisateur(event) {
 				);
 				return;
 			}
-            
+
 		}
 		const etapesArriere = window.location.pathname.split('/')[1] == 'gestionnaire' ? "../../" : "../";
 		const response = await fetch(etapesArriere + 'api?/modifUtilisateur', {
@@ -714,7 +722,7 @@ export async function ajouterPanier(event){
         log("formhandler ajouterPanier response = ", response);
         const result = await response.json();
         log("formhandler ajouterPanier, result = ",result);
-        
+
         if (result.status == 200)
             window.location.href = '/panier';
         if (result.status == 401){
@@ -761,7 +769,7 @@ export async function deleteOnePanier(event){
         log("formhandler deleteOnePanier response = ", response);
         const result = await response.json();
         log("formhandler deleteOnePanier, result = ", result);
-        
+
         if (result.status == 200)
             window.location.reload();
 			success.set("Le produit a été retiré du panier.");
@@ -780,7 +788,7 @@ export async function deleteSelectedItemsCart(event) {
     erreur.set('');
     try {
         const formData = new FormData(event.target);
-		
+
         // Vérifiez si selectedItems contient au moins un élément
 		const selectedItems = formData.get('selectedItems').split(',');
         if (selectedItems.length === 0 || selectedItems[0] === '') {
@@ -818,7 +826,7 @@ export async function deleteAllUserCart(p_id) {
 		method: 'POST',
 		body: formData
 	});
-	
+
 	const result = await response.json();
 	const test = JSON.parse(result.data);
 	console.log('API response:', result);
@@ -884,7 +892,7 @@ export async function supprimeCodePromo(p_id) {
 		method: 'POST',
 		body: formData
 	});
-	
+
 	const result = await response.json();
 	if(result.status === 200){
 		success.set(JSON.parse(result.data)[3]);
@@ -933,6 +941,6 @@ export async function achatReussi(donnees){
 	//? Une fonction pour envoyer un mail ?
 	else
 		erreur.set(JSON.parse(result.data)[0]);
-		
-		
+
+
 }

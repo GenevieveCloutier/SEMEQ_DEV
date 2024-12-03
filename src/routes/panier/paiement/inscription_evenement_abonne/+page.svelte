@@ -12,7 +12,7 @@
 
 <div class="block">
     <div class="mt-5 container has-text-centered">
-        <!-- modifier le lien pour envoyer vers son compte -->
+
         <a href="/{utilisateur.id}/mes_evenements" class="py-3 px-3 button has-background-grey-lighter">Je souhaite inscrire mon événement plus tard</a>
         <p class="mt-5 mb-5">Tu pourras modifier ton événement et en ajouter d'autres en tout temps depuis ton compte</p>
     </div>

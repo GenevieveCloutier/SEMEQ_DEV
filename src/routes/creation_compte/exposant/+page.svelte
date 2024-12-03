@@ -7,10 +7,23 @@
     import SubmitButon from "$lib/components/formulaires/submitButon.svelte";
     import NotifDanger from "$lib/components/notifications/notifDanger.svelte";
     import DomainesActivites from "$lib/components/formulaires/domainesActivites.svelte";
-    
     import { creationExposant, erreur } from '../../../lib/outils/formHandlers';
+    import { onMount } from 'svelte';
+
     export let data;
     const { villes } = data;
+
+
+onMount(() => {
+  const params = new URLSearchParams(window.location.search);
+  const valeurRecuperee = params.get('typeAbonnement');
+  
+  if (valeurRecuperee) {
+    // Sauvegarde du typeAbonnement dans localStorage
+    localStorage.setItem('typeAbonnement', valeurRecuperee); 
+  }
+});
+  
 </script>
   
   
@@ -77,7 +90,7 @@
           <div class="field">
             <label class="label" for="code_postal">Code postal (format: J0A 1A0)<span class="rouge">*</span></label>
             <div class="control">
-              <input class="input" type="text" name="code_postal" id="adresse" required placeholder="J0A 1A0" >
+              <input class="input" type="text" name="code_postal" id="code_postal" required placeholder="J0A 1A0" >
             </div>
           </div>
 
@@ -149,7 +162,9 @@
 
       </div> <!-- Fin des colonnes -->
 
+
       <DomainesActivites />
+    
 
       <div class="columns">
         <!-- Première colonne -->

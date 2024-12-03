@@ -120,7 +120,9 @@
                 </td>
                 <td>{event.fin_cand}</td>
                 <td class="is-flex is-justify-content-center has-text-centered">
-                    {#if event.utilisateur.abonne}
+                    <a href="/repertoire_evenements/{event.id}" target="_blank" class="button is-small" style="background-color: #053682; color:white">Fiche de l'événement</a>
+
+                    <!-- {#if event.utilisateur.abonne}
                         <button on:click={() => window.location = `./repertoire_evenements/${event.id}`} alt="Détails de l'événement">
                             <span class="icon"><i class="button fa-solid fa-magnifying-glass"></i></span>
                         </button>
@@ -144,7 +146,7 @@
                         <figure class=" image is-32x32">
                             <img src="/src/lib/img/app/non_disponible.svg" alt="Aucun lien disponible">
                         </figure>
-                    {/if}
+                    {/if} -->
                 </td>
             </tr>
             {/each}

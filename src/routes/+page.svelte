@@ -2,11 +2,22 @@
       import H3Title from "$lib/components/titres/h3Title.svelte";
       import BoutonBleuHover from "$lib/components/boutons/boutonBleuHover.svelte";
       import { onMount } from "svelte";
+	import ConnexionAccueil from "../lib/components/menus/connexionAccueil.svelte";
+ 
+
+	export let data;
+	const { users, session, role, id, abonne} = data;
 
 </script>
+<div class="media is-hidden-mobile">
+      <div class="column is-11"></div>
+      <div class="column is-1 media-content is-align-self-flex-end">
+            <ConnexionAccueil session={session} role={role}  id={id} abonne={abonne} />
+      </div>
+</div>
 
-<div class="container">
-      <div class="media mx-6 mt-5">
+<div class="container mt-4">
+      <div class="media">
             <figure class="media-left">
                   <a href="/">
                         <img src="/src/lib/img/app/logo.png" alt="logo SEMEQ" width="432" height="210" />

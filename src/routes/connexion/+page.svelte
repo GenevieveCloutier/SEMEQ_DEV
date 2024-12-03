@@ -4,7 +4,7 @@
     import SubmitButon from '$lib/components/formulaires/submitButon.svelte';
     import Retour from '$lib/components/generaux/retour.svelte';
 	import Annonce from '../../lib/components/notifications/annonce.svelte';
-	import Turnstile from '../../lib/components/turnstile.svelte';
+	import Turnstile from '$lib/components/turnstile.svelte';
     </script>
 
 <!--! Faut revoir le system de notification ici, c'etait la premiere version avant les components -->

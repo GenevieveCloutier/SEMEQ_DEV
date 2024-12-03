@@ -39,7 +39,7 @@
                 <img src= "/src/lib/img/app/potiere.png" alt="Une personne fait de la poterie">
             </figure>
             <div class="box my-6 py-6 px-6 has-text-centered">
-                <H3Title title={"Les défis des organisateurs"} />
+                <H3Title title={"Trouve de nouveaux exposants"} />
             
                 <p>Les exposants sont le coeur de ton marché! Il est crucial de présenter des exposants qui correspondent 
                     à ce que les visiteurs de ton marché s’attendent à rencontrer!</p><br>
@@ -158,8 +158,9 @@
         </div>
         <div class="block">
             <figure class=" image is-320-320 is-hidden-tablet-only">
-                <img src="https://bulma.io/assets/images/placeholders/320x480.png" alt="photo de marche"/>
+                <img src="/src/lib/img/app/accueil/image_accueil_organisateur.jpg" alt="kiosque en marche"/>
             </figure>
+            <a class="is-size-7" href="https://la-vitrine-vaudreuil-soulanges.odoo.com/" target="blank">Crédit photo: La Vitrine Vaudreuil Soulanges</a>
         </div>
     </div>
 </div>   

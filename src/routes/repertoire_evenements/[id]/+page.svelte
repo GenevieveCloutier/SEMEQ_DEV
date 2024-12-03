@@ -3,10 +3,12 @@
     import H2AvecSousTitre from "$lib/components/titres/h2AvecSousTitre.svelte";
     import BoutonGris from "$lib/components/boutons/BoutonGris.svelte";
     import AbonnemementExposant from "$lib/components/boites/AbonnementExposant.svelte";
+    import Modal from "$lib/components/generaux/modal.svelte";
     import { emplacements, types, verifs, recupMappage } from '$lib/outils/compteurBinaire';
     import mappageEmplacements from "$lib/data/mappageEmplacements.json";
     import mappageTypes from "$lib/data/mappageTypes.json";
     import mappageVerifications from "$lib/data/mappageVerifications.json";
+	import BoutonBleu from "$lib/components/boutons/boutonBleu.svelte";
 
     export let data;
     const { evenement, role } = data;
@@ -78,20 +80,23 @@ let affichersite = siteweb();
     <div class="columns is-vcentered">
 
         <div class="column is-1">
-        {#if evenement.logo}
+        {#if evenement.utilisateur.logo && evenement.utilisateur.role_id == "2"}
         <figure>
-            <img src="/{evenement.logo}" alt="logo Repertoire SEMEQ">
+            <img src="/{evenement.utilisateur.logo}" alt="logo de l'événement">
         </figure>
         {/if}
     </div>
     <div class="column is-4">
-        {#if evenement.entreprise}
-            <H2Title title={evenement.entreprise} />
+        {#if evenement.nom}
+            <H2Title title={evenement.nom} />
             {evenement.ville.nom}
         {:else}
-            <H2Title title={evenement.prenom}-{evenement.nom} />
+            <H2Title title={evenement.utilisateur.prenom}-{evenement.utilisateur.nom} />
             {evenement.ville.nom}
         {/if}
+    </div>
+    <div class="column has-text-right">
+        <BoutonBleu texte={"Retour au répertoire"} lien={"/repertoire_evenements"}/>
     </div>
     </div>
     <div class="columns mt-6 has-text-centered is-mobile">
@@ -101,7 +106,7 @@ let affichersite = siteweb();
         {#if evenement.photo_1}
         <div class="column is-flex centerImage is-mobile">
             <figure>
-                <img class="imageCarre" src= "/{evenement.photo_1}" alt={evenement.entreprise}/>
+                <Modal image={`/${evenement.photo_1}`} />
             </figure>
         </div>
         {/if}
@@ -109,7 +114,7 @@ let affichersite = siteweb();
         {#if evenement.photo_2}
         <div class="column is-flex centerImage is-mobile">
             <figure>
-                <img class="imageCarre" src= "/{evenement.photo_2}" alt={evenement.entreprise}/>
+                <Modal image={`/${evenement.photo_2}`} />
             </figure>
         </div>
         {/if}
@@ -117,7 +122,7 @@ let affichersite = siteweb();
         {#if evenement.photo_3}
         <div class="column is-flex centerImage is-mobile">
             <figure>
-                <img class="imageCarre" src= "/{evenement.photo_3}" alt={evenement.entreprise}/>
+                <Modal image={`/${evenement.photo_3}`} />
             </figure>
         </div>
         {/if}
@@ -222,7 +227,7 @@ let affichersite = siteweb();
             {#if evenement.description}
                 {evenement.description}
             {:else}
-                <p>Aucune description de l'entreprise n'a été fournie par l'exposant</p>
+                <p>Aucune description de l'événement n'a été fournie par l'organisation.</p>
             {/if}
         </div>
         <div class="column is-1"></div>

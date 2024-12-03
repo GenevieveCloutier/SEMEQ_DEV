@@ -1,0 +1,46 @@
+{
+    "unEvenement" : {
+        "nom" : "Un événement par année",
+        "type" : "organisateur",
+        "prix" : 49.00
+    },
+    "deuxEvenements" : {
+        "nom" : "Deux événements par année",
+        "type" : "organisateur",
+        "prix" : 69.00
+    },
+    "troisEvenements" : {
+        "nom" : "Trois événements par année",
+        "type" : "organisateur",
+        "prix" : 89.00
+    },
+    "quatreEvenement" : {
+        "nom" : "Quatre événements par année",
+        "type" : "organisateur",
+        "prix" : 109.00
+    },
+    "cinqEvenements" : {
+        "nom" : "Cinq événements par année",
+        "type" : "organisateur",
+        "prix" : 129.00
+    },
+    "abonnementAnnuel" : {
+        "nom" : "Abonnement annuel",
+        "type" : "exposant",
+        "nbCategories" : 1,
+        "prix" : 44.00
+    },
+
+    "uneCategorie" : {
+        "nom" : "Abonnement annuel + 1 domaine additionnel ",
+        "type" : "exposant",
+        "nbCategories" : 2,
+        "prix" : 49.00
+    },
+    "deuxCategories" : {
+        "nom" : "Abonnement annuel + 2 domaines additionnels ",
+        "type" : "exposant",
+        "nbCategories" : 3,
+        "prix" : 54.00
+    }
+}

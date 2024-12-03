@@ -22,6 +22,8 @@ export async function load({ params, cookies}){
     if ((evenAbonne != true) && (role != "1" &&  role !== "3")) {
         throw error(403, 'Vous n`avez pas l`autorisation d`accéder à cette page.');
     }
+
+    
     return {villes:villes, regions:regions, evenement:evenement, role:role};
 }
 

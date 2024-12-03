@@ -2,6 +2,8 @@
     import H2Title from "$lib/components/titres/h2Title.svelte";
     import { domaines, recupMappage } from '$lib/outils/compteurBinaire';
     import mappageDomaines from "$lib/data/mappageDomaines.json";
+    import Modal from "$lib/components/generaux/modal.svelte";
+    import BoutonBleu from "$lib/components/boutons/boutonBleu.svelte"
 
     export let data;
     const { exposant } = data;
@@ -52,15 +54,18 @@ let affichersite = siteweb();
             {exposant.ville.nom}
         {/if}
     </div>
+    <div class="column has-text-right">
+        <BoutonBleu texte={"Retour au répertoire"} lien={"/repertoire_exposants"}/>
     </div>
-    <div class="columns mt-6 has-text-centered">
+    </div>
+    <div class="columns mt-6 has-text-centered is-mobile">
         <div class="column is-hidden-mobile">
         </div>
 
         {#if exposant.photo_1}
         <div class="column is-flex centerImage is-mobile">
             <figure>
-                <img class="imageCarre" src= "/{exposant.photo_1}" alt={exposant.entreprise}/>
+                <Modal image={`/${exposant.photo_1}`} />
             </figure>
         </div>
         {/if}
@@ -68,7 +73,7 @@ let affichersite = siteweb();
         {#if exposant.photo_2}
         <div class="column is-flex centerImage is-mobile">
             <figure>
-                <img class="imageCarre" src= "/{exposant.photo_2}" alt={exposant.entreprise}/>
+                <Modal image={`/${exposant.photo_2}`} />
             </figure>
         </div>
         {/if}
@@ -76,10 +81,11 @@ let affichersite = siteweb();
         {#if exposant.photo_3}
         <div class="column is-flex centerImage is-mobile">
             <figure>
-                <img class="imageCarre" src= "/{exposant.photo_3}" alt={exposant.entreprise}/>
+                <Modal image={`/${exposant.photo_3}`} />
             </figure>
         </div>
         {/if}
+ 
         
         <div class="column is-hidden-mobile">
         </div>

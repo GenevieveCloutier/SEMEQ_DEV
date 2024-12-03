@@ -24,11 +24,20 @@
         current.set(null); 
     }
 
-//pour fermer le message de notification
-    let notificationVisible = true;
+//pour fermer le message de notification de la barre de recherche
+    let notificationVisible = false;
     function supprimerNotification() {
         notificationVisible = false;
     }
+
+    function rechercheVide(){
+        if(searchQuery == ""){
+            notificationVisible = true
+        }
+        else{
+            barreRecherche()
+        }
+    };
 
 // Barre de recherche
     let searchQuery = '';
@@ -51,31 +60,14 @@
         repertoireEntier.hidden = false; 
     }
 
-//afficher la flèche bleue quand une région est sélectionnée
-  function afficherFleche(){
-    resetCouleur()
-    this.style.backgroundImage="url('/src/lib/img/app/fleche.png')";
-    this.style.color="white";
-    this.style.fontWeight="bold";
-    };
-
-    let exposantsFiltre ="";
-    let chaqueDomaine = "";
-    let tableauDomaines = "";
-    let valeurDomaine = "" ;
-    let valeurRegion = "";
-
-function filtreRegionDomaine(){
-    exposantsFiltre = exposants;
-    exposantsFiltre = exposantsFiltre.filter(
-        exposant => exposant.ville.region.nom.split(" ")[0] == valeurRegion
-        && (exposant.domaine & valeurDomaine) == valeurDomaine
-    ); 
-    return exposantsFiltre
-}
+    //pour fermer la notification du module de répertoire
+    let notificationVisible2 = true;
+    function supprimerNotification2() {
+        notificationVisible2 = false;
+    }
 
 //aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDomaine()
-  function chercherValeurRegion(){
+function chercherValeurRegion(){
     valeurRegion = this.value;
 
     //exceptions pour les 2 regions à double tiret
@@ -95,6 +87,32 @@ function filtreRegionDomaine(){
     return valeurRegion
   };
 
+//afficher la flèche bleue quand une région est sélectionnée
+  function afficherFleche(){
+    resetCouleur()
+    this.style.backgroundImage="url('/src/lib/img/app/fleche.png')";
+    this.style.color="white";
+    this.style.fontWeight="bold";
+    };
+
+    let exposantsFiltre ="";
+    let chaqueDomaine = "";
+    let tableauDomaines = "";
+    let valeurDomaine = "" ;
+    let valeurRegion = "";
+  
+
+function filtreRegionDomaine(){
+    exposantsFiltre = exposants;
+    exposantsFiltre = exposantsFiltre.filter(
+        exposant => exposant.ville.region.nom.split(" ")[0] == valeurRegion
+        && (exposant.domaine & valeurDomaine) == valeurDomaine
+    ); 
+    return exposantsFiltre
+}
+
+
+
 //aller chercher la valeur de la région sélectionnée puis l'envoyer dans la fonction filtreRegionDomaine()
 function chercherValeurDomaine(domaine){
     valeurDomaine = domaine.valeur;
@@ -111,14 +129,16 @@ function chercherValeurDomaine(domaine){
     tableauDomaines = new Set();
 
     for(let x = 0; x<exposants.length; x++){
+        if(exposants[x].ville){
+
         if(exposants[x].ville.region.nom.split(" ")[0] == valeurRegion){
             chaqueDomaine = (recupMappage(exposants[x].domaine, domaines))
         }
-
        for (let y = 0; y<chaqueDomaine.length; y++){
         chaqueDomaine[y] = mappageDomaines[chaqueDomaine[y]] || chaqueDomaine[y];
         tableauDomaines.add(chaqueDomaine[y])
        }
+    }
     };
     //pour trier la liste pour affichage par ordre alphabetique
     tableauDomaines = [...tableauDomaines].sort((a, b) => a.nom.localeCompare(b.nom))
@@ -150,9 +170,16 @@ function chercherValeurDomaine(domaine){
     <div class="columns mt-5 is-three-fifths">
         <div class="column mt-2 is-offset-one-fifth">
             <Recherche bind:searchQuery typeRecherche="un exposant" />
+                {#if notificationVisible}
+                    <div id="erreur" class="notification is-danger">
+                        <button class="delete" on:click={supprimerNotification}></button>
+                        <p>Veuillez entrer le nom d'un exposant</p>  
+                    </div>
+                {/if}
         </div>
         <div class="column block has-text-left">
-            <BoutonBleu fonction={barreRecherche} texte={"Rechercher un exposant"} />
+            <BoutonBleu fonction={rechercheVide} texte={"Rechercher un exposant"} />
+
         </div>
     </div>
 </div>
@@ -201,9 +228,9 @@ function chercherValeurDomaine(domaine){
         
              {#if exposantsFiltre && [...tableauDomaines].length > 0}
            
-                {#if notificationVisible}
+                {#if notificationVisible2}
                     <div class="notification is-info is-light has-text-centered is-hidden-mobile">
-                        <button class="delete" on:click={supprimerNotification}></button>
+                        <button class="delete" on:click={supprimerNotification2}></button>
                         Clique sur les catégorie pour voir les exposants. Tu peux aussi sélectionner une 
                         autre région en tout temps.
                     </div>

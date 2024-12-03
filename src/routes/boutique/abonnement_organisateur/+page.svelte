@@ -2,15 +2,44 @@
     import H1Title from "$lib/components/titres/h1Title.svelte";
     import H2Title from "$lib/components/titres/h2Title.svelte";
     import BoutonBleu from '$lib/components/boutons/boutonBleu.svelte';
+    import SubmitButon from "$lib/components/formulaires/submitButon.svelte";
     import Retour from "$lib/components/generaux/retour.svelte";
     import AvantagesOrganisateur from "$lib/components/generaux/avantagesOrganisateur.svelte";
     import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
+    import StorageAbonnements from '$lib/data/storageAbonnements.json'
     import { erreur } from '$lib/outils/formHandlers';
 
     export let data;
     const abonnementsEven = data.abonnementsEven;
 
-    let premierAvecPhoto = abonnementsEven.find(organisateur => organisateur.photo !== null);
+//tranformer le fichier json en tableau pour la boucle each
+  const tableauAbonnements = Object.entries(StorageAbonnements).map(([key, value]) => ({
+    id: key,
+    ...value,
+      }));
+//aller chercher seulement les abonnements de type organisateur
+    let affichageAbonnements = tableauAbonnements.filter(abonnement => abonnement.type === "organisateur");
+
+let abonnementSelectionne = null;
+let totalToSend;
+
+// récupère l'identifiant du type d'abonnementsélectionné par l'utilisateur
+    function abonnementChoisi(event) {
+        const id = event.target.value; 
+        abonnementSelectionne = tableauAbonnements.find((abonnement) => abonnement.id === id);
+        totalToSend = abonnementSelectionne.prix;
+        return {abonnementSelectionne, totalToSend}
+    }
+
+
+const envoyerDansURL = () => {
+  // Créez l'URL avec le paramètre de requête
+  const url = `/creation_compte/organisateur/?typeAbonnement=${encodeURIComponent(abonnementSelectionne.id)}`;
+  
+  // Utilisez `window.location` pour rediriger vers cette URL
+  window.location.href = url;
+};
+
 </script>
 
 {#if $erreur}
@@ -24,13 +53,6 @@
     <H1Title title={"Abonnement organisateur"} />
 
     <div class="columns">
-        {#if premierAvecPhoto}
-        <div class="column is-one-third">
-            <figure class="image is-1by1 ">
-                <img src="{premierAvecPhoto.photo}" alt="Photo {premierAvecPhoto.nom}" />
-            </figure>
-        </div>
-        {/if}
 
         <div class="column">
             <p>
@@ -44,23 +66,28 @@
             <H2Title title={"Avantages :"} />
             <AvantagesOrganisateur /><br>
 
-
+    <form method="GET" action="?/typeAbonnement">
             <div class="field-body">
                 <div class="field">
+                  <label class="label" for="tiktok">Type d'abonnement souhaité<span class="rouge">*</span></label>
                     <div class="controle">
                         <div class="select">
-                            <select id="selectionAbonnement" name="produit_id">
-                                {#each abonnementsEven as abonnement}
-                                    <option value={abonnement.id}>{abonnement.desc} {abonnement.prix_v}</option>
-                                {/each}
+                            <select id="selectionAbonnement" 
+                                  on:change={abonnementChoisi} 
+                                  name="typeAbonnement"
+                                  required>
+                                <option value="">SÉLECTIONNER</option>
+                                {#each affichageAbonnements as abonnement}
+                                        <option value={abonnement.id}>{abonnement.nom}: {abonnement.prix.toFixed(2)}$</option>
+                                    {/each}
                             </select>
                         </div>
-                    </div>
+                    </div><br>
                 </div>
-            </div><br>
-
-            <BoutonBleu lien={'/creation_compte/organisateur'}  texte={'Acheter'} />
+            </div>
+            <SubmitButon texte={"Passer au paiement"} fonction={envoyerDansURL} />
             <Retour />
+        </form>
         </div>
     </div>
 
