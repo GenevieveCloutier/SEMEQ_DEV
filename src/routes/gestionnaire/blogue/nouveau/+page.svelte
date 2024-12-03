@@ -5,6 +5,13 @@
 	import NotifDanger from '../../../../lib/components/notifications/notifDanger.svelte';
 	import NotifSuccess from '../../../../lib/components/notifications/notifSuccess.svelte';
 	import { creationBillet } from '../../../../lib/outils/formHandlers';
+	import { onMount } from 'svelte';
+
+	onMount(()=>{
+        const actives = document.querySelectorAll('a.is-active');
+        actives.forEach((x)=>x.classList.remove('is-active'));
+    document.getElementById('blogue').classList.add('is-active')
+    });
 </script>
 
 <H1Title title={"Ajout d'un nouveau billet de blog"} />

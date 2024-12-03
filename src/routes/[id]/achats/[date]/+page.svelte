@@ -4,15 +4,17 @@
     import { goto } from '$app/navigation';
 
     let factureData;
+    let userId;
 
     $: {
         const { data } = $page;
         factureData = data.facture;
+        userId = data.user.id;
     }
 
     onMount(() => {
         if (!factureData) {
-            goto('/achats');
+            goto(`/${userId}/achats`);
         }
     });
 

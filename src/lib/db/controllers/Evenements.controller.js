@@ -177,7 +177,8 @@ export async function creationEvenement(
 	p_photo_1,
 	p_photo_2,
 	p_photo_3,
-	p_approuve
+	p_approuve,
+	p_payant
 ) {
 	try {
 		const doublon = await Evenement.findAll({
@@ -229,7 +230,8 @@ export async function creationEvenement(
 			photo_1: p_photo_1,
 			photo_2: p_photo_2,
 			photo_3: p_photo_3,
-			approuve: p_approuve
+			approuve: p_approuve,
+			payant: p_payant
 		});
 		return resultat.dataValues;
 	} catch (error) {
@@ -283,10 +285,14 @@ export async function modificationEvenement(p_even_id, p_modifications) {
 			fin_cand: p_modifications.fin_cand ?? evenement.fin_cand,
 			fondation: p_modifications.fondation ?? evenement.fondation,
 			nb_visiteur: p_modifications.nb_visiteur ?? evenement.nb_visiteur,
-			nb__expo: p_modifications.nb__expo ?? evenement.nb__expo,
+			nb_expo: p_modifications.nb_expo ?? evenement.nb_expo,
 			profil: p_modifications.profil ?? evenement.profil,
 			site: p_modifications.site ?? evenement.site,
 			fb_even: p_modifications.fb_even ?? evenement.fb_even,
+			tiktok_even: p_modifications.tiktok_even ?? evenement.tiktok_even,
+			insta_even: p_modifications.insta_even ?? evenement.insta_even,
+			telephone: p_modifications.telephone ?? evenement.telephone,
+			code_postal: p_modifications.code_postal ?? evenement.code_postal,
 			courriel: p_modifications.courriel ?? evenement.courriel,
 			ville_id: p_modifications.ville_id ?? evenement.ville_id,
 			adresse: p_modifications.adresse ?? evenement.adresse,
@@ -294,7 +300,7 @@ export async function modificationEvenement(p_even_id, p_modifications) {
 			type: p_modifications.type ?? evenement.type,
 			type_autre: p_modifications.type_autre ?? evenement.type_autre,
 			form_cand: p_modifications.form_cand ?? evenement.form_cand,
-			verif: p_modifications.verif ?? evenement.verif,
+			verification: p_modifications.verification ?? evenement.verification,
 			verification_autre: p_modifications.verification_autre ?? evenement.verification_autre,
 			selection: p_modifications.selection,
 			limite: p_modifications.limite,

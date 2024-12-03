@@ -7,11 +7,23 @@
     import SubmitButon from "$lib/components/formulaires/submitButon.svelte";
     import NotifDanger from "$lib/components/notifications/notifDanger.svelte";
     import DomainesActivites from "$lib/components/formulaires/domainesActivites.svelte";
-    
     import { creationExposant, erreur } from '../../../lib/outils/formHandlers';
+    import { onMount } from 'svelte';
+
     export let data;
     const { villes } = data;
 
+
+onMount(() => {
+  const params = new URLSearchParams(window.location.search);
+  const valeurRecuperee = params.get('typeAbonnement');
+  
+  if (valeurRecuperee) {
+    // Sauvegarde du typeAbonnement dans localStorage
+    localStorage.setItem('typeAbonnement', valeurRecuperee); 
+  }
+});
+  
 </script>
   
   

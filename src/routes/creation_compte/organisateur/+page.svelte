@@ -4,11 +4,25 @@
   import Neq from "$lib/components/formulaires/neq.svelte";
   import CheckboxConditionsVente from "$lib/components/formulaires/checkboxConditionsVente.svelte";
   import SubmitButon from "$lib/components/formulaires/submitButon.svelte";
+  import BoutonGris from "$lib/components/boutons/boutonGris.svelte"
   import NotifDanger from "$lib/components/notifications/notifDanger.svelte";
 
   import { creationOrganisateur, erreur } from '../../../lib/outils/formHandlers';
   export let data;
-  const { villes } = data;
+  const { villes, role } = data;
+
+  import { onMount } from 'svelte';
+
+onMount(() => {
+  const params = new URLSearchParams(window.location.search);
+  const valeurRecuperee = params.get('typeAbonnement');
+  
+  if (valeurRecuperee) {
+    // Sauvegarde du typeAbonnement dans localStorage
+    localStorage.setItem('typeAbonnement', valeurRecuperee);
+  }
+});
+
 </script>
 
 
@@ -20,10 +34,13 @@
     <NotifDanger />
   {/if}
 
+
+  <!-- afficher le formulaire seulement si la personne n'a pas déjà un compte -->
+  {#if !role || role == "1"}
   <form on:submit|preventDefault={creationOrganisateur}>
     <div class="box">
       <div class="block has-text-centered">
-        <a href="/login" >Tu as déjà un compte? Connecte-toi pour bénéficier des tarifs avantageux pour les membres.</a>
+        Tu as déjà un compte? <a href="/login" >Connecte-toi </a> pour bénéficier des tarifs avantageux pour les membres.
       </div>
 
       <div class="columns">
@@ -126,9 +143,19 @@
     <input name="abonne" value="on" hidden>
     <!-- Boutons en bas de page -->
     <div class="block has-text-right">
-      <SubmitButon texte={"Passer au paiement"}></SubmitButon>
+      <SubmitButon texte={"Passer au paiement"} />
       <Retour />
     </div>
   </form>
+  {:else}
+      <div class="block has-text-centered">
+        <p class="notification is-danger ">Oups! <br>
+          Il semblerait que tu aies déjà un compte sur notre plateforme!<br>
+        Si tu as déjà un compte gratuit, et que tu aimerais le changer pour un compte exposant ou un compte organisateur, 
+        <a href="/contact">contacte-nous!</a><br><br>
+      <BoutonGris texte={"Annuler"} lien={"/visiteur"}/></p>
+      </div>
+  {/if}
+
     
 </div>

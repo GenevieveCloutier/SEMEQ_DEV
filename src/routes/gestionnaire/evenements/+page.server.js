@@ -5,8 +5,10 @@ import { log } from '../../../lib/outils/debug.js';
 export async function load({ cookies, params,}){
     let evenements = await findAllWhere({approuve: true});
     evenements.map((x)=> {   
-        x.debut_even = x.debut_even.toLocaleDateString('fr-CA');
-        x.fin_even = x.fin_even.toLocaleDateString('fr-CA');
+        x.debut_even = x.debut_even.toLocaleDateString('fr-CA', {timeZone: 'UTC'});
+        x.fin_even = x.fin_even.toLocaleDateString('fr-CA', {timeZone: 'UTC'});
+        x.fin_cand = x.fin_cand.toLocaleDateString('fr-CA', {timeZone: 'UTC'});
+        x.debut_cand = x.debut_cand.toLocaleDateString('fr-CA', {timeZone: 'UTC'});
         x.region = x.ville.region.nom.slice(0, -5).replace('--', '-');
         x.utilisateur_nom = x.utilisateur.nom;
             return x;});
