@@ -5,14 +5,12 @@
     import Etape2 from "$lib/components/barre_progression_paiement/etape2.svelte";
     import Paypal from "$lib/components/paypal.svelte";
     import { codePromoPanier } from '$lib/outils/formHandlers';
-    import { onMount } from 'svelte';
 
     export let data;
     const paniers = data.paniers;
     const utilisateur = data.utilisateur;
     let rabais = data.rabais || 0;
-    let totalToSend = data.totalToSend || 0;
-
+    
     // Calcul économie
     let economie = paniers.reduce((acc, panier) => {
         return acc + (panier.produit.prix_v - panier.produit.prix_a);
@@ -24,10 +22,24 @@
         return acc + prix;
     }, 0);
 
+    // Calcul rabais, TPS, TVQ et total
+    /*const tpsTaux = 0.05;
+    const tvqTaux = 0.09975;
+    let tps = sousTotal * tpsTaux;
+    let tvq = sousTotal * tvqTaux;*/
+    let totalToSend = sousTotal/* + tps + tvq*/;
+
+    import { onMount } from 'svelte';
     let redirection = '';
     onMount(() => {
         redirection = window.location.origin + `/panier/paiement/confirmation`;
     });
+
+    async function handlePromoCodeSubmit(event) {
+        await codePromoPanier(event);
+        // Mettre à jour le total après l'application du code promo
+        totalToSend = sousTotal - rabais;
+    }
 </script>
 
 <Etape2/>
@@ -85,7 +97,7 @@
   </div>
   
   <div class="block">
-    <form on:submit|preventDefault={codePromoPanier}>
+    <form on:submit|preventDefault={handlePromoCodeSubmit}>
       <label class="label" for="code">Tu as un code promo?</label>
       <div class="field has-addons">
           <p class="control">
