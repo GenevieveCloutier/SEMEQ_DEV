@@ -26,7 +26,8 @@ import {
 	modificationEvenement,
 	suppressionEvenement
 } from '../../lib/db/controllers/Evenements.controller.js';
-import { ajoutProduitPanier, deleteCart, deleteUserCart, findAll as findAllPaniers } from '../../lib/db/controllers/Paniers.controller.js';
+import { ajoutProduitPanier, deleteCart, deleteUserCart, findAll as findAllPaniers, applyPromoCode } from '../../lib/db/controllers/Paniers.controller.js';
+import { Panier } from '../../lib/db/models/Panier.model.js';
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
 import fs from 'fs';
@@ -769,67 +770,56 @@ export const actions = {
 	},
 
 	codePromoPanier: async ({request, cookies }) => {
-		try {
-			const data = await request.formData();
-			const partenaire = await findOneCodePromo({ code: data.get('code') });
+        const sessionId = cookies.get('id');
+        const utilisateur = await findOne({ id: sessionId });
 
-			const sessionId = cookies.get('id');
-			const paniers = await findAllPaniers({
-				where: { utilisateur_id: sessionId },
-				include: [
-					{ model: Utilisateur, as: "utilisateur" },
-					{ model: Produit, as: "produit",
-						include: [
-						{ model: Type, as: "type" }
-						]
-					}
-				]
-			});
-
-			// Date du jour au format ISO avec l'heure 00:00:00 pour comparer avec dates dans BD
-			let aujourdhui = new Date().toISOString().split("T")[0]  + " 00:00:00.000 +00:00";
-			
-			if (partenaire && (partenaire.expiration === null || partenaire.expiration >= aujourdhui)) {
-				const isValid = paniers.some(panier => {
-					return (partenaire.produit_id && partenaire.produit_id === panier.produit.id) ||
-						(partenaire.type_id && partenaire.type_id === panier.produit.type.id);
-				});
-
-				if (isValid) {
-					return {
-						status: 200,
-						body: {
-                            message: 'Code promo accepté.',
-                            rabais: partenaire.rabais,
-                            produit_id: partenaire.produit_id,
-                            type_id: partenaire.type_id
-                        }
-					};
-				} else {
-					return {
-						status: 404,
-						body: {
-							message: 'Ce code promo n\'est pas valide pour les produits dans votre panier.'
-						}
-					};
-				}
-			} else {
-				return {
-					status: 404,
-					body: {
-						message: 'Ce code promo n\'est pas valide ou a expiré.'
-					}
-				};
-			}
-		} catch (error) {
-            console.error('Erreur dans l\'API:', error);
-            return {
-                status: 500,
-                body: {
-                    message: 'Une erreur inattendue s\'est produite, veuillez réessayer.'
+        const paniers = await Panier.findAll({
+            where: { utilisateur_id: sessionId },
+            include: [
+                { model: Utilisateur, as: "utilisateur" },
+                { model: Produit, as: "produit",
+                    include: [
+                      { model: Type, as: "type" }
+                    ]
                 }
-            };
+            ]
+        });
+
+        let resultat = paniers.map(panier => ({
+            ...panier.dataValues,
+            utilisateur: panier.utilisateur ? panier.utilisateur.dataValues : null,
+            produit: panier.produit ? {
+                ...panier.produit.dataValues,
+                type: panier.produit.type ? panier.produit.type.dataValues : null
+            } : null
+        }));
+
+		const data = await request.formData();
+        const code = data.get('code');
+
+        let rabais = 0;
+        if (code) {
+            try {
+                rabais = await applyPromoCode(code, resultat);
+            } catch (error) {
+                return {
+                    status: 400,
+                    body: { message: error.message }
+                };
+            }
         }
+
+        // Calculer le nouveau total
+        let sousTotal = resultat.reduce((acc, panier) => {
+            let prix = utilisateur.abonne ? panier.produit.prix_a : panier.produit.prix_v;
+            return acc + prix;
+        }, 0);
+        let totalToSend = sousTotal - rabais;
+
+        return {
+            status: 200,
+            body: { rabais, totalToSend }
+        };
     },
 
 	deleteOnePanier: async ({ request }) => {

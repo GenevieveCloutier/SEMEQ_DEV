@@ -190,17 +190,19 @@
                             </div>
                         </div>
 
-                        <form on:submit|preventDefault={codePromoPanier} class="block">
-                            <label class="label" for="code">Tu as un code promo?</label>
-                            <div class="field has-addons">
-                                <p class="control">
-                                    <input class="input" name="code" id="code" type="text" placeholder="Code promo" required>
-                                </p>
-                                <p class="control">
-                                    <button type="submit" class="button" id="btn_code_promo">Appliquer</button>
-                                </p>
-                            </div>
-                        </form>
+                        <div class="block">
+                            <form on:submit|preventDefault={codePromoPanier}>
+                                <label class="label" for="code">Tu as un code promo?</label>
+                                <div class="field has-addons">
+                                    <p class="control">
+                                        <input class="input" name="code" id="code" type="text" placeholder="Code promo" required>
+                                    </p>
+                                    <p class="control">
+                                        <button type="submit" class="button" id="btn_code_promo">Appliquer</button>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
 
                         <div class="columns">
                             <div class="column has-text-right">

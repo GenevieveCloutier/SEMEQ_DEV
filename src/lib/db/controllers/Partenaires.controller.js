@@ -128,3 +128,36 @@ export async function suppressionCodePromo(p_id) {
 		throw error;
 	}
 }
+
+/**
+ * Permet d'utiliser un code promo sur le panier.
+ * 
+ * @param {*} code 
+ * @param {*} paniers 
+ * @returns 
+ */
+export async function applyPromoCode(code, paniers) {
+    const partenaire = await Partenaire.findOne({
+        where: { code: code },
+        include: [
+            { model: Produit, as: 'produit' },
+            { model: Type, as: 'type' },
+        ],
+    });
+
+    if (!partenaire) {
+        throw new Error("Ce code promo n\'est pas valide ou a expiré.");
+    }
+
+    let totalRabais = 0;
+
+    paniers.forEach(panier => {
+        if (partenaire.produit_id && panier.produit_id === partenaire.produit_id) {
+            totalRabais += panier.produit.prix_v * (partenaire.rabais / 100);
+        } else if (partenaire.type_id && panier.produit.type_id === partenaire.type_id) {
+            totalRabais += panier.produit.prix_v * (partenaire.rabais / 100);
+        }
+    });
+
+    return totalRabais;
+}

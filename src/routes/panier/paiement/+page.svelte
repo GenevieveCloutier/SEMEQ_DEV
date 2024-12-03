@@ -5,10 +5,13 @@
     import Etape2 from "$lib/components/barre_progression_paiement/etape2.svelte";
     import Paypal from "$lib/components/paypal.svelte";
     import { codePromoPanier } from '$lib/outils/formHandlers';
+    import { onMount } from 'svelte';
 
     export let data;
     const paniers = data.paniers;
     const utilisateur = data.utilisateur;
+    let rabais = data.rabais || 0;
+    let totalToSend = data.totalToSend || 0;
 
     // Calcul économie
     let economie = paniers.reduce((acc, panier) => {
@@ -21,15 +24,10 @@
         return acc + prix;
     }, 0);
 
-    // Calcul rabais, TPS, TVQ et total
-    /*const tpsTaux = 0.05;
-    const tvqTaux = 0.09975;
-    let tps = sousTotal * tpsTaux;
-    let tvq = sousTotal * tvqTaux;*/
-    let rabais = 0;   /* Code promo en % */
-    let totalToSend = sousTotal - rabais/* + tps + tvq*/;
-    let redirection = window.location.origin +`/panier/paiement/confirmation`;
-
+    let redirection = '';
+    onMount(() => {
+        redirection = window.location.origin + `/panier/paiement/confirmation`;
+    });
 </script>
 
 <Etape2/>
@@ -86,17 +84,19 @@
     </div>
   </div>
   
-  <form on:submit|preventDefault={codePromoPanier} class="block">
-    <label class="label" for="code">Tu as un code promo?</label>
-    <div class="field has-addons">
-        <p class="control">
-            <input class="input" name="code" id="code" type="text" placeholder="Code promo">
-        </p>
-        <p class="control">
-            <button type="submit" class="button" id="btn_code_promo">Appliquer</button>
-        </p>
-    </div>
-  </form>
+  <div class="block">
+    <form on:submit|preventDefault={codePromoPanier}>
+      <label class="label" for="code">Tu as un code promo?</label>
+      <div class="field has-addons">
+          <p class="control">
+              <input class="input" name="code" id="code" type="text" placeholder="Code promo">
+          </p>
+          <p class="control">
+              <button type="submit" class="button" id="btn_code_promo">Appliquer</button>
+          </p>
+      </div>
+    </form>
+  </div>
 
   <!-- La div pour le bouton paypal -->
    <div class="container is-flex is-justify-content-center is-align-items-center">
