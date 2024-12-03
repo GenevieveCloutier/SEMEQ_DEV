@@ -152,6 +152,10 @@ export const Evenement = sequelize.define("evenement", {
         type: DataTypes.BOOLEAN,
         allowNull: true
     },
+    payant: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true
+    }
 },
 { paranoid: true }// Permet à sequelize de faire de la soft-deletion
 );

@@ -8,7 +8,7 @@
   onMount(()=>{
         const actives = document.querySelectorAll('a.is-active');
         actives.forEach((x)=>x.classList.remove('is-active'));
-    document.getElementById('evenements').classList.add('is-active')
+    document.getElementById('approbation').classList.add('is-active')
     });
 
 
@@ -78,7 +78,7 @@
                 const recherche = searchQuery.toLowerCase();
                 return x.nom.toLowerCase().includes(recherche);
               }) as evenement}
-            <tr on:click={() => window.location = `./approbations/${evenement.id}`}>
+            <tr on:click={() => window.location = `./evenements/${evenement.id}`}>
                 <td> {evenement.nom}</td>
                 <td>{evenement.utilisateur.prenom} {evenement.utilisateur.nom}</td>
                 <td>{evenement.courriel}</td>

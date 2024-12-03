@@ -1,10 +1,19 @@
 <script>
 	import H1Title from '$lib/components/titres/h1Title.svelte';
+	import { onMount } from 'svelte';
 	import SubmitButon from '../../../../lib/components/formulaires/submitButon.svelte';
     import Retour from '../../../../lib/components/generaux/retour.svelte';
 	import { creationProduit } from '../../../../lib/outils/formHandlers';
+	
 	export let data;
 	const { types } = data;
+
+	onMount(()=>{
+        const actives = document.querySelectorAll('a.is-active');
+        actives.forEach((x)=>x.classList.remove('is-active'));
+    document.getElementById('boutiquenouveau').classList.add('is-active')
+    });
+
 	let prix_1 = "Prix visiteur";
 	let prix_2 = "Prix abonné";
 	function changePrix(event){

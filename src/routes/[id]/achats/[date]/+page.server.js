@@ -77,6 +77,7 @@ export async function load({ cookies, params }){
     const facture = aggregatedAchatsArray[0];
 
     return {
+        user: { id: user.id },
         facture: {
             date: facture.date,
             client: {

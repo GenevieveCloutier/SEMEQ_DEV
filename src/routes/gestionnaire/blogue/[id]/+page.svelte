@@ -9,6 +9,12 @@
 
     export let data;
     const { blogue } = data;
+
+	onMount(()=>{
+        const actives = document.querySelectorAll('a.is-active');
+        actives.forEach((x)=>x.classList.remove('is-active'));
+    document.getElementById('blogue').classList.add('is-active')
+    });
 </script>
 
 <H1Title title={"Modification d'un nouveau billet de blog"} />

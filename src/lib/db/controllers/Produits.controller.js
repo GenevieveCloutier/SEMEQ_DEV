@@ -62,7 +62,6 @@ export async function findOne(p_where){
 
 export async function suppressionProduit(p_id){
     try {
-        log('plop',)
         const produit = await Produit.findByPk(p_id);
         if(!produit) throw new error ('Produit non trouvé');
         await produit.destroy();
@@ -101,7 +100,6 @@ export async function nouveauProduit(p_nom, p_type_id, p_desc, p_url, p_prix_v, 
 export async function modifProduit(p_id, p_modifications) {
 	try {
 		const produit = await Produit.findByPk(p_id);
-        log("controller = ", produit)
 		await produit.update({
 			nom: p_modifications.nom ?? produit.nom,
 			type_id: p_modifications.type_id ?? produit.type_id,
