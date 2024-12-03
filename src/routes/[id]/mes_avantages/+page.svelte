@@ -58,6 +58,7 @@
                             avantage={partenaire.avantage}
                             code={partenaire.code}
                             expiration={partenaire.expiration}
+                            categorieNom={categorie.nom}
                         ></PartenaireAvantage>
                     {/each}
                 </div>
