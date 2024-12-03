@@ -26,7 +26,7 @@ import {
 	modificationEvenement,
 	suppressionEvenement
 } from '../../lib/db/controllers/Evenements.controller.js';
-import { ajoutProduitPanier, deleteCart, deleteItemsCart, deleteUserCart, findAll as findAllPaniers, } from '../../lib/db/controllers/Paniers.controller.js';
+import { ajoutProduitPanier, deleteCart, deleteItemsCart, deleteUserCart, findAll as findAllPaniers } from '../../lib/db/controllers/Paniers.controller.js';
 import { Op } from 'sequelize';
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
@@ -871,10 +871,9 @@ export const actions = {
 
 	deleteAllUserCart: async ({ cookies, request }) => {
 		const data = await request.formData();
-		const utilisateur_id = data.get('id');
 		if (cookies.get('id')) {
-			const res = await deleteUserCart(utilisateur_id);
-			console.log('DeleteCart response:', res);
+			const res = await deleteUserCart(data.get('id'));
+			console.log('deleteUserCart response:', res);
 			return res;
 		} else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action.');
 	},

@@ -136,6 +136,24 @@ export async function deleteCart(p_where){
 export async function deleteUserCart(p_utilisateur_id) {
 	try {
 		const result = await Panier.destroy({
+			where: { utilisateur_id: p_utilisateur_id }
+		});
+		return { status: 200, data: JSON.stringify(result) };
+	} catch (error) {
+		console.error('Error deleting cart:', error);
+		return { status: 500, data: JSON.stringify({ error: 'Internal Server Error' }) };
+	}
+}
+
+/**
+ * Supprime les entrées dans la table paniers pour l'utilisateur et le produit spécifiés.
+ * @param {Object} p_utilisateur_id - ID de l'utilisateur.
+ * @param {Object} p_produit_id - ID du produit.
+ * @returns {Object} - Message de succès.
+ */
+export async function deleteItemsCart(p_utilisateur_id, p_produit_id) {
+	try {
+		const result = await Panier.destroy({
 			where: {
                 utilisateur_id: p_utilisateur_id,
                 produit_id: p_produit_id
