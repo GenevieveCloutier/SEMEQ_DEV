@@ -1,4 +1,4 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { fail, redirect, error } from '@sveltejs/kit';
 import {
 	createCookie,
 	findOne as findOneSession
@@ -26,7 +26,7 @@ import {
 	modificationEvenement,
 	suppressionEvenement
 } from '../../lib/db/controllers/Evenements.controller.js';
-import { ajoutProduitPanier, deleteCart, deleteItemsCart, deleteUserCart, findAll as findAllPaniers } from '../../lib/db/controllers/Paniers.controller.js';
+import { ajoutProduitPanier, deleteCart, deleteItemsCart, deleteUserCart, findOne as findPanier, findAll as findAllPaniers } from '../../lib/db/controllers/Paniers.controller.js';
 import { Op } from 'sequelize';
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
@@ -835,9 +835,8 @@ export const actions = {
 
 	deleteOnePanier: async ({ request }) => {
 		const data = await request.formData();
-
 		try {
-			let res = await deleteCart({ id: data.get('panier_id') });
+			const res = await deleteCart({ id: data.get('panier_id') });
 			return {
 				status: 200,
 				body: {

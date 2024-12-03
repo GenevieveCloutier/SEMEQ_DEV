@@ -776,30 +776,25 @@ export async function codePromoPanier(event) {
 	}
 }
 
-export async function deleteOnePanier(event){
-    chargement();
-    erreur.set('');
-    try{
-        const formData = new FormData(event.target);
-        const response = await fetch('../api?/deleteOnePanier', {
-            method: 'POST',
-            body: formData
-        });
-        log("formhandler deleteOnePanier response = ", response);
-        const result = await response.json();
-        log("formhandler deleteOnePanier, result = ", result);
-
-        if (result.status == 200)
-            window.location.reload();
-			success.set("Le produit a été retiré du panier.");
-        if (result.status == 401){
-            log("formhandler error deleteOnePanier = ",JSON.parse(result.data)[0])
-            erreur.set(JSON.parse(result.data)[0]);
-        }
-    }catch(error){
-        console.error("erreur inattendue : ", error);
-        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
-    }
+export async function deleteOnePanier(event) {
+	chargement;
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/deleteOnePanier', {
+			method: 'POST',
+			body: formData
+		});
+		const result = await response.json();
+		if (result.status == 200){
+			window.location.reload();
+			success.set('Le produit a été retiré du panier.');
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
 }
 
 export async function deleteSelectedItemsCart(event) {
