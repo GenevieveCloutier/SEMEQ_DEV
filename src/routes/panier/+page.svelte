@@ -8,7 +8,8 @@
     import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
     import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
-    import { deleteOnePanier, deleteSelectedItemsCart } from '$lib/outils/formHandlers';
+    import { deleteOnePanier, deleteSelectedItemsCart, codePromoPanier, rabais, produitId, typeId } from '$lib/outils/formHandlers';
+    import { get } from 'svelte/store';
     import Confirmation from '$lib/components/notifications/confirmation.svelte';
 
     export let data;
@@ -37,12 +38,25 @@
         return acc + prix;
     }, 0);
 
-    // Calcul TPS, TVQ et total
+    //Calcul du rabais (en %) du code promo
+    $: rabaisApplique = paniers.reduce((acc, panier) => {
+        const rabaisValue = get(rabais);
+        const produitIdValue = get(produitId);
+        const typeIdValue = get(typeId);
+
+        if ((produitIdValue && produitIdValue === panier.produit.id) ||
+            (typeIdValue && typeIdValue === panier.produit.type.id)) {
+            return acc + (utilisateur.abonne ? panier.produit.prix_a : panier.produit.prix_v) * (rabaisValue / 100);
+        }
+        return acc;
+    }, 0);
+
+    // Calcul rabais, TPS, TVQ et total
     /*const tpsTaux = 0.05;
     const tvqTaux = 0.09975;
     let tps = sousTotal * tpsTaux;
     let tvq = sousTotal * tvqTaux;*/
-    let total = sousTotal/* + tps + tvq*/;
+    $: total = sousTotal - rabaisApplique /* + tps + tvq*/;
 </script>
 
 <H1Title title={"Panier"} />
@@ -156,25 +170,31 @@
                             {/if}
                         {/if}
 
-                        <!--<div class="columns">
-                            <div class="column">
+                        <div class="columns">
+                            <div class="column has-text-right">
                             Sous-total :<br>
-                            TPS (5%) :<br>
-                            TVQ (9,975%) :
+                            {#if rabaisApplique !== 0} <!-- Afficher s'il y a un rabais (code promo) -->  
+                                    <b>Rabais :</b><br>
+                            {/if}
+                            <!--TPS (5%) :<br>
+                            TVQ (9,975%) :-->
                             </div>
 
                             <div class="column is-narrow has-text-right">
                                 {sousTotal === 0 ? "Gratuit" : `${sousTotal.toFixed(2)} $`}<br>
-                                {tps.toFixed(2)} $<br>
-                                {tvq.toFixed(2)} $
+                                {#if rabaisApplique !== 0}
+                                    <b>{rabaisApplique.toFixed(2)} $</b><br>
+                                {/if}
+                                <!--{tps.toFixed(2)} $<br>
+                                {tvq.toFixed(2)} $-->
                             </div>
-                        </div>-->
+                        </div>
 
-                        <form class="block">
-                            <label class="label" for="code_promo">Tu as un code promo?</label>
+                        <form on:submit|preventDefault={codePromoPanier} class="block">
+                            <label class="label" for="code">Tu as un code promo?</label>
                             <div class="field has-addons">
                                 <p class="control">
-                                    <input class="input" name="code_promo" type="text" placeholder="Code promo">
+                                    <input class="input" name="code" id="code" type="text" placeholder="Code promo" required>
                                 </p>
                                 <p class="control">
                                     <button type="submit" class="button" id="btn_code_promo">Appliquer</button>
@@ -183,7 +203,7 @@
                         </form>
 
                         <div class="columns">
-                            <div class="column">
+                            <div class="column has-text-right">
                                 <b>Total :</b>
                             </div>
                             <div class="column is-narrow has-text-right">

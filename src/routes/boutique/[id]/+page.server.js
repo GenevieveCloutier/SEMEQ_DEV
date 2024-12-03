@@ -2,6 +2,7 @@ import { error, redirect } from '@sveltejs/kit';
 import { Produit } from "$lib/db/models/Produit.model.js"
 import { Type } from "$lib/db/models/Type.model.js"
 import { findOne } from '$lib/db/controllers/Utilisateurs.controller';
+import { Achat } from "$lib/db/models/Achat.model.js"
 
 export async function load({ cookies, params }){
     // Pour affichage économie et/ou "Abonnements" en bas de page
@@ -51,5 +52,17 @@ export async function load({ cookies, params }){
         type: produit.type ? produit.type.dataValues : null,
     };
 
-    return { produit: resultat, utilisateur }
+    // Vérifier si l'utilisateur a déjà acheté le produit pour masquer le formulaire "Acheter"
+    let dejaAchete = false;
+    if (utilisateur) {
+        const achat = await Achat.findOne({
+            where: {
+                utilisateur_id: utilisateur.id,
+                produit_id: paramId
+            }
+        });
+        dejaAchete = !!achat;
+    }
+
+    return { produit: resultat, utilisateur, dejaAchete }
 }
