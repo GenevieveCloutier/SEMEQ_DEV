@@ -130,7 +130,7 @@
                             <div class="select is-fullwidth">
                                 <select name="produit_id" id="produit_id" required>
                                     {#if code.produit_id === null}
-                                        <option  disabled selected>Choisissez un produit sur lequel appliquer le rabais</option>
+                                        <option>Choisissez un produit sur lequel appliquer le rabais</option>
                                     {:else}
                                         <option value={code.produit_id} disabled selected required>{code.produit.nom}</option>
                                     {/if}
@@ -149,7 +149,7 @@
                             <div class="select is-fullwidth">
                                 <select name="type_id" id="type_id">
                                     {#if code.type_id === null}
-                                        <option  disabled selected>Choisissez un type de produit sur lequel appliquer le rabais</option>
+                                        <option>Choisissez un type de produit sur lequel appliquer le rabais</option>
                                     {:else}
                                         <option value={code.type_id} disabled selected required>{code.type.nom}</option>
                                     {/if}

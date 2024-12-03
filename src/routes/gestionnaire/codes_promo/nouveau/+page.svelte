@@ -126,7 +126,7 @@
 						<div class="control">
 							<div class="select is-fullwidth">
 								<select name="produit_id" id="produit_id" required>
-									<option  disabled selected>Choisissez un produit sur lequel appliquer le rabais</option>
+									<option>Choisissez un produit sur lequel appliquer le rabais</option>
 									{#each produits as produit}
 										<option value={produit.id}>{produit.nom}</option>
 									{/each}
@@ -141,7 +141,7 @@
 						<div class="control">
 							<div class="select is-fullwidth">
 								<select name="type_id" id="type_id">
-									<option  disabled selected>Choisissez un type de produit sur lequel appliquer le rabais</option>
+									<option>Choisissez un type de produit sur lequel appliquer le rabais</option>
 									{#each types as type}
 										<option value={type.id}>{type.nom}</option>
 									{/each}
