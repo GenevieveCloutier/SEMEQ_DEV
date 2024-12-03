@@ -43,21 +43,19 @@
 
 <div class="section">
     <div class="block table-container">
-    <table class="table is-hoverable is-striped is-fullwidth ">
+    <table class="table is-hoverable is-striped is-fullwidth">
         <thead class="has-text-centered">
             <tr>
-                <!-- TRIAGE NE FONCTIONNE PAS POUR N° COMMANDE -->
-                <th class="has-text-centered">N° commande <button on:click={event => triage(event, 'ids')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
+                <th>Date <button on:click={event => triage(event, 'date')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
                 <th>Produits commandés</th>
                 <th>Total <button on:click={event => triage(event, 'prixTotal')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
-                <th>Date <button on:click={event => triage(event, 'date')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
                 <th class="has-text-centered">Facture</th>
             </tr>
         </thead>
         <tbody>
             {#each aggregatedAchats as achat}
             <tr>
-                <td class="has-text-centered">{achat.ids.join(', ')}</td> <!-- MODIFIER POUR N° COMMANDE PAYPAL SI POSSIBLE -->
+                <td>{achat.date}</td>
                 <td>
                     <ul>
                         {#each achat.produits as produit}
@@ -66,9 +64,8 @@
                     </ul>
                 </td>
                 <td>{achat.prixTotal}</td>
-                <td>{achat.date}</td>
                 <td class="has-text-centered">
-                    <a href="/" target="_blank" class="button is-small" style="background-color: #053682; color:white">Récupérer ma facture</a>
+                    <a href="./achats/${achat.date}" target="_blank" class="button is-small" style="background-color: #053682; color:white">Récupérer ma facture</a>
                 </td>
             </tr>
             {/each}
