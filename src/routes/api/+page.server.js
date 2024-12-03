@@ -26,8 +26,7 @@ import {
 	modificationEvenement,
 	suppressionEvenement
 } from '../../lib/db/controllers/Evenements.controller.js';
-import { ajoutProduitPanier, deleteCart, deleteItemsCart, deleteUserCart, findOne as findPanier, findAll as findAllPaniers } from '../../lib/db/controllers/Paniers.controller.js';
-import { Op } from 'sequelize';
+import { ajoutProduitPanier, deleteCart, deleteUserCart, findAll as findAllPaniers } from '../../lib/db/controllers/Paniers.controller.js';
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
 import fs from 'fs';
@@ -850,23 +849,21 @@ export const actions = {
 	},
 
 	deleteSelectedItemsCart: async ({ request }) => {
-        const data = await request.formData();
-        const utilisateur_id = data.get('utilisateur_id');
-        const produit_id = data.get('selectedItems').split(',');
-
-        try {
-            const res = await deleteItemsCart(utilisateur_id, produit_id);
-            return {
-                status: 200,
-                body: {
-                    message: 'Produits retirés du panier avec succès',
-                    evenement: res
-                }
-            };
-        } catch (error) {
-            return fail(401, error);
-        }
-    },
+		const data = await request.formData();
+		const panier_id = data.get('selectedItems').split(',');
+		try {
+			const res = await deleteCart({ id: panier_id });
+			return {
+				status: 200,
+				body: {
+					message: 'Produits retirés du panier avec succès',
+					evenement: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
 
 	deleteAllUserCart: async ({ cookies, request }) => {
 		const data = await request.formData();
