@@ -2,6 +2,7 @@ import { get, writable } from 'svelte/store';
 import { log } from './debug';
 import { redirect } from '@sveltejs/kit';
 import { goto, invalidateAll } from '$app/navigation';
+import StorageAbonnements from '$lib/data/storageAbonnements.json';
 
 export const erreur = writable(null);
 export const success = writable(null);
@@ -149,17 +150,41 @@ export async function connexion(event) {
  *
  * @param {Event} event L'événement contenant les données du formulaire.
  */
+
 export async function creationExposant(event) {
 	chargement();
 	erreur.set('');
+
+	//aller chercher les infos du type d'abonnement choisi dans la boutique
+	let typeAbonnement = localStorage.getItem('typeAbonnement');
+
+	//envoyer le type d'abonnement dans un cookie pour l'api
+	document.cookie = `typeAbonnement=${encodeURIComponent(typeAbonnement)}; path=/;`;
+
+	//tranformer le fichier json en tableau
+    const tableauAbonnements = Object.entries(StorageAbonnements).map(([key, value]) => ({
+		id: key,
+		...value,
+		  }));
+  
+      let id = typeAbonnement;
+      typeAbonnement = tableauAbonnements.find((abonnement) => abonnement.id === id);
+
+	  let nomAbonnement = typeAbonnement.nom;
+      let nbCategories= typeAbonnement.nbCategories;
+
+  
 	try {
 		const formData = new FormData(event.target);
 
-		// Vérifier si le nombre de checkbox cochées est entre 1 et 3 pour Domaine(s) d'activit(é)s
+		// Vérifier si le nombre de checkbox cochées est le même que l'abonnement choisi
 		const checkboxes = event.target.querySelectorAll('input[type="checkbox"]:checked:not(.exclus)');
-		if (checkboxes.length < 1 || checkboxes.length > 3) {
+		
+		if ((checkboxes.length < nbCategories) || 
+			(checkboxes.length > nbCategories)) {
 			erreur.set(
-				"Merci de sélectionner entre 1 et 3 domaine(s) d'activité(s) selon l'abonnement choisi."
+				`Tu as choisi l'abonnement ${nomAbonnement} qui te permet de sélectionner en tout ${nbCategories} 
+				domaines(s) d'activités. Vérifie que ta sélection correspond bien au type d'abonnement choisi.` 
 			);
 			return;
 		}
@@ -225,6 +250,12 @@ export async function creationExposant(event) {
 export async function creationOrganisateur(event) {
 	chargement();
 	erreur.set('');
+
+	//aller chercher les infos du type d'abonnement choisi dans la boutique
+	let typeAbonnement = localStorage.getItem('typeAbonnement');
+
+	//envoyer le type d'abonnement dans un cookie pour l'api
+	document.cookie = `typeAbonnement=${encodeURIComponent(typeAbonnement)}; path=/;`;
 	try {
 		const formData = new FormData(event.target);
 
@@ -516,6 +547,13 @@ export async function creationEvenementPayant(event) {
 export async function creationVisiteur(event) {
 	chargement();
 	erreur.set('');
+
+	//aller chercher les infos du compte visiteur
+	let typeAbonnement = localStorage.getItem('typeAbonnement');
+
+	//envoyer le type d'abonnement dans un cookie pour l'api
+	document.cookie = `typeAbonnement=${encodeURIComponent(typeAbonnement)}; path=/;`;
+
 	try {
 		const formData = new FormData(event.target);
 		const response = await fetch('../api?/nouvelUtilisateur', {

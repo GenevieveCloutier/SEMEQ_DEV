@@ -20,24 +20,14 @@
 //aller chercher seulement les abonnements de type organisateur
     let affichageAbonnements = tableauAbonnements.filter(abonnement => abonnement.type === "organisateur");
 
-let abonnementSelectionne = null;
-let totalToSend;
-
-// récupère l'identifiant du type d'abonnementsélectionné par l'utilisateur
-    function abonnementChoisi(event) {
-        const id = event.target.value; 
-        abonnementSelectionne = tableauAbonnements.find((abonnement) => abonnement.id === id);
-        totalToSend = abonnementSelectionne.prix;
-        return {abonnementSelectionne, totalToSend}
-    }
-
-
-const envoyerDansURL = () => {
-  // Créez l'URL avec le paramètre de requête
-  const url = `/creation_compte/organisateur/?typeAbonnement=${encodeURIComponent(abonnementSelectionne.id)}`;
+//enregistrer le choix de l'utilisateur dans localStorage
+function abonnementChoisi(){
+    let valeurRecuperee = document.querySelector("#selectionAbonnement").value;
   
-  // Utilisez `window.location` pour rediriger vers cette URL
-  window.location.href = url;
+    if (valeurRecuperee) {
+        // Sauvegarde du typeAbonnement dans localStorage
+        localStorage.setItem('typeAbonnement', valeurRecuperee); 
+    }
 };
 
 </script>
@@ -66,7 +56,6 @@ const envoyerDansURL = () => {
             <H2Title title={"Avantages :"} />
             <AvantagesOrganisateur /><br>
 
-    <form method="GET" action="?/typeAbonnement">
             <div class="field-body">
                 <div class="field">
                   <label class="label" for="tiktok">Type d'abonnement souhaité<span class="rouge">*</span></label>
@@ -76,8 +65,7 @@ const envoyerDansURL = () => {
                                   on:change={abonnementChoisi} 
                                   name="typeAbonnement"
                                   required>
-                                <option value="">SÉLECTIONNER</option>
-                                {#each affichageAbonnements as abonnement}
+                                    {#each affichageAbonnements as abonnement}
                                         <option value={abonnement.id}>{abonnement.nom}: {abonnement.prix.toFixed(2)}$</option>
                                     {/each}
                             </select>
@@ -85,9 +73,9 @@ const envoyerDansURL = () => {
                     </div><br>
                 </div>
             </div>
-            <SubmitButon texte={"Passer au paiement"} fonction={envoyerDansURL} />
+            <BoutonBleu texte={"Passer au paiement"} lien={"/creation_compte/organisateur"} fonction={abonnementChoisi} />
             <Retour />
-        </form>
+    
         </div>
     </div>
 

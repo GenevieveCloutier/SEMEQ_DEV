@@ -38,6 +38,8 @@ import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet
 import { request } from 'http';
 import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifProduit } from '../../lib/db/controllers/Produits.controller.js';
 import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '../../lib/db/controllers/Partenaires.controller.js';
+import { json } from '@sveltejs/kit';
+import StorageAbonnements from '$lib/data/storageAbonnements.json';
 
 //Chemins de base pour stocker les photos
 const cheminPhotosEven = path.join(process.cwd(), 'src/lib/img/app/evenements');
@@ -121,6 +123,22 @@ export const actions = {
 
 		const domaine = envoieMappage(data, domaines);
 
+		//récupérer le cookie du type d'abonnement sélectionné
+		const typeAbonnementCookie = cookies.get('typeAbonnement');
+
+		//tranformer le fichier json en tableau
+		const tableauAbonnements = Object.entries(StorageAbonnements).map(([key, value]) => ({
+			id: key,
+			...value,
+			}));
+	
+		let id = typeAbonnementCookie;
+		let abonnement = tableauAbonnements.find((abonnement) => abonnement.id === id);
+
+		//récupérer le nombre d'événements payés
+		const nb_even_paye = abonnement.nb_even_paye;
+	
+
 		// Pour uploader et stocker les logos
 		// const uploadLogo = async (nomFichier) => {
 		// 	const logo = data.get(nomFichier);
@@ -178,6 +196,7 @@ export const actions = {
 				data.get('partage') == 'on' ? 1 : 0,
 				data.get('affichage') == 'on' ? 1 : 0,
 				data.get('abonne') == 'on' ? 1 : 0,
+				nb_even_paye,
 				finAbo,
 				data.get('description'),
 				data.get('adresse'),

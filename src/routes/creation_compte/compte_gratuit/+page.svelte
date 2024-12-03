@@ -7,10 +7,31 @@
     import NotifDanger from "$lib/components/notifications/notifDanger.svelte"
     import Retour from "$lib/components/generaux/retour.svelte";
     import { creationVisiteur, erreur } from "$lib/outils/formHandlers";
+    import StorageAbonnements from '$lib/data/storageAbonnements.json'
+    import { onMount } from "svelte";
 
 
     export let data;
 	const {villes, users, session, role} = data;
+
+    //enregistrer que c'est un abonnement gratuit dans le localStorage
+    onMount(async () => {
+
+    //tranformer le fichier json en tableau pour aller chercher l'abonnement
+    const tableauAbonnements = Object.entries(StorageAbonnements).map(([key, value]) => ({
+        id: key,
+        ...value,
+        }));
+
+    //aller chercher seulement les abonnements de type visiteur
+    let affichageAbonnements = tableauAbonnements.filter(abonnement => abonnement.type === "visiteur");
+
+    const compteVisiteur = affichageAbonnements[0].id;
+  
+    //sauvegarde du typeAbonnement dans localStorage
+    localStorage.setItem('typeAbonnement', compteVisiteur); 
+    console.log(compteVisiteur)
+});
 
 </script>
 

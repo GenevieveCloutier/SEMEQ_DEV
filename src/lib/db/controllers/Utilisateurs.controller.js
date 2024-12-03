@@ -103,6 +103,7 @@ export async function findOne(p_where) {
  * @param {boolean} p_partage - Partage des informations autorisé ou non.
  * @param {boolean} p_affichage - Affichage des informations autorisé ou non.
  * @param {boolean} p_abonne - L'utilisateur est abonné ou non.
+ * @param {boolean} p_abonne - Le nombre d'événement payant qu'un utilisateur à achetés
  * @param {Date} p_fin_abo - Date de fin d'abonnement (facultatif).
  * @param {string} p_description - Description de l'utilisateur (facultatif).
  * @param {string} p_adresse - Adresse de l'utilisateur.
@@ -136,6 +137,7 @@ export async function newUser(
 	p_partage,
 	p_affichage,
 	p_abonne,
+	p_nb_even_paye,
 	p_fin_abo,
 	p_description,
 	p_adresse,
@@ -168,6 +170,7 @@ export async function newUser(
 			partage: p_partage,
 			affichage: p_affichage,
 			abonne: p_abonne,
+			nb_even_paye:p_nb_even_paye,
 			fin_abo: p_fin_abo,
 			description: p_description,
 			adresse: p_adresse,
