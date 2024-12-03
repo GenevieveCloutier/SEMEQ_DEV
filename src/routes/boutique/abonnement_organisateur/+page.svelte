@@ -6,17 +6,19 @@
     import Retour from "$lib/components/generaux/retour.svelte";
     import AvantagesOrganisateur from "$lib/components/generaux/avantagesOrganisateur.svelte";
     import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
-    import abonEven from '$lib/data/abonEven.json'
+    import StorageAbonnements from '$lib/data/storageAbonnements.json'
     import { erreur } from '$lib/outils/formHandlers';
 
     export let data;
     const abonnementsEven = data.abonnementsEven;
 
 //tranformer le fichier json en tableau pour la boucle each
-  const tableauAbonnements = Object.entries(abonEven).map(([key, value]) => ({
+  const tableauAbonnements = Object.entries(StorageAbonnements).map(([key, value]) => ({
     id: key,
     ...value,
       }));
+//aller chercher seulement les abonnements de type organisateur
+    let affichageAbonnements = tableauAbonnements.filter(abonnement => abonnement.type === "organisateur");
 
 let abonnementSelectionne = null;
 let totalToSend;
@@ -75,7 +77,7 @@ const envoyerDansURL = () => {
                                   name="typeAbonnement"
                                   required>
                                 <option value="">SÉLECTIONNER</option>
-                                    {#each tableauAbonnements as abonnement}
+                                {#each affichageAbonnements as abonnement}
                                         <option value={abonnement.id}>{abonnement.nom}: {abonnement.prix.toFixed(2)}$</option>
                                     {/each}
                             </select>

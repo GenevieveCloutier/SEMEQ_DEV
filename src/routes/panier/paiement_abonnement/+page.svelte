@@ -6,16 +6,15 @@
     import { loadScript } from "@paypal/paypal-js";
 	  import { onMount } from "svelte";
     import Paypal from "$lib/components/paypal.svelte";
-    import abonEven from '$lib/data/abonEven.json';
+    import StorageAbonnements from '$lib/data/storageAbonnements.json';
 
     export let data;
     const utilisateur = data.utilisateur;
 
     let typeAbonnement = '';
 
-
     //tranformer le fichier json en tableau
-    const tableauAbonnements = Object.entries(abonEven).map(([key, value]) => ({
+    const tableauAbonnements = Object.entries(StorageAbonnements).map(([key, value]) => ({
       id: key,
       ...value,
         }));

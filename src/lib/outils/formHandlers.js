@@ -212,7 +212,9 @@ export async function creationExposant(event) {
 		//!Cette solution ne fonctionne que si il n'y as qu'un seul cookie http:false
 
 		const result = await response.json();
-		if (result.status == 200) window.location.href = origine;
+				if (result.status == 200)
+			//envoyer vers la page de paiement après avoir rempli le form
+			window.location.href = '/panier/paiement_abonnement';
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {
 		console.error('erreur inattendue : ', error);
