@@ -9,6 +9,19 @@
   import { creationOrganisateur, erreur } from '../../../lib/outils/formHandlers';
   export let data;
   const { villes } = data;
+
+  import { onMount } from 'svelte';
+
+onMount(() => {
+  const params = new URLSearchParams(window.location.search);
+  const valeurRecuperee = params.get('typeAbonnement');
+  
+  if (valeurRecuperee) {
+    // Sauvegarde du typeAbonnement dans localStorage
+    localStorage.setItem('typeAbonnement', valeurRecuperee);
+  }
+});
+
 </script>
 
 
@@ -126,7 +139,7 @@
     <input name="abonne" value="on" hidden>
     <!-- Boutons en bas de page -->
     <div class="block has-text-right">
-      <SubmitButon texte={"Passer au paiement"}></SubmitButon>
+      <SubmitButon texte={"Passer au paiement"} />
       <Retour />
     </div>
   </form>

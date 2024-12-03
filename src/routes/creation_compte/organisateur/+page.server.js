@@ -1,8 +1,10 @@
 //! what ?
 import { findAll } from '$lib/db/controllers/Villes.controller.js'; "$lib/db/controllers/Utilisateurs.controller";
+
 import { redirect } from '@sveltejs/kit';
 
 export async function load({cookies}){
+
     const villes = await findAll();   
 
     // Aller chercher tous les utilisateurs de la BD

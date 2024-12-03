@@ -267,8 +267,8 @@ export async function creationOrganisateur(event) {
 		const result = await response.json();
 
 		if (result.status == 200)
-			//lien vers où ça doit aller après avoir envoyé le form
-			window.location.href = '/[id]/mes_evenements/inscription_evenement_abonne';
+			//envoyer vers la page de paiement après avoir rempli le form
+			window.location.href = '/panier/paiement_abonnement';
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {
 		console.error('erreur inattendue : ', error);
@@ -490,7 +490,10 @@ export async function creationEvenementPayant(event) {
 			body: formData
 		});
 		const result = await response.json();
-		if (result.status == 200)success.set('Événement ajouté avec succès!');
+	
+		if (result.status == 200)
+			//envoyer vers la page de confirmation finale après avoir rempli le form
+			window.location.href = '/panier/paiement/confirmation';
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 		return;
 	} catch (error) {
