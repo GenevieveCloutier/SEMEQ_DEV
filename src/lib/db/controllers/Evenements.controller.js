@@ -177,7 +177,8 @@ export async function creationEvenement(
 	p_photo_1,
 	p_photo_2,
 	p_photo_3,
-	p_approuve
+	p_approuve,
+	p_payant
 ) {
 	try {
 		const doublon = await Evenement.findAll({
@@ -229,7 +230,8 @@ export async function creationEvenement(
 			photo_1: p_photo_1,
 			photo_2: p_photo_2,
 			photo_3: p_photo_3,
-			approuve: p_approuve
+			approuve: p_approuve,
+			payant: p_payant
 		});
 		return resultat.dataValues;
 	} catch (error) {

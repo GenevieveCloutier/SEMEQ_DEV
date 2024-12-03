@@ -13,19 +13,24 @@
 	
 	export let data;
 	const { evenements, utilisateur } = data;
+	console.log(evenements);
+	
 
 	//lien du bouton d'ajout d'événement en fonction de l'abonnement de l'utilisateur
-	let lien = utilisateur.abonne
+	let lien = utilisateur.abonne && evenements.filter(x => x.payant).length < 5
 		? './mes_evenements/inscription_evenement_abonne'
 		: '/repertoire_evenements/inscription_evenement_gratuit';
+	
+	console.log(lien);
+	
 	
 </script>
 
 <H1Title title={'Mes événements'} />
 
-<div class="container is-fluid">
+<div class="section">
 	<div
-		class="fixed-grid is-col-min-10 has-2-cols-mobile has-3-cols-tablet has-4-cols-desktop has-4-cols-widescreen has-5-cols-fullhd"
+		class="fixed-grid is-col-min-10 has-1-cols-mobile has-3-cols-tablet has-4-cols-desktop has-4-cols-widescreen has-5-cols-fullhd"
 	>
 		<div class="grid">
 			{#each evenements as evenement}

@@ -464,7 +464,8 @@ export const actions = {
 				photo_1,
 				photo_2,
 				photo_3,
-				session.utilisateur.abonne
+				session.utilisateur.abonne,
+				data.get('payant')
 			);
 			log("api creation = ", res)
 			return {
@@ -482,7 +483,7 @@ export const actions = {
 
 	supprimeEvenement: async ({ cookies, request }) => {
 		const data = await request.formData();
-		const utilisateur = await findOne({ id: cookies.get('id') });
+		const utilisateur = await findOneUser({ id: cookies.get('id') });
 		const evenement = await findEvenement({ id: data.get('id') });
 		if (utilisateur.role_id == 1 || utilisateur.id == evenement.utilisateur_id) {
 			const res = await suppressionEvenement(data.get('id'));

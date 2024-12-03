@@ -7,23 +7,6 @@
   export let data;
 	const {villes} = data;
 
-	/**
-	 * Gère la soumission du formulaire pour créer un nouvel élément.
-	 * @param {Event} event - L'événement de soumission du formulaire.
-	 * @returns {void}
-	 */
-	async function handleSubmit(event) {  //! normalement la fonction handleSubmit ne devrais plus exister nul par
-		const formData = new FormData(event.target);
-
-		const response = await fetch('?/newExposant', {
-			method: 'POST',
-			body: formData
-		});
-		const result = await response.json();
-		if (result.type == 'failure') erreur = JSON.parse(result.data)[0];
-		else window.location.href = '/'; //AJOUTER LIEN
-	}
-
 </script>
 
 <div class="block">

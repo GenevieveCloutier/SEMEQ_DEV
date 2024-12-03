@@ -46,7 +46,8 @@
 		'photo_2',
 		'photo_3'
 	];
-	pourAbonne.forEach((x) => document.querySelector(`[name="${x}"]`).disabled = true);
+    if(!evenement.utilisateur.abonne || !evenement.payant)
+	    pourAbonne.forEach((x) => document.querySelector(`[name="${x}"]`).disabled = true);
     });
 
     //fonction pour éviter que la date de début enregistrée soit après la date de fin

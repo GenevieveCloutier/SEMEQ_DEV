@@ -436,6 +436,7 @@ export async function creationEvenementPayant(event) {
 	erreur.set('');
 	try {
 		const formData = new FormData(event.target);
+		formData.append('payant', true);
 
 		const checkboxesEmpl = event.target.querySelectorAll(
 			'input[type="checkbox"].emplacement:not(.exclus):checked'
