@@ -4,6 +4,8 @@
     import Retour from "$lib/components/generaux/retour.svelte";
     import Etape2 from "$lib/components/barre_progression_paiement/etape2.svelte";
     import Paypal from "$lib/components/paypal.svelte";
+    import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
+	  import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
     import { codePromoPanier } from '$lib/outils/formHandlers';
 
     export let data;
@@ -22,12 +24,7 @@
         return acc + prix;
     }, 0);
 
-    // Calcul rabais, TPS, TVQ et total
-    /*const tpsTaux = 0.05;
-    const tvqTaux = 0.09975;
-    let tps = sousTotal * tpsTaux;
-    let tvq = sousTotal * tvqTaux;*/
-    let totalToSend = sousTotal/* + tps + tvq*/;
+    let totalToSend = sousTotal
 
     import { onMount } from 'svelte';
     let redirection = '';
@@ -42,7 +39,12 @@
     }
 </script>
 
-<Etape2/>
+<div class="container is-fluid">
+  <Etape2/>
+
+  <NotifSuccess />
+  <NotifDanger />
+</div>
 
 <div class="container is-max-desktop is-narrow box">
 

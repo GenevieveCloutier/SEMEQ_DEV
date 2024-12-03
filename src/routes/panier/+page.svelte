@@ -8,13 +8,13 @@
     import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
     import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
-    import { deleteOnePanier, deleteSelectedItemsCart, codePromoPanier, rabais, produitId, typeId } from '$lib/outils/formHandlers';
-    import { get } from 'svelte/store';
+    import { deleteOnePanier, deleteSelectedItemsCart, codePromoPanier } from '$lib/outils/formHandlers';
     import Confirmation from '$lib/components/notifications/confirmation.svelte';
 
     export let data;
     const paniers = data.paniers;
     const utilisateur = data.utilisateur;
+    let rabais = data.rabais || 0;
 
     // Pour supprimer plusieurs produits du panier
     let selectedItems = [];
@@ -38,25 +38,13 @@
         return acc + prix;
     }, 0);
 
-    //Calcul du rabais (en %) du code promo
-    $: rabaisApplique = paniers.reduce((acc, panier) => {
-        const rabaisValue = get(rabais);
-        const produitIdValue = get(produitId);
-        const typeIdValue = get(typeId);
+    let totalToSend = sousTotal
 
-        if ((produitIdValue && produitIdValue === panier.produit.id) ||
-            (typeIdValue && typeIdValue === panier.produit.type.id)) {
-            return acc + (utilisateur.abonne ? panier.produit.prix_a : panier.produit.prix_v) * (rabaisValue / 100);
-        }
-        return acc;
-    }, 0);
-
-    // Calcul rabais, TPS, TVQ et total
-    /*const tpsTaux = 0.05;
-    const tvqTaux = 0.09975;
-    let tps = sousTotal * tpsTaux;
-    let tvq = sousTotal * tvqTaux;*/
-    $: total = sousTotal - rabaisApplique /* + tps + tvq*/;
+    async function handlePromoCodeSubmit(event) {
+        await codePromoPanier(event);
+        // Mettre à jour le total après l'application du code promo
+        totalToSend = sousTotal - rabais;
+    }
 </script>
 
 <H1Title title={"Panier"} />
@@ -173,7 +161,7 @@
                         <div class="columns">
                             <div class="column has-text-right">
                             Sous-total :<br>
-                            {#if rabaisApplique !== 0} <!-- Afficher s'il y a un rabais (code promo) -->  
+                            {#if rabais !== 0} <!-- Afficher s'il y a un rabais (code promo) -->  
                                     <b>Rabais :</b><br>
                             {/if}
                             <!--TPS (5%) :<br>
@@ -182,8 +170,8 @@
 
                             <div class="column is-narrow has-text-right">
                                 {sousTotal === 0 ? "Gratuit" : `${sousTotal.toFixed(2)} $`}<br>
-                                {#if rabaisApplique !== 0}
-                                    <b>{rabaisApplique.toFixed(2)} $</b><br>
+                                {#if rabais !== 0}
+                                    <b>{rabais.toFixed(2)} $</b><br>
                                 {/if}
                                 <!--{tps.toFixed(2)} $<br>
                                 {tvq.toFixed(2)} $-->
@@ -191,7 +179,7 @@
                         </div>
 
                         <div class="block">
-                            <form on:submit|preventDefault={codePromoPanier}>
+                            <form on:submit|preventDefault={handlePromoCodeSubmit}>
                                 <label class="label" for="code">Tu as un code promo?</label>
                                 <div class="field has-addons">
                                     <p class="control">
@@ -209,7 +197,7 @@
                                 <b>Total :</b>
                             </div>
                             <div class="column is-narrow has-text-right">
-                                <b>{total === 0 ? "Gratuit" : `${total.toFixed(2)} $`}</b>
+                                <b>{totalToSend === 0 ? "Gratuit" : `${totalToSend.toFixed(2)} $`}</b>
                             </div>
                         </div>
                     </div>
