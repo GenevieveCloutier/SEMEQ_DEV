@@ -8,6 +8,7 @@ import { findOne } from '$lib/db/controllers/Utilisateurs.controller';
 import { PAYPAL_CLIENT_ID } from '$env/static/private';
 
 export async function load({ cookies }){
+    
     const session = cookies.get('session');
     if (!session) {
         throw redirect(307, '/login');

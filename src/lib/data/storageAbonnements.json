@@ -2,45 +2,61 @@
     "unEvenement" : {
         "nom" : "Un événement par année",
         "type" : "organisateur",
-        "prix" : 49.00
+        "prix" : 49.00,
+        "nb_even_paye":1
     },
     "deuxEvenements" : {
         "nom" : "Deux événements par année",
         "type" : "organisateur",
-        "prix" : 69.00
+        "prix" : 69.00,
+        "nb_even_paye":2
     },
     "troisEvenements" : {
         "nom" : "Trois événements par année",
         "type" : "organisateur",
-        "prix" : 89.00
+        "prix" : 89.00,
+        "nb_even_paye":3
     },
     "quatreEvenement" : {
         "nom" : "Quatre événements par année",
         "type" : "organisateur",
-        "prix" : 109.00
+        "prix" : 109.00,
+        "nb_even_paye":4
     },
     "cinqEvenements" : {
         "nom" : "Cinq événements par année",
         "type" : "organisateur",
-        "prix" : 129.00
+        "prix" : 129.00,
+        "nb_even_paye":5
     },
     "abonnementAnnuel" : {
         "nom" : "Abonnement annuel",
         "type" : "exposant",
         "nbCategories" : 1,
-        "prix" : 44.00
+        "prix" : 44.00,
+        "nb_even_paye":0
     },
 
     "uneCategorie" : {
         "nom" : "Abonnement annuel + 1 domaine additionnel ",
         "type" : "exposant",
         "nbCategories" : 2,
-        "prix" : 49.00
+        "prix" : 49.00,
+        "nb_even_paye":0
     },
     "deuxCategories" : {
         "nom" : "Abonnement annuel + 2 domaines additionnels ",
         "type" : "exposant",
         "nbCategories" : 3,
-        "prix" : 54.00
+        "prix" : 54.00,
+        "nb_even_paye":0
+    },
+
+    "visiteur" : {
+        "nom" : "Compte visiteur ",
+        "type" : "visiteur",
+        "nbCategories" : 0,
+        "prix" : 0,
+        "nb_even_paye":0
     }
 }

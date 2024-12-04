@@ -5,27 +5,15 @@
     import CheckboxResponsabilite from "$lib/components/formulaires/checkboxResponsabilite.svelte";
     import CheckboxConditionsVente from "$lib/components/formulaires/checkboxConditionsVente.svelte";
     import SubmitButon from "$lib/components/formulaires/submitButon.svelte";
+    import BoutonGris from "$lib/components/boutons/boutonGris.svelte";
     import NotifDanger from "$lib/components/notifications/notifDanger.svelte";
     import DomainesActivites from "$lib/components/formulaires/domainesActivites.svelte";
     import { creationExposant, erreur } from '../../../lib/outils/formHandlers';
-    import { onMount } from 'svelte';
 
     export let data;
-    const { villes } = data;
-
-
-onMount(() => {
-  const params = new URLSearchParams(window.location.search);
-  const valeurRecuperee = params.get('typeAbonnement');
-  
-  if (valeurRecuperee) {
-    // Sauvegarde du typeAbonnement dans localStorage
-    localStorage.setItem('typeAbonnement', valeurRecuperee); 
-  }
-});
+    const { villes, role } = data;
   
 </script>
-  
   
 <div class="container is-fluid">
 
@@ -35,6 +23,8 @@ onMount(() => {
     <NotifDanger />
   {/if}
 
+  <!-- afficher le formulaire seulement si la personne n'a pas déjà un compte ou du moins n'est pas connectée... -->
+  {#if !role || role == "1"}
   <form on:submit|preventDefault={creationExposant}>
     <div class="box">
       <div class="block has-text-centered">
@@ -245,5 +235,14 @@ onMount(() => {
       <Retour />
     </div>
   </form>
+  {:else}
+  <div class="block has-text-centered">
+    <p class="notification is-danger ">Oups! <br>
+      Il semblerait que tu aies déjà un compte sur notre plateforme!<br>
+    Si tu as déjà un compte gratuit, et que tu aimerais le changer pour un compte exposant ou un compte organisateur, 
+    <a href="/contact">contacte-nous!</a><br><br>
+  <BoutonGris texte={"Annuler"} lien={"/visiteur"}/></p>
+  </div>
+{/if}
     
 </div>

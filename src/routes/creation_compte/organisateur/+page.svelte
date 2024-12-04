@@ -11,18 +11,6 @@
   export let data;
   const { villes, role } = data;
 
-  import { onMount } from 'svelte';
-
-onMount(() => {
-  const params = new URLSearchParams(window.location.search);
-  const valeurRecuperee = params.get('typeAbonnement');
-  
-  if (valeurRecuperee) {
-    // Sauvegarde du typeAbonnement dans localStorage
-    localStorage.setItem('typeAbonnement', valeurRecuperee);
-  }
-});
-
 </script>
 
 
@@ -35,7 +23,7 @@ onMount(() => {
   {/if}
 
 
-  <!-- afficher le formulaire seulement si la personne n'a pas déjà un compte -->
+  <!-- afficher le formulaire seulement si la personne n'a pas déjà un compte ou du moins n'est pas connectée... -->
   {#if !role || role == "1"}
   <form on:submit|preventDefault={creationOrganisateur}>
     <div class="box">
