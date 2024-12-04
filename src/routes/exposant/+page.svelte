@@ -32,7 +32,7 @@
         <a class="is-hidden-desktop is-hidden-tablet-only mb-3" href="#avantages">Voir nos forfaits</a>
     </div>
 
-    <div class="container">
+    <div class="container mb-4">
     <H2Title title={"Ces exposants nous ont fait confiance!"} />
     </div>
 
@@ -47,7 +47,7 @@
                             <p class="title is-6">Les 1001 Mailles<br> de Miss Crochet</p>
                         </div>
                         <div class="media-content">
-                            <figure class="image is-48x48">
+                            <figure class="image is-48x48 ">
                                 <img class="is-rounded" src="/src/lib/img/app/avis/1000_maille_de_miss_crochet.jpg" alt="Logo de 1000 Mailles de Miss Crochet"/>
                             </figure>
                         </div>
@@ -222,8 +222,15 @@
     .is-equal-height{
         display: flex;
         flex-direction: column;
+        width: 100%;
         height: 100%
     }
+
+    img{
+        object-fit: cover;
+        width: 100%;
+    }
+
 
 
 </style>
