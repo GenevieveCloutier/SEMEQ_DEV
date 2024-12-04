@@ -81,7 +81,7 @@
                         class="textarea"
                         name="avantage"
                         id="avantage"
-                        placeholder="Description de l'avantage (ne pas ré-inscrire le % de rabais)"
+                        placeholder="Description de l'avantage (inscrire aussi le % de rabais)"
                         rows="5"
                         required
 				></textarea>
