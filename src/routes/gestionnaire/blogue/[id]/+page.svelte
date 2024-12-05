@@ -6,6 +6,7 @@
 	import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import { modificationBillet } from '$lib/outils/formHandlers';
 	import Confirmation from '../../../../lib/components/notifications/confirmation.svelte';
+	import { onMount } from 'svelte';
 
     export let data;
     const { blogue } = data;

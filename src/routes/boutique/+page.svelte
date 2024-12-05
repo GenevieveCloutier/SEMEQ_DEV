@@ -43,10 +43,6 @@
             </div>
         </div>
     {:else} <!-- Affichage de tous les produits par type -->
-        <div class="block" id="abonnements">
-            <H2Title title={"Abonnements"} />
-            <AbonnementsBoutique />
-        </div>
         
         <div class="block" id="formations">
             <H2Title title={"Formations"} />

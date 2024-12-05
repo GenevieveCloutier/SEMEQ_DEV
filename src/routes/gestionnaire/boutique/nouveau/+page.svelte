@@ -7,6 +7,7 @@
 	
 	export let data;
 	const { types } = data;
+	
 
 	onMount(()=>{
         const actives = document.querySelectorAll('a.is-active');
@@ -14,18 +15,6 @@
     document.getElementById('boutiquenouveau').classList.add('is-active')
     });
 
-	let prix_1 = "Prix visiteur";
-	let prix_2 = "Prix abonné";
-	function changePrix(event){
-		if (event.target.value == 1){
-			prix_1 = "Prix de base";
-			prix_2 = "Prix par suplément";
-		}
-		else{
-			prix_1 = "Prix visiteur";
-			prix_2 = "Prix abonné";
-		}
-	}
 </script>
 
 <H1Title title={"Ajouter un produit"} />
@@ -43,7 +32,7 @@
 					<label for="type" class="label">Type</label>
 					<div class="control">
 						<div class="select is-fullwidth">
-							<select name="type_id" id="type" on:change={changePrix}>
+							<select name="type_id" id="type">
 								<option  disabled selected>Choisissez un type de produit</option>
 								{#each types as type}
 									<option value={type.id}>{type.nom}</option>
@@ -67,13 +56,13 @@
 			</div>
 			<div class="column is-half">
 				<div class="field">
-					<label for="prix_v" class="label">{prix_1}</label>
+					<label for="prix_v" class="label">Prix visiteur</label>
 					<div class="control">
 						<input type="text" class="input" name="prix_v" />
 					</div>
 				</div>
 				<div class="field">
-					<label for="prix_a" class="label">{prix_2}</label>
+					<label for="prix_a" class="label">Prix abonné</label>
 					<div class="control">
 						<input type="text" class="input" name="prix_a"/>
 					</div>
