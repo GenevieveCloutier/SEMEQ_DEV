@@ -16,7 +16,7 @@
 				<AvantagesOrganisateur />
 				<div class="zone has-text-centered">
 					<!-- ajuster le lien pour que ça rende à la section de tableau de la page quand elle sera faite -->
-					<BoutonGris lien={'/organisateur'} texte={'Voir les détails'} />
+					<BoutonGris lien={'/organisateur#avantages'} texte={'Voir les détails'} />
 				</div>
 			</div>
 		</div>

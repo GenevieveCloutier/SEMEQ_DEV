@@ -81,7 +81,7 @@
                         class="textarea"
                         name="avantage"
                         id="avantage"
-                        placeholder="Description de l'avantage (ne pas ré-inscrire le % de rabais)"
+                        placeholder="Description de l'avantage (inscrire aussi le % de rabais)"
                         rows="5"
                         required
 				></textarea>
@@ -126,7 +126,7 @@
 						<div class="control">
 							<div class="select is-fullwidth">
 								<select name="produit_id" id="produit_id" required>
-									<option  disabled selected>Choisissez un produit sur lequel appliquer le rabais</option>
+									<option>Choisissez un produit sur lequel appliquer le rabais</option>
 									{#each produits as produit}
 										<option value={produit.id}>{produit.nom}</option>
 									{/each}
@@ -137,11 +137,11 @@
 				</div>
 				<div class="column is-half">
 					<div class="field">
-						<label for="type_id" class="label">Types de produits</label>
+						<label for="type_id" class="label">Type de produits</label>
 						<div class="control">
 							<div class="select is-fullwidth">
 								<select name="type_id" id="type_id">
-									<option  disabled selected>Choisissez un type de produit sur lequel appliquer le rabais</option>
+									<option>Choisissez un type de produit sur lequel appliquer le rabais</option>
 									{#each types as type}
 										<option value={type.id}>{type.nom}</option>
 									{/each}

@@ -57,5 +57,5 @@ export async function load({ cookies, params }){
         prixTotal: agg.prixTotal === 0 ? "Gratuit" : `${agg.prixTotal.toFixed(2)} $`,
     }));
 
-    return { aggregatedAchats: aggregatedAchatsArray };
+    return { aggregatedAchats: aggregatedAchatsArray, user };
 }

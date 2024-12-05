@@ -76,7 +76,7 @@
                         class="textarea"
                         name="avantage"
                         id="avantage"
-                        placeholder="Description de l'avantage"
+                        placeholder="Description de l'avantage (inscrire aussi le % de rabais)"
                         rows="5"
                         value="{code.avantage}"
                         required
@@ -130,7 +130,7 @@
                             <div class="select is-fullwidth">
                                 <select name="produit_id" id="produit_id" required>
                                     {#if code.produit_id === null}
-                                        <option  disabled selected>Choisissez un produit sur lequel appliquer le rabais</option>
+                                        <option>Choisissez un produit sur lequel appliquer le rabais</option>
                                     {:else}
                                         <option value={code.produit_id} disabled selected required>{code.produit.nom}</option>
                                     {/if}
@@ -144,12 +144,12 @@
                 </div>
                 <div class="column is-half">
                     <div class="field">
-                        <label for="type_id" class="label">Types de produits</label>
+                        <label for="type_id" class="label">Type de produits</label>
                         <div class="control">
                             <div class="select is-fullwidth">
                                 <select name="type_id" id="type_id">
                                     {#if code.type_id === null}
-                                        <option  disabled selected>Choisissez un type de produit sur lequel appliquer le rabais</option>
+                                        <option>Choisissez un type de produit sur lequel appliquer le rabais</option>
                                     {:else}
                                         <option value={code.type_id} disabled selected required>{code.type.nom}</option>
                                     {/if}

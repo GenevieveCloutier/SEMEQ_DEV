@@ -1,8 +1,13 @@
 <script>
     import H1Title from "$lib/components/titres/h1Title.svelte";
+    import H2Title from "$lib/components/titres/h2Title.svelte";
+    import BoutonGris from "$lib/components/boutons/boutonGris.svelte";
+    import AbonnementEven from '$lib/components/boites/abonnementEven.svelte';
+    import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
 
     export let data;
     let { aggregatedAchats } = data;
+    const user = data.user;
 
     // Mettre en évidence le lien actif dans menu latéral gestionnaire
     import { onMount } from "svelte";
@@ -41,36 +46,65 @@
 
 <H1Title title={"Historique d'achats"} />
 
-<div class="section">
-    <div class="block table-container">
-    <table class="table is-hoverable is-striped is-fullwidth">
-        <thead class="has-text-centered">
-            <tr>
-                <th>Date <button on:click={event => triage(event, 'date')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
-                <th>Produits commandés</th>
-                <th>Total <button on:click={event => triage(event, 'prixTotal')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
-                <th class="has-text-centered">Facture</th>
-            </tr>
-        </thead>
-        <tbody>
-            {#each aggregatedAchats as achat}
-            <tr>
-                <td>{achat.date}</td>
-                <td>
-                    <ul>
-                        {#each achat.produits as produit}
-                            <li>• {produit}</li>
-                        {/each}
-                    </ul>
-                </td>
-                <td>{achat.prixTotal}</td>
-                <td class="has-text-centered">
-                    <a href="./achats/${achat.date}" target="_blank" class="button is-small" style="background-color: #053682; color:white">Récupérer ma facture</a>
-                </td>
-            </tr>
-            {/each}
-        </tbody>
-    </table>
-    </div>
+{#if aggregatedAchats.length === 0}
+    <section class="section has-text-centered">
+        <p class="subtitle">Aucun achat trouvé.</p>
 
-</div>
+        <BoutonGris lien={'/boutique#formations'} texte={"Voir les formations"} />
+        <BoutonGris lien={'/boutique#outils'} texte={"Voir les outils"} />
+
+        {#if user.abonne !== true}
+        <br><br>
+        <hr>
+        <div class="block">
+            <H2Title title={"Abonnements"} />    
+            <div class="container-fluid">
+                <div class="columns mx-4 is-centered">
+            
+                    <div class="column is-two-fifths">
+                        <AbonnementExposant />
+                    </div>
+            
+                    <div class="column is-two-fifths">
+                        <AbonnementEven />
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/if}
+    </section>
+
+    {:else}
+    <div class="section">
+        <div class="block table-container">
+            <table class="table is-hoverable is-striped is-fullwidth">
+                <thead class="has-text-centered">
+                    <tr>
+                        <th>Date <button on:click={event => triage(event, 'date')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
+                        <th>Produits commandés</th>
+                        <th>Total <button on:click={event => triage(event, 'prixTotal')}><span class="icon"><i class="fa-solid fa-arrow-down-short-wide"></i></span></button></th>
+                        <th class="has-text-centered">Facture</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#each aggregatedAchats as achat}
+                    <tr>
+                        <td>{achat.date}</td>
+                        <td>
+                            <ul>
+                                {#each achat.produits as produit}
+                                    <li>• {produit}</li>
+                                {/each}
+                            </ul>
+                        </td>
+                        <td>{achat.prixTotal}</td>
+                        <td class="has-text-centered">
+                            <a href="./achats/${achat.date}" target="_blank" class="button is-small" style="background-color: #053682; color:white">Récupérer ma facture</a>
+                        </td>
+                    </tr>
+                    {/each}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{/if}

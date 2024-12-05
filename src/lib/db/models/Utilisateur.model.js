@@ -81,6 +81,10 @@ export const Utilisateur = sequelize.define('utilisateur', {
         type: DataTypes.BOOLEAN,
         allowNull: true
     },
+    nb_even_paye: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
     fin_abo: {
         type: DataTypes.DATE,
         allowNull: true

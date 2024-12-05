@@ -11,6 +11,7 @@
     export let data;
     const produit = data.produit;
     const utilisateur = data.utilisateur;
+    const dejaAchete = data.dejaAchete;
 
     // Variable prix_a_calcul pour faire fonctionner calcul economie si prix_a "Gratuit"
     let prix_a_calcul = produit.prix_a === "Gratuit" ? 0 : produit.prix_a;
@@ -37,15 +38,25 @@
 
             <p>{produit.desc}<br><br>
                 Prix abonné: {produit.prix_a}<br>
-                Prix non-abonné: {produit.prix_v}
-            </p><br><br>
-           
+                Prix non-abonné: {produit.prix_v}<br>
+            </p><br>
+
+            {#if dejaAchete}
+                <p><i>Tu possèdes déjà ce produit.</i></p>
+            {/if}
+
             <div class="columns is-1">
                 <div class="column is-narrow">
+                {#if dejaAchete}
+                    <a href="/${utilisateur.id}/formations_outils">
+                        <button class="button is-dark" style="background-color: #053682; color:white">Mes formations et outils</button>
+                    </a>
+                {:else}
                     <form on:submit|preventDefault={ajouterPanier}>
                         <input type="hidden" name="produit_id" value={produit.id} />
                         <SubmitButon texte={'Acheter'} />
                     </form>
+                {/if}
                 </div>
                 <div class="column">
                     <Retour />

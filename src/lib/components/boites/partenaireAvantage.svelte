@@ -1,14 +1,16 @@
 <script>
-    export let logo, nom, avantage, code, expiration;  
+    export let logo, nom, avantage, code, expiration, categorieNom;  
 </script>
 
 <div class="cell">
     <div class="card">
-        <div class="card-image">
-        <figure class="image is-1by1">
-                <img src="{logo}" alt="{nom}"/>
-        </figure>
-        </div>
+        {#if categorieNom !== "Rabais boutique SÉMEQ"}
+            <div class="card-image">
+            <figure class="image is-1by1">
+                    <img src="{logo}" alt="{nom}"/>
+            </figure>
+            </div>
+        {/if}
 
         <div class="card-content">
             <div class="content has-text-centered">

@@ -41,7 +41,5 @@ export async function load({ cookies }){
         } : null
     }));
 
-    // log("dans le load le paniers = ", resultat)
-
     return { paniers: resultat, utilisateur }
 }

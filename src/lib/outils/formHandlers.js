@@ -2,6 +2,7 @@ import { get, writable } from 'svelte/store';
 import { log } from './debug';
 import { redirect } from '@sveltejs/kit';
 import { goto, invalidateAll } from '$app/navigation';
+import StorageAbonnements from '$lib/data/storageAbonnements.json';
 
 export const erreur = writable(null);
 export const success = writable(null);
@@ -9,6 +10,11 @@ export const annonce = writable(null);
 erreur.set('');
 success.set('');
 annonce.set('');
+
+// Pour l'application des codes promos
+export const rabais = writable(0);
+export const produitId = writable(null);
+export const typeId = writable(null);
 
 /**
  * Ajoute la classe 'is-loading' à l'élément déclencheur de l'événement.
@@ -149,17 +155,41 @@ export async function connexion(event) {
  *
  * @param {Event} event L'événement contenant les données du formulaire.
  */
+
 export async function creationExposant(event) {
 	chargement();
 	erreur.set('');
+
+	//aller chercher les infos du type d'abonnement choisi dans la boutique
+	let typeAbonnement = localStorage.getItem('typeAbonnement');
+
+	//envoyer le type d'abonnement dans un cookie pour l'api
+	document.cookie = `typeAbonnement=${encodeURIComponent(typeAbonnement)}; path=/;`;
+
+	//tranformer le fichier json en tableau
+    const tableauAbonnements = Object.entries(StorageAbonnements).map(([key, value]) => ({
+		id: key,
+		...value,
+		  }));
+  
+      let id = typeAbonnement;
+      typeAbonnement = tableauAbonnements.find((abonnement) => abonnement.id === id);
+
+	  let nomAbonnement = typeAbonnement.nom;
+      let nbCategories= typeAbonnement.nbCategories;
+
+  
 	try {
 		const formData = new FormData(event.target);
 
-		// Vérifier si le nombre de checkbox cochées est entre 1 et 3 pour Domaine(s) d'activit(é)s
+		// Vérifier si le nombre de checkbox cochées est le même que l'abonnement choisi
 		const checkboxes = event.target.querySelectorAll('input[type="checkbox"]:checked:not(.exclus)');
-		if (checkboxes.length < 1 || checkboxes.length > 3) {
+		
+		if ((checkboxes.length < nbCategories) || 
+			(checkboxes.length > nbCategories)) {
 			erreur.set(
-				"Merci de sélectionner entre 1 et 3 domaine(s) d'activité(s) selon l'abonnement choisi."
+				`Tu as choisi l'abonnement ${nomAbonnement} qui te permet de sélectionner en tout ${nbCategories} 
+				domaines(s) d'activités. Vérifie que ta sélection correspond bien au type d'abonnement choisi.` 
 			);
 			return;
 		}
@@ -225,6 +255,12 @@ export async function creationExposant(event) {
 export async function creationOrganisateur(event) {
 	chargement();
 	erreur.set('');
+
+	//aller chercher les infos du type d'abonnement choisi dans la boutique
+	let typeAbonnement = localStorage.getItem('typeAbonnement');
+
+	//envoyer le type d'abonnement dans un cookie pour l'api
+	document.cookie = `typeAbonnement=${encodeURIComponent(typeAbonnement)}; path=/;`;
 	try {
 		const formData = new FormData(event.target);
 
@@ -517,6 +553,13 @@ export async function creationEvenementPayant(event) {
 export async function creationVisiteur(event) {
 	chargement();
 	erreur.set('');
+
+	//aller chercher les infos du compte visiteur
+	let typeAbonnement = localStorage.getItem('typeAbonnement');
+
+	//envoyer le type d'abonnement dans un cookie pour l'api
+	document.cookie = `typeAbonnement=${encodeURIComponent(typeAbonnement)}; path=/;`;
+
 	try {
 		const formData = new FormData(event.target);
 		const response = await fetch('../api?/nouvelUtilisateur', {
@@ -736,19 +779,38 @@ export async function ajouterPanier(event){
 }
 
 export async function codePromoPanier(event) {
+    const formData = new FormData(event.target);
+    try {
+        const response = await fetch('/api?/codePromoPanier', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+        if (result.status === 200) {
+            window.location.reload();
+            success.set('Code promo accepté.');
+        } else if (result.status === 401) {
+            erreur.set(result.message);
+        }
+    } catch (error) {
+        console.error('Erreur inattendue : ', error);
+        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+    }
+}
+
+export async function deleteOnePanier(event) {
 	chargement;
 	erreur.set('');
 	try {
 		const formData = new FormData(event.target);
-		const response = await fetch('/api?/codePromoPanier', {
+		const response = await fetch('/api?/deleteOnePanier', {
 			method: 'POST',
-			enctype: 'multipart/form-data',
 			body: formData
 		});
 		const result = await response.json();
 		if (result.status == 200){
 			window.location.reload();
-			success.set('Code promo accepté.');
+			success.set('Le produit a été retiré du panier.');
 		}
 		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
 	} catch (error) {
@@ -757,64 +819,25 @@ export async function codePromoPanier(event) {
 	}
 }
 
-export async function deleteOnePanier(event){
-    chargement();
-    erreur.set('');
-    try{
-        const formData = new FormData(event.target);
-        const response = await fetch('../api?/deleteOnePanier', {
-            method: 'POST',
-            body: formData
-        });
-        log("formhandler deleteOnePanier response = ", response);
-        const result = await response.json();
-        log("formhandler deleteOnePanier, result = ", result);
-
-        if (result.status == 200)
-            window.location.reload();
-			success.set("Le produit a été retiré du panier.");
-        if (result.status == 401){
-            log("formhandler error deleteOnePanier = ",JSON.parse(result.data)[0])
-            erreur.set(JSON.parse(result.data)[0]);
-        }
-    }catch(error){
-        console.error("erreur inattendue : ", error);
-        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
-    }
-}
-
 export async function deleteSelectedItemsCart(event) {
-    chargement();
-    erreur.set('');
-    try {
-        const formData = new FormData(event.target);
-
-        // Vérifiez si selectedItems contient au moins un élément
-		const selectedItems = formData.get('selectedItems').split(',');
-        if (selectedItems.length === 0 || selectedItems[0] === '') {
-            erreur.set("Merci de sélectionner au moins un produit pour supprimer.");
-            return;
-        }
-
-        const response = await fetch('../api?/deleteSelectedItemsCart', {
-            method: 'POST',
-            body: formData
-        });
-        log("formhandler deleteSelectedItemsCart response = ", response);
-        const result = await response.json();
-        log("formhandler deleteSelectedItemsCart, result = ", result);
-
-        if (result.status == 200) {
-            window.location.reload();
-            success.set("Les produits ont été retirés du panier.");
-        } else {
-            log("formhandler error deleteSelectedItemsCart = ", JSON.parse(result.data)[0]);
-            erreur.set(JSON.parse(result.data)[0]);
-        }
-    } catch (error) {
-        console.error("erreur inattendue : ", error);
-        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
-    }
+	chargement;
+	erreur.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/deleteSelectedItemsCart', {
+			method: 'POST',
+			body: formData
+		});
+		const result = await response.json();
+		if (result.status == 200){
+			window.location.reload();
+			success.set('Les produits ont été retirés du panier.');
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[0]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+	}
 }
 
 export async function deleteAllUserCart(p_id) {
