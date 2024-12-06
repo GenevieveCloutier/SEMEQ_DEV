@@ -2,7 +2,7 @@ import { fail, redirect, error } from '@sveltejs/kit';
 import {
 	createCookie,
 	findOne as findOneSession
-} from '../../lib/db/controllers/Sessions.controller.js';
+} from '$lib/db/controllers/Sessions.controller.js';
 import {
 	authenticate,
 	changementMDP,
@@ -11,7 +11,7 @@ import {
 	recuperationMDP,
 	deleteUser,
 	findOne as findOneUser
-} from '../../lib/db/controllers/Utilisateurs.controller.js';
+} from '$lib/db/controllers/Utilisateurs.controller.js';
 import {
 	domaines,
 	emplacements,
@@ -19,42 +19,43 @@ import {
 	envoieMappage,
 	types,
 	verifs
-} from '../../lib/outils/compteurBinaire.js';
+} from '$lib/outils/compteurBinaire.js';
 import {
 	creationEvenement,
 	findOne as findEvenement,
 	modificationEvenement,
 	suppressionEvenement
-} from '../../lib/db/controllers/Evenements.controller.js';
-import { ajoutProduitPanier, deleteCart, deleteUserCart, findAll as findAllPaniers, applyPromoCode } from '../../lib/db/controllers/Paniers.controller.js';
-import { Panier } from '../../lib/db/models/Panier.model.js';
-import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
-import { log } from '../../lib/outils/debug.js';
+} from '$lib/db/controllers/Evenements.controller.js';
+import { ajoutProduitPanier, deleteCart, deleteUserCart, findAll as findAllPaniers, /*applyPromoCode*/ } from '$lib/db/controllers/Paniers.controller.js';
+import { Panier } from '$lib/db/models/Panier.model.js';
+import { envoieCourriel } from '$lib/outils/nodeMailer.js';
+import { log } from '$lib/outils/debug.js';
 import fs from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
-import { Utilisateur } from '../../lib/db/models/Utilisateur.model.js';
-import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '../../lib/db/controllers/Blogs.controller.js';
+import { Utilisateur } from '$lib/db/models/Utilisateur.model.js';
+import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '$lib/db/controllers/Blogs.controller.js';
 import { request } from 'http';
-import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifProduit } from '../../lib/db/controllers/Produits.controller.js';
-import { Produit } from '../../lib/db/models/Produit.model.js';
-import { Type } from '../../lib/db/models/Type.model.js';
-import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '../../lib/db/controllers/Partenaires.controller.js';
+import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifProduit } from '$lib/db/controllers/Produits.controller.js';
+import { Produit } from '$lib/db/models/Produit.model.js';
+import { Type } from '$lib/db/models/Type.model.js';
+import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '$lib/db/controllers/Partenaires.controller.js';
 import { json } from '@sveltejs/kit';
 import StorageAbonnements from '$lib/data/storageAbonnements.json';
 
 //Chemins de base pour stocker les photos
-const cheminPhotosEven = path.join(process.cwd(), 'src/lib/img/app/evenements');
-const cheminLogos = path.join(process.cwd(), 'src/lib/img/app/logos');
-const cheminPhotosUtilisateurs = path.join(process.cwd(), 'src/lib/img/app/utilisateurs');
-const cheminPhotosBlog = path.join(process.cwd(), 'src/lib/img/app/blog');
-const cheminPhotosProduits = path.join(process.cwd(), 'src/lib/img/app/produits');
-const cheminPhotosPartenaires = path.join(process.cwd(), 'src/lib/img/app/partenaires');
+const cheminPhotosEven = path.join(process.cwd(), 'img/app/evenements');
+const cheminLogos = path.join(process.cwd(), 'img/app/logos');
+const cheminPhotosUtilisateurs = path.join(process.cwd(), 'img/app/utilisateurs');
+const cheminPhotosBlog = path.join(process.cwd(), 'img/app/blog');
+const cheminPhotosProduits = path.join(process.cwd(), 'img/app/produits');
+const cheminPhotosPartenaires = path.join(process.cwd(), 'img/app/partenaires');
 
 //*Import de la clé secrete stocké dans .env
 import { TURNSTILE_SECRET_KEY } from '$env/static/private';
+//import { TURNSTILE_SECRET_KEY } from 'virtual:$env/static/private';
 import { COURRIEL_GESTIONNAIRE } from '$env/static/private';
-import { transactionPanier } from '../../lib/db/controllers/Transaction.controller.js';
+import { transactionPanier } from '$lib/db/controllers/Transaction.controller.js';
 
 export const actions = {
 	/**
@@ -243,7 +244,7 @@ export const actions = {
 		let photo_1 = await uploadPhoto('photo_1');
 		const photo_2 = await uploadPhoto('photo_2');
 		if (!photo_1)
-			photo_1 = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+			photo_1 = path.relative(process.cwd(), '\\img\\app\\produit_defaut.png');
 		try {
 			const res = await nouveauBillet(data.get('titre'), data.get('article'), photo_1, photo_2);
 			return {
@@ -277,7 +278,7 @@ export const actions = {
 		};
 		let photo = await uploadPhoto('photo');
 		if (!photo)
-			photo = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+			photo = path.relative(process.cwd(), '\\img\\app\\produit_defaut.png');
 		try {
 			const res = await nouveauProduit(
 				data.get('nom'),
@@ -440,7 +441,7 @@ export const actions = {
 		const photo_3 = await uploadPhoto('photo_3');
 
 		if (!photo_1)
-			photo_1 = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+			photo_1 = path.relative(process.cwd(), '\\img\\app\\produit_defaut.png');
 
 		let session;
 		try {
@@ -817,16 +818,7 @@ export const actions = {
         const code = data.get('code');
 
         let rabais = 0;
-        if (code) {
-            try {
-                rabais = await applyPromoCode(code, resultat);
-            } catch (error) {
-                return {
-                    status: 400,
-                    body: { message: error.message }
-                };
-            }
-        }
+        // npm
 
         // Calculer le nouveau total
         let sousTotal = resultat.reduce((acc, panier) => {
@@ -902,7 +894,7 @@ export const actions = {
 		};
 		let logo = await uploadLogo('logo');
 		if (!logo) {
-			logo = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+			logo = path.relative(process.cwd(), '\\img\\app\\produit_defaut.png');
 		}
 	
 		const expiration = data.get('expiration') ? data.get('expiration') : null;
@@ -1124,7 +1116,7 @@ function redacteurCourriel(prenom, lien) {
                 <div class="header">
                     <figure>
                         <a href="/">
-                            <img src="/src/lib/img/app/logo.png" alt="logo SEMEQ" /> 
+                            <img src="/img/app/logo.png" alt="logo SEMEQ" /> 
                         </a>
                     </figure>
                     <p>Le répertoire des salons, événements, marchés et expositions du Québec</p>
@@ -1215,7 +1207,7 @@ function redacteurContact(nom, courriel, message) {
                 <div class="header">
                     <figure>
                         <a href="/">
-                            <img src="/src/lib/img/app/logo.png" alt="logo SEMEQ" /> 
+                            <img src="/img/app/logo.png" alt="logo SEMEQ" /> 
                         </a>
                     </figure>
                     <p>Le répertoire des salons, événements, marchés et expositions du Québec</p>

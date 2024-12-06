@@ -23,7 +23,7 @@
     <div class="columns is-centered">
         <div class="column is-one-third">
             <figure class="image is-5x4">
-                <img src= "/src/lib/img/app/vendeur.png" alt="Une vendeur tend un paquet à un client">
+                <img src= "/img/app/vendeur.png" alt="Une vendeur tend un paquet à un client">
             </figure>
             <div class="box my-6 py-6 px-6 has-text-centered">
                 <H3Title title={"Fais connaitre ton événement!"} />
@@ -36,7 +36,7 @@
 
         <div class="column is-one-third">
             <figure class="image is-5x4">
-                <img src= "/src/lib/img/app/potiere.png" alt="Une personne fait de la poterie">
+                <img src= "/img/app/potiere.png" alt="Une personne fait de la poterie">
             </figure>
             <div class="box my-6 py-6 px-6 has-text-centered">
                 <H3Title title={"Trouve de nouveaux exposants"} />
@@ -50,7 +50,7 @@
 
         <div class="column is-one-third">
             <figure class="image is-5x4">
-                <img src= "/src/lib/img/app/marche.png" alt="Des personnes dans un marché">
+                <img src= "/img/app/marche.png" alt="Des personnes dans un marché">
             </figure>
             <div class="box my-6 py-6 px-6 has-text-centered">
                 <H3Title title={"Les défis des organisateurs"} />      
@@ -158,7 +158,7 @@
         </div>
         <div class="block">
             <figure class=" image is-320-320 is-hidden-tablet-only">
-                <img src="/src/lib/img/app/accueil/image_accueil_organisateur.jpg" alt="kiosque en marche"/>
+                <img src="/img/app/accueil/image_accueil_organisateur.jpg" alt="kiosque en marche"/>
             </figure>
             <a class="is-size-7" href="https://la-vitrine-vaudreuil-soulanges.odoo.com/" target="blank">Crédit photo: La Vitrine Vaudreuil Soulanges</a>
         </div>

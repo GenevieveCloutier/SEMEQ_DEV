@@ -20,7 +20,7 @@
       <div class="media">
             <figure class="media-left">
                   <a href="/">
-                        <img src="/src/lib/img/app/logo.png" alt="logo SEMEQ" width="432" height="210" />
+                        <img src="/img/app/logo.png" alt="logo SEMEQ" width="432" height="210" />
                   </a>
             </figure>
             <div class="media-content is-align-self-flex-end is-hidden-mobile">
@@ -35,7 +35,7 @@
                   <div class="card-content">
                         <figure>
                               <a href="/visiteur">
-                                    <img src="/src/lib/img/app/accueil/titre_visiteur.png" alt="titre visiteur">
+                                    <img src="/img/app/accueil/titre_visiteur.png" alt="titre visiteur">
                               </a>
                         </figure>
                     <p class="is-size-4 has-text-white has-text-centered">
@@ -57,7 +57,7 @@
                   <div class="card-content">
                         <figure>
                               <a href="/exposant">
-                                    <img src="/src/lib/img/app/accueil/titre_expo.png" alt="titre exposant">
+                                    <img src="/img/app/accueil/titre_expo.png" alt="titre exposant">
                               </a>
                         </figure>
                     <p class="is-size-4 has-text-white has-text-centered">
@@ -79,7 +79,7 @@
                   <div class="card-content">
                         <figure>
                               <a href="/organisateur">
-                                    <img src="/src/lib/img/app/accueil/titre_orga.png" alt="titre organisateur">
+                                    <img src="/img/app/accueil/titre_orga.png" alt="titre organisateur">
                               </a>
                         </figure>
                     <p class="is-size-4 has-text-white has-text-centered">
@@ -100,7 +100,7 @@
 <style>
 
 .visiteur{
-      background-image: url("/src/lib/img/app/accueil/visiteur.png");
+      background-image: url("/img/app/accueil/visiteur.png");
       background-position: center;
       background-repeat: no-repeat; 
       background-size: cover; 
@@ -108,7 +108,7 @@
 }
 
 .exposant{
-      background-image: url("/src/lib/img/app/accueil/exposant.png");
+      background-image: url("/img/app/accueil/exposant.png");
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover; 
@@ -116,7 +116,7 @@
 }
 
 .organisateur{
-      background-image: url("/src/lib/img/app/accueil/organisateur.png");
+      background-image: url("/img/app/accueil/organisateur.png");
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover; 

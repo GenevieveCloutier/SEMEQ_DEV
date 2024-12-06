@@ -79,7 +79,7 @@ let affichersite = siteweb();
         {/if}
         
         {#if exposant.photo_3}
-        <div class="column is-flex centerImage is-mobile">
+        <div class="column is-flex centerImage is-mobile"> 
             <figure>
                 <Modal image={`/${exposant.photo_3}`} />
             </figure>
@@ -158,7 +158,7 @@ let affichersite = siteweb();
                         <div class="column is-flex centerImage is-mobile ">
                             {#if exposant.facebook}
                             <figure class="image is-24x24">
-                                <a href={exposant.facebook} target="blank"><img src="/src/lib/img/app/facebook.svg" alt="logo facebook"></a>
+                                <a href={exposant.facebook} target="blank"><img src="/img/app/facebook.svg" alt="logo facebook"></a>
                             </figure>
                             {/if}
                         </div>
@@ -166,7 +166,7 @@ let affichersite = siteweb();
                         <div class="column is-flex centerImage is-mobile  ">
                             {#if exposant.insta}
                             <figure class="image is-24x24">
-                                <a href={exposant.insta} target="blank"><img src="/src/lib/img/app/insta.svg" alt="logo instagram"></a>
+                                <a href={exposant.insta} target="blank"><img src="/img/app/insta.svg" alt="logo instagram"></a>
                             </figure>
                         {   /if}
                         </div>
@@ -174,7 +174,7 @@ let affichersite = siteweb();
                         <div class="column is-flex centerImage is-mobile ">
                             {#if exposant.tiktok}
                             <figure class="image is-24x24">
-                                <a href={exposant.tiktok} target="blank"><img src="/src/lib/img/app/tiktok.svg" alt="logo tiktok"></a>
+                                <a href={exposant.tiktok} target="blank"><img src="/img/app/tiktok.svg" alt="logo tiktok"></a>
                             </figure>
                             {/if}
                         </div>

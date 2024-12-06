@@ -9,7 +9,7 @@
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
     import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import { onMount } from 'svelte';
-    import FormEvenAbonne from '$lib/components/formulaires/formEvenAbonne.svelte'
+    import FormEvenAbonne from '$lib/components/formulaires/FormEvenAbonne.svelte'
 
     export let data;
     const { villes } = data;

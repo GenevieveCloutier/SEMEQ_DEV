@@ -23,16 +23,16 @@
 				<div class="columns is-one-third media is-mobile">
 					<div class="column is-one-third media-left is-mobile">
 						<figure class="image is-96x96 ">
-							<a href="/partenaires"><img src="/src/lib/img/app/vague_de_concours.png"alt="Logo de la Vague de Concours"/></a>
+							<a href="/partenaires"><img src="/img/app/vague_de_concours.png"alt="Logo de la Vague de Concours"/></a>
 						</figure>
 					</div>
 					<div class="column is-one-third media-content is-mobile">
 						<figure class="image is-96x96">
-							<a href="/partenaires"><img src="/src/lib/img/app/cyberimpact.png" alt="Logo de Cyberimpact" /></a>
+							<a href="/partenaires"><img src="/img/app/cyberimpact.png" alt="Logo de Cyberimpact" /></a>
 						</figure>
 					</div>
 					<div class="column is-one-third is-mobile">
-						<figure class="image is-96x96"><a href="/partenaires"><img src="/src/lib/img/app/votre_pub.svg" alt="Affichez votre pub ici" /></a>
+						<figure class="image is-96x96"><a href="/partenaires"><img src="/img/app/votre_pub.svg" alt="Affichez votre pub ici" /></a>
 						</figure>
 					</div>
 				</div>
@@ -41,7 +41,7 @@
 				<h3 class="is-size-5 mb-5">Suivez-nous!</h3>
 				<div class="columns is-centered">
 					<figure class="image is-48x48">
-						<a href="https://www.facebook.com/repertoireSEMEQ" target="blank"><img src="/src/lib/img/app/facebook.svg" alt="Affichez votre pub ici" /></a>
+						<a href="https://www.facebook.com/repertoireSEMEQ" target="blank"><img src="/img/app/facebook.svg" alt="Affichez votre pub ici" /></a>
 					</figure>
 				</div>
 			</div>
