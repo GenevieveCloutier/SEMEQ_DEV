@@ -70,7 +70,7 @@
           <th></th> <!-- Colonne pour les prix réguliers dont ceux avec un rabais appliqué sont barrés -->
           <th></th> <!-- Colonne pour afficher les prix avec rabais calculé dessus -->
         {:else}
-          <th></th> <!-- Colonne pour les prix réguliers barrés -->
+          <th></th> <!-- Colonne pour les prix réguliers -->
         {/if}
       </tr>
     </thead>
@@ -79,6 +79,7 @@
       <tr>
         <td>{panier.produit.nom}</td>
         <td >{panier.produit.type.nom}</td>
+
         {#if $rabais !== 0}
           {#if utilisateur.abonne === true} <!-- Affichages prix abonnés SI rabais -->
             {#if prixAvecRabais[index] !== panier.produit.prix_a} <!-- Rayer texte si rabais applicable sur le produit -->
@@ -104,6 +105,7 @@
             <td class="has-text-right">{panier.produit.prix_v === 0 ? "Gratuit" : `${panier.produit.prix_v.toFixed(2)} $`}</td>
           {/if}
         {/if}
+        
       </tr>
       {/each}
     </tbody>
@@ -137,7 +139,7 @@
   </div>
   
   <div class="block">
-    <form on:submit={codePromoPanier}>
+    <form on:submit|preventDefault={codePromoPanier}>
       <label class="label" for="code">Tu as un code promo?</label>
       <div class="field has-addons">
           <p class="control">
