@@ -37,26 +37,26 @@
             
             {:else if exposant.site}
                 <figure class=" image is-32x32 mt-2 is-pulled-right">
-                    <a href="{exposant.site}" target="blank"><img src="/src/lib/img/app/site_web.svg" alt="site web de l'enterprise"></a>
+                    <a href="{exposant.site}" target="blank"><img src="/img/app/site_web.svg" alt="site web de l'enterprise"></a>
                 </figure>
     
             {:else if exposant.facebook}
                 <figure class=" image is-32x32 mt-2 is-pulled-right ">
-                    <a href="{exposant.facebook}" target="blank"><img src="/src/lib/img/app/facebook.svg" alt="Page facebook de l'enterprise"></a>
+                    <a href="{exposant.facebook}" target="blank"><img src="/img/app/facebook.svg" alt="Page facebook de l'enterprise"></a>
                 </figure>
                      
             {:else if exposant.insta}
                 <figure class=" image is-32x32 mt-2 is-pulled-right">
-                    <a href="{exposant.insta}" target="blank"><img src="/src/lib/img/app/insta.svg" alt="instagram de l'enterprise"></a>
+                    <a href="{exposant.insta}" target="blank"><img src="/img/app/insta.svg" alt="instagram de l'enterprise"></a>
                 </figure>
 
             {:else if exposant.tiktok}
                 <figure class=" image is-32x32 mt-2 is-pulled-right">
-                    <a href="{exposant.tiktok}" target="blank"><img src="/src/lib/img/app/tiktok.svg" alt="site web de l'enterprise"></a>
+                    <a href="{exposant.tiktok}" target="blank"><img src="/img/app/tiktok.svg" alt="site web de l'enterprise"></a>
                 </figure>
             {:else}
             <figure class=" image is-32x32 mt-2 is-pulled-right">
-                <img src="/src/lib/img/app/non_disponible.svg" alt="aucun lien disponible">
+                <img src="/img/app/non_disponible.svg" alt="aucun lien disponible">
             </figure>
 
             {/if}

@@ -37,7 +37,7 @@
         <div class="columns is-2">
             <div class="column is-half">
                 <figure class="image">
-                    <img src="/src/lib/img/app/logo.png" alt="Répertoire SÉMEQ" />
+                    <img src="/img/app/logo.png" alt="Répertoire SÉMEQ" />
                 </figure><br>
                 <!-- <p><strong>Numéro de facture :</strong> #</p> -->
                 <p><strong>Date :</strong> {factureData.date}</p>

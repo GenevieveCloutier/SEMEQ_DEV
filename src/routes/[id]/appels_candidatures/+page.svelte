@@ -128,23 +128,23 @@
                         </button>
                     {:else if event.site}
                         <figure class="image is-32x32">
-                            <a href="{event.site}" target="blank"><img src="/src/lib/img/app/site_web.svg" alt="Site web de l'événement"></a>
+                            <a href="{event.site}" target="blank"><img src="/img/app/site_web.svg" alt="Site web de l'événement"></a>
                         </figure>
                     {:else if event.fb_even}
                         <figure class=" image is-32x32">
-                            <a href="{event.fb_even}" target="blank"><img src="/src/lib/img/app/facebook.svg" alt="Page facebook de l'événement"></a>
+                            <a href="{event.fb_even}" target="blank"><img src="/img/app/facebook.svg" alt="Page facebook de l'événement"></a>
                         </figure>
                     {:else if event.insta_even}
                         <figure class=" image is-32x32">
-                            <a href="{event.insta_even}" target="blank"><img src="/src/lib/img/app/insta.svg" alt="Compte Instagram"></a>
+                            <a href="{event.insta_even}" target="blank"><img src="/img/app/insta.svg" alt="Compte Instagram"></a>
                         </figure>
                     {:else if event.tiktok_even}
                         <figure class=" image is-32x32">
-                            <a href="{event.tiktok_even}" target="blank"><img src="/src/lib/img/app/tiktok.svg" alt="Compte Tiktok"></a>
+                            <a href="{event.tiktok_even}" target="blank"><img src="/img/app/tiktok.svg" alt="Compte Tiktok"></a>
                         </figure>
                     {:else}
                         <figure class=" image is-32x32">
-                            <img src="/src/lib/img/app/non_disponible.svg" alt="Aucun lien disponible">
+                            <img src="/img/app/non_disponible.svg" alt="Aucun lien disponible">
                         </figure>
                     {/if} -->
                 </td>

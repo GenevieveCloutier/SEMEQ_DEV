@@ -1,10 +1,14 @@
 {
 	"name": "semeq-dev",
+	"engines": {
+		"node": "20.11.1"
+	},
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
+		"start": "node build",
 		"preview": "vite preview",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
@@ -13,6 +17,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/adapter-node": "^5.2.9",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/eslint": "^9.6.0",
@@ -36,6 +41,9 @@
 		"nodemailer": "^6.9.15",
 		"sequelize": "^6.37.3",
 		"sqlite3": "^5.1.7",
-		"uuid": "^10.0.0"
+		"uuid": "^10.0.0",
+		"@sveltejs/adapter-node": "^1.0.0",
+		"@sveltejs/kit": "latest",
+		"svelte": "latest"
 	}
 }

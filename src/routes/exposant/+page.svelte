@@ -32,7 +32,7 @@
         <a class="is-hidden-desktop is-hidden-tablet-only mb-3" href="#avantages">Voir nos forfaits</a>
     </div>
 
-    <div class="container">
+    <div class="container mb-4">
     <H2Title title={"Ces exposants nous ont fait confiance!"} />
     </div>
 
@@ -42,13 +42,13 @@
                     <div class="media px-4 py-4">
                         <div class="media-left">
                             <figure class="is-hidden-tablet-only">
-                                <img src="/src/lib/img/app/5_etoiles.svg" alt="Étoiles"/>
+                                <img src="/img/app/5_etoiles.svg" alt="Étoiles"/>
                             </figure>
                             <p class="title is-6">Les 1001 Mailles<br> de Miss Crochet</p>
                         </div>
                         <div class="media-content">
                             <figure class="image is-48x48">
-                                <img class="is-rounded" src="/src/lib/img/app/avis/1000_maille_de_miss_crochet.jpg" alt="Logo de 1000 Mailles de Miss Crochet"/>
+                                <img class="is-rounded" src="/img/app/avis/1000_maille_de_miss_crochet.jpg" alt="Logo de 1000 Mailles de Miss Crochet"/>
                             </figure>
                         </div>
                     </div>
@@ -65,13 +65,13 @@
                     <div class="media px-4 py-4">
                         <div class="media-left">
                             <figure class="is-hidden-tablet-only">
-                                <img src="/src/lib/img/app/5_etoiles.svg" alt="Étoiles"/>
+                                <img src="/img/app/5_etoiles.svg" alt="Étoiles"/>
                             </figure>
                             <p class="title is-6">Miss ProjetSSS</p>
                         </div>
                         <div class="media-content">
                             <figure class="image is-48x48">
-                                <img class="is-rounded" src="/src/lib/img/app/avis/miss_projetsss.jpg" alt="Logo de Miss ProjetSSS"/>
+                                <img class="is-rounded" src="/img/app/avis/miss_projetsss.jpg" alt="Logo de Miss ProjetSSS"/>
                             </figure>
                         </div>
                     </div>
@@ -88,13 +88,13 @@
                     <div class="media px-4 py-4">
                         <div class="media-left">
                             <figure class="is-hidden-tablet-only">
-                                <img src="/src/lib/img/app/5_etoiles.svg" alt="Étoiles"/>
+                                <img src="/img/app/5_etoiles.svg" alt="Étoiles"/>
                             </figure>
                             <p class="title is-6">Sage Pure</p>
                         </div>
                         <div class="media-content">
                             <figure class="image is-48x48">
-                                <img class="is-rounded" src="/src/lib/img/app/avis/sage_pure.jpg"  alt="Logo de Sage Pure"/>
+                                <img class="is-rounded" src="/img/app/avis/sage_pure.jpg"  alt="Logo de Sage Pure"/>
                             </figure>
                         </div>
                     </div>
@@ -199,7 +199,7 @@
         </div>
         <div class="block">
             <figure class=" image is-320x480 is-hidden-tablet-only">
-                <img src="/src/lib/img/app/accueil/image_accueil_exposant.jpg" alt="kiosque en marche"/>
+                <img src="/img/app/accueil/image_accueil_exposant.jpg" alt="kiosque en marche"/>
             </figure>
             <a class="is-size-7" href="https://la-vitrine-vaudreuil-soulanges.odoo.com/" target="blank">Crédit photo: La Vitrine Vaudreuil Soulanges</a>
         </div>
@@ -222,8 +222,15 @@
     .is-equal-height{
         display: flex;
         flex-direction: column;
+        width: 100%;
         height: 100%
     }
+
+    img{
+        object-fit: cover;
+        width: 100%;
+    }
+
 
 
 </style>

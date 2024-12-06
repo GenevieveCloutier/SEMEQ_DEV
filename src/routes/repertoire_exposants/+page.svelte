@@ -90,7 +90,7 @@ function chercherValeurRegion(){
 //afficher la flèche bleue quand une région est sélectionnée
   function afficherFleche(){
     resetCouleur()
-    this.style.backgroundImage="url('/src/lib/img/app/fleche.png')";
+    this.style.backgroundImage="url('/img/app/fleche.png')";
     this.style.color="white";
     this.style.fontWeight="bold";
     };
