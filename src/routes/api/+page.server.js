@@ -985,6 +985,7 @@ export const actions = {
 				nom: data.get('nom'),
 				avantage: data.get('avantage'),
 				code: data.get('code'),
+				rabais: data.get('rabais'),
 				logo: logo,
 				expiration: expiration,
 				categorie_id: data.get('categorie_id'),
