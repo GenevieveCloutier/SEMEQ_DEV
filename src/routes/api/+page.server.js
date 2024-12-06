@@ -2,7 +2,7 @@ import { fail, redirect, error } from '@sveltejs/kit';
 import {
 	createCookie,
 	findOne as findOneSession
-} from '../../lib/db/controllers/Sessions.controller.js';
+} from '$lib/db/controllers/Sessions.controller.js';
 import {
 	authenticate,
 	changementMDP,
@@ -11,7 +11,7 @@ import {
 	recuperationMDP,
 	deleteUser,
 	findOne as findOneUser
-} from '../../lib/db/controllers/Utilisateurs.controller.js';
+} from '$lib/db/controllers/Utilisateurs.controller.js';
 import {
 	domaines,
 	emplacements,
@@ -19,27 +19,27 @@ import {
 	envoieMappage,
 	types,
 	verifs
-} from '../../lib/outils/compteurBinaire.js';
+} from '$lib/outils/compteurBinaire.js';
 import {
 	creationEvenement,
 	findOne as findEvenement,
 	modificationEvenement,
 	suppressionEvenement
-} from '../../lib/db/controllers/Evenements.controller.js';
-import { ajoutProduitPanier, deleteCart, deleteUserCart, findAll as findAllPaniers, applyPromoCode } from '../../lib/db/controllers/Paniers.controller.js';
-import { Panier } from '../../lib/db/models/Panier.model.js';
-import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
-import { log } from '../../lib/outils/debug.js';
+} from '$lib/db/controllers/Evenements.controller.js';
+import { ajoutProduitPanier, deleteCart, deleteUserCart, findAll as findAllPaniers, /*applyPromoCode*/ } from '$lib/db/controllers/Paniers.controller.js';
+import { Panier } from '$lib/db/models/Panier.model.js';
+import { envoieCourriel } from '$lib/outils/nodeMailer.js';
+import { log } from '$lib/outils/debug.js';
 import fs from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
-import { Utilisateur } from '../../lib/db/models/Utilisateur.model.js';
-import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '../../lib/db/controllers/Blogs.controller.js';
+import { Utilisateur } from '$lib/db/models/Utilisateur.model.js';
+import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '$lib/db/controllers/Blogs.controller.js';
 import { request } from 'http';
-import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifProduit } from '../../lib/db/controllers/Produits.controller.js';
-import { Produit } from '../../lib/db/models/Produit.model.js';
-import { Type } from '../../lib/db/models/Type.model.js';
-import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '../../lib/db/controllers/Partenaires.controller.js';
+import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifProduit } from '$lib/db/controllers/Produits.controller.js';
+import { Produit } from '$lib/db/models/Produit.model.js';
+import { Type } from '$lib/db/models/Type.model.js';
+import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '$lib/db/controllers/Partenaires.controller.js';
 import { json } from '@sveltejs/kit';
 import StorageAbonnements from '$lib/data/storageAbonnements.json';
 
@@ -54,7 +54,7 @@ const cheminPhotosPartenaires = path.join(process.cwd(), 'src/lib/img/app/parten
 //*Import de la clé secrete stocké dans .env
 import { TURNSTILE_SECRET_KEY } from '$env/static/private';
 import { COURRIEL_GESTIONNAIRE } from '$env/static/private';
-import { transactionPanier } from '../../lib/db/controllers/Transaction.controller.js';
+import { transactionPanier } from '$lib/db/controllers/Transaction.controller.js';
 
 export const actions = {
 	/**
@@ -817,16 +817,7 @@ export const actions = {
         const code = data.get('code');
 
         let rabais = 0;
-        if (code) {
-            try {
-                rabais = await applyPromoCode(code, resultat);
-            } catch (error) {
-                return {
-                    status: 400,
-                    body: { message: error.message }
-                };
-            }
-        }
+        // npm
 
         // Calculer le nouveau total
         let sousTotal = resultat.reduce((acc, panier) => {
