@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { deleteCookie } from '../../lib/db/controllers/sessions.controller';
+import { deleteCookie } from '$lib/db/controllers/sessions.controller';
 import { redirect } from '@sveltejs/kit';
 
 export async function load({ cookies })
