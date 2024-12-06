@@ -1,6 +1,5 @@
 <script>
     export let id, photo, nom, desc, prix_a, prix_v;
-    console.log(photo);
     
 </script>
 

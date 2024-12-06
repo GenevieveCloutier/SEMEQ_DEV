@@ -12,7 +12,6 @@
     export let redirection;
     export let donneesClient;
     export let paypal_id;
-    console.log(donneesClient);
     
     onMount(() => {
     loadScript({ "client-id": paypal_id, currency: "CAD" }).then((paypal) => {
