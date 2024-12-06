@@ -1,7 +1,7 @@
 <script>
     import H2Title from "$lib/components/titres/h2Title.svelte";
     import H2AvecSousTitre from "$lib/components/titres/h2AvecSousTitre.svelte";
-    import BoutonGris from "$lib/components/boutons/BoutonGris.svelte";
+    import BoutonGris from "$lib/components/boutons/boutonGris.svelte";
     import AbonnemementExposant from "$lib/components/boites/AbonnementExposant.svelte";
     import Modal from "$lib/components/generaux/modal.svelte";
     import { emplacements, types, verifs, recupMappage } from '$lib/outils/compteurBinaire';
