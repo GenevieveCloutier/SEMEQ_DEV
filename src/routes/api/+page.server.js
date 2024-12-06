@@ -52,7 +52,8 @@ const cheminPhotosProduits = path.join(process.cwd(), 'src/lib/img/app/produits'
 const cheminPhotosPartenaires = path.join(process.cwd(), 'src/lib/img/app/partenaires');
 
 //*Import de la clé secrete stocké dans .env
-import { TURNSTILE_SECRET_KEY } from '$env/static/private';
+//import { TURNSTILE_SECRET_KEY } from '$env/static/private';
+import { TURNSTILE_SECRET_KEY } from 'virtual:$env/static/private';
 import { COURRIEL_GESTIONNAIRE } from '$env/static/private';
 import { transactionPanier } from '$lib/db/controllers/Transaction.controller.js';
 
