@@ -1,18 +1,19 @@
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-node';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	kit: {
-		alias:{
-			$api: 'src/routes/api',
-			$routes: 'src/routes',
-			adapter: 'adapter()'
-		},
-		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
-		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
-		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
-		adapter: adapter()
-	}
+    kit: {
+        // Les alias sont corrects ici
+        alias: {
+            $api: 'src/routes/api',
+            $routes: 'src/routes',
+        },
+        // L'adaptateur est défini ici, en dehors de "alias"
+        adapter: adapter({
+            out: 'build', // Dossier de sortie pour les fichiers générés
+        }),
+    },
 };
 
 export default config;
+
