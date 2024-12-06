@@ -5,7 +5,7 @@ import { Utilisateur } from "$lib/db/models/Utilisateur.model";
 import { Produit } from "$lib/db/models/Produit.model";
 import { Type } from "$lib/db/models/Type.model";
 import { findOne } from '$lib/db/controllers/Utilisateurs.controller';
-import { PAYPAL_CLIENT_ID } from 'virtual:$env/static/private';
+import { PAYPAL_CLIENT_ID } from '$env/static/private';
 //import { PAYPAL_CLIENT_ID } from 'virtual:$env/static/private';
 
 /**
