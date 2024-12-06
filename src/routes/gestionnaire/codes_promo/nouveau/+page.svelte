@@ -69,6 +69,9 @@
 								name="rabais"
 								id="rabais"
 								placeholder="Pour 15% inscrire 0.15"
+								step="0.01"
+								min="0.0"
+                                max="1.0"
 							/>
 						</div>
 					</div>
