@@ -967,3 +967,18 @@ export async function achatReussi(donnees){
 
 
 }
+
+export async function activeAbonnement(id) {
+	const formData = new FormData();
+	formData.append('id', JSON.stringify(id));
+	const response = await fetch('../../api?/activationAbonnement', {
+		method: 'POST',
+		body: formData
+	  });
+	  const result = await response.json();
+	  if(result.status === 200)
+		console.log("Abonnement activé");
+	//? Une fonction pour envoyer un mail ?
+	else
+		erreur.set(JSON.parse(result.data)[0]);
+}

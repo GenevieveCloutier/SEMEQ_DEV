@@ -5,12 +5,15 @@
 	  import { onMount } from "svelte";
     import { achatReussi } from '$lib/outils/formHandlers';
     import { erreur } from '$lib/outils/formHandlers';
+	import { activeAbonnement } from "../outils/formHandlers";
     
 
     export let total;
     export let redirection;
     export let donneesClient;
     export let paypal_id;
+    console.log(donneesClient);
+    
     onMount(() => {
     loadScript({ "client-id": paypal_id, currency: "CAD" }).then((paypal) => {
       paypal
@@ -33,6 +36,9 @@
           onApprove: function (data, actions) {
             //<!--! Ca c'est ce qui est declenché en retour si le paiement est valider
             return actions.order.capture().then(function (details) {
+              if (window.location.pathname.split('/').pop() == 'paiement_abonnement') {
+                activeAbonnement(donneesClient.id);
+              }
               achatReussi(donneesClient);
               console.log("Paiement validé");
               actions.redirect(redirection);

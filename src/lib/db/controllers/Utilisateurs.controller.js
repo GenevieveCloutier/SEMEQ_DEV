@@ -7,6 +7,7 @@ import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import { log } from '../../outils/debug';
 import { Op } from 'sequelize';
+import { util } from 'prettier';
 
 /**
  * Récupère tous les utilisateurs, incluant leurs rôles et villes associés.
@@ -401,6 +402,18 @@ export async function modificationUtilisateur(p_utilisateur_id, p_modifications)
 			logo: p_modifications.logo ?? utilisateur.logo
 		});
 		return utilisateur;
+	} catch (error) {
+		throw error;
+	}
+}
+
+export async function activeAbonnement(p_id) {
+	try {
+		const utilisateur = await Utilisateur.findByPk(p_id);
+	await utilisateur.update({
+		abonne: true,
+		fin_abo: new Date(Date.now() + 3.1536e10)
+	})
 	} catch (error) {
 		throw error;
 	}
