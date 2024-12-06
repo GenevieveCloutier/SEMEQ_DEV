@@ -22,6 +22,8 @@
     let nomAbonnement = "";
     let sousTotal = "";
     let totalToSend = "";
+    let type = "";
+    let redirection = '';
 
     onMount(() => {
       // Récupération de la valeur de typeAbonnement
@@ -29,7 +31,15 @@
       let id=typeAbonnement;
       typeAbonnement = tableauAbonnements.find((abonnement) => abonnement.id === id);
       sousTotal = typeAbonnement.prix.toFixed(2);
+      type = typeAbonnement.type;
       nomAbonnement = typeAbonnement.nom;
+
+    if (type==="exposant") {
+      redirection = window.location.origin + `/panier/paiement/confirmation`;
+    };
+    if (type==="organisateur") {
+      redirection = window.location.origin + `/panier/paiement/inscription_evenement_abonne`;
+    }
 
     // Calcul TPS, TVQ et total
     /*const tpsTaux = 0.05;
@@ -38,7 +48,7 @@
     let tvq = sousTotal * tvqTaux;*/
     totalToSend = sousTotal /* + tps + tvq*/;
 
-      return {nomAbonnement, sousTotal}
+      return {nomAbonnement, sousTotal, redirection}
     });
 
 
@@ -49,10 +59,7 @@
     let tvq = sousTotal * tvqTaux;*/
     totalToSend = sousTotal /* + tps + tvq*/;
     
-    let redirection = '';
-    if (typeof window !== 'undefined') {
-      redirection = window.location.origin + `/panier/paiement/inscription_evenement_abonne`;
-    }
+
 </script>
 
 <Etape2/>
