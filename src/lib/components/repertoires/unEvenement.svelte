@@ -29,27 +29,27 @@ import BoutonMince from "$lib/components/boutons/boutonMince.svelte";
 
         {:else if evenement.site}
         <figure class=" image is-32x32 mt-2 is-pulled-right">
-            <a href="{evenement.site}" target="blank"><img src="/src/lib/img/app/site_web.svg" alt="site web de l'événement"></a>
+            <a href="{evenement.site}" target="blank"><img src="/img/app/site_web.svg" alt="site web de l'événement"></a>
         </figure>
 
         {:else if evenement.fb_even}
             <figure class=" image is-32x32 mt-2 is-pulled-right ">
-                <a href="{evenement.fb_even}" target="blank"><img src="/src/lib/img/app/facebook.svg" alt="Page facebook de l'événement"></a>
+                <a href="{evenement.fb_even}" target="blank"><img src="/img/app/facebook.svg" alt="Page facebook de l'événement"></a>
             </figure>
 
         {:else if evenement.insta_even}
         <figure class=" image is-32x32 mt-2 is-pulled-right">
-            <a href="{evenement.insta_even}" target="blank"><img src="/src/lib/img/app/insta.svg" alt="lien vers le compte instagram"></a>
+            <a href="{evenement.insta_even}" target="blank"><img src="/img/app/insta.svg" alt="lien vers le compte instagram"></a>
         </figure>
 
         {:else if evenement.tiktok_even}
         <figure class=" image is-32x32 mt-2 is-pulled-right">
-            <a href="{evenement.tiktok_even}" target="blank"><img src="/src/lib/img/app/tiktok.svg" alt="lien vers le compte tiktok"></a>
+            <a href="{evenement.tiktok_even}" target="blank"><img src="/img/app/tiktok.svg" alt="lien vers le compte tiktok"></a>
         </figure>
 
         {:else}
         <figure class=" image is-32x32 mt-2 is-pulled-right">
-            <img src="/src/lib/img/app/non_disponible.svg" alt="Aucun lien disponible">
+            <img src="/lib/img/app/non_disponible.svg" alt="Aucun lien disponible">
         </figure>
     
         {/if}

@@ -44,12 +44,12 @@ import { json } from '@sveltejs/kit';
 import StorageAbonnements from '$lib/data/storageAbonnements.json';
 
 //Chemins de base pour stocker les photos
-const cheminPhotosEven = path.join(process.cwd(), 'src/lib/img/app/evenements');
-const cheminLogos = path.join(process.cwd(), 'src/lib/img/app/logos');
-const cheminPhotosUtilisateurs = path.join(process.cwd(), 'src/lib/img/app/utilisateurs');
-const cheminPhotosBlog = path.join(process.cwd(), 'src/lib/img/app/blog');
-const cheminPhotosProduits = path.join(process.cwd(), 'src/lib/img/app/produits');
-const cheminPhotosPartenaires = path.join(process.cwd(), 'src/lib/img/app/partenaires');
+const cheminPhotosEven = path.join(process.cwd(), 'img/app/evenements');
+const cheminLogos = path.join(process.cwd(), 'img/app/logos');
+const cheminPhotosUtilisateurs = path.join(process.cwd(), 'img/app/utilisateurs');
+const cheminPhotosBlog = path.join(process.cwd(), 'img/app/blog');
+const cheminPhotosProduits = path.join(process.cwd(), 'img/app/produits');
+const cheminPhotosPartenaires = path.join(process.cwd(), 'img/app/partenaires');
 
 //*Import de la clé secrete stocké dans .env
 import { TURNSTILE_SECRET_KEY } from '$env/static/private';
@@ -244,7 +244,7 @@ export const actions = {
 		let photo_1 = await uploadPhoto('photo_1');
 		const photo_2 = await uploadPhoto('photo_2');
 		if (!photo_1)
-			photo_1 = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+			photo_1 = path.relative(process.cwd(), '\\img\\app\\produit_defaut.png');
 		try {
 			const res = await nouveauBillet(data.get('titre'), data.get('article'), photo_1, photo_2);
 			return {
@@ -278,7 +278,7 @@ export const actions = {
 		};
 		let photo = await uploadPhoto('photo');
 		if (!photo)
-			photo = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+			photo = path.relative(process.cwd(), '\\img\\app\\produit_defaut.png');
 		try {
 			const res = await nouveauProduit(
 				data.get('nom'),
@@ -441,7 +441,7 @@ export const actions = {
 		const photo_3 = await uploadPhoto('photo_3');
 
 		if (!photo_1)
-			photo_1 = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+			photo_1 = path.relative(process.cwd(), '\\img\\app\\produit_defaut.png');
 
 		let session;
 		try {
@@ -894,7 +894,7 @@ export const actions = {
 		};
 		let logo = await uploadLogo('logo');
 		if (!logo) {
-			logo = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+			logo = path.relative(process.cwd(), '\\img\\app\\produit_defaut.png');
 		}
 	
 		const expiration = data.get('expiration') ? data.get('expiration') : null;
@@ -1116,7 +1116,7 @@ function redacteurCourriel(prenom, lien) {
                 <div class="header">
                     <figure>
                         <a href="/">
-                            <img src="/src/lib/img/app/logo.png" alt="logo SEMEQ" /> 
+                            <img src="/img/app/logo.png" alt="logo SEMEQ" /> 
                         </a>
                     </figure>
                     <p>Le répertoire des salons, événements, marchés et expositions du Québec</p>
@@ -1207,7 +1207,7 @@ function redacteurContact(nom, courriel, message) {
                 <div class="header">
                     <figure>
                         <a href="/">
-                            <img src="/src/lib/img/app/logo.png" alt="logo SEMEQ" /> 
+                            <img src="/img/app/logo.png" alt="logo SEMEQ" /> 
                         </a>
                     </figure>
                     <p>Le répertoire des salons, événements, marchés et expositions du Québec</p>

@@ -160,7 +160,7 @@ let affichersite = siteweb();
                         <div class="column is-mobile">
                             {#if evenement.fb_even}
                             <figure class="image is-24x24">
-                                <a href={evenement.fb_even} target="blank"><img src="/src/lib/img/app/facebook.svg" alt="logo facebook"></a>
+                                <a href={evenement.fb_even} target="blank"><img src="/img/app/facebook.svg" alt="logo facebook"></a>
                             </figure>
                             {/if}
                         </div>
@@ -168,7 +168,7 @@ let affichersite = siteweb();
                         <div class="column is-mobile">
                             {#if evenement.insta_even}
                             <figure class="image is-24x24">
-                                <a href={evenement.insta_even} target="blank"><img src="/src/lib/img/app/insta.svg" alt="logo instagram"></a>
+                                <a href={evenement.insta_even} target="blank"><img src="/img/app/insta.svg" alt="logo instagram"></a>
                             </figure>
                         {   /if}
                         </div>
@@ -176,7 +176,7 @@ let affichersite = siteweb();
                         <div class="column is-mobile">
                             {#if evenement.tiktok_even}
                             <figure class="image is-24x24">
-                                <a href={evenement.tiktok_even} target="blank"><img src="/src/lib/img/app/tiktok.svg" alt="logo tiktok"></a>
+                                <a href={evenement.tiktok_even} target="blank"><img src="/img/app/tiktok.svg" alt="logo tiktok"></a>
                             </figure>
                             {/if}
                         </div>

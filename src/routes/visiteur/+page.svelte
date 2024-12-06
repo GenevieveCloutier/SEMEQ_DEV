@@ -22,11 +22,11 @@
 
 //images à afficher dans le component Modal pour afficher en grand
   const images=[
-    "/src/lib/img/app/accueil/visiteur_1.jpg",
-    "/src/lib/img/app/accueil/visiteur_2.jpg",
-    "/src/lib/img/app/accueil/visiteur_3.jpg",
-    "/src/lib/img/app/accueil/visiteur_4.jpg",
-    "/src/lib/img/app/accueil/visiteur_5.jpg",
+    "/img/app/accueil/visiteur_1.jpg",
+    "/img/app/accueil/visiteur_2.jpg",
+    "/img/app/accueil/visiteur_3.jpg",
+    "/img/app/accueil/visiteur_4.jpg",
+    "/img/app/accueil/visiteur_5.jpg",
 ]
 
 //pour la recherche de région
