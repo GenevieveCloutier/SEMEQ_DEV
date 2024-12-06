@@ -122,7 +122,12 @@ export async function findOne(p_where){
 export async function deleteCart(p_where){
     return await Panier.destroy({ where: p_where })
     .then(res => {
-        return {message: "Succès suppression panier."};
+        return {
+			status: 200,
+			body: {
+				message: 'Produit supprimé du panier.'
+			}
+		};
     }).catch((error) => {
         throw error;
     });
@@ -136,10 +141,7 @@ export async function deleteCart(p_where){
 export async function deleteUserCart(p_utilisateur_id) {
 	try {
 		const result = await Panier.destroy({
-			where: {
-                utilisateur_id: p_utilisateur_id,
-                produit_id: p_produit_id
-            }
+			where: { utilisateur_id: p_utilisateur_id }
 		});
 		return { status: 200, data: JSON.stringify(result) };
 	} catch (error) {

@@ -1,4 +1,4 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { fail, redirect, error } from '@sveltejs/kit';
 import {
 	createCookie,
 	findOne as findOneSession
@@ -26,8 +26,8 @@ import {
 	modificationEvenement,
 	suppressionEvenement
 } from '../../lib/db/controllers/Evenements.controller.js';
-import { ajoutProduitPanier, deleteCart, deleteItemsCart, deleteUserCart } from '../../lib/db/controllers/Paniers.controller.js';
-import { Op } from 'sequelize';
+import { ajoutProduitPanier, deleteCart, deleteUserCart, findAll as findAllPaniers, applyPromoCode } from '../../lib/db/controllers/Paniers.controller.js';
+import { Panier } from '../../lib/db/models/Panier.model.js';
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
 import fs from 'fs';
@@ -37,6 +37,8 @@ import { Utilisateur } from '../../lib/db/models/Utilisateur.model.js';
 import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '../../lib/db/controllers/Blogs.controller.js';
 import { request } from 'http';
 import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifProduit } from '../../lib/db/controllers/Produits.controller.js';
+import { Produit } from '../../lib/db/models/Produit.model.js';
+import { Type } from '../../lib/db/models/Type.model.js';
 import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '../../lib/db/controllers/Partenaires.controller.js';
 import { json } from '@sveltejs/kit';
 import StorageAbonnements from '$lib/data/storageAbonnements.json';
@@ -786,36 +788,63 @@ export const actions = {
 		}
 	},
 
-	codePromoPanier: async ({request}) => {
-		const data = await request.formData();
+	codePromoPanier: async ({request, cookies }) => {
+        const sessionId = cookies.get('id');
+        const utilisateur = await findOne({ id: sessionId });
 
-		// Date du jour au format ISO avec l'heure 00:00:00 pour comparer avec dates dans BD
-		let aujourdhui = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-		
-		const code = await findOneCodePromo({ code: data.get('code') });
-		if (code.expiration < aujourdhui) {
-			return {
-				status: 200,
-				body: {
-					message: 'Code promo accepté.',
-					article: res
-				}
-			};
-		} else {
-			return {
-				status: 404,
-				body: {
-					message: 'Ce code promo n\'est pas valide ou a expiré.'
-				}
-			};
-		}
-	},
+        const paniers = await Panier.findAll({
+            where: { utilisateur_id: sessionId },
+            include: [
+                { model: Utilisateur, as: "utilisateur" },
+                { model: Produit, as: "produit",
+                    include: [
+                      { model: Type, as: "type" }
+                    ]
+                }
+            ]
+        });
+
+        let resultat = paniers.map(panier => ({
+            ...panier.dataValues,
+            utilisateur: panier.utilisateur ? panier.utilisateur.dataValues : null,
+            produit: panier.produit ? {
+                ...panier.produit.dataValues,
+                type: panier.produit.type ? panier.produit.type.dataValues : null
+            } : null
+        }));
+
+		const data = await request.formData();
+        const code = data.get('code');
+
+        let rabais = 0;
+        if (code) {
+            try {
+                rabais = await applyPromoCode(code, resultat);
+            } catch (error) {
+                return {
+                    status: 400,
+                    body: { message: error.message }
+                };
+            }
+        }
+
+        // Calculer le nouveau total
+        let sousTotal = resultat.reduce((acc, panier) => {
+            let prix = utilisateur.abonne ? panier.produit.prix_a : panier.produit.prix_v;
+            return acc + prix;
+        }, 0);
+        let totalToSend = sousTotal - rabais;
+
+        return {
+            status: 200,
+            body: { rabais, totalToSend }
+        };
+    },
 
 	deleteOnePanier: async ({ request }) => {
 		const data = await request.formData();
-
 		try {
-			let res = await deleteCart({ id: data.get('panier_id') });
+			const res = await deleteCart({ id: data.get('panier_id') });
 			return {
 				status: 200,
 				body: {
@@ -829,30 +858,27 @@ export const actions = {
 	},
 
 	deleteSelectedItemsCart: async ({ request }) => {
-        const data = await request.formData();
-        const utilisateur_id = data.get('utilisateur_id');
-        const produit_id = data.get('selectedItems').split(',');
-
-        try {
-            const res = await deleteItemsCart(utilisateur_id, produit_id);
-            return {
-                status: 200,
-                body: {
-                    message: 'Produits retirés du panier avec succès',
-                    evenement: res
-                }
-            };
-        } catch (error) {
-            return fail(401, error);
-        }
-    },
+		const data = await request.formData();
+		const panier_id = data.get('selectedItems').split(',');
+		try {
+			const res = await deleteCart({ id: panier_id });
+			return {
+				status: 200,
+				body: {
+					message: 'Produits retirés du panier avec succès',
+					evenement: res
+				}
+			};
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
 
 	deleteAllUserCart: async ({ cookies, request }) => {
 		const data = await request.formData();
-		const utilisateur_id = data.get('id');
 		if (cookies.get('id')) {
-			const res = await deleteUserCart(utilisateur_id);
-			console.log('DeleteCart response:', res);
+			const res = await deleteUserCart(data.get('id'));
+			console.log('deleteUserCart response:', res);
 			return res;
 		} else return fail(403, 'Vous ne disposez pas des droits nécessaires pour cette action.');
 	},

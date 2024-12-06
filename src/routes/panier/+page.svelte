@@ -8,12 +8,13 @@
     import AbonnementExposant from '$lib/components/boites/abonnementExposant.svelte';
     import NotifSuccess from '$lib/components/notifications/notifSuccess.svelte';
 	import NotifDanger from '$lib/components/notifications/notifDanger.svelte';
-    import { deleteOnePanier, deleteSelectedItemsCart } from '$lib/outils/formHandlers';
+    import { deleteOnePanier, deleteSelectedItemsCart, codePromoPanier } from '$lib/outils/formHandlers';
     import Confirmation from '$lib/components/notifications/confirmation.svelte';
 
     export let data;
     const paniers = data.paniers;
     const utilisateur = data.utilisateur;
+    let rabais = data.rabais || 0;
 
     // Pour supprimer plusieurs produits du panier
     let selectedItems = [];
@@ -37,12 +38,13 @@
         return acc + prix;
     }, 0);
 
-    // Calcul TPS, TVQ et total
-    /*const tpsTaux = 0.05;
-    const tvqTaux = 0.09975;
-    let tps = sousTotal * tpsTaux;
-    let tvq = sousTotal * tvqTaux;*/
-    let total = sousTotal/* + tps + tvq*/;
+    let totalToSend = sousTotal
+
+    async function handlePromoCodeSubmit(event) {
+        await codePromoPanier(event);
+        // Mettre à jour le total après l'application du code promo
+        totalToSend = sousTotal - rabais;
+    }
 </script>
 
 <H1Title title={"Panier"} />
@@ -156,38 +158,46 @@
                             {/if}
                         {/if}
 
-                        <!--<div class="columns">
-                            <div class="column">
+                        <div class="columns">
+                            <div class="column has-text-right">
                             Sous-total :<br>
-                            TPS (5%) :<br>
-                            TVQ (9,975%) :
+                            {#if rabais !== 0} <!-- Afficher s'il y a un rabais (code promo) -->  
+                                    <b>Rabais :</b><br>
+                            {/if}
+                            <!--TPS (5%) :<br>
+                            TVQ (9,975%) :-->
                             </div>
 
                             <div class="column is-narrow has-text-right">
                                 {sousTotal === 0 ? "Gratuit" : `${sousTotal.toFixed(2)} $`}<br>
-                                {tps.toFixed(2)} $<br>
-                                {tvq.toFixed(2)} $
+                                {#if rabais !== 0}
+                                    <b>{rabais.toFixed(2)} $</b><br>
+                                {/if}
+                                <!--{tps.toFixed(2)} $<br>
+                                {tvq.toFixed(2)} $-->
                             </div>
-                        </div>-->
+                        </div>
 
-                        <form class="block">
-                            <label class="label" for="code_promo">Tu as un code promo?</label>
-                            <div class="field has-addons">
-                                <p class="control">
-                                    <input class="input" name="code_promo" type="text" placeholder="Code promo">
-                                </p>
-                                <p class="control">
-                                    <button type="submit" class="button" id="btn_code_promo">Appliquer</button>
-                                </p>
-                            </div>
-                        </form>
+                        <div class="block">
+                            <form on:submit|preventDefault={handlePromoCodeSubmit}>
+                                <label class="label" for="code">Tu as un code promo?</label>
+                                <div class="field has-addons">
+                                    <p class="control">
+                                        <input class="input" name="code" id="code" type="text" placeholder="Code promo" required>
+                                    </p>
+                                    <p class="control">
+                                        <button type="submit" class="button" id="btn_code_promo">Appliquer</button>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
 
                         <div class="columns">
-                            <div class="column">
+                            <div class="column has-text-right">
                                 <b>Total :</b>
                             </div>
                             <div class="column is-narrow has-text-right">
-                                <b>{total === 0 ? "Gratuit" : `${total.toFixed(2)} $`}</b>
+                                <b>{totalToSend === 0 ? "Gratuit" : `${totalToSend.toFixed(2)} $`}</b>
                             </div>
                         </div>
                     </div>
