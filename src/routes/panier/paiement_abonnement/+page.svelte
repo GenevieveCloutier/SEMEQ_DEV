@@ -22,7 +22,6 @@
     let nomAbonnement = "";
     let sousTotal = "";
     let totalToSend = "";
-    let type ="";
     let redirection = '';
 
     onMount(() => {
