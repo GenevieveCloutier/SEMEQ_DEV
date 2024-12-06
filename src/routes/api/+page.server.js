@@ -27,7 +27,7 @@ import {
 	modificationEvenement,
 	suppressionEvenement
 } from '../../lib/db/controllers/Evenements.controller.js';
-import { ajoutProduitPanier, deleteCart, deleteUserCart, findAll as findAllPaniers, applyPromoCode } from '../../lib/db/controllers/Paniers.controller.js';
+import { ajoutProduitPanier, deleteCart, deleteUserCart } from '../../lib/db/controllers/Paniers.controller.js';
 import { Panier } from '../../lib/db/models/Panier.model.js';
 import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
 import { log } from '../../lib/outils/debug.js';
@@ -38,8 +38,6 @@ import { Utilisateur } from '../../lib/db/models/Utilisateur.model.js';
 import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '../../lib/db/controllers/Blogs.controller.js';
 import { request } from 'http';
 import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifProduit } from '../../lib/db/controllers/Produits.controller.js';
-import { Produit } from '../../lib/db/models/Produit.model.js';
-import { Type } from '../../lib/db/models/Type.model.js';
 import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '../../lib/db/controllers/Partenaires.controller.js';
 import { json } from '@sveltejs/kit';
 import StorageAbonnements from '$lib/data/storageAbonnements.json';
@@ -789,58 +787,36 @@ export const actions = {
 		}
 	},
 
-	codePromoPanier: async ({request, cookies }) => {
-        const sessionId = cookies.get('id');
-        const utilisateur = await findOne({ id: sessionId });
-
-        const paniers = await Panier.findAll({
-            where: { utilisateur_id: sessionId },
-            include: [
-                { model: Utilisateur, as: "utilisateur" },
-                { model: Produit, as: "produit",
-                    include: [
-                      { model: Type, as: "type" }
-                    ]
-                }
-            ]
-        });
-
-        let resultat = paniers.map(panier => ({
-            ...panier.dataValues,
-            utilisateur: panier.utilisateur ? panier.utilisateur.dataValues : null,
-            produit: panier.produit ? {
-                ...panier.produit.dataValues,
-                type: panier.produit.type ? panier.produit.type.dataValues : null
-            } : null
-        }));
-
+	codePromoPanier: async ({request}) => {
 		const data = await request.formData();
-        const code = data.get('code');
-
-        let rabais = 0;
-        if (code) {
-            try {
-                rabais = await applyPromoCode(code, resultat);
-            } catch (error) {
-                return {
-                    status: 400,
-                    body: { message: error.message }
-                };
+		try {
+			const code = data.get('code');
+			const partenaire = await findOneCodePromo({ code: code });
+			if (!partenaire) {
+                return fail(401, { message: "Ce code promo n\'est pas valide." });
             }
-        }
 
-        // Calculer le nouveau total
-        let sousTotal = resultat.reduce((acc, panier) => {
-            let prix = utilisateur.abonne ? panier.produit.prix_a : panier.produit.prix_v;
-            return acc + prix;
-        }, 0);
-        let totalToSend = sousTotal - rabais;
+			// Vérification de la date d'expiration
+			let aujourdhui = new Date().toLocaleDateString('fr-CA', {timeZone: 'UTC'})
+			const expirationDate = (partenaire.expiration).toLocaleDateString('fr-CA', {timeZone: 'UTC'});
+			if (expirationDate < aujourdhui) {
+                return fail(401, { message: "Ce code promo a expiré." });
+            }
 
-        return {
-            status: 200,
-            body: { rabais, totalToSend }
-        };
-    },
+			const response = {
+                status: 200,
+                body: {
+                    message: 'Code promo accepté!',
+					rabais: partenaire.rabais,
+					produit_id: partenaire.produit_id,
+					type_id: partenaire.type_id
+                }
+            };
+            return response;
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
 
 	deleteOnePanier: async ({ request }) => {
 		const data = await request.formData();
