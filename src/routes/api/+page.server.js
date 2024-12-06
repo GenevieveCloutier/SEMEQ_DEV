@@ -10,7 +10,8 @@ import {
 	newUser,
 	recuperationMDP,
 	deleteUser,
-	findOne as findOneUser
+	findOne as findOneUser,
+	activeAbonnement
 } from '../../lib/db/controllers/Utilisateurs.controller.js';
 import {
 	domaines,
@@ -1040,6 +1041,18 @@ export const actions = {
     	const data = JSON.parse(json);
 		try {
 			const res = await transactionPanier(data);
+			return res;
+		} catch (error) {
+			throw error
+		}
+	},
+
+	activationAbonnement: async ({request}) =>{
+		const formData = await request.formData();
+    	const json = formData.get('id');
+    	const data = JSON.parse(json);
+		try {
+			const res = await activeAbonnement(data);
 			return res;
 		} catch (error) {
 			throw error

@@ -228,7 +228,7 @@
 
     </div> <!-- Fin box -->
     <!-- champ caché pour preciser qu'il s'agit d'un compte abonné -->
-     <input name="abonne" value="on" hidden>
+     <!-- <input name="abonne" value="on" hidden> -->
     <!-- Boutons en bas de page -->
     <div class="block has-text-right">
       <SubmitButon texte={"Passer au paiement"}></SubmitButon>
