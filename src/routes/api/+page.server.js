@@ -796,6 +796,11 @@ export const actions = {
                 return fail(401, { message: "Ce code promo n\'est pas valide." });
             }
 
+			// Vérification de la catégorie de partenaire
+			if (!partenaire.categorie_id || partenaire.categorie.nom !== 'Rabais boutique SÉMEQ') {
+				return fail(401, { message: "Ce code promo n'est pas applicable sur la boutique." });
+			}
+
 			// Vérification de la date d'expiration
 			let aujourdhui = new Date().toLocaleDateString('fr-CA', {timeZone: 'UTC'})
 			const expirationDate = (partenaire.expiration).toLocaleDateString('fr-CA', {timeZone: 'UTC'});
