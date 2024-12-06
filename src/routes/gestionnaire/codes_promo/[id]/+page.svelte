@@ -131,11 +131,12 @@
                         <label for="produit_id" class="label">Produit</label>
                         <div class="control">
                             <div class="select is-fullwidth">
-                                <select name="produit_id" id="produit_id" required>
+                                <select name="produit_id" id="produit_id">
                                     {#if code.produit_id === null}
-                                        <option>Choisissez un produit sur lequel appliquer le rabais</option>
+                                        <option value="">Choisissez un type de produit sur lequel appliquer le rabais</option>
                                     {:else}
-                                        <option value={code.produit_id} disabled selected required>{code.produit.nom}</option>
+                                        <option value={code.produit_id} disabled selected>{code.produit.nom}</option>
+                                        <option value="">N'appliquer le rabais sur aucun produit</option>
                                     {/if}
                                     {#each produits as produit}
                                         <option value={produit.id}>{produit.nom}</option>
@@ -152,9 +153,10 @@
                             <div class="select is-fullwidth">
                                 <select name="type_id" id="type_id">
                                     {#if code.type_id === null}
-                                        <option>Choisissez un type de produit sur lequel appliquer le rabais</option>
+                                        <option value="">Choisissez un type de produit sur lequel appliquer le rabais</option>
                                     {:else}
-                                        <option value={code.type_id} disabled selected required>{code.type.nom}</option>
+                                        <option value={code.type_id} disabled selected>{code.type.nom}</option>
+                                        <option value="">N'appliquer le rabais sur aucun type de produit</option>
                                     {/if}
                                     {#each types as type}
                                         <option value={type.id}>{type.nom}</option>

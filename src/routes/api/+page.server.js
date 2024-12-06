@@ -945,6 +945,7 @@ export const actions = {
 
 	modificationCodePromo: async ({request}) => {
 		const data = await request.formData();
+		
 		const uploadLogo = async (nomFichier) => {
 			const logo = data.get(nomFichier);
 	
@@ -960,8 +961,23 @@ export const actions = {
 			return null;
 		};
 		let logo = await uploadLogo('logo');
+		if (!logo) {
+			logo = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+		}
 
 		const expiration = data.get('expiration') ? data.get('expiration') : null;
+
+		// Vérification des valeurs de produit_id et type_id
+		const produit_id = data.get('produit_id') ? data.get('produit_id') : null;
+		const type_id = data.get('type_id') ? data.get('type_id') : null;
+		if (produit_id !== null && type_id !== null) {
+			return {
+				status: 400,
+				body: {
+					message: 'Merci de choisir soit le produit, soit le type de produit admissible au rabais du code promo.'
+				}
+			};
+		}
 
 		try {
 			const res = await modifCodePromo(data.get('id'), {
@@ -970,7 +986,9 @@ export const actions = {
 				code: data.get('code'),
 				logo: logo,
 				expiration: expiration,
-				categorie: data.get('categorie_id')
+				categorie_id: data.get('categorie_id'),
+				produit_id: data.get('produit_id'),
+				type_id: data.get('type_id')
 		});
 			return {
 				status: 200,

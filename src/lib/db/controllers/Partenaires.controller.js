@@ -104,8 +104,8 @@ export async function modifCodePromo(p_id, p_modifications) {
 			logo: p_modifications.logo ?? partenaire.logo,
             expiration: p_modifications.expiration ?? partenaire.expiration,
 			categorie_id: p_modifications.categorie_id ?? partenaire.categorie_id,
-			produit_id: p_modifications.produit_id ?? partenaire.produit_id,
-			type_id: p_modifications.type_id ?? partenaire.type_id,
+			produit_id: p_modifications.produit_id === '' ? null : p_modifications.produit_id ?? partenaire.produit_id,
+            type_id: p_modifications.type_id === '' ? null : p_modifications.type_id ?? partenaire.type_id,
 		});
 		return partenaire.dataValue
 	} catch (error) {
