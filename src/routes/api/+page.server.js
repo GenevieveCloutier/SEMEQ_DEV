@@ -46,7 +46,16 @@ import StorageAbonnements from '$lib/data/storageAbonnements.json';
 //Chemins de base pour stocker les photos
 const cheminPhotosEven = path.join(process.cwd(), 'static/img/app/evenements');
 const cheminLogos = path.join(process.cwd(), 'static/img/app/logos');
+
 const cheminPhotosUtilisateurs = path.join(process.cwd(), 'static/img/app/utilisateurs');
+const creerRepertoire = () => {
+	if (!fs.existsSync(cheminPhotosUtilisateurs)) {
+	  fs.mkdirSync(cheminPhotosUtilisateurs, { recursive: true });
+	  console.log(`Le dossier ${cheminPhotosUtilisateurs} a été créé.`);
+	}
+  };
+  creerRepertoire()
+
 const cheminPhotosBlog = path.join(process.cwd(), 'static/img/app/blog');
 const cheminPhotosProduits = path.join(process.cwd(), 'static/img/app/produits');
 const cheminPhotosPartenaires = path.join(process.cwd(), 'static/img/app/partenaires');
