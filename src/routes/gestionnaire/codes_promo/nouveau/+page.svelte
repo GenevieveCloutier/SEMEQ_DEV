@@ -65,10 +65,13 @@
 						<div class="control">
 							<input
 								class="input"
-								type="text"
+								type="number"
 								name="rabais"
 								id="rabais"
 								placeholder="Pour 15% inscrire 0.15"
+								step="0.01"
+								min="0.0"
+                                max="1.0"
 							/>
 						</div>
 					</div>
@@ -125,8 +128,8 @@
 						<label for="produit_id" class="label">Produit</label>
 						<div class="control">
 							<div class="select is-fullwidth">
-								<select name="produit_id" id="produit_id" required>
-									<option>Choisissez un produit sur lequel appliquer le rabais</option>
+								<select name="produit_id" id="produit_id">
+									<option value="">Choisissez un produit sur lequel appliquer le rabais</option>
 									{#each produits as produit}
 										<option value={produit.id}>{produit.nom}</option>
 									{/each}
@@ -141,7 +144,7 @@
 						<div class="control">
 							<div class="select is-fullwidth">
 								<select name="type_id" id="type_id">
-									<option>Choisissez un type de produit sur lequel appliquer le rabais</option>
+									<option value="">Choisissez un type de produit sur lequel appliquer le rabais</option>
 									{#each types as type}
 										<option value={type.id}>{type.nom}</option>
 									{/each}

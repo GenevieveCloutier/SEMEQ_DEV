@@ -3,8 +3,7 @@ import { Partenaire } from "$lib/db/models/Partenaire.model";
 export async function load({ params }){
     let codes = await Partenaire.findAll();
 
-    // Date du jour au format ISO avec l'heure 00:00:00 +00:00 pour comparer avec dates dans BD
-    let aujourdhui = new Date().toISOString().split("T")[0]  + " 00:00:00.000 +00:00";
+    let aujourdhui = new Date().toLocaleDateString('fr-CA', {timeZone: 'UTC'})
 
     let resultat = codes.map(code => ({
         ...code.dataValues,

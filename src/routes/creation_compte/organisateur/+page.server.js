@@ -12,6 +12,9 @@ export async function load({cookies}){
     const session = cookies.get('session');
     const role = cookies.get('role');
 
+    if(session)
+        redirect(301,'/panier/paiement_abonnement');
+
     
     return {users: users, session: session, role:role, villes:villes};
 }

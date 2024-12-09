@@ -10,8 +10,9 @@ import {
 	newUser,
 	recuperationMDP,
 	deleteUser,
-	findOne as findOneUser
-} from '$lib/db/controllers/Utilisateurs.controller.js';
+	findOne as findOneUser,
+	activeAbonnement
+} from '../../lib/db/controllers/Utilisateurs.controller.js';
 import {
 	domaines,
 	emplacements,
@@ -25,21 +26,19 @@ import {
 	findOne as findEvenement,
 	modificationEvenement,
 	suppressionEvenement
-} from '$lib/db/controllers/Evenements.controller.js';
-import { ajoutProduitPanier, deleteCart, deleteUserCart, findAll as findAllPaniers, /*applyPromoCode*/ } from '$lib/db/controllers/Paniers.controller.js';
-import { Panier } from '$lib/db/models/Panier.model.js';
-import { envoieCourriel } from '$lib/outils/nodeMailer.js';
-import { log } from '$lib/outils/debug.js';
+} from '../../lib/db/controllers/Evenements.controller.js';
+import { ajoutProduitPanier, deleteCart, deleteUserCart } from '../../lib/db/controllers/Paniers.controller.js';
+import { Panier } from '../../lib/db/models/Panier.model.js';
+import { envoieCourriel } from '../../lib/outils/nodeMailer.js';
+import { log } from '../../lib/outils/debug.js';
 import fs from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
 import { Utilisateur } from '$lib/db/models/Utilisateur.model.js';
 import { nouveauBillet, modifBillet, findOne as findOneBlogue, suppressionBillet } from '$lib/db/controllers/Blogs.controller.js';
 import { request } from 'http';
-import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifProduit } from '$lib/db/controllers/Produits.controller.js';
-import { Produit } from '$lib/db/models/Produit.model.js';
-import { Type } from '$lib/db/models/Type.model.js';
-import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '$lib/db/controllers/Partenaires.controller.js';
+import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifProduit } from '../../lib/db/controllers/Produits.controller.js';
+import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '../../lib/db/controllers/Partenaires.controller.js';
 import { json } from '@sveltejs/kit';
 import StorageAbonnements from '$lib/data/storageAbonnements.json';
 
@@ -802,49 +801,41 @@ export const actions = {
 		}
 	},
 
-	codePromoPanier: async ({request, cookies }) => {
-        const sessionId = cookies.get('id');
-        const utilisateur = await findOne({ id: sessionId });
-
-        const paniers = await Panier.findAll({
-            where: { utilisateur_id: sessionId },
-            include: [
-                { model: Utilisateur, as: "utilisateur" },
-                { model: Produit, as: "produit",
-                    include: [
-                      { model: Type, as: "type" }
-                    ]
-                }
-            ]
-        });
-
-        let resultat = paniers.map(panier => ({
-            ...panier.dataValues,
-            utilisateur: panier.utilisateur ? panier.utilisateur.dataValues : null,
-            produit: panier.produit ? {
-                ...panier.produit.dataValues,
-                type: panier.produit.type ? panier.produit.type.dataValues : null
-            } : null
-        }));
-
+	codePromoPanier: async ({request}) => {
 		const data = await request.formData();
-        const code = data.get('code');
+		try {
+			const code = data.get('code');
+			const partenaire = await findOneCodePromo({ code: code });
+			if (!partenaire) {
+                return fail(401, { message: "Ce code promo n\'est pas valide." });
+            }
 
-        let rabais = 0;
-        // npm
+			// Vérification de la catégorie de partenaire
+			if (!partenaire.categorie_id || partenaire.categorie.nom !== 'Rabais boutique SÉMEQ') {
+				return fail(401, { message: "Ce code promo n\'est pas applicable sur la boutique." });
+			}
 
-        // Calculer le nouveau total
-        let sousTotal = resultat.reduce((acc, panier) => {
-            let prix = utilisateur.abonne ? panier.produit.prix_a : panier.produit.prix_v;
-            return acc + prix;
-        }, 0);
-        let totalToSend = sousTotal - rabais;
+			// Vérification de la date d'expiration
+			let aujourdhui = new Date().toLocaleDateString('fr-CA', {timeZone: 'UTC'})
+			const expirationDate = (partenaire.expiration).toLocaleDateString('fr-CA', {timeZone: 'UTC'});
+			if (expirationDate < aujourdhui) {
+                return fail(401, { message: "Ce code promo a expiré." });
+            }
 
-        return {
-            status: 200,
-            body: { rabais, totalToSend }
-        };
-    },
+			const response = {
+                status: 200,
+                body: {
+                    message: 'Code promo accepté!',
+					rabais: partenaire.rabais,
+					produit_id: partenaire.produit_id,
+					type_id: partenaire.type_id
+                }
+            };
+            return response;
+		} catch (error) {
+			return fail(401, error);
+		}
+	},
 
 	deleteOnePanier: async ({ request }) => {
 		const data = await request.formData();
@@ -950,6 +941,7 @@ export const actions = {
 
 	modificationCodePromo: async ({request}) => {
 		const data = await request.formData();
+		
 		const uploadLogo = async (nomFichier) => {
 			const logo = data.get(nomFichier);
 	
@@ -965,17 +957,35 @@ export const actions = {
 			return null;
 		};
 		let logo = await uploadLogo('logo');
+		if (!logo) {
+			logo = path.relative(process.cwd(), '\\src\\lib\\img\\app\\produit_defaut.png');
+		}
 
 		const expiration = data.get('expiration') ? data.get('expiration') : null;
+
+		// Vérification des valeurs de produit_id et type_id
+		const produit_id = data.get('produit_id') ? data.get('produit_id') : null;
+		const type_id = data.get('type_id') ? data.get('type_id') : null;
+		if (produit_id !== null && type_id !== null) {
+			return {
+				status: 400,
+				body: {
+					message: 'Merci de choisir soit le produit, soit le type de produit admissible au rabais du code promo.'
+				}
+			};
+		}
 
 		try {
 			const res = await modifCodePromo(data.get('id'), {
 				nom: data.get('nom'),
 				avantage: data.get('avantage'),
 				code: data.get('code'),
+				rabais: data.get('rabais'),
 				logo: logo,
 				expiration: expiration,
-				categorie: data.get('categorie_id')
+				categorie_id: data.get('categorie_id'),
+				produit_id: data.get('produit_id'),
+				type_id: data.get('type_id')
 		});
 			return {
 				status: 200,
@@ -1027,6 +1037,18 @@ export const actions = {
     	const data = JSON.parse(json);
 		try {
 			const res = await transactionPanier(data);
+			return res;
+		} catch (error) {
+			throw error
+		}
+	},
+
+	activationAbonnement: async ({request}) =>{
+		const formData = await request.formData();
+    	const json = formData.get('id');
+    	const data = JSON.parse(json);
+		try {
+			const res = await activeAbonnement(data);
 			return res;
 		} catch (error) {
 			throw error

@@ -2,7 +2,6 @@ import { Partenaire } from "../models/Partenaire.model";
 import { Categorie } from "../models/Categorie.model";
 import { Produit } from "../models/Produit.model";
 import { Type } from "../models/Type.model";
-import { error } from "@sveltejs/kit";
 
 /**
  * Récupère tous les partenaires de la base de données.
@@ -104,8 +103,8 @@ export async function modifCodePromo(p_id, p_modifications) {
 			logo: p_modifications.logo ?? partenaire.logo,
             expiration: p_modifications.expiration ?? partenaire.expiration,
 			categorie_id: p_modifications.categorie_id ?? partenaire.categorie_id,
-			produit_id: p_modifications.produit_id ?? partenaire.produit_id,
-			type_id: p_modifications.type_id ?? partenaire.type_id,
+			produit_id: p_modifications.produit_id === '' ? null : p_modifications.produit_id ?? partenaire.produit_id,
+            type_id: p_modifications.type_id === '' ? null : p_modifications.type_id ?? partenaire.type_id,
 		});
 		return partenaire.dataValue
 	} catch (error) {
@@ -127,37 +126,4 @@ export async function suppressionCodePromo(p_id) {
 	} catch (error) {
 		throw error;
 	}
-}
-
-/**
- * Permet d'utiliser un code promo sur le panier.
- * 
- * @param {*} code 
- * @param {*} paniers 
- * @returns 
- */
-export async function applyPromoCode(code, paniers) {
-    const partenaire = await Partenaire.findOne({
-        where: { code: code },
-        include: [
-            { model: Produit, as: 'produit' },
-            { model: Type, as: 'type' },
-        ],
-    });
-
-    if (!partenaire) {
-        throw new Error("Ce code promo n\'est pas valide ou a expiré.");
-    }
-
-    let totalRabais = 0;
-
-    paniers.forEach(panier => {
-        if (partenaire.produit_id && panier.produit_id === partenaire.produit_id) {
-            totalRabais += panier.produit.prix_v * (partenaire.rabais / 100);
-        } else if (partenaire.type_id && panier.produit.type_id === partenaire.type_id) {
-            totalRabais += panier.produit.prix_v * (partenaire.rabais / 100);
-        }
-    });
-
-    return totalRabais;
 }

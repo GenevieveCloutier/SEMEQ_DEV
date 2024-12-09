@@ -11,10 +11,10 @@ erreur.set('');
 success.set('');
 annonce.set('');
 
-// Pour l'application des codes promos
+// Pour l'application des codes promos sur les pages panier et paiement
 export const rabais = writable(0);
-export const produitId = writable(null);
-export const typeId = writable(null);
+export const codeTypeId = writable(null);
+export const codeProduitId = writable(null);
 
 /**
  * Ajoute la classe 'is-loading' à l'élément déclencheur de l'événement.
@@ -779,23 +779,31 @@ export async function ajouterPanier(event){
 }
 
 export async function codePromoPanier(event) {
-    const formData = new FormData(event.target);
-    try {
-        const response = await fetch('/api?/codePromoPanier', {
-            method: 'POST',
-            body: formData
-        });
-        const result = await response.json();
-        if (result.status === 200) {
-            window.location.reload();
-            success.set('Code promo accepté.');
-        } else if (result.status === 401) {
-            erreur.set(result.message);
-        }
-    } catch (error) {
-        console.error('Erreur inattendue : ', error);
-        erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
-    }
+	chargement;
+	erreur.set('');
+	rabais.set(0);
+	codeProduitId.set('');
+	codeTypeId.set('');
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/codePromoPanier', {
+			method: 'POST',
+			body: formData
+		});
+		const result = await response.json();
+
+		if (result.status == 200){
+			success.set('Code promo accepté!');
+			rabais.set(JSON.parse(result.data)[4]);
+			codeProduitId.set(JSON.parse(result.data)[5]);
+			codeTypeId.set(JSON.parse(result.data)[6]);
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[1]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
+		alert(erreur);
+	}
 }
 
 export async function deleteOnePanier(event) {
@@ -966,4 +974,19 @@ export async function achatReussi(donnees){
 		erreur.set(JSON.parse(result.data)[0]);
 
 
+}
+
+export async function activeAbonnement(id) {
+	const formData = new FormData();
+	formData.append('id', JSON.stringify(id));
+	const response = await fetch('../../api?/activationAbonnement', {
+		method: 'POST',
+		body: formData
+	  });
+	  const result = await response.json();
+	  if(result.status === 200)
+		console.log("Abonnement activé");
+	//? Une fonction pour envoyer un mail ?
+	else
+		erreur.set(JSON.parse(result.data)[0]);
 }
