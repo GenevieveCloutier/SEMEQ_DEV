@@ -72,7 +72,7 @@
 
 		<!-- Si fermé, afficher la flèche vers le bas -->
 		{:else}
-            <button class="">
+            <button on:click={handleClick}>
                 <slot name="head"></slot>
                 <i class="fa-solid fa-chevron-down"></i>
             </button>
