@@ -137,6 +137,7 @@ createAccordionContext();
 		position: relative;
 		z-index: 5;
 	}
+
     
 	/* pour étirer la navbar tout le long de la page sur pc:
      https://gist.github.com/ridgey28/ac007132125d6e251f6c1b96f04049ba */
