@@ -44,12 +44,12 @@ import { json } from '@sveltejs/kit';
 import StorageAbonnements from '$lib/data/storageAbonnements.json';
 
 //Chemins de base pour stocker les photos
-const cheminPhotosEven = path.join(process.cwd(), 'static/img/app/evenements');
-const cheminLogos = path.join(process.cwd(), 'static/img/app/logos');
-const cheminPhotosUtilisateurs = path.join(process.cwd(), 'static/img/app/utilisateurs');
-const cheminPhotosBlog = path.join(process.cwd(), 'static/img/app/blog');
-const cheminPhotosProduits = path.join(process.cwd(), 'static/img/app/produits');
-const cheminPhotosPartenaires = path.join(process.cwd(), 'static/img/app/partenaires');
+const cheminPhotosEven = path.join(process.cwd(), 'img/app/evenements');
+const cheminLogos = path.join(process.cwd(), 'img/app/logos');
+const cheminPhotosUtilisateurs = path.join(process.cwd(), 'img/app/utilisateurs');
+const cheminPhotosBlog = path.join(process.cwd(), 'img/app/blog');
+const cheminPhotosProduits = path.join(process.cwd(), 'img/app/produits');
+const cheminPhotosPartenaires = path.join(process.cwd(), 'img/app/partenaires');
 
 //*Import de la clé secrete stocké dans .env
 import { TURNSTILE_SECRET_KEY } from '$env/static/private';
