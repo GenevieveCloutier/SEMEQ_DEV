@@ -38,7 +38,7 @@
 	
 	</script>
 	
-	<div class="media mx-6 mt-5 ">
+	<div data-sveltekit-reload class="media mx-6 mt-5 ">
 			<figure class="media-left">
 				<a href="/">
 					<img src="/img/app/logo.png" alt="logo SEMEQ" width="150" height="73" />
