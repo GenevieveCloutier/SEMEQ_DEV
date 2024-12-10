@@ -183,7 +183,7 @@ export const actions = {
 				fs.writeFileSync(filePath, buffer);
 
 				//pour stocker dans la bd l'url publique
-				return `img/app/utilisateurs/${nomTemporaire}`;
+				return `/img/app/utilisateurs/${nomTemporaire}`;
 			}
 			// Si pas de photo, retourne null
 			return null;
