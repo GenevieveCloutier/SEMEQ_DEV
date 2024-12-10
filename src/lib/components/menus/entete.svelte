@@ -30,7 +30,6 @@
 
 	//pour que le menu connexion se referme quand on clique sur un des liens
 	function cacherMenu() { 
-		console.log('allo') 
 	let element = document.querySelector("#menuConnexion"); 
 	element.style.display = 'none'; 
 	setInterval(function () { element.style.display = ''; }, 50); 
@@ -61,7 +60,7 @@
 						</span>	
 				</div>
 			</button>
-			<MenuConnexion session={session} role={role} id={id} abonne={abonne}/>
+			<MenuConnexion session={session} role={role} id={id} abonne={abonne} fonction={cacherMenu}/>
 			
 		</div>
 		<a href="/panier">
