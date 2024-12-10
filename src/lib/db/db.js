@@ -29,7 +29,7 @@ export const sequelize = new Sequelize({
         console.log('Connection établie avec succès.');
 
         // Initialisation des tables si elles n'existent pas
-        await initializeDatabase();
+        //await initializeDatabase();
     } catch (error) {
         console.error('Inpossible de connecter à la base de données:', error);
     }
