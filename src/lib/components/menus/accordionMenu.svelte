@@ -17,6 +17,7 @@
 <script>
     import { slide } from 'svelte/transition';
     import { quadInOut } from 'svelte/easing';
+	import { onMount } from 'svelte';
 
     export let open = false;
 
@@ -25,8 +26,16 @@
 
 	createAccordionContext();
 
+	onMount(() => {
+    const menu = document.getElementById('navMenu');
 
-    //pour gérer les clics (sur mobile), sera à tester quand ce sera sur un vrai appareil, là le hover embarque avec la souris
+    if (menu) {
+        menu.addEventListener('click', () => {
+            menu.classList.toggle('is-active');
+        });
+	}
+});
+
     function handleClick() {
         open = !open
 				if (open)
@@ -62,7 +71,7 @@
 	    on:mouseenter={handleEntreeSouris}
 	    on:mouseleave={handleSortieSouris}
 >
-	<div class="header" role="button" tabindex="0">
+	<div id="navMenu" class="header" role="button" tabindex="0">
 		<!-- Si ouvert, afficher la flèche vers le haut -->
 		{#if open}
             <button on:click={handleClick}>
@@ -72,7 +81,7 @@
 
 		<!-- Si fermé, afficher la flèche vers le bas -->
 		{:else}
-            <button on:click={handleClick}>
+            <button class="">
                 <slot name="head"></slot>
                 <i class="fa-solid fa-chevron-down"></i>
             </button>
