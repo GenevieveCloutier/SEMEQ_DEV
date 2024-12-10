@@ -176,7 +176,7 @@ export const actions = {
 				const buffer = Buffer.from(await photo.arrayBuffer());
             	const extension = photo.name.substring(photo.name.lastIndexOf("."));
 
-				const nomTemporaire = randomUUID() +  photo.name.replaceAll(/[\s\W]/g, "_") + extension;
+				const nomTemporaire = randomUUID()  + extension;
 				const filePath = path.resolve(cheminPhotosUtilisateurs, nomTemporaire);
 
 				//pour enregistrer le fichier dans le bon dossier
