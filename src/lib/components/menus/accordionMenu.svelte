@@ -71,11 +71,11 @@
 	    on:mouseenter={handleEntreeSouris}
 	    on:mouseleave={handleSortieSouris}
 >
-	<div id="navMenu" class="header" role="button" tabindex="0">
+	<div class="header" role="button" tabindex="0">
 		<!-- Si ouvert, afficher la flèche vers le haut -->
 		{#if open}
             <button on:click={handleClick}>
-                <slot name="head"></slot>
+                <slot id="navMenu"  name="head"></slot>
                 <i class="fa-solid fa-chevron-up"></i>
             </button>
 
