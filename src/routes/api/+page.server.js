@@ -41,7 +41,14 @@ import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifPro
 import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '../../lib/db/controllers/Partenaires.controller.js';
 import { json } from '@sveltejs/kit';
 import StorageAbonnements from '$lib/data/storageAbonnements.json';
-//ajouts
+
+//*Import de la clé secrete stocké dans .env
+import { TURNSTILE_SECRET_KEY } from '$env/static/private';
+//import { TURNSTILE_SECRET_KEY } from 'virtual:$env/static/private';
+import { COURRIEL_GESTIONNAIRE } from '$env/static/private';
+import { transactionPanier } from '$lib/db/controllers/Transaction.controller.js';
+
+//ajouts pour cloudinary
 import { v2 as cloudinary } from 'cloudinary';
 import multer from 'multer';
 import { writeFile, unlink, stat } from 'fs/promises'; 
@@ -58,35 +65,17 @@ const tempDir = path.join(__dirname, '../../uploads');
 //vcréer le répertoire si il n'existe pas
 await mkdir(tempDir, { recursive: true });
 
-//envoyer dans .env si ça marche
+//envoyer dans .env si ça marche, besoin d'aide pour config
 cloudinary.config({
 	cloud_name: 'dblkw8zcg',
 	api_key: '423762961573226', 
 	api_secret: 'rs8gsYRhJzlDqgHmdYnUvRjI9ec' 
   });
 
-//Chemins de base pour stocker les photos
-const cheminPhotosEven = path.join(process.cwd(), 'static/img/app/evenements');
-const cheminLogos = path.join(process.cwd(), 'static/img/app/logos');
 
-const cheminPhotosUtilisateurs = path.join(process.cwd(), 'static/img/app/utilisateurs');
-//const creerRepertoire = () => {
-	// if (!fs.existsSync(cheminPhotosUtilisateurs)) {
-	//   fs.mkdirSync(cheminPhotosUtilisateurs, { recursive: true });
-	//   console.log(`Le dossier ${cheminPhotosUtilisateurs} a été créé.`);
-	// }
-  //};
-  //creerRepertoire()
 
-const cheminPhotosBlog = path.join(process.cwd(), 'static/img/app/blog');
-const cheminPhotosProduits = path.join(process.cwd(), 'src/lib/img/app/produits');
-const cheminPhotosPartenaires = path.join(process.cwd(), 'static/img/app/partenaires');
 
-//*Import de la clé secrete stocké dans .env
-import { TURNSTILE_SECRET_KEY } from '$env/static/private';
-//import { TURNSTILE_SECRET_KEY } from 'virtual:$env/static/private';
-import { COURRIEL_GESTIONNAIRE } from '$env/static/private';
-import { transactionPanier } from '$lib/db/controllers/Transaction.controller.js';
+
 
 export const actions = {
 	/**
@@ -176,27 +165,56 @@ export const actions = {
 
 		// Pour uploader et stocker les logos
 		const uploadLogo = async (nomFichier) => {
-			const logo = data.get(nomFichier);
 
-			if (logo && logo.name) {
-				const buffer = Buffer.from(await logo.arrayBuffer());
-            const extension = logo.name.substring(logo.name.lastIndexOf("."));
-            
+			const logo = data.get(nomFichier);
+				if (!logo || !(logo instanceof Blob)) {
+					//si aucun fichier, retourne null
+					return null; 
+				}
+
+				// Convertir le fichier en un buffer
+				const arrayBuffer = await logo.arrayBuffer();
+				const buffer = Buffer.from(arrayBuffer);
+
+				// Construire un chemin temporaire avec un nom unique
+				const extension = logo.name.substring(logo.name.lastIndexOf("."));
 				const nomTemporaire = randomUUID() +  logo.name.replaceAll(/[\s\W]/g, "_") + extension;
-				const filePath = path.resolve(cheminLogos, nomTemporaire);
-				fs.writeFileSync(filePath, buffer);
-				return path.relative(process.cwd(), filePath);
-			}
-			// Si pas de logo, retourne null
-			return null;
-		};
+				const tempFilePath = path.join(tempDir, nomTemporaire);
+
+				// Écrire le fichier localement
+				await writeFile(tempFilePath, buffer);
+
+				try {
+				//upload des photos sur Cloudinary
+					const result = await cloudinary.uploader.upload(tempFilePath, {
+					folder: 'logos',
+					use_filename: true,
+					unique_filename: false
+					});
+
+					//supprimer le fichier temporaire
+					await unlink(tempFilePath);
+
+					//retourner l'URL publique de l'image de cloudinairy. C'est ça qui est stocké dans la bd
+					return result.secure_url;
+
+				} catch (error) {
+
+					// supprimer le fichier temporaire en cas d'erreur - supprime localement mais pas sur cloudinary, marche moyen
+					await unlink(tempFilePath).catch(() => {});
+					console.error('Erreur d\'upload Cloudinary:', error.message);
+					//retourne null en cas d'erreur
+					return null; 
+				}
+			};
 		const logo = await uploadLogo('logo');
 
 		// Pour uploader et stocker les photos des utilisateurs
 		const uploadPhotoUtilisateur = async (nomFichier) => {
 			const photo = data.get(nomFichier);
 				if (!photo || !(photo instanceof Blob)) {
-					return null; // Si aucun fichier valide n'est envoyé, on retourne null
+					//si aucun fichier, retourne null
+					return null; 
 				}
 
 				// Convertir le fichier en un buffer
@@ -204,29 +222,34 @@ export const actions = {
 				const buffer = Buffer.from(arrayBuffer);
 
 				// Construire un chemin temporaire avec un nom unique
-				const tempFilePath = path.join(tempDir, `${Date.now()}_${photo.name}`);
+				const extension = photo.name.substring(photo.name.lastIndexOf("."));
+				const nomTemporaire = randomUUID() +  photo.name.replaceAll(/[\s\W]/g, "_") + extension;
+				const tempFilePath = path.join(tempDir, nomTemporaire);
 
 				// Écrire le fichier localement
 				await writeFile(tempFilePath, buffer);
 
 				try {
-					// Upload vers Cloudinary
+				//upload des photos sur Cloudinary
 					const result = await cloudinary.uploader.upload(tempFilePath, {
-					folder: 'dossier_images',
+					folder: 'utilisateurs',
 					use_filename: true,
 					unique_filename: false
 					});
 
-					// Supprimez le fichier temporaire
+					//supprimer le fichier temporaire
 					await unlink(tempFilePath);
 
-					// Retourner l'URL publique de l'image
+					//retourner l'URL publique de l'image de cloudinairy. C'est ça qui est stocké dans la bd
 					return result.secure_url;
+
 				} catch (error) {
-					// Supprimez le fichier temporaire en cas d'erreur - supprime localement mais pas sur cloudinary
+
+					// supprimer le fichier temporaire en cas d'erreur - supprime localement mais pas sur cloudinary, marche moyen
 					await unlink(tempFilePath).catch(() => {});
 					console.error('Erreur d\'upload Cloudinary:', error.message);
-					return null; // Retourner null en cas d'erreur d'upload
+					//retourne null en cas d'erreur
+					return null; 
 				}
 			};
 

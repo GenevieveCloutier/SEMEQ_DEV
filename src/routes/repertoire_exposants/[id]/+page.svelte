@@ -40,7 +40,7 @@ let affichersite = siteweb();
         <div class="column is-1">
         {#if exposant.logo}
         <figure>
-            <img src="/{exposant.logo}" alt="logo Repertoire SEMEQ">
+            <img src="{exposant.logo}" alt="logo Repertoire SEMEQ">
         </figure>
         {/if}
     </div>
@@ -72,7 +72,7 @@ let affichersite = siteweb();
         {#if exposant.photo_2}
         <div class="column is-flex centerImage is-mobile">
             <figure>
-                <Modal image={`/${exposant.photo_2}`} />
+                <Modal image={`${exposant.photo_2}`} />
             </figure>
         </div>
         {/if}
@@ -80,7 +80,7 @@ let affichersite = siteweb();
         {#if exposant.photo_3}
         <div class="column is-flex centerImage is-mobile"> 
             <figure>
-                <Modal image={`/${exposant.photo_3}`} />
+                <Modal image={`${exposant.photo_3}`} />
             </figure>
         </div>
         {/if}
