@@ -339,7 +339,7 @@
 								<div class="control">
 									{#if user.logo}
 										<figure class="image is-48x48">
-											<img class="" src="/{user.logo}" alt="logo" />
+											<img class="" src="{user.logo}" alt="logo" />
 										</figure>
 									{/if}
 								</div>
@@ -395,7 +395,7 @@
 							</div>
 							{#if user.photo_1}
 								<figure class="image is-128x128">
-									<img class="block" src="/{user.photo_1}" alt="photo_1" />
+									<img class="block" src="{user.photo_1}" alt="photo_1" />
 								</figure>
 							{/if}
 						</div>
@@ -416,7 +416,7 @@
 							</div>
 							{#if user.photo_2}
 								<figure class="image is-128x128">
-									<img class="block" src="/{user.photo_2}" alt="photo_2" />
+									<img class="block" src="{user.photo_2}" alt="photo_2" />
 								</figure>
 							{/if}
 						</div>
@@ -437,7 +437,7 @@
 							</div>
 							{#if user.photo_3}
 								<figure class="image is-128x128">
-									<img class="block" src="/{user.photo_3}" alt="photo_1" />
+									<img class="block" src="{user.photo_3}" alt="photo_1" />
 								</figure>
 							{/if}
 						</div>
@@ -673,7 +673,7 @@
 								</div>
 								{#if user.logo}
 									<figure class="image is-128x128">
-										<img class="block" src="/{user.logo}" alt="logo" />
+										<img class="block" src="{user.logo}" alt="logo" />
 									</figure>
 								{/if}
 							</div>

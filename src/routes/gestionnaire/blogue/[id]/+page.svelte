@@ -49,14 +49,14 @@
 			<div class="columns">
 				<div class="field column">
 					<label class="label" for="photo_1"
-						>Première photo (seras aussi utilisée pour la miniature de l'article)</label
+						>Première photo (sera aussi utilisée pour la miniature de l'article)</label
 					>
 					<div class="control block">
 						<input class="input" type="file" name="photo_1" id="photo_1" />
 					</div>
                     {#if blogue.image_1}
 								<figure class="image is-256x256">
-									<img class="block" src="/{blogue.image_1}" alt="image_1" />
+									<img class="block" src="{blogue.image_1}" alt="image_1" />
 								</figure>
 							{/if}
 				</div>
@@ -67,7 +67,7 @@
 					</div>
                     {#if blogue.image_2}
 								<figure class="image is-256x256">
-									<img class="block" src="/{blogue.image_2}" alt="image_1" />
+									<img class="block" src="{blogue.image_2}" alt="image_1" />
 								</figure>
 							{/if}
 				</div>

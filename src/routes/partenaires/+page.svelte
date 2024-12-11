@@ -66,7 +66,7 @@
                             <div class="column is-one-quarter-desktop is-flex-tablet-only">
                                 <div class=" card is-equal-height mx-2 is-flex ">
                                     <div class="card-content is-flex is-flex-direction-column is-align-items-center">
-                                        <img class="image is-128x128 " src="/{partenaire.logo}" alt="logo du partenaire">
+                                        <img class="image is-128x128 " src="{partenaire.logo}" alt="logo du partenaire">
                                         <strong>{partenaire.nom}</strong><br>
                                         {partenaire.avantage}
                                     </div>

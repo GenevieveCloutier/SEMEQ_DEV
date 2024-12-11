@@ -62,7 +62,7 @@ const __dirname = path.dirname(__filename);
 // Répertoire temporaire pour stocker les fichiers (relatif au projet)
 const tempDir = path.join(__dirname, '../../uploads');
 
-//vcréer le répertoire si il n'existe pas
+//créer le répertoire si il n'existe pas
 await mkdir(tempDir, { recursive: true });
 
 //envoyer dans .env si ça marche, besoin d'aide pour config
@@ -72,7 +72,7 @@ cloudinary.config({
 	api_secret: 'rs8gsYRhJzlDqgHmdYnUvRjI9ec' 
   });
 
-//fonction d'upload des photos, à utiliser pour tous
+//fonction d'upload des photos, à utiliser pour tous les nouveaux ajouts
 async function uploadPhoto(photo, dossier){
 			if (!photo || !(photo instanceof Blob)) {
 				//si aucun fichier, retourne null
@@ -274,23 +274,17 @@ export const actions = {
 
 	nouveauBillet: async ({ request, cookies }) => {
 		const data = await request.formData();
-		//J'ai mis la fonction de photo en dehors des actions pour qu'elle puisse etre utilisé sans la répéter
-		const uploadPhoto = async (nomFichier) => {
+		const uploadPhotoBlog = async (nomFichier) => {
 			const photo = data.get(nomFichier);
+			const dossier= "blogs";
 
-			if (photo && photo.name) {
-				const buffer = Buffer.from(await photo.arrayBuffer());
-				const extension = photo.name.substring(photo.name.lastIndexOf("."));
-				const nomTemporaire = randomUUID() + photo.name.replaceAll(/[\s\W]/g, "_") + extension;
-				const filePath = path.resolve(cheminPhotosBlog, nomTemporaire);
-				fs.writeFileSync(filePath, buffer);
-				return path.relative(process.cwd(), filePath);
-			}
-			// si pas de photo, retourne null
-			return null;
+			//attendre que la fonction d'upload ait terminé puis retourner l'url pour la bd
+			const photoUrl = await uploadPhoto(photo, dossier);
+				return photoUrl		
 		};
-		let photo_1 = await uploadPhoto('photo_1');
-		const photo_2 = await uploadPhoto('photo_2');
+
+		let photo_1 = await uploadPhotoBlog('photo_1');
+		const photo_2 = await uploadPhotoBlog('photo_2');
 		if (!photo_1)
 			photo_1 = path.relative(process.cwd(), '\\img\\app\\produit_defaut.png');
 		try {
@@ -309,24 +303,21 @@ export const actions = {
 
 	nouveauProduit: async ({ request, cookies }) => {
 		const data = await request.formData();
-		//J'ai mis la fonction de photo en dehors des actions pour qu'elle puisse etre utilisé sans la répéter
-		const uploadPhoto = async (nomFichier) => {
-			const photo = data.get(nomFichier);
 
-			if (photo && photo.name) {
-				const buffer = Buffer.from(await photo.arrayBuffer());
-				const extension = photo.name.substring(photo.name.lastIndexOf("."));
-				const nomTemporaire = randomUUID() + photo.name.replaceAll(/[\s\W]/g, "_") + extension;
-				const filePath = path.resolve(cheminPhotosProduits, nomTemporaire);
-				fs.writeFileSync(filePath, buffer);
-				return path.relative(process.cwd(), filePath);
-			}
-			// si pas de photo, retourne null
-			return null;
+		const uploadPhotoProduits = async (nomFichier) => {
+			const photo = data.get(nomFichier);
+			const dossier= "produits";
+
+			//attendre que la fonction d'upload ait terminé puis retourner l'url pour la bd
+			const photoUrl = await uploadPhoto(photo, dossier);
+				return photoUrl	
 		};
-		let photo = await uploadPhoto('photo');
+
+		let photo = await uploadPhotoProduits('photo');
+
 		if (!photo)
 			photo = path.relative(process.cwd(), '\\img\\app\\produit_defaut.png');
+
 		try {
 			const res = await nouveauProduit(
 				data.get('nom'),
@@ -352,22 +343,17 @@ export const actions = {
 
 	modificationProduit: async ({request}) => {
 		const data = await request.formData();
-		//J'ai mis la fonction de photo en dehors des actions pour qu'elle puisse etre utilisé sans la répéter
-		const uploadPhoto = async (nomFichier) => {
+		// fait juste pousser une nouvelle photo, l'ancienne n'est pas supprimée...
+		const uploadPhotoProduit = async (nomFichier) => {
 			const photo = data.get(nomFichier);
+			const dossier= "produits";
 
-			if (photo && photo.name) {
-				const buffer = Buffer.from(await photo.arrayBuffer());
-				const extension = photo.name.substring(photo.name.lastIndexOf("."));
-				const nomTemporaire = randomUUID() + photo.name.replaceAll(/[\s\W]/g, "_") + extension;
-				const filePath = path.resolve(cheminPhotosProduits, nomTemporaire);
-				fs.writeFileSync(filePath, buffer);
-				return path.relative(process.cwd(), filePath);
-			}
-			// si pas de photo, retourne null
-			return null;
+			//attendre que la fonction d'upload ait terminé puis retourner l'url pour la bd
+			const photoUrl = await uploadPhoto(photo, dossier);
+				return photoUrl	
 		};
-		let photo = await uploadPhoto('photo');
+
+		let photo = await uploadPhotoProduit('photo');
 		log("api data = ", data);
 		try {
 			const res = await modifProduit(data.get('id'), {
@@ -395,23 +381,17 @@ export const actions = {
 
 	modificationBillet: async ({request}) => {
 		const data = await request.formData();
-		//J'ai mis la fonction de photo en dehors des actions pour qu'elle puisse etre utilisé sans la répéter
-		const uploadPhoto = async (nomFichier) => {
+		// fait juste pousser une nouvelle photo, l'ancienne n'est pas supprimée...
+		const uploadPhotoBlog = async (nomFichier) => {
 			const photo = data.get(nomFichier);
+			const dossier= "blogs";
 
-			if (photo && photo.name) {
-				const buffer = Buffer.from(await photo.arrayBuffer());
-				const extension = photo.name.substring(photo.name.lastIndexOf("."));
-				const nomTemporaire = randomUUID() + photo.name.replaceAll(/[\s\W]/g, "_") + extension;
-				const filePath = path.resolve(cheminPhotosBlog, nomTemporaire);
-				fs.writeFileSync(filePath, buffer);
-				return path.relative(process.cwd(), filePath);
-			}
-			// si pas de photo, retourne null 
-			return null;
+			//attendre que la fonction d'upload ait terminé puis retourner l'url pour la bd
+			const photoUrl = await uploadPhoto(photo, dossier);
+				return photoUrl
 		};
-		let photo_1 = await uploadPhoto('photo_1');
-		const photo_2 = await uploadPhoto('photo_2');
+		let photo_1 = await uploadPhotoBlog('photo_1');
+		const photo_2 = await uploadPhotoBlog('photo_2');
 		try {
 			const res = await modifBillet(data.get('id'), {
 				titre: data.get('titre'),
@@ -635,38 +615,31 @@ export const actions = {
 				});
 			} else if (cookies.get('role') == 3 || data.get('gestionnaire') == 3) {
 				const domaine = envoieMappage(data, domaines);
-				//*Reprise du code de Gen pour les upload d'image
+		
 				// Pour uploader et stocker les logos
 				const uploadLogo = async (nomFichier) => {
-					const logo = data.get(nomFichier);
-
-					if (logo && logo.name) {
-						const buffer = Buffer.from(await logo.arrayBuffer());
-						const filePath = path.resolve(cheminLogos, logo.name);
-						fs.writeFileSync(filePath, buffer);
-						return path.relative(process.cwd(), filePath);
-					}
-					// Si pas de logo, retourne null
-					return null;
+					const photo = data.get(nomFichier);
+					const dossier= "logos";
+	
+					//attendre que la fonction d'upload ait terminé puis retourner l'url pour la bd
+					const photoUrl = await uploadPhoto(photo, dossier);
+						return photoUrl	
 				};
 				const logo = await uploadLogo('logo');
 
 				// Pour uploader et stocker les photos des utilisateurs
 				const uploadPhotoUtilisateur = async (nomFichier) => {
 					const photo = data.get(nomFichier);
-
-					if (photo && photo.name) {
-						const buffer = Buffer.from(await photo.arrayBuffer());
-						const filePath = path.resolve(cheminPhotosUtilisateurs, photo.name);
-						fs.writeFileSync(filePath, buffer);
-						return path.relative(process.cwd(), filePath);
-					}
-					// Si pas de photo, retourne null
-					return null;
+					const dossier= "utilisateurs";
+	
+					//attendre que la fonction d'upload ait terminé puis retourner l'url pour la bd
+					const photoUrl = await uploadPhoto(photo, dossier);
+						return photoUrl	
 				};
 				const photo_1 = await uploadPhotoUtilisateur('photo_1');
 				const photo_2 = await uploadPhotoUtilisateur('photo_2');
 				const photo_3 = await uploadPhotoUtilisateur('photo_3');
+
 				let res = await modificationUtilisateur(data.get('user_id') ?? cookies.get('id'), {
 					nom: data.get('nom'),
 					prenom: data.get('prenom'),
@@ -689,20 +662,19 @@ export const actions = {
 					log: logo
 				});
 			} else if (cookies.get('role') == 2 || data.get('gestionnaire') == 2) {
-				// Pour uploader et stocker les logos
-				const uploadLogo = async (nomFichier) => {
-					const logo = data.get(nomFichier);
 
-					if (logo && logo.name) {
-						const buffer = Buffer.from(await logo.arrayBuffer());
-						const filePath = path.resolve(cheminLogos, logo.name);
-						fs.writeFileSync(filePath, buffer);
-						return path.relative(process.cwd(), filePath);
-					}
-					// Si pas de logo, retourne null
-					return null;
+				// Pour uploader et stocker les logos
+				//pourquoi c'était ic deux fois? J'ai juste modifié l'import des photo, le code était en double...
+				const uploadLogo = async (nomFichier) => {
+					const photo = data.get(nomFichier);
+					const dossier= "logos";
+	
+				//attendre que la fonction d'upload ait terminé puis retourner l'url pour la bd
+				const photoUrl = await uploadPhoto(photo, dossier);
+					return photoUrl	
 				};
 				const logo = await uploadLogo('logo');
+
 				let res = await modificationUtilisateur(data.get('user_id') ?? cookies.get('id'), {
 					nom: data.get('nom'),
 					prenom: data.get('prenom'),
@@ -739,24 +711,22 @@ export const actions = {
 			const verif = envoieMappage(data, verifs);
 			log('api les verifs = ', verif);
 			const emplacement = envoieMappage(data, emplacements);
-			const uploadPhoto = async (nomFichier) => {
-				const photo = data.get(nomFichier);
 
-				if (photo && photo.name) {
-					const buffer = Buffer.from(await photo.arrayBuffer());
-					const filePath = path.resolve(cheminPhotosEven, photo.name);
-					fs.writeFileSync(filePath, buffer);
-					return path.relative(process.cwd(), filePath);
-				}
-				// si pas de photo, retourne null
-				return null;
+			const uploadPhotoEvenements = async (nomFichier) => {
+				const photo = data.get(nomFichier);
+				// fait juste ajouter une nouvelle photo, ne supprime pas l'ancienne sur cloudinary
+				const dossier= "evenements";
+
+			//attendre que la fonction d'upload ait terminé puis retourner l'url pour la bd
+			const photoUrl = await uploadPhoto(photo, dossier);
+				return photoUrl	
 			};
 			log('api date debut = ', data.get('debut_even'));
 			log('api id evenement = ', data.get('id'));
 
-			const photo_1 = await uploadPhoto('photo_1');
-			const photo_2 = await uploadPhoto('photo_2');
-			const photo_3 = await uploadPhoto('photo_3');
+			const photo_1 = await uploadPhotoEvenements('photo_1');
+			const photo_2 = await uploadPhotoEvenements('photo_2');
+			const photo_3 = await uploadPhotoEvenements('photo_3');
 			log("api data = ", data)
 			let res = await modificationEvenement(data.get('id'), {
 				nom: data.get('nom'),
@@ -912,18 +882,12 @@ export const actions = {
 		const data = await request.formData();
 	
 		const uploadLogo = async (nomFichier) => {
-			const logo = data.get(nomFichier);
-	
-			if (logo && logo.name) {
-				const buffer = Buffer.from(await logo.arrayBuffer());
-				const extension = logo.name.substring(logo.name.lastIndexOf("."));
-				const nomTemporaire = randomUUID() + logo.name.replaceAll(/[\s\W]/g, "_") + extension;
-				const filePath = path.resolve(cheminPhotosPartenaires, nomTemporaire);
-				fs.writeFileSync(filePath, buffer);
-				return path.relative(process.cwd(), filePath);
-			}
-			// si pas de logo, retourne null
-			return null;
+			const photo = data.get(nomFichier);
+			const dossier= "partenaires";
+
+			//attendre que la fonction d'upload ait terminé puis retourner l'url pour la bd
+			const photoUrl = await uploadPhoto(photo, dossier);
+				return photoUrl	
 		};
 		let logo = await uploadLogo('logo');
 		if (!logo) {
@@ -972,18 +936,13 @@ export const actions = {
 		const data = await request.formData();
 		
 		const uploadLogo = async (nomFichier) => {
-			const logo = data.get(nomFichier);
-	
-			if (logo && logo.name) {
-				const buffer = Buffer.from(await logo.arrayBuffer());
-				const extension = logo.name.substring(logo.name.lastIndexOf("."));
-				const nomTemporaire = randomUUID() + logo.name.replaceAll(/[\s\W]/g, "_") + extension;
-				const filePath = path.resolve(cheminPhotosPartenaires, nomTemporaire);
-				fs.writeFileSync(filePath, buffer);
-				return path.relative(process.cwd(), filePath);
-			}
-			// si pas de logo, retourne null
-			return null;
+			const photo = data.get(nomFichier);
+			// fait juste pousser une nouvelle photo, ne supprime pas l'ancienne
+			const dossier= "partenaires";
+
+			//attendre que la fonction d'upload ait terminé puis retourner l'url pour la bd
+			const photoUrl = await uploadPhoto(photo, dossier);
+				return photoUrl	
 		};
 		let logo = await uploadLogo('logo');
 		if (!logo) {

@@ -71,7 +71,7 @@
 						<input type="file" class="input" accept="image/*" name="photo"/>
 						{#if produit.photo}
 							<figure class="image is-256x256">
-								<img class="block" src="/{produit.photo}" alt="produit" />
+								<img class="block" src="{produit.photo}" alt="produit" />
 							</figure>
 						{/if}
 					</div>

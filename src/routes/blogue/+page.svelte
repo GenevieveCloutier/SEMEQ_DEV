@@ -31,7 +31,7 @@
 					<div class="cell">
 						<div
 							class="card"
-							style="background-image: url(/{blogue.image_1}); background-size: cover; background-position: center;"
+							style="background-image: url({blogue.image_1}); background-size: cover; background-position: center;"
 						>
 							<div class="card-header"></div>
 							<div class="blog-element mt-5">

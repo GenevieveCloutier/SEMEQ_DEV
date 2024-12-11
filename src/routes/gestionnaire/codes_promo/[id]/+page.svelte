@@ -181,7 +181,7 @@
                 </div>
                 {#if code.logo}
                     <figure class="image is-128x128">
-                        <img class="block" src="/{code.logo}" alt="logo" />
+                        <img class="block" src="{code.logo}" alt="logo" />
                     </figure>
                 {/if}
             </div>

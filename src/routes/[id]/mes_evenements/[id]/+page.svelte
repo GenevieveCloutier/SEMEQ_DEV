@@ -233,7 +233,7 @@ function dateConforme(dateDebut, dateFin){
                         </div>
                         {#if evenement.photo_1}
                         <figure class="image is-128x128">
-                            <img class="block" src="/{evenement.photo_1}" alt="photo_1"/>
+                            <img class="block" src="{evenement.photo_1}" alt="photo_1"/>
                           </figure>
                         {/if}
                     </div>
@@ -249,7 +249,7 @@ function dateConforme(dateDebut, dateFin){
                       </div>
                       {#if evenement.photo_2}
                         <figure class="image is-128x128">
-                            <img class="block" src="/{evenement.photo_2}" alt="photo_2"/>
+                            <img class="block" src="{evenement.photo_2}" alt="photo_2"/>
                           </figure>
                         {/if}
                 </div>
@@ -263,7 +263,7 @@ function dateConforme(dateDebut, dateFin){
                       </div>
                       {#if evenement.photo_3}
                         <figure class="image is-128x128">
-                            <img class="block" src="/{evenement.photo_3}" alt="photo_3"/>
+                            <img class="block" src="{evenement.photo_3}" alt="photo_3"/>
                           </figure>
                         {/if}
                 </div>     
