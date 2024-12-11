@@ -14,8 +14,22 @@ export async function load({ params}){
     const regions = await findAllRegions();
     const exposant = await findOne({ id: paramId });
 
+
+    const images = import.meta.glob('/src/lib/image/*.{png,jpg,jpeg}');
+
+    async function loadImage(photo) {
+      if (images[photo]) {
+        const module = await images[photo]();
+        return module.default; // URL de l'image
+      }
+      return null;
+    }
+
+    const test = await loadImage(exposant.photo_1);
+
+
  
-    return {villes:villes, regions:regions, exposant:exposant};
+    return {villes:villes, regions:regions, exposant:exposant, test};
 }
 
 

@@ -6,20 +6,7 @@
     import BoutonBleu from "$lib/components/boutons/boutonBleu.svelte"
 
     export let data;
-    const { exposant } = data;
-
-    const images = import.meta.glob('/src/lib/image/*.{png,jpg,jpeg}');
-
-    async function loadImage(photo) {
-      if (images[photo]) {
-        const module = await images[photo]();
-        return module.default; // URL de l'image
-      }
-      return null;
-    }
-
-    const test = loadImage(exposant.photo_1);
-    console.log(test)
+    const { exposant, test } = data;
 
  
   let tableauDomaines=new Set();
