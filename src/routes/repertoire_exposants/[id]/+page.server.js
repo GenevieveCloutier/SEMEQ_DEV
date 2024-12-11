@@ -7,9 +7,9 @@ import { Region } from "$lib/db/models/Region.model";
 import { Role } from "$lib/db/models/Role.model";
 import { error } from '@sveltejs/kit';
 
-const images = import.meta.glob('/src/lib/image/app/utilisateurs/*.{png,jpg,jpeg}');
 
-    async function loadImage(photo) {
+
+    async function loadImage(photo, images) {
       if (images[photo]) {
         const module = await images[photo]();
         return module.default; // URL de l'image
@@ -26,12 +26,13 @@ export async function load({ params}){
 
 
     
-
-    const test = await loadImage(exposant.photo_1);
+    const images = import.meta.glob('/src/lib/image/app/utilisateurs/*.{png,jpg,jpeg}');
+    
+    const test = await loadImage(exposant.photo_1, images);
 
 
  
-    return {villes:villes, regions:regions, exposant:exposant, test};
+    return {villes:villes, regions:regions, exposant:exposant, test, images};
 }
 
 

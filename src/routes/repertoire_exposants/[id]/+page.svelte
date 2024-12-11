@@ -6,8 +6,9 @@
     import BoutonBleu from "$lib/components/boutons/boutonBleu.svelte"
 
     export let data;
-    const { exposant, test } = data;
+    const { exposant, test, images } = data;
 
+    console.log(images)
  
   let tableauDomaines=new Set();
   let domainesExposant = (recupMappage(exposant.domaine, domaines))
