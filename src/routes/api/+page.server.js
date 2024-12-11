@@ -41,19 +41,42 @@ import { findOne as findOneProduit, suppressionProduit, nouveauProduit, modifPro
 import { nouveauCodePromo, modifCodePromo, findOne as findOneCodePromo, suppressionCodePromo } from '../../lib/db/controllers/Partenaires.controller.js';
 import { json } from '@sveltejs/kit';
 import StorageAbonnements from '$lib/data/storageAbonnements.json';
+//ajouts
+import { v2 as cloudinary } from 'cloudinary';
+import multer from 'multer';
+import { writeFile, unlink, stat } from 'fs/promises'; 
+import { fileURLToPath } from 'url';
+import { mkdir } from 'fs/promises';
+
+// Obtenir le chemin de base du projet
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Répertoire temporaire pour stocker les fichiers (relatif au projet)
+const tempDir = path.join(__dirname, '../../uploads');
+
+//vcréer le répertoire si il n'existe pas
+await mkdir(tempDir, { recursive: true });
+
+//envoyer dans .env si ça marche
+cloudinary.config({
+	cloud_name: 'dblkw8zcg',
+	api_key: '423762961573226', 
+	api_secret: 'rs8gsYRhJzlDqgHmdYnUvRjI9ec' 
+  });
 
 //Chemins de base pour stocker les photos
 const cheminPhotosEven = path.join(process.cwd(), 'static/img/app/evenements');
 const cheminLogos = path.join(process.cwd(), 'static/img/app/logos');
 
-const cheminPhotosUtilisateurs = path.join(process.cwd(), 'src/lib/img/app/utilisateurs');
-const creerRepertoire = () => {
-	if (!fs.existsSync(cheminPhotosUtilisateurs)) {
-	  fs.mkdirSync(cheminPhotosUtilisateurs, { recursive: true });
-	  console.log(`Le dossier ${cheminPhotosUtilisateurs} a été créé.`);
-	}
-  };
-  creerRepertoire()
+const cheminPhotosUtilisateurs = path.join(process.cwd(), 'static/img/app/utilisateurs');
+//const creerRepertoire = () => {
+	// if (!fs.existsSync(cheminPhotosUtilisateurs)) {
+	//   fs.mkdirSync(cheminPhotosUtilisateurs, { recursive: true });
+	//   console.log(`Le dossier ${cheminPhotosUtilisateurs} a été créé.`);
+	// }
+  //};
+  //creerRepertoire()
 
 const cheminPhotosBlog = path.join(process.cwd(), 'static/img/app/blog');
 const cheminPhotosProduits = path.join(process.cwd(), 'src/lib/img/app/produits');
@@ -125,6 +148,7 @@ export const actions = {
 	 * @returns {Object} - Objet de réponse avec un statut 200 et l'utilisateur créé en cas de succès,
 	 *                     ou un échec avec statut 401 en cas d'erreur.
 	 */
+	// 
 	nouvelUtilisateur: async ({ cookies, request }) => {
 		const data = await request.formData();
 
@@ -151,43 +175,61 @@ export const actions = {
 	
 
 		// Pour uploader et stocker les logos
-		// const uploadLogo = async (nomFichier) => {
-		// 	const logo = data.get(nomFichier);
+		const uploadLogo = async (nomFichier) => {
+			const logo = data.get(nomFichier);
 
-		// 	if (logo && logo.name) {
-		// 		const buffer = Buffer.from(await logo.arrayBuffer());
-        //     const extension = logo.name.substring(logo.name.lastIndexOf("."));
+			if (logo && logo.name) {
+				const buffer = Buffer.from(await logo.arrayBuffer());
+            const extension = logo.name.substring(logo.name.lastIndexOf("."));
             
-		// 		const nomTemporaire = randomUUID() +  logo.name.replaceAll(/[\s\W]/g, "_") + extension;
-		// 		const filePath = path.resolve(cheminLogos, nomTemporaire);
-		// 		fs.writeFileSync(filePath, buffer);
-		// 		return path.relative(process.cwd(), filePath);
-		// 	}
-		// 	// Si pas de logo, retourne null
-		// 	return null;
-		//};
-		//const logo = await uploadLogo('logo');
+				const nomTemporaire = randomUUID() +  logo.name.replaceAll(/[\s\W]/g, "_") + extension;
+				const filePath = path.resolve(cheminLogos, nomTemporaire);
+				fs.writeFileSync(filePath, buffer);
+				return path.relative(process.cwd(), filePath);
+			}
+			// Si pas de logo, retourne null
+			return null;
+		};
+		const logo = await uploadLogo('logo');
 
 		// Pour uploader et stocker les photos des utilisateurs
 		const uploadPhotoUtilisateur = async (nomFichier) => {
 			const photo = data.get(nomFichier);
+				if (!photo || !(photo instanceof Blob)) {
+					return null; // Si aucun fichier valide n'est envoyé, on retourne null
+				}
 
-			if (photo && photo.name) {
-				const buffer = Buffer.from(await photo.arrayBuffer());
-            	const extension = photo.name.substring(photo.name.lastIndexOf("."));
+				// Convertir le fichier en un buffer
+				const arrayBuffer = await photo.arrayBuffer();
+				const buffer = Buffer.from(arrayBuffer);
 
-				const nomTemporaire = randomUUID()  + extension;
-				const filePath = path.resolve(cheminPhotosUtilisateurs, nomTemporaire);
+				// Construire un chemin temporaire avec un nom unique
+				const tempFilePath = path.join(tempDir, `${Date.now()}_${photo.name}`);
 
-				//pour enregistrer le fichier dans le bon dossier
-				fs.writeFileSync(filePath, buffer);
+				// Écrire le fichier localement
+				await writeFile(tempFilePath, buffer);
 
-				
-				return path.relative(process.cwd(), filePath);
-			}
-			// Si pas de photo, retourne null
-			return null;
-		};
+				try {
+					// Upload vers Cloudinary
+					const result = await cloudinary.uploader.upload(tempFilePath, {
+					folder: 'dossier_images',
+					use_filename: true,
+					unique_filename: false
+					});
+
+					// Supprimez le fichier temporaire
+					await unlink(tempFilePath);
+
+					// Retourner l'URL publique de l'image
+					return result.secure_url;
+				} catch (error) {
+					// Supprimez le fichier temporaire en cas d'erreur - supprime localement mais pas sur cloudinary
+					await unlink(tempFilePath).catch(() => {});
+					console.error('Erreur d\'upload Cloudinary:', error.message);
+					return null; // Retourner null en cas d'erreur d'upload
+				}
+			};
+
 		const photo_1 = await uploadPhotoUtilisateur('photo_1');
 		const photo_2 = await uploadPhotoUtilisateur('photo_2');
 		const photo_3 = await uploadPhotoUtilisateur('photo_3');
@@ -219,7 +261,7 @@ export const actions = {
 				photo_1,
 				photo_2,
 				photo_3,
-				//logo,
+				logo,
                 data.get("telephone")
 			);
 
