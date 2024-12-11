@@ -8,6 +8,19 @@
     export let data;
     const { exposant } = data;
 
+    const images = import.meta.glob('/src/lib/image/*.{png,jpg,jpeg}');
+
+    async function loadImage(photo) {
+      if (images[photo]) {
+        const module = await images[photo]();
+        return module.default; // URL de l'image
+      }
+      return null;
+    }
+
+    const test = loadImage(exposant.photo_1);
+    log(test)
+
  
   let tableauDomaines=new Set();
   let domainesExposant = (recupMappage(exposant.domaine, domaines))
@@ -65,7 +78,7 @@ let affichersite = siteweb();
         {#if exposant.photo_1}
         <div class="column is-flex centerImage is-mobile">
             <figure>
-                <Modal image={`${exposant.photo_1}`} />
+                <Modal image={`${test}`} />
             </figure>
         </div>
         {/if}
