@@ -407,7 +407,7 @@ export const actions = {
 				fs.writeFileSync(filePath, buffer);
 				return path.relative(process.cwd(), filePath);
 			}
-			// si pas de photo, retourne null
+			// si pas de photo, retourne null 
 			return null;
 		};
 		let photo_1 = await uploadPhoto('photo_1');
