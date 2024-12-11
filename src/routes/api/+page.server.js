@@ -56,7 +56,7 @@ const creerRepertoire = () => {
   creerRepertoire()
 
 const cheminPhotosBlog = path.join(process.cwd(), 'static/img/app/blog');
-const cheminPhotosProduits = path.join(process.cwd(), 'static/img/app/produits');
+const cheminPhotosProduits = path.join(process.cwd(), 'src/lib/img/app/produits');
 const cheminPhotosPartenaires = path.join(process.cwd(), 'static/img/app/partenaires');
 
 //*Import de la clé secrete stocké dans .env
