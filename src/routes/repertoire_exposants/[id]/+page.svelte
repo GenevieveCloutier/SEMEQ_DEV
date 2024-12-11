@@ -7,8 +7,6 @@
 
     export let data;
     const { exposant } = data;
-
-    console.log(images)
  
   let tableauDomaines=new Set();
   let domainesExposant = (recupMappage(exposant.domaine, domaines))
