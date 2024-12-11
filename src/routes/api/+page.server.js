@@ -72,9 +72,48 @@ cloudinary.config({
 	api_secret: 'rs8gsYRhJzlDqgHmdYnUvRjI9ec' 
   });
 
+//fonction d'upload des photos, à utiliser pour tous
+async function uploadPhoto(photo, dossier){
+			if (!photo || !(photo instanceof Blob)) {
+				//si aucun fichier, retourne null
+				return null; 
+			}
 
+			// Convertir le fichier en un buffer
+			const arrayBuffer = await photo.arrayBuffer();
+			const buffer = Buffer.from(arrayBuffer);
 
+			// Construire un chemin temporaire avec un nom unique
+			const extension = photo.name.substring(photo.name.lastIndexOf("."));
+			const nomTemporaire = randomUUID() +  photo.name.replaceAll(/[\s\W]/g, "_") + extension;
+			const tempFilePath = path.join(tempDir, nomTemporaire);
 
+			// Écrire le fichier localement
+			await writeFile(tempFilePath, buffer);
+
+			try {
+			//upload des photos sur Cloudinary
+				const result = await cloudinary.uploader.upload(tempFilePath, {
+				folder: dossier,
+				use_filename: true,
+				unique_filename: false
+				});
+
+				//supprimer le fichier temporaire
+				await unlink(tempFilePath);
+
+				//retourner l'URL publique de l'image de cloudinairy. C'est ça qui est stocké dans la bd
+				return result.secure_url;
+
+			} catch (error) {
+
+				// supprimer le fichier temporaire en cas d'erreur - supprime localement mais pas sur cloudinary, marche moyen
+				await unlink(tempFilePath).catch(() => {});
+				console.error('Erreur d\'upload Cloudinary:', error.message);
+				//retourne null en cas d'erreur
+				return null; 
+			}
+		};
 
 
 export const actions = {
@@ -166,96 +205,28 @@ export const actions = {
 		// Pour uploader et stocker les logos
 		const uploadLogo = async (nomFichier) => {
 
-			const logo = data.get(nomFichier);
-				if (!logo || !(logo instanceof Blob)) {
-					//si aucun fichier, retourne null
-					return null; 
-				}
-
-				// Convertir le fichier en un buffer
-				const arrayBuffer = await logo.arrayBuffer();
-				const buffer = Buffer.from(arrayBuffer);
-
-				// Construire un chemin temporaire avec un nom unique
-				const extension = logo.name.substring(logo.name.lastIndexOf("."));
-				const nomTemporaire = randomUUID() +  logo.name.replaceAll(/[\s\W]/g, "_") + extension;
-				const tempFilePath = path.join(tempDir, nomTemporaire);
-
-				// Écrire le fichier localement
-				await writeFile(tempFilePath, buffer);
-
-				try {
-				//upload des photos sur Cloudinary
-					const result = await cloudinary.uploader.upload(tempFilePath, {
-					folder: 'logos',
-					use_filename: true,
-					unique_filename: false
-					});
-
-					//supprimer le fichier temporaire
-					await unlink(tempFilePath);
-
-					//retourner l'URL publique de l'image de cloudinairy. C'est ça qui est stocké dans la bd
-					return result.secure_url;
-
-				} catch (error) {
-
-					// supprimer le fichier temporaire en cas d'erreur - supprime localement mais pas sur cloudinary, marche moyen
-					await unlink(tempFilePath).catch(() => {});
-					console.error('Erreur d\'upload Cloudinary:', error.message);
-					//retourne null en cas d'erreur
-					return null; 
-				}
+				const photo = data.get(nomFichier);
+				const dossier= "logos";
+	
+				//attendre que la fonction d'upload ait terminé puis retourner l'url pour la bd
+				const photoUrl = await uploadPhoto(photo, dossier);
+					return photoUrl		
 			};
+
 		const logo = await uploadLogo('logo');
 
 		// Pour uploader et stocker les photos des utilisateurs
 		const uploadPhotoUtilisateur = async (nomFichier) => {
 			const photo = data.get(nomFichier);
-				if (!photo || !(photo instanceof Blob)) {
-					//si aucun fichier, retourne null
-					return null; 
-				}
+			const dossier= "utilisateurs";
 
-				// Convertir le fichier en un buffer
-				const arrayBuffer = await photo.arrayBuffer();
-				const buffer = Buffer.from(arrayBuffer);
-
-				// Construire un chemin temporaire avec un nom unique
-				const extension = photo.name.substring(photo.name.lastIndexOf("."));
-				const nomTemporaire = randomUUID() +  photo.name.replaceAll(/[\s\W]/g, "_") + extension;
-				const tempFilePath = path.join(tempDir, nomTemporaire);
-
-				// Écrire le fichier localement
-				await writeFile(tempFilePath, buffer);
-
-				try {
-				//upload des photos sur Cloudinary
-					const result = await cloudinary.uploader.upload(tempFilePath, {
-					folder: 'utilisateurs',
-					use_filename: true,
-					unique_filename: false
-					});
-
-					//supprimer le fichier temporaire
-					await unlink(tempFilePath);
-
-					//retourner l'URL publique de l'image de cloudinairy. C'est ça qui est stocké dans la bd
-					return result.secure_url;
-
-				} catch (error) {
-
-					// supprimer le fichier temporaire en cas d'erreur - supprime localement mais pas sur cloudinary, marche moyen
-					await unlink(tempFilePath).catch(() => {});
-					console.error('Erreur d\'upload Cloudinary:', error.message);
-					//retourne null en cas d'erreur
-					return null; 
-				}
-			};
-
-		const photo_1 = await uploadPhotoUtilisateur('photo_1');
-		const photo_2 = await uploadPhotoUtilisateur('photo_2');
-		const photo_3 = await uploadPhotoUtilisateur('photo_3');
+			//attendre que la fonction d'upload ait terminé puis retourner l'url pour la bd
+			const photoUrl = await uploadPhoto(photo, dossier);
+				return photoUrl		
+		}
+			const photo_1 = await uploadPhotoUtilisateur('photo_1');
+			const photo_2 = await uploadPhotoUtilisateur('photo_2');
+			const photo_3 = await uploadPhotoUtilisateur('photo_3');
 
 		try {
 			let res = await newUser(
@@ -497,25 +468,18 @@ export const actions = {
 
 		//pour uploader et stocker les photos
 
-		const uploadPhoto = async (nomFichier) => {
+		const uploadPhotoEvenement = async (nomFichier) => {
 			const photo = data.get(nomFichier);
+				const dossier= "evenements";
+	
+				//attendre que la fonction d'upload ait terminé puis retourner l'url pour la bd
+				const photoUrl = await uploadPhoto(photo, dossier);
+					return photoUrl		
+			};
 
-			if (photo && photo.name) {
-				const buffer = Buffer.from(await photo.arrayBuffer());
-            const extension = photo.name.substring(photo.name.lastIndexOf("."));
-
-				const nomTemporaire = randomUUID() +  photo.name.replaceAll(/[\s\W]/g, "_") + extension;
-				const filePath = path.resolve(cheminPhotosEven, nomTemporaire);
-				fs.writeFileSync(filePath, buffer);
-				return path.relative(process.cwd(), filePath);
-			}
-			// si pas de photo, retourne null
-			return null;
-		};
-
-		let photo_1 = await uploadPhoto('photo_1');
-		const photo_2 = await uploadPhoto('photo_2');
-		const photo_3 = await uploadPhoto('photo_3');
+		let photo_1 = await uploadPhotoEvenement('photo_1');
+		const photo_2 = await uploadPhotoEvenement('photo_2');
+		const photo_3 = await uploadPhotoEvenement('photo_3');
 
 		if (!photo_1)
 			photo_1 = path.relative(process.cwd(), '\\img\\app\\produit_defaut.png');

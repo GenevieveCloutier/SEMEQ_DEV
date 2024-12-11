@@ -82,7 +82,7 @@ let affichersite = siteweb();
         <div class="column is-1">
         {#if evenement.utilisateur.logo && evenement.utilisateur.role_id == "2"}
         <figure>
-            <img src="/{evenement.utilisateur.logo}" alt="logo de l'événement">
+            <img src="{evenement.utilisateur.logo}" alt="logo de l'événement">
         </figure>
         {/if}
     </div>
@@ -106,7 +106,7 @@ let affichersite = siteweb();
         {#if evenement.photo_1}
         <div class="column is-flex centerImage is-mobile">
             <figure>
-                <Modal image={`/${evenement.photo_1}`} />
+                <Modal image={`${evenement.photo_1}`} />
             </figure>
         </div>
         {/if}
@@ -114,7 +114,7 @@ let affichersite = siteweb();
         {#if evenement.photo_2}
         <div class="column is-flex centerImage is-mobile">
             <figure>
-                <Modal image={`/${evenement.photo_2}`} />
+                <Modal image={`${evenement.photo_2}`} />
             </figure>
         </div>
         {/if}
@@ -122,7 +122,7 @@ let affichersite = siteweb();
         {#if evenement.photo_3}
         <div class="column is-flex centerImage is-mobile">
             <figure>
-                <Modal image={`/${evenement.photo_3}`} />
+                <Modal image={`${evenement.photo_3}`} />
             </figure>
         </div>
         {/if}
