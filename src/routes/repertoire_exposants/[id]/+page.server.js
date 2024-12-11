@@ -9,6 +9,7 @@ import { error } from '@sveltejs/kit';
 
 
 
+
     async function loadImage(photo, images) {
       if (images[photo]) {
         const module = await images[photo]();
@@ -24,10 +25,7 @@ export async function load({ params}){
     const regions = await findAllRegions();
     const exposant = await findOne({ id: paramId });
 
-
-    
-    const images = import.meta.glob('src/lib/image/app/utilisateurs/*.{png,jpg,jpeg}');
-    
+    const images = import.meta.glob('/src/lib/img/app/utilisateurs/*.{png,jpg,jpeg}');
     const test = await loadImage(exposant.photo_1, images);
 
 
