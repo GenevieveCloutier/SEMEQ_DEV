@@ -7,6 +7,17 @@ import { Region } from "$lib/db/models/Region.model";
 import { Role } from "$lib/db/models/Role.model";
 import { error } from '@sveltejs/kit';
 
+
+
+
+    async function loadImage(photo, images) {
+      if (images[photo]) {
+        const module = await images[photo]();
+        return module.default; // URL de l'image
+      }
+      return null;
+    }
+
 export async function load({ params}){
 
     const paramId = params.id;
@@ -14,8 +25,12 @@ export async function load({ params}){
     const regions = await findAllRegions();
     const exposant = await findOne({ id: paramId });
 
+    const images = import.meta.glob('/src/lib/img/app/utilisateurs/*.{png,jpg,jpeg}');
+    const test = await loadImage('/'+exposant.photo_1.replaceAll('\\','/'), images);
+
+
  
-    return {villes:villes, regions:regions, exposant:exposant};
+    return {villes:villes, regions:regions, exposant:exposant, test, images};
 }
 
 
