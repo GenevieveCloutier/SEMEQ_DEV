@@ -50,7 +50,7 @@ export async function load({ params }){
         prix_a: produit.prix_a === null ? "Non défini" : produit.prix_a === 0 ? "Gratuit" : `${produit.prix_a.toFixed(2)} $`,
         prix_v: produit.prix_v === null ? "Non défini" : produit.prix_v === 0 ? "Gratuit" : `${produit.prix_v.toFixed(2)} $`,
         type: produit.type ? produit.type.dataValues : null,
-        photo: test
+        // photo: test
     }));
 
 
