@@ -46,7 +46,7 @@ import StorageAbonnements from '$lib/data/storageAbonnements.json';
 const cheminPhotosEven = path.join(process.cwd(), 'static/img/app/evenements');
 const cheminLogos = path.join(process.cwd(), 'static/img/app/logos');
 
-const cheminPhotosUtilisateurs = path.join(process.cwd(), 'static/img/app/utilisateurs');
+const cheminPhotosUtilisateurs = path.join(process.cwd(), 'src/lib/img/app/utilisateurs');
 const creerRepertoire = () => {
 	if (!fs.existsSync(cheminPhotosUtilisateurs)) {
 	  fs.mkdirSync(cheminPhotosUtilisateurs, { recursive: true });
@@ -182,8 +182,8 @@ export const actions = {
 				//pour enregistrer le fichier dans le bon dossier
 				fs.writeFileSync(filePath, buffer);
 
-				//pour stocker dans la bd l'url publique
-				return `/img/app/utilisateurs/${nomTemporaire}`;
+				
+				return path.relative(process.cwd(), filePath);
 			}
 			// Si pas de photo, retourne null
 			return null;

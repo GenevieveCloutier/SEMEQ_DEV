@@ -21,7 +21,7 @@
 
 <div class="container is-fluid">
     <div class="columns is-centered">
-        <div class="column is-one-third">
+        <div class="column">
             <figure class="image is-5x4">
                 <img src= "/img/app/vendeur.png" alt="Une vendeur tend un paquet à un client">
             </figure>
@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <div class="column is-one-third">
+        <div class="column">
             <figure class="image is-5x4">
                 <img src= "/img/app/potiere.png" alt="Une personne fait de la poterie">
             </figure>
@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <div class="column is-one-third">
+        <div class="column">
             <figure class="image is-5x4">
                 <img src= "/img/app/marche.png" alt="Des personnes dans un marché">
             </figure>
@@ -178,20 +178,22 @@
         border-radius: 10px;
 	}
 
-    /* pour afficher les box de la même hauteur */
+    /* pour afficher les box de la même hauteur, mais seulement sur pc, sur mobile affiche les blocs un sous l'autre */
+    @media screen and (min-width: 768px) {
 
-    .columns {
-    display: flex;
-    align-items: stretch;
-}
-
-    .column {
+        .columns {
         display: flex;
-        flex-direction: column;
+        align-items: stretch;
     }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+        }
 
     .box {
         flex: 1;
+    }
     }
 
 
