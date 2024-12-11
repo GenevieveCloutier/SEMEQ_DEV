@@ -26,7 +26,7 @@ export async function load({ params}){
     const exposant = await findOne({ id: paramId });
 
     const images = import.meta.glob('/src/lib/img/app/utilisateurs/*.{png,jpg,jpeg}');
-    const test = await loadImage(exposant.photo_1, images);
+    const test = await loadImage('/'+exposant.photo_1.replaceAll('\\','/'), images);
 
 
  
