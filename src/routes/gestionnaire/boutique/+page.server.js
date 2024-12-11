@@ -55,5 +55,5 @@ export async function load({ params }){
 
 
 
-    return { produits: resultat }
+    return { produits: resultat, images }
 }

@@ -9,6 +9,9 @@
     
     export let data;
     const produits = data.produits;
+    const images = data.images;
+    console.log(images);
+    
 
     onMount(()=>{
         const actives = document.querySelectorAll('a.is-active');
