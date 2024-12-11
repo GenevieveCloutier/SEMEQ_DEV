@@ -19,7 +19,7 @@
     }
 
     const test = loadImage(exposant.photo_1);
-    log(test)
+    console.log(test)
 
  
   let tableauDomaines=new Set();
