@@ -6,7 +6,7 @@
     import BoutonBleu from "$lib/components/boutons/boutonBleu.svelte"
 
     export let data;
-    const { exposant, test, images } = data;
+    const { exposant } = data;
 
     console.log(images)
  
