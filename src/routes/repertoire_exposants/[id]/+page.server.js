@@ -7,15 +7,7 @@ import { Region } from "$lib/db/models/Region.model";
 import { Role } from "$lib/db/models/Role.model";
 import { error } from '@sveltejs/kit';
 
-export async function load({ params}){
-
-    const paramId = params.id;
-    const villes = await findAllVilles();
-    const regions = await findAllRegions();
-    const exposant = await findOne({ id: paramId });
-
-
-    const images = import.meta.glob('/src/lib/image/*.{png,jpg,jpeg}');
+const images = import.meta.glob('/src/lib/image/app/utilisateurs/*.{png,jpg,jpeg}');
 
     async function loadImage(photo) {
       if (images[photo]) {
@@ -24,6 +16,16 @@ export async function load({ params}){
       }
       return null;
     }
+
+export async function load({ params}){
+
+    const paramId = params.id;
+    const villes = await findAllVilles();
+    const regions = await findAllRegions();
+    const exposant = await findOne({ id: paramId });
+
+
+    
 
     const test = await loadImage(exposant.photo_1);
 
