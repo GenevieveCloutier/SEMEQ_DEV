@@ -66,7 +66,7 @@ let affichersite = siteweb();
         {#if exposant.photo_1}
         <div class="column is-flex centerImage is-mobile">
             <figure>
-                <Modal image={`${test}`} />
+                <Modal image={`/${test}`} />
             </figure>
         </div>
         {/if}
