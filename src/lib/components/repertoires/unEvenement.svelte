@@ -49,7 +49,7 @@ import BoutonMince from "$lib/components/boutons/boutonMince.svelte";
 
         {:else}
         <figure class=" image is-32x32 mt-2 is-pulled-right">
-            <img src="/lib/img/app/non_disponible.svg" alt="Aucun lien disponible">
+            <img src="img/app/non_disponible.svg" alt="Aucun lien disponible">
         </figure>
     
         {/if}

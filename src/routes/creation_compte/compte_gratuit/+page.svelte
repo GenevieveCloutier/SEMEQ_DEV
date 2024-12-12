@@ -30,7 +30,6 @@
   
     //sauvegarde du typeAbonnement dans localStorage
     localStorage.setItem('typeAbonnement', compteVisiteur); 
-    console.log(compteVisiteur)
 });
 
 </script>

@@ -69,7 +69,6 @@ const tempDir = path.join(__dirname, '../../uploads');
 //créer le répertoire si il n'existe pas
 await mkdir(tempDir, { recursive: true });
 
-//envoyer dans .env si ça marche, besoin d'aide pour config
 cloudinary.config({
 	cloud_name: CLOUD_NAME,
 	api_key: API_KEY, 
