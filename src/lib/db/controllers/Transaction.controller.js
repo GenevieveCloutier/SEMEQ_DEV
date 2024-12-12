@@ -36,7 +36,7 @@ export async function transactionPanier(data) {
     for (const panier of data.paniers) {
             await Achat.create({
             utilisateur_id:     panier.utilisateur_id,
-            produit_id:         panier.produit_id ?? -1,
+            produit_id:         panier.produit_id,
             prix:               data.abonne ? panier.produit.prix_a ?? panier.produit.prix : panier.produit.prix_v
         },
         {transaction: t}
