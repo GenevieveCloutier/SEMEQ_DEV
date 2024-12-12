@@ -15,14 +15,16 @@ export async function transactionPanier(data) {
     const listePanier = (() => {
         let liste = [];
         data.paniers.forEach(x => {
-            liste.push(x.id)
+            if (x.id) liste.push(x.id)
         });
         return liste;
     })();
     //Effaces les paniers (soft delete)
-    await Panier.destroy({
+    if (listePanier.length > 0){
+       await Panier.destroy({
         where: { id: { [Op.in]: listePanier } }
-      }, { transaction: t });
+      }, { transaction: t }); 
+    }
     //Boucle de creation dans la table achat
     for (const panier of data.paniers) {
             await Achat.create({
