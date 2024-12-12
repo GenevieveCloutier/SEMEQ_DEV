@@ -802,7 +802,29 @@ export async function codePromoPanier(event) {
 	} catch (error) {
 		console.error('erreur inattendue : ', error);
 		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
-		alert(erreur);
+	}
+}
+
+export async function codePromoAbonnement(event) {
+	chargement;
+	erreur.set('');
+	rabais.set(0);
+	try {
+		const formData = new FormData(event.target);
+		const response = await fetch('/api?/codePromoAbonnement', {
+			method: 'POST',
+			body: formData
+		});
+		const result = await response.json();
+
+		if (result.status == 200){
+			success.set('Code promo accepté!');
+			rabais.set(JSON.parse(result.data)[4]);
+		}
+		if (result.status == 401) erreur.set(JSON.parse(result.data)[1]);
+	} catch (error) {
+		console.error('erreur inattendue : ', error);
+		erreur.set("Une erreur inattendue s'est produite, veuillez réessayer.");
 	}
 }
 

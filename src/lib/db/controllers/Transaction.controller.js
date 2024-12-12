@@ -14,25 +14,31 @@ export async function transactionPanier(data) {
     //Pour avoir une liste des id de panier a supprimer
     const listePanier = (() => {
         let liste = [];
-        data.paniers.forEach(x => {
-            liste.push(x.id)
-        });
+        if (data.paniers){
+            console.log('dans le if')
+            data.paniers.forEach(x => {
+                liste.push(x.id)
+            });
+        }
         return liste;
     })();
     //Effaces les paniers (soft delete)
-    await Panier.destroy({
+    if (listePanier.length > 0){
+       await Panier.destroy({
         where: { id: { [Op.in]: listePanier } }
-      }, { transaction: t });
-    //Bouvle de creation dans la table achat
-    for (const panier of data.paniers) {
-            await Achat.create({
-            utilisateur_id:     panier.utilisateur_id,
-            produit_id:         panier.produit_id,
-            prix:               data.abonne ? panier.produit.prix_a : panier.produit.prix_v
-        },
-        {transaction: t}
-        );
+      }, { transaction: t }); 
     }
+    //Boucle de creation dans la table achat
+    if (data.paniers)
+        for (const panier of data.paniers) {
+                await Achat.create({
+                utilisateur_id:     panier.utilisateur_id,
+                produit_id:         panier.produit_id,
+                prix:               data.abonne ? panier.produit.prix_a ?? panier.produit.prix : panier.produit.prix_v
+            },
+            {transaction: t}
+            );
+        }
     //Si c'est arriver jusque la sans erreur, ca commit la transaction.
     log("transaction reussie")
     return {

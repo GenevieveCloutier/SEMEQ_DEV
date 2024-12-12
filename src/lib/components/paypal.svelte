@@ -37,6 +37,7 @@
             return actions.order.capture().then(function (details) {
               if (window.location.pathname.split('/').pop() == 'paiement_abonnement') {
                 activeAbonnement(donneesClient.id);
+                //Faudras mettre ici la fonction pour enregistrer des infos d'abonnement
               }
               achatReussi(donneesClient);
               console.log("Paiement validé");
