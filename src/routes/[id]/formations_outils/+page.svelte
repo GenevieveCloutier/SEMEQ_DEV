@@ -85,7 +85,7 @@
                     <div class="card">
                         <div class="card-image">
                         <figure class="image is-1by1">
-                            <img src="{`/${achat.produit.photo}`}" alt="Photo {achat.produit.nom}"/>
+                            <img src="{`${achat.produit.photo}`}" alt="Photo {achat.produit.nom}"/>
                         </figure>
                         </div>
                 

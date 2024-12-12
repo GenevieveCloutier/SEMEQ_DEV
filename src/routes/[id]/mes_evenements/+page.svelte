@@ -36,7 +36,7 @@
 			{#each evenements as evenement}
 				<SectionEvenement
 					id={evenement.id}
-					photo={evenement.photo_1}
+					photo={`${evenement.photo_1}`}
 					nom={evenement.nom}
 					debut_even={evenement.debut_even.toLocaleDateString('fr-CA', {timeZone: 'UTC'})}
 					fin_even={evenement.fin_even.toLocaleDateString('fr-CA', {timeZone: 'UTC'})}
