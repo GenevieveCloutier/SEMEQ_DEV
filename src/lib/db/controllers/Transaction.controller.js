@@ -17,9 +17,13 @@ export async function transactionPanier(data) {
         console.log(data);
         if (data.paniers) console.log(data.paniers)
         if (data.paniers)
+        {
+            console.log('dans le if')
             data.paniers.forEach(x => {
                 liste.push(x.id)
             });
+        }
+            
         return liste;
     })();
     //Effaces les paniers (soft delete)
