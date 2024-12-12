@@ -74,7 +74,7 @@
 <NotifSuccess />
 <NotifDanger />
 <!-- ! Partie pour la modification Visiteur -->
-{#if user.role_id === 4}
+{#if user.role_id === 4 || user.role_id === 1}
 	<form on:submit|preventDefault={modifUtilisateur}>
 		<div class="container is-fluid">
 			{#if visible}
@@ -120,7 +120,11 @@
 								<div class="control">
 									<div class="select is-fullwidth">
 										<select name="ville_id" id="villeBase">
-											<option value={user.ville_id} selected>{user.ville.nom}</option>
+											{#if user.ville_id}
+												<option value={user.ville_id} selected>{user.ville.nom}</option>
+											{:else}
+												<option value="" disabled selected>Choisir une ville</option>
+											{/if}
 											{#each villes as ville}
 												<option value={ville.id}>{ville.nom} ({ville.region.nom})</option>
 											{/each}
@@ -164,15 +168,18 @@
 					<SubmitButon texte={'Enregistrer'}></SubmitButon>
 					<Retour />
 				</div>
+				{#if user.role_id != 1}
 				<div class="block has-text-right">
 					<Confirmation id={user.id} but='compte'/>
 				</div>
+				{/if}
 			{:else}
 				<ChangementMdp {user} />
 			{/if}
 		</div>
 	</form>
 
+	{#if user.role_id != 1}
 	<div class="container is-flex my-5">
 		<div class="columns">
 			<div class="column is-half">
@@ -183,6 +190,7 @@
 			</div>
 		</div>
 	</div>
+	{/if}
 {/if}
 <!-- ! Partie pour la modification exposant -->
 {#if user.role_id === 3}
