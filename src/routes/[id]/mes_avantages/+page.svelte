@@ -53,7 +53,7 @@
                 <div class="grid">
                     {#each categorie.partenaires as partenaire}
                         <PartenaireAvantage
-                            logo={`/${partenaire.logo}`}
+                            logo={`${partenaire.logo}`}
                             nom={partenaire.nom}
                             avantage={partenaire.avantage}
                             code={partenaire.code}

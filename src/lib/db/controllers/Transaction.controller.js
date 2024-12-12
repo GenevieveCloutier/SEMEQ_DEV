@@ -23,12 +23,12 @@ export async function transactionPanier(data) {
     await Panier.destroy({
         where: { id: { [Op.in]: listePanier } }
       }, { transaction: t });
-    //Bouvle de creation dans la table achat
+    //Boucle de creation dans la table achat
     for (const panier of data.paniers) {
             await Achat.create({
             utilisateur_id:     panier.utilisateur_id,
-            produit_id:         panier.produit_id,
-            prix:               data.abonne ? panier.produit.prix_a : panier.produit.prix_v
+            produit_id:         panier.produit_id ?? -1,
+            prix:               data.abonne ? panier.produit.prix_a ?? panier.produit.prix : panier.produit.prix_v
         },
         {transaction: t}
         );

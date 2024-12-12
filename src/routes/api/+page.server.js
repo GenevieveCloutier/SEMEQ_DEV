@@ -54,6 +54,10 @@ import multer from 'multer';
 import { writeFile, unlink, stat } from 'fs/promises'; 
 import { fileURLToPath } from 'url';
 import { mkdir } from 'fs/promises';
+import { CLOUD_NAME } from '$env/static/private';
+import {API_KEY} from '$env/static/private';
+import {API_SECRET} from '$env/static/private';
+
 
 // Obtenir le chemin de base du projet
 const __filename = fileURLToPath(import.meta.url);
@@ -67,9 +71,9 @@ await mkdir(tempDir, { recursive: true });
 
 //envoyer dans .env si ça marche, besoin d'aide pour config
 cloudinary.config({
-	cloud_name: 'dblkw8zcg',
-	api_key: '423762961573226', 
-	api_secret: 'rs8gsYRhJzlDqgHmdYnUvRjI9ec' 
+	cloud_name: CLOUD_NAME,
+	api_key: API_KEY, 
+	api_secret: API_SECRET
   });
 
 //fonction d'upload des photos, à utiliser pour tous les nouveaux ajouts
