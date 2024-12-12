@@ -15,7 +15,6 @@ export async function load({ cookies }){
     }
     const sessionId = cookies.get('id');
     const utilisateur = await findOne({ id: sessionId });
-    const paniers = [{produit_id: -1, produit: {prix: 10}}];
 
-    return { paniers, utilisateur, PAYPAL_CLIENT_ID }
+    return {utilisateur, PAYPAL_CLIENT_ID }
 }
