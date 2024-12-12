@@ -14,9 +14,10 @@ export async function transactionPanier(data) {
     //Pour avoir une liste des id de panier a supprimer
     const listePanier = (() => {
         let liste = [];
-        data.paniers.forEach(x => {
-            if (x.id) liste.push(x.id)
-        });
+        if (data.paniers)
+            data.paniers.forEach(x => {
+                liste.push(x.id)
+            });
         return liste;
     })();
     //Effaces les paniers (soft delete)
