@@ -14,15 +14,20 @@ export async function transactionPanier(data) {
     //Pour avoir une liste des id de panier a supprimer
     const listePanier = (() => {
         let liste = [];
-        data.paniers.forEach(x => {
-            liste.push(x.id)
-        });
+        console.log(data);
+        if (data.paniers) console.log(data.paniers)
+        if (data.paniers)
+            data.paniers.forEach(x => {
+                liste.push(x.id)
+            });
         return liste;
     })();
     //Effaces les paniers (soft delete)
-    await Panier.destroy({
+    if (listePanier.length > 0){
+       await Panier.destroy({
         where: { id: { [Op.in]: listePanier } }
-      }, { transaction: t });
+      }, { transaction: t }); 
+    }
     //Boucle de creation dans la table achat
     for (const panier of data.paniers) {
             await Achat.create({
