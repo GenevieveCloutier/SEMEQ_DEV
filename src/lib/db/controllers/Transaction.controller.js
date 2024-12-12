@@ -14,6 +14,8 @@ export async function transactionPanier(data) {
     //Pour avoir une liste des id de panier a supprimer
     const listePanier = (() => {
         let liste = [];
+        console.log(data);
+        if (data.paniers) console.log(data.paniers)
         if (data.paniers)
             data.paniers.forEach(x => {
                 liste.push(x.id)
