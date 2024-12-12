@@ -836,6 +836,45 @@ export const actions = {
 		}
 	},
 
+	codePromoAbonnement: async ({request}) => {
+		const data = await request.formData();
+		try {
+			const code = data.get('code');
+			const partenaire = await findOneCodePromo({ code: code });
+			if (!partenaire) {
+                return fail(401, { message: "Ce code promo n\'est pas valide." });
+            }
+
+			// Vérification de la catégorie de partenaire
+			if (!partenaire.categorie_id || partenaire.categorie.nom !== 'Rabais boutique SÉMEQ') {
+				return fail(401, { message: "Ce code promo n\'est pas applicable sur la boutique." });
+			}
+
+			// Vérification du type de produits sur lequel s'applique le rabais
+			if (!partenaire.type_id || partenaire.type.nom !== 'Abonnement') {
+				return fail(401, { message: "Ce code promo n\'est pas applicable sur les abonnements." });
+			}
+
+			// Vérification de la date d'expiration
+			let aujourdhui = new Date().toLocaleDateString('fr-CA', {timeZone: 'UTC'})
+			const expirationDate = (partenaire.expiration).toLocaleDateString('fr-CA', {timeZone: 'UTC'});
+			if (expirationDate < aujourdhui) {
+                return fail(401, { message: "Ce code promo a expiré." });
+            }
+
+			const response = {
+                status: 200,
+                body: {
+                    message: 'Code promo accepté!',
+					rabais: partenaire.rabais
+                }
+            };
+            return response;
+		} catch (error) {
+			return fail(401, error);
+		}
+	},	
+
 	deleteOnePanier: async ({ request }) => {
 		const data = await request.formData();
 		try {
